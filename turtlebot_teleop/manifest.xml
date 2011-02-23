@@ -1,0 +1,17 @@
+<package>
+  <description brief="create_teleop">
+
+     create_teleop
+
+  </description>
+  <author>Melonee Wise</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/create_teleop</url>
+  <depend package="joy"/>
+  <depend package="geometry_msgs"/>
+  <depend package="roscpp"/>
+
+</package>
+
+

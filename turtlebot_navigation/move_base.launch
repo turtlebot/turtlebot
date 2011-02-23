@@ -1,0 +1,28 @@
+<launch>
+ 
+  <!-- Run the map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find create_navigation)/maps/willow-2010-02-18-0.10.pgm 0.1" />
+
+  <!--- Run AMCL -->
+  <include file="$(find create_navigation)/config/amcl_create.launch" />
+
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <remap from="cmd_vel" to="create_node/cmd_vel"/>
+    <rosparam file="$(find create_navigation)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find create_navigation)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find create_navigation)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find create_navigation)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find create_navigation)/config/base_local_planner_params.yaml" command="load" />
+  </node>
+
+   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+    <param name="freq" value="10.0"/>
+    <param name="sensor_timeout" value="1.0"/>
+    <param name="publish_tf" value="true"/>
+    <param name="odom_used" value="true"/>
+    <param name="imu_used" value="true"/>
+    <param name="vo_used" value="false"/>
+    <remap from="imu_data" to="imu/data"/>
+  </node>
+
+</launch>
