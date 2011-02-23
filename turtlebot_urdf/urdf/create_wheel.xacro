@@ -9,7 +9,7 @@
     <property name="M_PI" value="3.14159"/>
     <property name="wheel_offset_z" value="-0.0128" />    
     
-    <macro name="create_wheel" params="suffix parent reflect">
+    <macro name="turtlebot_wheel" params="suffix parent reflect">
         <joint name="${parent}_${suffix}_motor_joint" type="fixed">
             <origin xyz="0 ${reflect*base_calibration_factor*base_size_y/2} ${wheel_offset_z}" rpy="0 0 0" />
             <parent link="${parent}" />
@@ -80,11 +80,11 @@
             <elem key="mu2" value="50.0" />
             <elem key="kp"  value="100000000.0" />
             <elem key="kd"  value="1.0" />
-            <material>Create/Grey</material>
+            <material>Turtlebot/Grey</material>
         </gazebo>
 
         <gazebo reference="${parent}_${suffix}_motor_link" >
-            <material>Create/White</material>
+            <material>Turtlebot/White</material>
         </gazebo>
 
         <transmission type="pr2_mechanism_model/SimpleTransmission" name="${parent}_${suffix}_wheel_trans">

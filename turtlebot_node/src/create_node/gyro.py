@@ -33,7 +33,7 @@
 #Melonee Wise mwise@willowgarage.com
 
 import roslib
-roslib.load_manifest('create_node')
+roslib.load_manifest('turtlebot_node')
 import rospy
 import math
 import copy

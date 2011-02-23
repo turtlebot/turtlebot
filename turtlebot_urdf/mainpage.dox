@@ -2,7 +2,7 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b create_urdf is ... 
+\b turtlebot_urdf is ... 
 
 <!-- 
 Provide an overview of your package.

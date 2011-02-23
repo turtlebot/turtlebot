@@ -27,19 +27,19 @@
 
 from __future__ import with_statement
 
-"""iRobot Roomba Serial control Interface (SCI) and Create Open Interface (OI).
+"""iRobot Roomba Serial control Interface (SCI) and Turtlebot Open Interface (OI).
 
-create.py is a fork of PyRobot.
+turtlebot.py is a fork of PyRobot.
 
 PyRobot was originally based on openinterface.py, developed by iRobot
 Corporation. Many of the docstrings from openinterface.py, particularly those
 which describe the specification, are also used here. Also, docstrings may
 contain specification text copied directly from the Roomba SCI Spec Manual and
-the Create Open Interface specification.
+the Turtlebot Open Interface specification.
 
 Since SCI is a subset of OI, PyRobot first defines the Roomba's functionality
-in the Roomba class and then extends that with the Create's additional
-functionality in the Create class. In addition, since OI is built on SCI the
+in the Roomba class and then extends that with the Turtlebot's additional
+functionality in the Turtlebot class. In addition, since OI is built on SCI the
 SerialCommandInterface class is also used for OI.
 
 """
@@ -230,7 +230,7 @@ MAX_WHEEL_SPEED = 500
 WHEEL_SEPARATION = 260  # mm
 
 SERIAL_TIMEOUT = 2  # Number of seconds to wait for reads. 2 is generous.
-START_DELAY = 5  # Time it takes the Roomba/Create to boot.
+START_DELAY = 5  # Time it takes the Roomba/Turtlebot to boot.
 
 
 assert struct.calcsize('H') == 2, 'Expecting 2-byte shorts.'
@@ -290,7 +290,7 @@ class SerialCommandInterface(object):
     self.ser.flushInput()
 
   def __getattr__(self, name):
-    """Creates methods for opcodes on the fly.
+    """Turtlebots methods for opcodes on the fly.
 
     Each opcode method sends the opcode optionally followed by a string of
     bytes.
@@ -405,7 +405,7 @@ class RoombaSensors(object):
     if unit not in (None, 'radians', 'degrees'):
       raise DriverError('Invalid angle unit specified.')
     self.decode_short('angle', low, high)
-    #if unit == 'degrees':  ## Changed by tfoote for the create.  Need to verify if this is correct for the roomba too.  
+    #if unit == 'degrees':  ## Changed by tfoote for the turtlebot.  Need to verify if this is correct for the roomba too.  
     #  self.data['angle'] = (2 * self.data['angle']) / 258
     if unit == 'radians':
       self.data['angle'] = self.data['angle'] * math.pi / 180 ### 
@@ -489,7 +489,7 @@ class Roomba(object):
     """controls Roomba's drive wheels.
 
     NOTE(damonkohler): The following specification applies to both the Roomba
-    and the Create.
+    and the Turtlebot.
 
     The Roomba takes four data bytes, interpreted as two 16-bit signed values
     using two's complement. The first two bytes specify the average velocity
@@ -551,9 +551,9 @@ class Roomba(object):
     self.sci.force_seeking_dock()
 
 
-class CreateSensors(RoombaSensors):
+class TurtlebotSensors(RoombaSensors):
 
-  """Handles retrieving and decoding the Create's sensor data."""
+  """Handles retrieving and decoding the Turtlebot's sensor data."""
 
   def _decode_group_packet_6(self, bytes, stamp):
     """Decode sensor group packet 6."""
@@ -586,14 +586,14 @@ class CreateSensors(RoombaSensors):
       self._decode_group_packet_6(bytes, stamp)
 
 
-class Create(Roomba):
+class Turtlebot(Roomba):
 
-  """Represents a Create robot."""
+  """Represents a Turtlebot robot."""
 
   def __init__(self, tty='/dev/ttyUSB0'):
-    super(Create, self).__init__(tty)
+    super(Turtlebot, self).__init__(tty)
     self.sci.add_opcodes(CREATE_OPCODES)
-    self.sensors = CreateSensors(self)
+    self.sensors = TurtlebotSensors(self)
 
 
   def control(self):
@@ -630,7 +630,7 @@ class Create(Roomba):
     self.sci.digital_outputs(byte)
 
   def soft_reset(self):
-    """Do a soft reset of the Create."""
+    """Do a soft reset of the Turtlebot."""
     logging.info('sending soft reset.')
     self.sci.soft_reset()
     time.sleep(START_DELAY)

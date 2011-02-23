@@ -2,7 +2,7 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b create_bringup is ... 
+\b turtlebot_bringup is ... 
 
 <!-- 
 Provide an overview of your package.

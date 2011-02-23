@@ -1,18 +1,18 @@
 <package>
-  <description brief="iRobot Create ROS driver node">
+  <description brief="iRobot Turtlebot ROS driver node">
 
-     ROS bindings for the Create/Roomba driver.
+     ROS bindings for the Turtlebot/Roomba driver.
 
      This is based on otl_roomba driver by OTL, ported to use
-     create_driver instead.  This also contains a 'bonus' feature from
-     the create driver by Xuwen Cao and Morgan Quigley.
+     turtlebot_driver instead.  This also contains a 'bonus' feature from
+     the turtlebot driver by Xuwen Cao and Morgan Quigley.
      
   </description>
   <author>Ken Conley, Melonee Wise</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/create_node</url>
-  <depend package="create_driver"/>
+  <url>http://ros.org/wiki/turtlebot_node</url>
+  <depend package="turtlebot_driver"/>
   <depend package="rospy"/>
   <depend package="tf"/>
   <depend package="nav_msgs"/>

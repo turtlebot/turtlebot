@@ -1,9 +1,9 @@
 <launch>
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find create_urdf)/urdf/create.urdf.xacro'" />
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find turtlebot_urdf)/urdf/turtlebot.urdf.xacro'" />
 
   <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
     <!-- Load the file you made above -->
-    <rosparam command="load" file="$(find create_dashboard)/config/diagnostics.yaml" />
+    <rosparam command="load" file="$(find turtlebot_dashboard)/config/diagnostics.yaml" />
   </node>
 
 
@@ -12,14 +12,14 @@
     <!--param name="tf_prefix" type="string" value="" /-->
   </node>
 
-  <!-- Create Driver -->
-  <node pkg="create_node" type="create_node.py" name="create_node" >
+  <!-- Turtlebot Driver -->
+  <node pkg="turtlebot_node" type="turtlebot_node.py" name="turtlebot_node" >
     <param name="bonus" value="false" />
   </node>
 
   <!--- Teleop Joystick -->
-  <node pkg="create_teleop" type="create_joy" name="create_teleop">
-    <remap from="cmd_vel" to="/create_node/cmd_vel"/>
+  <node pkg="turtlebot_teleop" type="turtlebot_joy" name="turtlebot_teleop">
+    <remap from="cmd_vel" to="/turtlebot_node/cmd_vel"/>
     <param name="a_scale" type="double" value="1.4"/>
   </node>
 

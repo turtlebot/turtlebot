@@ -1,15 +1,15 @@
 <package>
-  <description brief="Driver for iRobot Create and Roomba">
+  <description brief="Driver for iRobot Turtlebot and Roomba">
 
-     For ROS bindings, please see create_node. 
+     For ROS bindings, please see turtlebot_node. 
 
-     This is a generic driver for iRobot Create and Roomba.  Port of pyrobot.py by Damon Kohler.
+     This is a generic driver for iRobot Turtlebot and Roomba.  Port of pyrobot.py by Damon Kohler.
 
   </description>
   <author>Damon Kohler. Ported and maintained by Ken Conley and Melonee Wise</author>
   <license>MIT</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/create_driver</url>
+  <url>http://ros.org/wiki/turtlebot_driver</url>
   <export>
     <rosdoc config="rosdoc.yaml" />
   </export>

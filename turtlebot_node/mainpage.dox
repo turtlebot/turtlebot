@@ -2,7 +2,7 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b create_node is ... 
+\b turtlebot_node is ... 
 
 <!-- 
 Provide an overview of your package.

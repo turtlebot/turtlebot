@@ -33,13 +33,13 @@
 #
 # Revision $Id: __init__.py 11217 2010-09-23 21:08:11Z kwc $
 
-import roslib; roslib.load_manifest('create_node')
+import roslib; roslib.load_manifest('turtlebot_node')
 
 """
-ROS Create node for ROS built on top of create_driver.
+ROS Turtlebot node for ROS built on top of turtlebot_driver.
 This driver is based on otl_roomba by OTL (otl-ros-pkg).
 
-create_driver is based on Damon Kohler's pyrobot.py. 
+turtlebot_driver is based on Damon Kohler's pyrobot.py. 
 """
 
 import os
@@ -49,11 +49,11 @@ import threading
 
 from math import sin, cos, radians, pi
 
-from create_driver import Create, WHEEL_SEPARATION, MAX_WHEEL_SPEED
-from create_node.msg import CreateSensorState, Drive, Turtle
-from create_node.srv import SetCreateMode,SetCreateModeResponse,SetDigitalOutputs, SetDigitalOutputsResponse
-from create_node.diagnostics import TurtlebotDiagnostics
-from create_node.gyro import TurtlebotGyro
+from turtlebot_driver import Turtlebot, WHEEL_SEPARATION, MAX_WHEEL_SPEED
+from turtlebot_node.msg import TurtlebotSensorState, Drive, Turtle
+from turtlebot_node.srv import SetTurtlebotMode,SetTurtlebotModeResponse,SetDigitalOutputs, SetDigitalOutputsResponse
+from turtlebot_node.diagnostics import TurtlebotDiagnostics
+from turtlebot_node.gyro import TurtlebotGyro
 import rospy
 
 from geometry_msgs.msg import Point, Pose, Pose2D, PoseWithCovariance, \
@@ -63,15 +63,15 @@ from tf.broadcaster import TransformBroadcaster
 
 CMD_VEL_TIMEOUT = rospy.Duration(0.4) # try to keep timeout long enough to enable smooth interaction with teleop_base_keyboard
 
-class CreateNode(object):
+class TurtlebotNode(object):
 
     def __init__(self, default_port='/dev/ttyUSB0'):
         """
         @param default_port: default tty port to use for establishing
-            connection to Create.  This will be overriden by ~port ROS
+            connection to Turtlebot.  This will be overriden by ~port ROS
             param if available.
         """
-        rospy.init_node('create')
+        rospy.init_node('turtlebot')
 
         self.port = rospy.get_param('~port', default_port)
         rospy.loginfo("serial port: %s"%(self.port))
@@ -82,7 +82,7 @@ class CreateNode(object):
         rospy.loginfo("has gyro: %s"%(self.has_gyro))
         
         self.lock  = threading.RLock()
-        self.robot = Create(self.port)
+        self.robot = Turtlebot(self.port)
         self.robot.safe = False
 
         if rospy.get_param('~bonus', False):
@@ -90,8 +90,8 @@ class CreateNode(object):
 
         self.robot.control()
 
-        self.sensor_state_pub = rospy.Publisher('~sensor_state', CreateSensorState)
-        self.operating_mode_srv = rospy.Service('~set_operation_mode', SetCreateMode, self.set_operation_mode)
+        self.sensor_state_pub = rospy.Publisher('~sensor_state', TurtlebotSensorState)
+        self.operating_mode_srv = rospy.Service('~set_operation_mode', SetTurtlebotMode, self.set_operation_mode)
         self.digital_output_srv = rospy.Service('~set_digital_output', SetDigitalOutputs, self.set_digital_outputs)
         if self.drive_mode == 'twist':
             self.cmd_vel_sub = rospy.Subscriber('~cmd_vel', Twist, self.cmd_vel)
@@ -145,23 +145,23 @@ class CreateNode(object):
 
     def set_operation_mode(self,req):
         if req.mode == 1: #passive
-            rospy.logdebug("Setting create to passive mode.")
+            rospy.logdebug("Setting turtlebot to passive mode.")
             #setting all the digital outputs to 0
             outputs = [0, 0, 0]
             self.robot.set_digital_outputs(outputs)
             self.robot.passive()
         elif req.mode == 2: #safe
-            rospy.logdebug("Setting create to safe mode.")
+            rospy.logdebug("Setting turtlebot to safe mode.")
             self.robot.safe = True
             self.robot.control()
         elif req.mode == 3: #full
-            rospy.logdebug("Setting create to full mode.")
+            rospy.logdebug("Setting turtlebot to full mode.")
             self.robot.safe = False
             self.robot.control()
         else:
             rospy.logerr("Requested an invalid mode.")
-            return SetCreateModeResponse(False)
-        return SetCreateModeResponse(True)
+            return SetTurtlebotModeResponse(False)
+        return SetTurtlebotModeResponse(True)
 
     def set_digital_outputs(self,req):
         outputs = [req.digital_out_0,req.digital_out_1, req.digital_out_2]
@@ -182,7 +182,7 @@ class CreateNode(object):
 
         # state
         pos2d = Pose2D()
-        s = CreateSensorState()
+        s = TurtlebotSensorState()
         odom = Odometry(header=rospy.Header(frame_id="odom"), child_frame_id='base_footprint')
         last_cmd_vel = 0, 0
         last_cmd_vel_time = rospy.get_rostime()
@@ -251,7 +251,7 @@ def compute_odom(sensor_state, pos2d, last_time, odom):
     Odometry instance.  It will only set stamp, pose, and twist.
     
     @param sensor_state: Current sensor reading
-    @type  sensor_state: CreateSensorState
+    @type  sensor_state: TurtlebotSensorState
     @param pos2d: Current position
     @type  pos2d: geometry_msgs.msg.Pose2D
     @param last_time: time of last sensor reading
@@ -280,7 +280,7 @@ def compute_odom(sensor_state, pos2d, last_time, odom):
     pos2d.y += sin(last_angle)*x + cos(last_angle)*y
     pos2d.theta += angle
     
-    # Create quaternion from yaw. simplified version of tf.transformations.quaternion_about_axis
+    # Turtlebot quaternion from yaw. simplified version of tf.transformations.quaternion_about_axis
     odom_quat = (0., 0., sin(pos2d.theta/2.), cos(pos2d.theta/2.))
     #rospy.logerr("theta: %f odom_quat %s"%(pos2d.theta, str(odom_quat)))
 
@@ -307,7 +307,7 @@ def compute_odom(sensor_state, pos2d, last_time, odom):
     return transform
                 
 #TODO: this method is temporary. In the future, we should be able to
-#direct deserialize into RawCreateSensorState and fix conversions
+#direct deserialize into RawTurtlebotSensorState and fix conversions
 def convert_sensor_state(robot_sensors, state_msg):
     d = robot_sensors.data
     state_msg.header.stamp = rospy.Time.from_seconds(d['timestamp'])
@@ -355,7 +355,7 @@ def convert_sensor_state(robot_sensors, state_msg):
     state_msg.requested_left_velocity  = float(d['requested-left-velocity']) / 1000.
     
 def bonus(robot):
-    # a nice bit of goodness from the create driver by Xuwen Cao and
+    # a nice bit of goodness from the turtlebot driver by Xuwen Cao and
     # Morgan Quigley
     song = (
         (76, 16), (76, 16), (72, 8),  (76, 16), 
@@ -385,9 +385,9 @@ def bonus(robot):
     robot.sci.play_song(1)
     
 
-def create_main():
-    c = CreateNode()
+def turtlebot_main():
+    c = TurtlebotNode()
     c.spin()
 
 if __name__ == '__main__':
-    create_main()
+    turtlebot_main()
