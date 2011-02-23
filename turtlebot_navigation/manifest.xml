@@ -1,13 +1,13 @@
 <package>
-  <description brief="create_navigation">
+  <description brief="turtlebot_navigation">
 
-     create_navigation
+     turtlebot_navigation
 
   </description>
   <author>Tully Foote</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/create_navigation</url>
+  <url>http://ros.org/wiki/turtlebot_navigation</url>
   <depends package="navigation"/>
 </package>
 

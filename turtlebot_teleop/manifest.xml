@@ -1,13 +1,13 @@
 <package>
-  <description brief="create_teleop">
+  <description brief="turtlebot_teleop">
 
-     create_teleop
+     turtlebot_teleop
 
   </description>
   <author>Melonee Wise</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/create_teleop</url>
+  <url>http://ros.org/wiki/turtlebot_teleop</url>
   <depend package="joy"/>
   <depend package="geometry_msgs"/>
   <depend package="roscpp"/>

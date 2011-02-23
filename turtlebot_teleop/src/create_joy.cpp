@@ -34,10 +34,10 @@
 #include "boost/thread/thread.hpp"
 #include "ros/console.h"
 
-class CreateTeleop
+class TurtlebotTeleop
 {
 public:
-  CreateTeleop();
+  TurtlebotTeleop();
 
 private:
   void joyCallback(const joy::Joy::ConstPtr& joy);
@@ -57,7 +57,7 @@ private:
 
 };
 
-CreateTeleop::CreateTeleop():
+TurtlebotTeleop::TurtlebotTeleop():
   ph_("~"),
   linear_(1),
   angular_(0),
@@ -74,12 +74,12 @@ CreateTeleop::CreateTeleop():
   ph_.param("scale_linear", l_scale_, l_scale_);
 
   vel_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
-  joy_sub_ = nh_.subscribe<joy::Joy>("joy", 10, &CreateTeleop::joyCallback, this);
+  joy_sub_ = nh_.subscribe<joy::Joy>("joy", 10, &TurtlebotTeleop::joyCallback, this);
 
-  timer_ = nh_.createTimer(ros::Duration(0.1), boost::bind(&CreateTeleop::publish, this));
+  timer_ = nh_.turtlebotTimer(ros::Duration(0.1), boost::bind(&TurtlebotTeleop::publish, this));
 }
 
-void CreateTeleop::joyCallback(const joy::Joy::ConstPtr& joy)
+void TurtlebotTeleop::joyCallback(const joy::Joy::ConstPtr& joy)
 { 
   geometry_msgs::Twist vel;
   vel.angular.z = a_scale_*joy->axes[angular_];
@@ -89,7 +89,7 @@ void CreateTeleop::joyCallback(const joy::Joy::ConstPtr& joy)
 
 }
 
-void CreateTeleop::publish()
+void TurtlebotTeleop::publish()
 {
   boost::mutex::scoped_lock lock(publish_mutex_);
 
@@ -101,8 +101,8 @@ void CreateTeleop::publish()
 }
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "create_teleop");
-  CreateTeleop create_teleop;
+  ros::init(argc, argv, "turtlebot_teleop");
+  TurtlebotTeleop turtlebot_teleop;
 
   ros::spin();
 }

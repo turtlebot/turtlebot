@@ -2,7 +2,7 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b create_teleop is ... 
+\b turtlebot_teleop is ... 
 
 <!-- 
 Provide an overview of your package.
