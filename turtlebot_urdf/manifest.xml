@@ -1,0 +1,16 @@
+<package>
+  <description brief="create_urdf">
+
+     create_urdf
+
+  </description>
+  <author>Eitan Marder-Eppstein</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/create_urdf</url>
+  <depend package="urdf"/>
+  <depend package="xacro"/>
+
+</package>
+
+

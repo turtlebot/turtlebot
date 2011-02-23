@@ -1,0 +1,21 @@
+<package>
+  <description brief="create_bringup">
+
+     create_bringup
+
+  </description>
+  <author>Eitan Marder-Eppstein</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/create_bringup</url>
+  <depend package="create_driver"/>
+  <depend package="create_node"/>
+  <depend package="create_urdf"/>
+  <depend package="create_teleop"/>
+  <depend package="joy"/>
+  <depend package="robot_state_publisher"/>
+  <depend package="pointcloud_to_laserscan"/>
+
+</package>
+
+

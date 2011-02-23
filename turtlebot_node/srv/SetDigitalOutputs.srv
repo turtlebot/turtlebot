@@ -1,0 +1,5 @@
+uint8 digital_out_0
+uint8 digital_out_1
+uint8 digital_out_2
+---
+bool done

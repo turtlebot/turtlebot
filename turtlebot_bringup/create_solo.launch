@@ -1,0 +1,33 @@
+<launch>
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find create_urdf)/urdf/create.urdf.xacro'" />
+
+  <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
+    <!-- Load the file you made above -->
+    <rosparam command="load" file="$(find create_dashboard)/config/diagnostics.yaml" />
+  </node>
+
+
+  <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="30.0" />
+    <!--param name="tf_prefix" type="string" value="" /-->
+  </node>
+
+  <!-- Create Driver -->
+  <node pkg="create_node" type="create_node.py" name="create_node" >
+    <param name="bonus" value="false" />
+  </node>
+
+  <!--- Teleop Joystick -->
+  <node pkg="create_teleop" type="create_joy" name="create_teleop">
+    <remap from="cmd_vel" to="/create_node/cmd_vel"/>
+    <param name="a_scale" type="double" value="1.4"/>
+  </node>
+
+  <node pkg="joy" type="joy_node" name="joystick"/>
+
+  <!--node pkg="microstrain_3dmgx2_imu" type="imu_node" name="imu_node" output="screen">
+    <param name="port" type="string" value="/dev/ttyUSB1" />
+  </node--> 
+
+
+</launch>

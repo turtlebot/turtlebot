@@ -1,0 +1,28 @@
+<package>
+  <description brief="iRobot Create ROS driver node">
+
+     ROS bindings for the Create/Roomba driver.
+
+     This is based on otl_roomba driver by OTL, ported to use
+     create_driver instead.  This also contains a 'bonus' feature from
+     the create driver by Xuwen Cao and Morgan Quigley.
+     
+  </description>
+  <author>Ken Conley, Melonee Wise</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/create_node</url>
+  <depend package="create_driver"/>
+  <depend package="rospy"/>
+  <depend package="tf"/>
+  <depend package="nav_msgs"/>
+  <depend package="geometry_msgs"/>
+  <depend package="diagnostic_msgs"/>
+  <depend package="kdl"/>
+  <export>
+    <rosdoc config="rosdoc.yaml" />
+  </export>
+
+</package>
+
+

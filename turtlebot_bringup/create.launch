@@ -1,0 +1,61 @@
+<launch>
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find create_urdf)/urdf/create.urdf.xacro'" />
+
+  <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
+    <!-- Load the file you made above -->
+    <rosparam command="load" file="$(find create_dashboard)/config/diagnostics.yaml" />
+  </node>
+
+
+  <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="30.0" />
+    <!--param name="tf_prefix" type="string" value="" /-->
+  </node>
+
+  <!-- Create Driver -->
+  <node pkg="create_node" type="create_node.py" name="create_node" output="screen">
+    <param name="bonus" value="false" />
+  </node> 
+
+  <!-- Kinect -->
+  <node pkg="openni_camera" type="openni_node" name="openni_camera" output="screen" respawn="true" >
+    <param name="device_type" value="1" />
+    <param name="registration_type" value="1" />
+    <param name="point_cloud_resolution" value="1" />
+    <param name="openni_depth_optical_frame" value="base_kinect_depth_optical_frame" />
+    <param name="openni_rgb_optical_frame" value="base_kinect_rgb_optical_frame" />
+    <param name="image_input_format" value="5" />
+    <rosparam command="load" file="$(find openni_camera)/info/openni_params.yaml" />
+  </node>
+
+  <!-- throttling -->
+  <node pkg="nodelet" type="nodelet" name="pointcloud_throttle" args="load pointcloud_to_laserscan/CloudThrottle openni_camera">
+    <param name="max_rate" value="5"/>
+    <remap from="cloud_in" to="/camera/depth/points2"/>
+    <remap from="cloud_out" to="cloud_throttled"/>
+  </node>
+
+  <!-- Fake Laser -->
+  <node pkg="nodelet" type="nodelet" name="kinect_laser" args="load pointcloud_to_laserscan/CloudToScan openni_camera">
+    <param name="output_frame_id" value="/base_kinect_depth_frame"/>
+    <remap from="cloud" to="/cloud_throttled"/>
+  </node>
+
+  <!--node pkg="microstrain_3dmgx2_imu" type="imu_node" name="imu_node" output="screen">
+    <param name="port" type="string" value="/dev/ttyUSB1" />
+  </node-->
+
+  <!--- Teleop Joystick -->
+  <node pkg="create_teleop" type="create_joy" name="create_teleop">
+    <remap from="cmd_vel" to="/create_node/cmd_vel"/>
+    <param name="scale_angular" value="1.5"/>
+    <param name="scale_linear" value="0.3"/>
+  </node>
+
+
+  <node pkg="joy" type="joy_node" name="joystick"/>
+
+  <!--- Run navigation -->
+  <include file="$(find create_navigation)/move_base.launch" />
+
+</launch>

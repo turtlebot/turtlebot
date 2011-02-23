@@ -1,0 +1,19 @@
+<package>
+  <description brief="Driver for iRobot Create and Roomba">
+
+     For ROS bindings, please see create_node. 
+
+     This is a generic driver for iRobot Create and Roomba.  Port of pyrobot.py by Damon Kohler.
+
+  </description>
+  <author>Damon Kohler. Ported and maintained by Ken Conley and Melonee Wise</author>
+  <license>MIT</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/create_driver</url>
+  <export>
+    <rosdoc config="rosdoc.yaml" />
+  </export>
+
+</package>
+
+
