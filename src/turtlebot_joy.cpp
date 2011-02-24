@@ -76,7 +76,7 @@ TurtlebotTeleop::TurtlebotTeleop():
   vel_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
   joy_sub_ = nh_.subscribe<joy::Joy>("joy", 10, &TurtlebotTeleop::joyCallback, this);
 
-  timer_ = nh_.turtlebotTimer(ros::Duration(0.1), boost::bind(&TurtlebotTeleop::publish, this));
+  timer_ = nh_.createTimer(ros::Duration(0.1), boost::bind(&TurtlebotTeleop::publish, this));
 }
 
 void TurtlebotTeleop::joyCallback(const joy::Joy::ConstPtr& joy)
