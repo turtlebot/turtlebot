@@ -22,8 +22,8 @@
     <param name="device_type" value="1" />
     <param name="registration_type" value="1" />
     <param name="point_cloud_resolution" value="1" />
-    <param name="openni_depth_optical_frame" value="base_kinect_depth_optical_frame" />
-    <param name="openni_rgb_optical_frame" value="base_kinect_rgb_optical_frame" />
+    <param name="depth_optical_frame" value="base_kinect_depth_optical_frame" />
+    <param name="rgb_optical_frame" value="base_kinect_rgb_optical_frame" />
     <param name="image_input_format" value="5" />
     <rosparam command="load" file="$(find openni_camera)/info/openni_params.yaml" />
   </node>
