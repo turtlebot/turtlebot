@@ -51,7 +51,7 @@ from math import sin, cos, radians, pi
 
 from turtlebot_driver import Turtlebot, WHEEL_SEPARATION, MAX_WHEEL_SPEED
 from turtlebot_node.msg import TurtlebotSensorState, Drive, Turtle
-from turtlebot_node.srv import SetTurtlebotMode,SetTurtlebotModeResponse,SetDigitalOutputs, SetDigitalOutputsResponse
+from turtlebot_node.srv import SetTurtlebotMode,SetTurtlebotModeResponse, SetDigitalOutputs, SetDigitalOutputsResponse
 from turtlebot_node.diagnostics import TurtlebotDiagnostics
 from turtlebot_node.gyro import TurtlebotGyro
 import rospy
@@ -92,7 +92,7 @@ class TurtlebotNode(object):
 
         self.sensor_state_pub = rospy.Publisher('~sensor_state', TurtlebotSensorState)
         self.operating_mode_srv = rospy.Service('~set_operation_mode', SetTurtlebotMode, self.set_operation_mode)
-        self.digital_output_srv = rospy.Service('~set_digital_output', SetDigitalOutputs, self.set_digital_outputs)
+        self.digital_output_srv = rospy.Service('~set_digital_outputs', SetDigitalOutputs, self.set_digital_outputs)
         if self.drive_mode == 'twist':
             self.cmd_vel_sub = rospy.Subscriber('~cmd_vel', Twist, self.cmd_vel)
             self.drive_cmd = self.robot.direct_drive            
