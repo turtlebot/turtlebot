@@ -1,0 +1,6 @@
+/build/
+/msg_gen/
+/srv_gen/
+.*\.pyc
+turtlebot_node/src/turtlebot_node/msg
+turtlebot_node/src/turtlebot_node/srv
