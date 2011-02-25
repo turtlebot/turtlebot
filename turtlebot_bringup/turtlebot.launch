@@ -1,4 +1,4 @@
-<launch>
+sp<launch>
   <param name="robot_description" command="$(find xacro)/xacro.py '$(find turtlebot_urdf)/urdf/turtlebot.urdf.xacro'" />
 
   <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
@@ -31,7 +31,7 @@
   <!-- throttling -->
   <node pkg="nodelet" type="nodelet" name="pointcloud_throttle" args="load pointcloud_to_laserscan/CloudThrottle openni_camera">
     <param name="max_rate" value="5"/>
-    <remap from="cloud_in" to="/camera/depth/pointsg"/>
+    <remap from="cloud_in" to="/camera/depth/points"/>
     <remap from="cloud_out" to="cloud_throttled"/>
   </node>
 
