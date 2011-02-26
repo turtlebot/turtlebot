@@ -112,16 +112,3 @@ if __name__ == '__main__':
     try:
         laptop_battery_monitor()
     except rospy.ROSInterruptException: pass
-
-    
-
-
-print pstd_out
-
-
-
-
-
-
-#print '-------------------'
-#print yaml.load(pstd_out)
