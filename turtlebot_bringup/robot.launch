@@ -12,6 +12,11 @@
     <!--param name="tf_prefix" type="string" value="" /-->
   </node>
 
+  <!-- Turtlebot Laptop Battery Diagnostics -->
+  <node pkg="turtlebot_node" type="laptop_battery.py" name="turtlebot_laptop_battery">
+  </node> 
+
+
   <!-- Turtlebot Driver -->
   <node pkg="turtlebot_node" type="turtlebot_node.py" name="turtlebot_node" output="screen">
     <param name="bonus" value="false" />
