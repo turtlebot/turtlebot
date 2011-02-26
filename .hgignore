@@ -1,7 +1,6 @@
 \.swp$
 ~$
 \#.*\#$
-
 /build/
 /msg_gen/
 /srv_gen/
@@ -34,3 +33,4 @@ libdmtx/lib
 libdmtx/share
 libdmtx/include
 libdmtx/installed
+/bin/
