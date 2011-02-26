@@ -1,0 +1,23 @@
+pub_rate: 1.0 # Optional
+base_path: '' # Optional, prepended to all diagnostic output
+analyzers:
+  mode:
+    type: GenericAnalyzer
+    path: 'Mode'
+    timeout: 5.0
+    startswith: ['Operating Mode']
+  sensors: 
+    type: GenericAnalyzer
+    path: 'Sensors'
+    timeout: 5.0
+    startswith: ['Cliff Sensor', 'Wall Sensor', 'Gyro Sensor']
+  power:
+    type: GenericAnalyzer
+    path: 'Power System'
+    timeout: 5.0
+    startswith: ['Battery', 'Charging Sources', 'Laptop Battery']
+  digital_io:
+    type: GenericAnalyzer
+    path: 'Digital IO'
+    timeout: 5.0
+    startswith: ['Digital Outputs']
