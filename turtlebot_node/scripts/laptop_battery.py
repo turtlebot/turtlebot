@@ -74,13 +74,21 @@ def laptop_battery_monitor():
                     raw_battery_stats['energy_full_wh'] = v.split()[0]
                 elif k == 'capacity':
                     raw_battery_stats['capacity_percent'] = v.rstrip('%')
+                elif k == 'on-battery':
+                    raw_battery_stats['on_battery'] = v
+                    
+
                 #else:
                 #    print "not processing", l_vec
 
 
         voltage = float(raw_battery_stats['voltage'])
         watts = float(raw_battery_stats['watts'])
-        current = watts / voltage
+        if raw_battery_stats['on_battery'] == 'no':
+            current_direction = 1
+        else:
+            current_direction = -1
+        current = current_direction * watts / voltage
         capacity_fraction  = float(raw_battery_stats['capacity_percent'])/100.0
         energy_full = float(raw_battery_stats['energy_full_wh'])
         capacity = energy_full / voltage
