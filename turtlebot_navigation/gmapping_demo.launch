@@ -1,0 +1,11 @@
+<launch>
+ 
+  <!--- Run gmapping -->
+  <include file="$(find turtlebot_navigation)/config/gmapping_turtlebot.launch" />
+
+
+  <!--- Run Move Base and Robot Pose EKF -->
+  <include file="$(find turtlebot_navigation)/config/move_base_turtlebot.launch" />
+
+
+</launch>
