@@ -1,11 +1,5 @@
 <launch>
  
-  <!-- Run the map server -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find turtlebot_navigation)/maps/willow-2010-02-18-0.10.pgm 0.1" />
-
-  <!--- Run AMCL -->
-  <include file="$(find turtlebot_navigation)/config/amcl_turtlebot.launch" />
-
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <remap from="cmd_vel" to="turtlebot_node/cmd_vel"/>
     <rosparam file="$(find turtlebot_navigation)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />

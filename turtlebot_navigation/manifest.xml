@@ -9,6 +9,7 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_navigation</url>
   <depends package="navigation"/>
+  <depends package="gmapping"/>
 </package>
 
 
