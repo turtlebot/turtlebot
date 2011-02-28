@@ -1,22 +1,12 @@
 \.swp$
 ~$
 \#.*\#$
-
 /build/
 /msg_gen/
 /srv_gen/
-/msg/java/
-/msg/lisp/
-/msg/oct/
-/msg/_.*\.py$
-\.cmake$
-\.pyc$
-/src/.*/msg/_.*\.py
-/src/.*/_.*\.py
-/srv/_.*\.py
-/srv/lisp/
-/srv/java/
-/srv/oct/
+.*\.pyc
+turtlebot_node/src/turtlebot_node/msg
+turtlebot_node/src/turtlebot_node/srv
 
 # An attempt at ignoring action generated messages
 /msg/.*Action\.msg$
@@ -29,8 +19,3 @@
 /cfg/cpp/
 /cfg/.*\.py$
 
-libdmtx/bin
-libdmtx/lib
-libdmtx/share
-libdmtx/include
-libdmtx/installed
