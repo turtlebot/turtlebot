@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
+
 <robot>
+  <include filename="$(find turtlebot_urdf)/urdf/turtlebot_hardware.xacro" />
   <material name="Blue">
     <color rgba="0.0 0.0 0.8 1.0"/>
   </material>
@@ -11,7 +13,7 @@
   <property name="base_x" value="0.33" />
   <property name="base_y" value="0.33" />
 
-  <macro name ="turtlebot">
+  <macro name="turtlebot">
     <link name="base_link">
       <inertial>
         <mass value="12" />
@@ -36,33 +38,14 @@
       </collision>
     </link>
     
-    <joint name="gyro_joint" type="fixed">
-      <origin xyz="0 0 0.03" rpy="0 0 0" />
-      <parent link="base_link"/>
-      <child link="gyro_link" />
-    </joint>
-    
-    <link name="gyro_link">
-      <inertial>
-        <mass value="0.01" />
-        <origin xyz="0 0 0.03" />
-        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
-                 iyy="1.0" iyz="0.0"
-                 izz="1.0" />
-      </inertial>
-      
-      <visual>
-        <origin xyz="0.0 0.0 0.02" rpy="0 0 0" />
-        <geometry>
-          <cylinder radius="0.002" length="0.006" />
-        </geometry>
-        <material name="Blue" />
-      </visual>
-      
-    </link>
+    <turtlebot_spacer number="0" x_loc="-0.00254" y_loc="0.1114679" z_loc="0.062992"/>
+    <turtlebot_spacer number="1" x_loc="-0.00254" y_loc="-0.1114679" z_loc="0.062992"/>
+    <turtlebot_spacer number="2" x_loc="-0.07239" y_loc="-0.1114679" z_loc="0.062992"/>
+    <turtlebot_spacer number="3" x_loc="-0.07239" y_loc="0.1114679" z_loc="0.062992"/>
+
 
     <joint name="plate_0_joint" type="fixed">
-      <origin xyz="-0.17 0 0.1" rpy="0 0 0" />
+      <origin xyz="-0.04334 0 0.066167" rpy="0 0 0" />
       <parent link="base_link"/>
       <child link="plate_0_link" />
     </joint>
@@ -80,7 +63,7 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_urdf/meshes/Turtlebot_Plate_0_Logo.3ds" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_urdf/meshes/Turtlebot_Plate_0_Logo.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
       </visual>
       
