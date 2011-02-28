@@ -45,7 +45,7 @@
 
 
     <joint name="plate_0_joint" type="fixed">
-      <origin xyz="-0.04334 0 0.066167" rpy="0 0 0" />
+      <origin xyz="-0.04334 0  0.0645795" rpy="0 0 0" />
       <parent link="base_link"/>
       <child link="plate_0_link" />
     </joint>
@@ -75,6 +75,10 @@
       </collision>
     </link>
 
+    <turtlebot_standoff_1in number="0" x_loc="0.0676402" y_loc="0.1314196" z_loc="0.0709803"/>
+    <turtlebot_standoff_1in number="1" x_loc="0.0676402" y_loc="-0.1314196" z_loc="0.0709803"/>
+    <turtlebot_standoff_1in number="2" x_loc="-0.052832" y_loc="-0.1314196" z_loc="0.0709803"/>
+    <turtlebot_standoff_1in number="3" x_loc="-0.052832" y_loc="0.1314196" z_loc="0.0709803"/>
 
   </macro>
 </robot>
