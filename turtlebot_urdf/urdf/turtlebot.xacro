@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<robot>
+  <material name="Blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+
+  <property name="M_PI" value="3.14159"/>
+  <property name="SCALE" value="0.0254"/>
+  <property name="M_SCALE" value="0.001"/>
+  <property name="base_x" value="0.33" />
+  <property name="base_y" value="0.33" />
+
+  <macro name ="turtlebot">
+    <link name="base_link">
+      <inertial>
+        <mass value="12" />
+        <origin xyz="0 0 0.017" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                 iyy="1.0" iyz="0.0"
+                 izz="1.0" />
+      </inertial>
+      
+      <visual>
+        <origin xyz=" 0 0 0 " rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://turtlebot_urdf/meshes/68-04545_iRobot_Create.dae" scale="${SCALE} ${SCALE} ${SCALE}"/>
+        </geometry>
+      </visual>
+      
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://turtlebot_urdf/meshes/68-04545_iRobot_Create.STL"/>
+        </geometry>
+      </collision>
+    </link>
+    
+    <joint name="gyro_joint" type="fixed">
+      <origin xyz="0 0 0.03" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="gyro_link" />
+    </joint>
+    
+    <link name="gyro_link">
+      <inertial>
+        <mass value="0.01" />
+        <origin xyz="0 0 0.03" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                 iyy="1.0" iyz="0.0"
+                 izz="1.0" />
+      </inertial>
+      
+      <visual>
+        <origin xyz="0.0 0.0 0.02" rpy="0 0 0" />
+        <geometry>
+          <cylinder radius="0.002" length="0.006" />
+        </geometry>
+        <material name="Blue" />
+      </visual>
+      
+    </link>
+
+    <joint name="plate_0_joint" type="fixed">
+      <origin xyz="-0.17 0 0.1" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="plate_0_link" />
+    </joint>
+
+
+    <link name="plate_0_link">
+      <inertial>
+        <mass value="12" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+                 iyy="1.0" iyz="0.0"
+                 izz="1.0" />
+      </inertial>
+      
+      <visual>
+        <origin xyz=" 0 0 0 " rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://turtlebot_urdf/meshes/Turtlebot_Plate_0_Logo.3ds" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
+      </visual>
+      
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://turtlebot_urdf/meshes/Turtlebot_Plate_0_Logo.dae"/>
+        </geometry>
+      </collision>
+    </link>
+
+
+  </macro>
+</robot>
