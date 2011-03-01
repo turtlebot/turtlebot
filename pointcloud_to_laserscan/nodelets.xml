@@ -1,0 +1,12 @@
+<library path="lib/libcloud_to_scan">
+  <class name="pointcloud_to_laserscan/CloudThrottle" type="pointcloud_to_laserscan::CloudThrottle" base_class_type="nodelet::Nodelet">
+    <description>
+      Throttle point clouds
+    </description>
+  </class>
+  <class name="pointcloud_to_laserscan/CloudToScan" type="pointcloud_to_laserscan::CloudToScan" base_class_type="nodelet::Nodelet">
+    <description>
+      A nodelet to convert a point cloud to a laser scan.
+    </description>
+  </class>
+</library>
