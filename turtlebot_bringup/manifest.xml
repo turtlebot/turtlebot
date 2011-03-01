@@ -15,6 +15,7 @@
   <depend package="joy"/>
   <depend package="robot_state_publisher"/>
   <depend package="pointcloud_to_laserscan"/>
+  <depend package="openni_camera"/>
 
 </package>
 
