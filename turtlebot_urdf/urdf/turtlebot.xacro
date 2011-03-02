@@ -14,6 +14,41 @@
   <property name="base_y" value="0.33" />
 
   <macro name="turtlebot">
+        <!-- base_footprint is a fictitious link(frame) that is on the ground right below base_link origin,
+             navigation stack depends on this frame -->
+        <link name="base_footprint">
+            <inertial>
+                <mass value="0.0001" />
+                <origin xyz="0 0 0" />
+                <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                         iyy="0.0001" iyz="0.0" 
+                         izz="0.0001" />
+            </inertial>
+
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.001 0.001 0.001" />
+                </geometry>
+                <material name="Green" />
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0.017" rpy="0 0 0" />
+                <geometry>
+                  <box size="0.001 0.001 0.001" />
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="base_footprint_joint" type="fixed">
+            <!-- NB: While you would think this would make it go up, it is oddly reversed.
+                 This moves the joint to 0,0,0 where we want it for rviz, etc. -->
+            <origin xyz="0 0 0.017" rpy="0 0 0" />        
+            <parent link="base_footprint"/>
+            <child link="base_link" />
+        </joint>
+
     <link name="base_link">
       <inertial>
         <mass value="12" />
