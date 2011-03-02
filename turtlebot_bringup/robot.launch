@@ -28,7 +28,7 @@
   <node pkg="nodelet" type="nodelet" name="openni_manager" output="screen" respawn="true" args="manager"/>
 
   <node pkg="nodelet" type="nodelet" name="openni_camera" args="load openni_camera/OpenNINodelet openni_manager" respawn="true">
-    <param name="rgb_frame_id" value=kinect_rgb_optical_frame" />
+    <param name="rgb_frame_id" value="kinect_rgb_optical_frame" />
     <param name="depth_frame_id" value="kinect_depth_optical_frame" />
     <param name="depth_registration" value="true" />
     <param name="image_mode" value="2" />
