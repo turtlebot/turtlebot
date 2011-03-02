@@ -49,7 +49,7 @@
 
   <!-- Fake Laser -->
   <node pkg="nodelet" type="nodelet" name="kinect_laser" args="load pointcloud_to_laserscan/CloudToScan openni_manager" respawn="true">
-    <param name="output_frame_id" value="/base_kinect_depth_frame"/>
+    <param name="output_frame_id" value="/kinect_depth_frame"/>
     <remap from="cloud" to="/cloud_throttled"/>
   </node>
 
