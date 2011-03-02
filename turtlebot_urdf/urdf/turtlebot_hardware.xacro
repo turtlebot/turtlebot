@@ -131,5 +131,37 @@
       </collision>
     </link>
   </macro>
+
+  <macro name="turtlebot_standoff_kinect" params="parent number x_loc y_loc z_loc">
+    <joint name="standoff_kinect_${number}_joint" type="fixed">
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0" />
+      <parent link="${parent}"/>
+      <child link="standoff_kinect_${number}_link" />
+    </joint>
+    
+    <link name="standoff_kinect_${number}_link">
+      <inertial>
+	<mass value="1" />
+	<origin xyz="0 0 0" />
+	<inertia ixx="1.0" ixy="0.0" ixz="0.0"
+		 iyy="1.0" iyz="0.0"
+		 izz="1.0" />
+      </inertial>
+      
+      <visual>
+	<origin xyz=" 0 0 0 " rpy="0 0 0" />
+	<geometry>
+	  <mesh filename="package://turtlebot_urdf/meshes/68-04556-RA_Kinect_Standoff_Assy.3ds" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+	</geometry>
+      </visual>
+      
+      <collision>
+	<origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+	<geometry>
+	  <mesh filename="package://turtlebot_urdf/meshes/68-04556-RA_Kinect_Standoff_Assy.3ds"/>
+	</geometry>
+      </collision>
+    </link>
+  </macro>
   
 </robot>
