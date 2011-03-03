@@ -3,7 +3,10 @@
 
      For ROS bindings, please see turtlebot_node. 
 
-     This is a generic driver for iRobot Turtlebot and Roomba.  Port of pyrobot.py by Damon Kohler.
+     This is a generic driver for iRobot Turtlebot and Roomba.  Port
+     of pyrobot.py by Damon Kohler.  It is currently labeled as
+     turtlebot_driver pending review by the entire create community
+     before using the name create_driver.
 
   </description>
   <author>Damon Kohler. Ported and maintained by Ken Conley and Melonee Wise</author>
