@@ -1,10 +1,10 @@
 <package>
   <description brief="turtlebot_urdf">
 
-     turtlebot_urdf
+     turtlebot_urdf provides a complete 3D model of the TurtleBot for simulation and visualization.
 
   </description>
-  <author>Eitan Marder-Eppstein</author>
+  <author>Melonee Wise</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_urdf</url>
