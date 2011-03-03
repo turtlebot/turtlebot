@@ -2,7 +2,7 @@
 \mainpage
 \htmlinclude manifest.html
 
-\b turtlebot_urdf is ... 
+\b turtlebot_urdf provides a complete 3D model of the TurtleBot for simulation and visualization. 
 
 <!-- 
 Provide an overview of your package.
