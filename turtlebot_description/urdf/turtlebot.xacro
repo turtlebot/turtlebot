@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <robot>
-  <include filename="$(find turtlebot_urdf)/urdf/turtlebot_hardware.xacro" />
+  <include filename="$(find turtlebot_description)/urdf/turtlebot_hardware.xacro" />
   <material name="Green">
     <color rgba="0.0 0.8 0.0 1.0"/>
   </material>
@@ -61,14 +61,14 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_urdf/meshes/68-04545_iRobot_Create.dae" scale="${SCALE} ${SCALE} ${SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/68-04545_iRobot_Create.dae" scale="${SCALE} ${SCALE} ${SCALE}"/>
         </geometry>
       </visual>
       
       <collision>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_urdf/meshes/68-04545_iRobot_Create.STL"/>
+          <mesh filename="package://turtlebot_description/meshes/68-04545_iRobot_Create.STL"/>
         </geometry>
       </collision>
     </link>
@@ -120,14 +120,14 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_urdf/meshes/plate_0_logo.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/plate_0_logo.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
       </visual>
       
       <collision>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_urdf/meshes/plate_0_logo.dae"/>
+          <mesh filename="package://turtlebot_description/meshes/plate_0_logo.dae"/>
         </geometry>
       </collision>
     </link>
@@ -155,14 +155,14 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_urdf/meshes/plate_1_logo.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/plate_1_logo.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
       </visual>
       
       <collision>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_urdf/meshes/plate_1_logo.dae"/>
+          <mesh filename="package://turtlebot_description/meshes/plate_1_logo.dae"/>
         </geometry>
       </collision>
     </link>
@@ -190,14 +190,14 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_urdf/meshes/plate_1_logo.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/plate_1_logo.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
       </visual>
       
       <collision>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_urdf/meshes/plate_1_logo.dae"/>
+          <mesh filename="package://turtlebot_description/meshes/plate_1_logo.dae"/>
         </geometry>
       </collision>
     </link>
@@ -220,14 +220,14 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_urdf/meshes/68-04546_Kinect_Sensor.3ds" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/68-04546_Kinect_Sensor.3ds" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
       </visual>
 
       <collision>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_urdf/meshes/68-04546_Kinect_Sensor.3ds"/>
+          <mesh filename="package://turtlebot_description/meshes/68-04546_Kinect_Sensor.3ds"/>
           </geometry>
       </collision>
 
@@ -327,14 +327,14 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_urdf/meshes/plate_2_logo.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/plate_2_logo.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
       </visual>
       
       <collision>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_urdf/meshes/plate_2_logo.dae"/>
+          <mesh filename="package://turtlebot_description/meshes/plate_2_logo.dae"/>
         </geometry>
       </collision>
     </link>

@@ -22,14 +22,14 @@
       <visual>
 	<origin xyz=" 0 0 0 " rpy="0 0 0" />
 	<geometry>
-	  <mesh filename="package://turtlebot_urdf/meshes/68-02403-125_Spacer.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+	  <mesh filename="package://turtlebot_description/meshes/68-02403-125_Spacer.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
 	</geometry>
       </visual>
       
       <collision>
 	<origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
 	<geometry>
-	  <mesh filename="package://turtlebot_urdf/meshes/68-02403-125_Spacer.dae"/>
+	  <mesh filename="package://turtlebot_description/meshes/68-02403-125_Spacer.dae"/>
 	</geometry>
       </collision>
     </link>
@@ -54,14 +54,14 @@
       <visual>
 	<origin xyz=" 0 0 0 " rpy="0 0 0" />
 	<geometry>
-	  <mesh filename="package://turtlebot_urdf/meshes/68-04552-1000-RA_Turtlebot_M-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+	  <mesh filename="package://turtlebot_description/meshes/68-04552-1000-RA_Turtlebot_M-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
 	</geometry>
       </visual>
       
       <collision>
 	<origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
 	<geometry>
-	  <mesh filename="package://turtlebot_urdf/meshes/68-04552-1000-RA_Turtlebot_M-F_Standoff.dae"/>
+	  <mesh filename="package://turtlebot_description/meshes/68-04552-1000-RA_Turtlebot_M-F_Standoff.dae"/>
 	</geometry>
       </collision>
     </link>
@@ -86,14 +86,14 @@
       <visual>
 	<origin xyz=" 0 0 0 " rpy="0 0 0" />
 	<geometry>
-	  <mesh filename="package://turtlebot_urdf/meshes/68-04552-2000-RA_Turtlebot_M-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+	  <mesh filename="package://turtlebot_description/meshes/68-04552-2000-RA_Turtlebot_M-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
 	</geometry>
       </visual>
       
       <collision>
 	<origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
 	<geometry>
-	  <mesh filename="package://turtlebot_urdf/meshes/68-04552-2000-RA_Turtlebot_M-F_Standoff.dae"/>
+	  <mesh filename="package://turtlebot_description/meshes/68-04552-2000-RA_Turtlebot_M-F_Standoff.dae"/>
 	</geometry>
       </collision>
     </link>
@@ -119,14 +119,14 @@
       <visual>
 	<origin xyz=" 0 0 0 " rpy="0 0 0" />
 	<geometry>
-	  <mesh filename="package://turtlebot_urdf/meshes/68-02421-8000-RA_Turtlebot_F-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+	  <mesh filename="package://turtlebot_description/meshes/68-02421-8000-RA_Turtlebot_F-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
 	</geometry>
       </visual>
       
       <collision>
 	<origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
 	<geometry>
-	  <mesh filename="package://turtlebot_urdf/meshes/68-02421-8000-RA_Turtlebot_F-F_Standoff.dae"/>
+	  <mesh filename="package://turtlebot_description/meshes/68-02421-8000-RA_Turtlebot_F-F_Standoff.dae"/>
 	</geometry>
       </collision>
     </link>
@@ -151,14 +151,14 @@
       <visual>
 	<origin xyz=" 0 0 0 " rpy="0 0 0" />
 	<geometry>
-	  <mesh filename="package://turtlebot_urdf/meshes/68-04556-RA_Kinect_Standoff_Assy.3ds" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+	  <mesh filename="package://turtlebot_description/meshes/68-04556-RA_Kinect_Standoff_Assy.3ds" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
 	</geometry>
       </visual>
       
       <collision>
 	<origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
 	<geometry>
-	  <mesh filename="package://turtlebot_urdf/meshes/68-04556-RA_Kinect_Standoff_Assy.3ds"/>
+	  <mesh filename="package://turtlebot_description/meshes/68-04556-RA_Kinect_Standoff_Assy.3ds"/>
 	</geometry>
       </collision>
     </link>
