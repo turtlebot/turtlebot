@@ -1,12 +1,22 @@
-controller_frequency: 20.0
+controller_frequency: 10.0
 TrajectoryPlannerROS:
   max_vel_x: 0.5
   min_vel_x: 0.2
   max_rotational_vel: 1.5
   min_in_place_rotational_vel: 1.0
   acc_lim_th: 5.0
-  acc_lim_x: 2.5
-  acc_lim_y: 2.5
+  acc_lim_x: 1.0
+  acc_lim_y: 1.0
   holonomic_robot: false
   yaw_goal_tolerance: 0.25
   xy_goal_tolerance: 0.20
+
+  goal_distance_bias: 0.8
+  path_distance_bias: 0.8
+  sim_time: 1.5
+  heading_lookahead: 0.325
+  oscillation_reset_dist: 0.05
+
+  vx_samples: 10
+  vtheta_samples: 40
+  dwa: false
