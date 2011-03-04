@@ -10,7 +10,7 @@
   <url>http://ros.org/wiki/turtlebot_bringup</url>
   <depend package="turtlebot_driver"/>
   <depend package="turtlebot_node"/>
-  <depend package="turtlebot_urdf"/>
+  <depend package="turtlebot_description"/>
   <depend package="joy"/>
   <depend package="robot_state_publisher"/>
   <depend package="pointcloud_to_laserscan"/>
