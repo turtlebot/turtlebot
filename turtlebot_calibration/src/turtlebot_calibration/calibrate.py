@@ -1,0 +1,117 @@
+#! /usr/bin/python
+#***********************************************************
+# Software License Agreement (BSD License)
+#
+# Copyright (c) 2008, Willow Garage, Inc.
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#
+#  * Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#  * Redistributions in binary form must reproduce the above
+#    copyright notice, this list of conditions and the following
+#    disclaimer in the documentation and/or other materials provided
+#    with the distribution.
+#  * Neither the name of the Willow Garage nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+# FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+# COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+# BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+# ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+
+# Author: Wim Meeussen
+
+from __future__ import with_statement
+
+import roslib; roslib.load_manifest('turtlebot_calibration')
+import yaml
+import PyKDL
+import rospy
+from sensor_msgs.msg import Imu
+from nav_msgs.msg import Odometry
+from turtlebot_calibration.msg import ScanAngle
+from math import *
+import threading
+
+
+def quat_to_angle(quat):
+    rot = PyKDL.Rotation.Quaternion(quat.x, quat.y, quat.z, quat.w)
+    return rot.GetRPY()[2]
+        
+
+
+class ScanToAngle:
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.sub_imu  = rospy.Subscriber('imu', Imu, self.imu_cb)
+        self.sub_odom = rospy.Subscriber('odom', Odometry, self.odom_cb)
+        self.sub_scan = rospy.Subscriber('scan_angle', ScanAngle, self.scan_cb)
+        self.imu_time = rospy.Time()
+        self.odom_time = rospy.Time()
+        self.scan_time = rospy.Time()
+        
+        # wait for all sensor to start
+        rospy.loginfo('Waiting to receive imu, odometry and scan angle.')
+        started = False
+        start_time = rospy.Time.now()
+        self.wait_for(start_time)
+        rospy.loginfo('Calibration started')
+
+
+    def wait_for(self, start_time):
+        while not rospy.is_shutdown():
+            rospy.sleep(0.3)
+            with self.lock:
+                if self.imu_time < start_time:
+                    rospy.loginfo("Still waiting for imu")
+                elif self.odom_time < start_time:
+                    rospy.loginfo("Still waiting for odom")
+                elif self.scan_time < start_time:
+                    rospy.loginfo("Still waiting for scan")
+                else:
+                    return True
+        exit(0)
+        
+
+    def imu_cb(self, msg):
+        with self.lock:
+            angle = quat_to_angle(msg.orientation)
+            self.imu_angle = angle
+            self.imu_time = msg.header.stamp
+
+    def odom_cb(self, msg):
+        with self.lock:
+            angle = quat_to_angle(msg.pose.pose.orientation)
+            self.odom_angle = angle
+            self.odom_time = msg.header.stamp
+
+    def scan_cb(self, msg):
+        with self.lock:
+            angle = msg.scan_angle
+            self.scan_angle = angle
+            self.scan_time = msg.header.stamp
+
+
+
+def main():
+    rospy.init_node('scan_to_angle')
+    s = ScanToAngle()
+    rospy.spin()
+
+
+if __name__ == '__main__':
+    main()
