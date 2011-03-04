@@ -50,7 +50,7 @@ class TurtlebotGyro():
         self.imu_data.orientation_covariance = [1e6, 0, 0, 0, 1e6, 0, 0, 0, 1e-6]
         self.imu_data.angular_velocity_covariance = [1e6, 0, 0, 0, 1e6, 0, 0, 0, 1e-6]
         self.imu_data.linear_acceleration_covariance = [-1,0,0,0,0,0,0,0,0]
-
+        self.gyro_scale_correction = rospy.get_param('~gyro_scale_correction', 1.35)
         self.imu_pub = rospy.Publisher('imu/data', sensor_msgs.msg.Imu)
 
     def compute_cal_offset(self):
@@ -66,7 +66,7 @@ class TurtlebotGyro():
         current_time = sensor_state.header.stamp
         dt = (current_time - last_time).to_sec()
         self.imu_data.header.stamp =  sensor_state.header.stamp
-        self.imu_data.angular_velocity.z  = (float(sensor_state.user_analog_input)-self.cal_offset)/self.cal_offset*150.0*(math.pi/180.0)*1.35
+        self.imu_data.angular_velocity.z  = (float(sensor_state.user_analog_input)-self.cal_offset)/self.cal_offset*150.0*(math.pi/180.0)*self.gyro_scale_correction
         #sign change
         self.imu_data.angular_velocity.z = -1.0*self.imu_data.angular_velocity.z
         self.orientation += self.imu_data.angular_velocity.z * dt
