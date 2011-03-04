@@ -69,8 +69,6 @@ class TurtlebotGyro():
         self.imu_data.angular_velocity.z  = (float(sensor_state.user_analog_input)-self.cal_offset)/self.cal_offset*150.0*(math.pi/180.0)*1.35
         #sign change
         self.imu_data.angular_velocity.z = -1.0*self.imu_data.angular_velocity.z
-        if(sensor_state.requested_right_velocity == 0 and sensor_state.requested_left_velocity == 0 and sensor_state.distance ==0):
-            self.imu_data.angular_velocity.z  = 0.0
         self.orientation += self.imu_data.angular_velocity.z * dt
         #print orientation
         (self.imu_data.orientation.x, self.imu_data.orientation.y, self.imu_data.orientation.z, self.imu_data.orientation.w) = PyKDL.Rotation.RotZ(self.orientation).GetQuaternion()

@@ -303,6 +303,13 @@ def compute_odom(sensor_state, pos2d, last_time, odom):
                             0, 0, 0, 1e6, 0, 0,
                             0, 0, 0, 0, 1e6, 0,
                             0, 0, 0, 0, 0, 1e3]
+    if(sensor_state.requested_right_velocity == 0 and sensor_state.requested_left_velocity == 0 and sensor_state.distance ==0):
+        odom.pose.covariance[0] = 1e-9
+        odom.pose.covariance[8] = 1e-9
+        odom.pose.covariance[35] = 1e-9
+        odom.twist.covariance[0] = 1e-9
+        odom.twist.covariance[8] = 1e-9
+        odom.twist.covariance[35] = 1e-9
     # return the transform
     return transform
                 
