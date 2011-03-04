@@ -47,10 +47,11 @@ from math import *
 
 class ScanToAngle:
     def __init__(self):
-        self.sub = rospy.Subscriber('scan', LaserScan, self.scan_cb)
-        self.pub = rospy.Publisher('scan_angle', ScanAngle)
         self.min_angle = rospy.get_param('min_angle', -0.3)
         self.max_angle = rospy.get_param('max_angle', 0.3)
+        self.pub = rospy.Publisher('scan_angle', ScanAngle)
+        self.sub = rospy.Subscriber('scan', LaserScan, self.scan_cb)
+
 
     def scan_cb(self, msg):
         angle = msg.angle_min

@@ -3,4 +3,11 @@
     <param name="min_angle" value="-0.3" />
     <param name="max_angle" value="0.3" />
   </node>
+
+  <node pkg="turtlebot_calibration" type="calibrate.py" name="turtlebot_calibration" output="screen" >
+    <remap from="imu" to="imu/data" />
+    <remap from="scan_angle" to="scan_angle" />
+    <remap from="odom" to="odom" />
+  </node>
+
 </launch>
