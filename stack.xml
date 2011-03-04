@@ -8,7 +8,7 @@
   <depend stack="common_msgs" /> <!-- nav_msgs, geometry_msgs, sensor_msgs, diagnostic_msgs -->
   <depend stack="geometry" /> <!-- tf, kdl -->
   <depend stack="joystick_drivers" /> <!-- joy -->
-  <depend stack="openni_ros" /> <!-- openni_camera -->
+  <depend stack="openni_kinect" /> <!-- openni_camera -->
   <depend stack="perception_pcl" /> <!-- pcl_ros -->
   <depend stack="robot_model" /> <!-- robot_state_publisher, urdf -->
   <depend stack="ros" />
