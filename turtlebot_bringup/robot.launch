@@ -51,6 +51,9 @@
     <rosparam command="load" file="$(find openni_camera)/info/openni_params.yaml" />
   </node>
 
+  <!-- Enable breaker 1 for the kinect -->
+  <node pkg="turtlebot_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
+
   <!-- throttling -->
   <node pkg="nodelet" type="nodelet" name="pointcloud_throttle" args="load pointcloud_to_laserscan/CloudThrottle openni_manager" respawn="true">
     <param name="max_rate" value="20.0"/>
