@@ -113,3 +113,4 @@ if __name__ == '__main__':
         laptop_battery_monitor()
     except rospy.ROSInterruptException: pass
     except IOError: pass
+    except KeyError: pass
