@@ -78,8 +78,12 @@ class TurtlebotNode(object):
         # determine cmd_vel mode
         self.drive_mode = rospy.get_param('~drive_mode', 'twist')
         rospy.loginfo("drive mode: %s"%(self.drive_mode))
+
         self.has_gyro = rospy.get_param('~has_gyro', True)
         rospy.loginfo("has gyro: %s"%(self.has_gyro))
+
+        self.odom_angular_scale_correction = rospy.get_param('~odom_angular_scale_correction', 1.0)
+        self.odom_linear_scale_correction = rospy.get_param('~odom_linear_scale_correction', 1.0)
         
         self.lock  = threading.RLock()
         self.robot = Turtlebot(self.port)
@@ -209,7 +213,7 @@ class TurtlebotNode(object):
             # sense/compute state
             try:
                 self.sense(s)
-                transform = compute_odom(s, pos2d, last_time, odom)
+                transform = self.compute_odom(s, pos2d, last_time, odom)
                 #check if we're not moving and update the calibration offset
                 #to account for any calibration drift due to temperature
                 if(self.has_gyro and s.requested_right_velocity == 0 and s.requested_left_velocity == 0 and s.distance == 0):
@@ -244,74 +248,73 @@ class TurtlebotNode(object):
                 drive_cmd(*last_cmd_vel)
             r.sleep()
 
-def compute_odom(sensor_state, pos2d, last_time, odom):
-    """
-    Compute current odometry.  Updates odom instance and returns tf
-    transform. compute_odom() does not set frame ids or covariances in
-    Odometry instance.  It will only set stamp, pose, and twist.
-    
-    @param sensor_state: Current sensor reading
-    @type  sensor_state: TurtlebotSensorState
-    @param pos2d: Current position
-    @type  pos2d: geometry_msgs.msg.Pose2D
-    @param last_time: time of last sensor reading
-    @type  last_time: rospy.Time
-    @param odom: Odometry instance to update. 
-    @type  odom: nav_msgs.msg.Odometry
+    def compute_odom(self, sensor_state, pos2d, last_time, odom):
+        """
+        Compute current odometry.  Updates odom instance and returns tf
+        transform. compute_odom() does not set frame ids or covariances in
+        Odometry instance.  It will only set stamp, pose, and twist.
 
-    @return: transform
-    @rtype: ( (float, float, float), (float, float, float, float) )
-    """
-    # based on otl_roomba by OTL <t.ogura@gmail.com>
-    
-    current_time = sensor_state.header.stamp
-    dt = (current_time - last_time).to_sec()
+        @param sensor_state: Current sensor reading
+        @type  sensor_state: TurtlebotSensorState
+        @param pos2d: Current position
+        @type  pos2d: geometry_msgs.msg.Pose2D
+        @param last_time: time of last sensor reading
+        @type  last_time: rospy.Time
+        @param odom: Odometry instance to update. 
+        @type  odom: nav_msgs.msg.Odometry
 
-    # this is really delta_distance, delta_angle
-    #d  = sensor_state.distance * 0.959020 #correction factor 
-    d  = sensor_state.distance #correction factor 
-    angle = sensor_state.angle #* 0.959020 #correction factor from calibration
+        @return: transform
+        @rtype: ( (float, float, float), (float, float, float, float) )
+        """
+        # based on otl_roomba by OTL <t.ogura@gmail.com>
 
-    x = cos(angle) * d
-    y = -sin(angle) * d
+        current_time = sensor_state.header.stamp
+        dt = (current_time - last_time).to_sec()
 
-    last_angle = pos2d.theta
-    pos2d.x += cos(last_angle)*x - sin(last_angle)*y
-    pos2d.y += sin(last_angle)*x + cos(last_angle)*y
-    pos2d.theta += angle
-    
-    # Turtlebot quaternion from yaw. simplified version of tf.transformations.quaternion_about_axis
-    odom_quat = (0., 0., sin(pos2d.theta/2.), cos(pos2d.theta/2.))
-    #rospy.logerr("theta: %f odom_quat %s"%(pos2d.theta, str(odom_quat)))
+        # this is really delta_distance, delta_angle
+        d  = sensor_state.distance * self.odom_angular_scale_correction #correction factor from calibration
+        angle = sensor_state.angle * self.odom_linear_scale_correction #correction factor from calibration
 
-    # construct the transform
-    transform = (pos2d.x, pos2d.y, 0.), odom_quat
+        x = cos(angle) * d
+        y = -sin(angle) * d
 
-    # update the odometry state
-    odom.header.stamp = current_time
-    odom.pose.pose   = Pose(Point(pos2d.x, pos2d.y, 0.), Quaternion(*odom_quat))
-    odom.pose.covariance = [1e-3, 0, 0, 0, 0, 0, 
-                            0, 1e-3, 0, 0, 0, 0,
-                            0, 0, 1e6, 0, 0, 0,
-                            0, 0, 0, 1e6, 0, 0,
-                            0, 0, 0, 0, 1e6, 0,
-                            0, 0, 0, 0, 0, 1e3]
-    odom.twist.twist = Twist(Vector3(d/dt, 0, 0), Vector3(0, 0, angle/dt))
-    odom.twist.covariance = [1e-3, 0, 0, 0, 0, 0, 
-                            0, 1e-3, 0, 0, 0, 0,
-                            0, 0, 1e6, 0, 0, 0,
-                            0, 0, 0, 1e6, 0, 0,
-                            0, 0, 0, 0, 1e6, 0,
-                            0, 0, 0, 0, 0, 1e3]
-    if(sensor_state.requested_right_velocity == 0 and sensor_state.requested_left_velocity == 0 and sensor_state.distance ==0):
-        odom.pose.covariance[0] = 1e-9
-        odom.pose.covariance[8] = 1e-9
-        odom.pose.covariance[35] = 1e-9
-        odom.twist.covariance[0] = 1e-9
-        odom.twist.covariance[8] = 1e-9
-        odom.twist.covariance[35] = 1e-9
-    # return the transform
-    return transform
+        last_angle = pos2d.theta
+        pos2d.x += cos(last_angle)*x - sin(last_angle)*y
+        pos2d.y += sin(last_angle)*x + cos(last_angle)*y
+        pos2d.theta += angle
+
+        # Turtlebot quaternion from yaw. simplified version of tf.transformations.quaternion_about_axis
+        odom_quat = (0., 0., sin(pos2d.theta/2.), cos(pos2d.theta/2.))
+        #rospy.logerr("theta: %f odom_quat %s"%(pos2d.theta, str(odom_quat)))
+
+        # construct the transform
+        transform = (pos2d.x, pos2d.y, 0.), odom_quat
+
+        # update the odometry state
+        odom.header.stamp = current_time
+        odom.pose.pose   = Pose(Point(pos2d.x, pos2d.y, 0.), Quaternion(*odom_quat))
+        odom.pose.covariance = [1e-3, 0, 0, 0, 0, 0, 
+                                0, 1e-3, 0, 0, 0, 0,
+                                0, 0, 1e6, 0, 0, 0,
+                                0, 0, 0, 1e6, 0, 0,
+                                0, 0, 0, 0, 1e6, 0,
+                                0, 0, 0, 0, 0, 1e3]
+        odom.twist.twist = Twist(Vector3(d/dt, 0, 0), Vector3(0, 0, angle/dt))
+        odom.twist.covariance = [1e-3, 0, 0, 0, 0, 0, 
+                                0, 1e-3, 0, 0, 0, 0,
+                                0, 0, 1e6, 0, 0, 0,
+                                0, 0, 0, 1e6, 0, 0,
+                                0, 0, 0, 0, 1e6, 0,
+                                0, 0, 0, 0, 0, 1e3]
+        if(sensor_state.requested_right_velocity == 0 and sensor_state.requested_left_velocity == 0 and sensor_state.distance ==0):
+            odom.pose.covariance[0] = 1e-9
+            odom.pose.covariance[8] = 1e-9
+            odom.pose.covariance[35] = 1e-9
+            odom.twist.covariance[0] = 1e-9
+            odom.twist.covariance[8] = 1e-9
+            odom.twist.covariance[35] = 1e-9
+        # return the transform
+        return transform
                 
 #TODO: this method is temporary. In the future, we should be able to
 #direct deserialize into RawTurtlebotSensorState and fix conversions
