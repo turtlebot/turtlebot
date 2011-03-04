@@ -1,10 +1,10 @@
 <package>
   <description brief="turtlebot_bringup">
 
-     turtlebot_bringup
+     turtlebot_bringup provides roslaunch scripts for starting the TurtleBot base functionality. 
 
   </description>
-  <author>Eitan Marder-Eppstein</author>
+  <author>Tully Foote</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_bringup</url>
