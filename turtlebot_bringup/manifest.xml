@@ -1,16 +1,16 @@
 <package>
   <description brief="turtlebot_bringup">
 
-     turtlebot_bringup
+     turtlebot_bringup provides roslaunch scripts for starting the TurtleBot base functionality. 
 
   </description>
-  <author>Eitan Marder-Eppstein</author>
+  <author>Tully Foote</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_bringup</url>
   <depend package="turtlebot_driver"/>
   <depend package="turtlebot_node"/>
-  <depend package="turtlebot_urdf"/>
+  <depend package="turtlebot_description"/>
   <depend package="joy"/>
   <depend package="robot_state_publisher"/>
   <depend package="pointcloud_to_laserscan"/>

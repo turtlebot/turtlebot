@@ -4,7 +4,7 @@
   <license>BSD,MIT</license>  
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot</url>
-  <depend stack="common" /> <!-- nodelet, xacro -->
+  <depend stack="common" /> <!-- xacro, nodelet -->
   <depend stack="common_msgs" /> <!-- nav_msgs, geometry_msgs, sensor_msgs, diagnostic_msgs -->
   <depend stack="geometry" /> <!-- tf, kdl -->
   <depend stack="joystick_drivers" /> <!-- joy -->
