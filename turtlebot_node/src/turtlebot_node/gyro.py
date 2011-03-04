@@ -45,6 +45,7 @@ class TurtlebotGyro():
         self.cal_offset = 0.0
         self.orientation = 0.0
         self.cal_buffer =[]
+        self.cal_buffer_length = 1000
         self.imu_data = sensor_msgs.msg.Imu()
         self.imu_data = sensor_msgs.msg.Imu(header=rospy.Header(frame_id="gyro_link"))
         self.imu_data.orientation_covariance = [1e6, 0, 0, 0, 1e6, 0, 0, 0, 1e-6]
@@ -59,8 +60,8 @@ class TurtlebotGyro():
 
     def update_calibration(self, sensor_state):
         self.cal_buffer.append(sensor_state.user_analog_input)
-        if len(self.cal_buffer) > 100:
-            del self.cal_buffer[:-100]
+        if len(self.cal_buffer) > self.cal_buffer_length:
+            del self.cal_buffer[:-self.cal_buffer_length]
         
     def publish_imu_data(self, sensor_state, last_time):
         current_time = sensor_state.header.stamp
