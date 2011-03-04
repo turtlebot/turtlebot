@@ -43,6 +43,7 @@ import PyKDL
 import rospy
 from sensor_msgs.msg import Imu
 from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Twist
 from turtlebot_calibration.msg import ScanAngle
 from math import *
 import threading
@@ -60,16 +61,84 @@ class ScanToAngle:
         self.sub_imu  = rospy.Subscriber('imu', Imu, self.imu_cb)
         self.sub_odom = rospy.Subscriber('odom', Odometry, self.odom_cb)
         self.sub_scan = rospy.Subscriber('scan_angle', ScanAngle, self.scan_cb)
+        self.cmd_pub = rospy.Publisher('cmd_vel', Twist)
         self.imu_time = rospy.Time()
         self.odom_time = rospy.Time()
         self.scan_time = rospy.Time()
         
+        # params
+        self.inital_wall_angle = rospy.get_param("inital_wall_angle", 0.1)
+        self.imu_calibrate_time = rospy.get_param("imu_calibrate_time", 10.0)
+        
+
+    def calibrate(self, speed):
         # wait for all sensor to start
         rospy.loginfo('Waiting to receive imu, odometry and scan angle.')
         started = False
-        start_time = rospy.Time.now()
-        self.wait_for(start_time)
-        rospy.loginfo('Calibration started')
+        self.wait_for(rospy.Time.now())
+        
+        # estimate imu drift
+        rospy.loginfo('Estimating imu drift')
+        with self.lock:
+            imu_start_time = self.imu_time
+            imu_start_angle = self.imu_angle
+        rospy.sleep(self.imu_calibrate_time)
+        with self.lock:
+            imu_end_time = self.imu_time
+            imu_end_angle = self.imu_angle
+        imu_drift = (imu_end_angle - imu_start_angle) / ((imu_end_time - imu_start_time).to_sec())
+        rospy.loginfo(' ... imu drift is %f degrees per second'%(imu_drift*180.0/pi))
+
+
+        # rotate 360 degrees
+        (imu_start_angle, odom_start_angle, scan_start_angle) = self.wait_for(rospy.Time.now())
+        last_angle = odom_start_angle
+        turn_angle = 0
+        while turn_angle < 2*pi:
+            if rospy.is_shutdown():
+                return
+            cmd = Twist()
+            cmd.angular.z = speed
+            self.cmd_pub.publish(cmd)
+            rospy.sleep(0.1)
+            with self.lock:
+                delta_angle = self.odom_angle - last_angle
+            if delta_angle < 0:
+                delta_angle += 2*pi
+            turn_angle += delta_angle
+            last_angle = self.odom_angle
+        self.cmd_pub.publish(Twist())
+
+        (imu_end_angle, odom_end_angle, scan_end_angle) = self.wait_for(rospy.Time.now())
+        imu_delta = 2*pi + (imu_end_angle - imu_start_angle)
+        odom_delta = 2*pi + (odom_end_angle - odom_start_angle)
+        scan_delta = 2*pi + (scan_end_angle - scan_start_angle)
+
+        print 'Imu correction: %f'%(imu_delta/scan_delta)
+        print 'Odom correction: %f'%(odom_delta/scan_delta) 
+
+
+
+
+
+    def align(self):
+        rospy.loginfo("Aligning base with wall")
+        with self.lock:
+            angle = self.scan_angle
+        cmd = Twist()
+
+        while angle < -self.inital_wall_angle or angle > self.inital_wall_angle:
+            if angle > 0:
+                cmd.angular.z = -0.3
+            else:
+                cmd.angular.z = 0.3
+            self.cmd_pub.publish(cmd)
+            rospy.sleep(0.05)
+            with self.lock:
+                angle = self.scan_angle
+
+
+
 
 
     def wait_for(self, start_time):
@@ -83,7 +152,7 @@ class ScanToAngle:
                 elif self.scan_time < start_time:
                     rospy.loginfo("Still waiting for scan")
                 else:
-                    return True
+                    return (self.imu_angle, self.odom_angle, self.scan_angle)
         exit(0)
         
 
@@ -109,8 +178,12 @@ class ScanToAngle:
 
 def main():
     rospy.init_node('scan_to_angle')
-    s = ScanToAngle()
-    rospy.spin()
+    robot = ScanToAngle()
+    
+    robot.wait_for(rospy.Time.now())
+    for speed in (0.3, 0.7, 1.0, 1.5):
+        robot.align()
+        robot.calibrate(speed)
 
 
 if __name__ == '__main__':

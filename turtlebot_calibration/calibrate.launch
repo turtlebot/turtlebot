@@ -5,6 +5,7 @@
   </node>
 
   <node pkg="turtlebot_calibration" type="calibrate.py" name="turtlebot_calibration" output="screen" >
+    <remap from="cmd_vel" to="turtlebot_node/cmd_vel" />
     <remap from="imu" to="imu/data" />
     <remap from="scan_angle" to="scan_angle" />
     <remap from="odom" to="odom" />
