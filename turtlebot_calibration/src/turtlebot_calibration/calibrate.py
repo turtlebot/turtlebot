@@ -86,8 +86,10 @@ class CalibrateRobot:
             rospy.sleep(0.1)
             with self.lock:
                 delta_angle = self.odom_angle - last_angle
-            if delta_angle < 0:
+            while delta_angle < 0:
                 delta_angle += 2*pi
+            while delta_angle > 2*pi:
+                delta_angle -= 2*pi
             turn_angle += delta_angle
             last_angle = self.odom_angle
         self.cmd_pub.publish(Twist())
@@ -97,7 +99,6 @@ class CalibrateRobot:
         imu_delta = 2*pi + (imu_end_angle - imu_start_angle) - imu_drift*(imu_end_time - imu_start_time).to_sec()
         odom_delta = 2*pi + (odom_end_angle - odom_start_angle)
         scan_delta = 2*pi + (scan_end_angle - scan_start_angle)
-        
         rospy.loginfo('Imu correction: %f'%(100.0*((imu_delta/scan_delta)-1.0)))
         rospy.loginfo('Odom correction: %f'%(100.0*((odom_delta/scan_delta)-1.0)))
         return (imu_delta/scan_delta, odom_delta/scan_delta)
@@ -192,8 +193,8 @@ def main():
         imu_corr.append(imu)
         odom_corr.append(odom)
 
-    print sum(imu_corr)/len(imu_corr)
-    print sum(odom_corr)/len(odom_corr)
+    print 1.0/(sum(imu_corr)/len(imu_corr))
+    print 1.0/(sum(odom_corr)/len(odom_corr))
 
 
 if __name__ == '__main__':
