@@ -273,8 +273,8 @@ class TurtlebotNode(object):
         dt = (current_time - last_time).to_sec()
 
         # this is really delta_distance, delta_angle
-        d  = sensor_state.distance * self.odom_angular_scale_correction #correction factor from calibration
-        angle = sensor_state.angle * self.odom_linear_scale_correction #correction factor from calibration
+        d  = sensor_state.distance * self.odom_linear_scale_correction #correction factor from calibration
+        angle = sensor_state.angle * self.odom_angular_scale_correction #correction factor from calibration
 
         x = cos(angle) * d
         y = -sin(angle) * d
