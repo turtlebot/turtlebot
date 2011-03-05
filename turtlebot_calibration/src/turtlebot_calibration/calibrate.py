@@ -53,6 +53,13 @@ def quat_to_angle(quat):
     rot = PyKDL.Rotation.Quaternion(quat.x, quat.y, quat.z, quat.w)
     return rot.GetRPY()[2]
         
+def normalize_angle(angle):
+    res = angle
+    while res > pi:
+        res -= 2.0*pi
+    while res < -pi:
+        res += 2.0*pi
+    return res
 
 
 class CalibrateRobot:
@@ -71,6 +78,7 @@ class CalibrateRobot:
         self.imu_calibrate_time = rospy.get_param("imu_calibrate_time", 10.0)
         
 
+
     def calibrate(self, speed, imu_drift=0):
         # rotate 360 degrees
         (imu_start_angle, odom_start_angle, scan_start_angle, 
@@ -85,20 +93,16 @@ class CalibrateRobot:
             self.cmd_pub.publish(cmd)
             rospy.sleep(0.1)
             with self.lock:
-                delta_angle = self.odom_angle - last_angle
-            while delta_angle < 0:
-                delta_angle += 2*pi
-            while delta_angle > 2*pi:
-                delta_angle -= 2*pi
+                delta_angle = normalize_angle(self.odom_angle - last_angle)
             turn_angle += delta_angle
             last_angle = self.odom_angle
         self.cmd_pub.publish(Twist())
 
         (imu_end_angle, odom_end_angle, scan_end_angle,
          imu_end_time, odom_end_time, scan_end_time) = self.sync_timestamps()
-        imu_delta = 2*pi + (imu_end_angle - imu_start_angle) - imu_drift*(imu_end_time - imu_start_time).to_sec()
-        odom_delta = 2*pi + (odom_end_angle - odom_start_angle)
-        scan_delta = 2*pi + (scan_end_angle - scan_start_angle)
+        imu_delta = 2*pi + normalize_angle(imu_end_angle - imu_start_angle) - imu_drift*(imu_end_time - imu_start_time).to_sec()
+        odom_delta = 2*pi + normalize_angle(odom_end_angle - odom_start_angle)
+        scan_delta = 2*pi + normalize_angle(scan_end_angle - scan_start_angle)
         rospy.loginfo('Imu correction: %f'%(100.0*((imu_delta/scan_delta)-1.0)))
         rospy.loginfo('Odom correction: %f'%(100.0*((odom_delta/scan_delta)-1.0)))
         return (imu_delta/scan_delta, odom_delta/scan_delta)
@@ -115,7 +119,7 @@ class CalibrateRobot:
         rospy.sleep(self.imu_calibrate_time)
         (imu_end_angle, odom_end_angle, scan_end_angle,
          imu_end_time, odom_end_time, scan_end_time) = self.sync_timestamps()
-        imu_drift = (imu_end_angle - imu_start_angle) / ((imu_end_time - imu_start_time).to_sec())
+        imu_drift = normalize_angle(imu_end_angle - imu_start_angle) / ((imu_end_time - imu_start_time).to_sec())
         rospy.loginfo(' ... imu drift is %f degrees per second'%(imu_drift*180.0/pi))
         return imu_drift
 
