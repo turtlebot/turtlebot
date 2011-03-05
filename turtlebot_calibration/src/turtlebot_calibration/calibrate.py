@@ -55,7 +55,7 @@ def quat_to_angle(quat):
         
 
 
-class ScanToAngle:
+class CalibrateRobot:
     def __init__(self):
         self.lock = threading.Lock()
         self.sub_imu  = rospy.Subscriber('imu', Imu, self.imu_cb)
@@ -71,27 +71,10 @@ class ScanToAngle:
         self.imu_calibrate_time = rospy.get_param("imu_calibrate_time", 10.0)
         
 
-    def calibrate(self, speed):
-        # wait for all sensor to start
-        rospy.loginfo('Waiting to receive imu, odometry and scan angle.')
-        started = False
-        self.wait_for(rospy.Time.now())
-        
-        # estimate imu drift
-        rospy.loginfo('Estimating imu drift')
-        with self.lock:
-            imu_start_time = self.imu_time
-            imu_start_angle = self.imu_angle
-        rospy.sleep(self.imu_calibrate_time)
-        with self.lock:
-            imu_end_time = self.imu_time
-            imu_end_angle = self.imu_angle
-        imu_drift = (imu_end_angle - imu_start_angle) / ((imu_end_time - imu_start_time).to_sec())
-        rospy.loginfo(' ... imu drift is %f degrees per second'%(imu_drift*180.0/pi))
-
-
+    def calibrate(self, speed, imu_drift=0):
         # rotate 360 degrees
-        (imu_start_angle, odom_start_angle, scan_start_angle) = self.wait_for(rospy.Time.now())
+        (imu_start_angle, odom_start_angle, scan_start_angle, 
+         imu_start_time, odom_start_time, scan_start_time) = self.sync_timestamps()
         last_angle = odom_start_angle
         turn_angle = 0
         while turn_angle < 2*pi:
@@ -109,16 +92,31 @@ class ScanToAngle:
             last_angle = self.odom_angle
         self.cmd_pub.publish(Twist())
 
-        (imu_end_angle, odom_end_angle, scan_end_angle) = self.wait_for(rospy.Time.now())
-        imu_delta = 2*pi + (imu_end_angle - imu_start_angle)
+        (imu_end_angle, odom_end_angle, scan_end_angle,
+         imu_end_time, odom_end_time, scan_end_time) = self.sync_timestamps()
+        imu_delta = 2*pi + (imu_end_angle - imu_start_angle) - imu_drift*(imu_end_time - imu_start_time).to_sec()
         odom_delta = 2*pi + (odom_end_angle - odom_start_angle)
         scan_delta = 2*pi + (scan_end_angle - scan_start_angle)
+        
+        rospy.loginfo('Imu correction: %f'%(100.0*((imu_delta/scan_delta)-1.0)))
+        rospy.loginfo('Odom correction: %f'%(100.0*((odom_delta/scan_delta)-1.0)))
+        return (imu_delta/scan_delta, odom_delta/scan_delta)
 
-        print 'Imu correction: %f'%(imu_delta/scan_delta)
-        print 'Odom correction: %f'%(odom_delta/scan_delta) 
 
 
 
+
+    def imu_drift(self):
+        # estimate imu drift
+        rospy.loginfo('Estimating imu drift')
+        (imu_start_angle, odom_start_angle, scan_start_angle, 
+         imu_start_time, odom_start_time, scan_start_time) = self.sync_timestamps()
+        rospy.sleep(self.imu_calibrate_time)
+        (imu_end_angle, odom_end_angle, scan_end_angle,
+         imu_end_time, odom_end_time, scan_end_time) = self.sync_timestamps()
+        imu_drift = (imu_end_angle - imu_start_angle) / ((imu_end_time - imu_start_time).to_sec())
+        rospy.loginfo(' ... imu drift is %f degrees per second'%(imu_drift*180.0/pi))
+        return imu_drift
 
 
     def align(self):
@@ -128,6 +126,8 @@ class ScanToAngle:
         cmd = Twist()
 
         while angle < -self.inital_wall_angle or angle > self.inital_wall_angle:
+            if rospy.is_shutdown():
+                exit(0)
             if angle > 0:
                 cmd.angular.z = -0.3
             else:
@@ -141,7 +141,9 @@ class ScanToAngle:
 
 
 
-    def wait_for(self, start_time):
+    def sync_timestamps(self, start_time=None):
+        if not start_time:
+            start_time = rospy.Time.now() + rospy.Duration(0.5)
         while not rospy.is_shutdown():
             rospy.sleep(0.3)
             with self.lock:
@@ -152,7 +154,8 @@ class ScanToAngle:
                 elif self.scan_time < start_time:
                     rospy.loginfo("Still waiting for scan")
                 else:
-                    return (self.imu_angle, self.odom_angle, self.scan_angle)
+                    return (self.imu_angle, self.odom_angle, self.scan_angle,
+                            self.imu_time, self.odom_time, self.scan_time)
         exit(0)
         
 
@@ -178,12 +181,19 @@ class ScanToAngle:
 
 def main():
     rospy.init_node('scan_to_angle')
-    robot = ScanToAngle()
+    robot = CalibrateRobot()
     
-    robot.wait_for(rospy.Time.now())
+    imu_drift = robot.imu_drift()
+    imu_corr = []
+    odom_corr = []
     for speed in (0.3, 0.7, 1.0, 1.5):
         robot.align()
-        robot.calibrate(speed)
+        (imu, odom) = robot.calibrate(speed, imu_drift)
+        imu_corr.append(imu)
+        odom_corr.append(odom)
+
+    print sum(imu_corr)/len(imu_corr)
+    print sum(odom_corr)/len(odom_corr)
 
 
 if __name__ == '__main__':
