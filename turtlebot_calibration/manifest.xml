@@ -1,0 +1,21 @@
+<package>
+  <description brief="turtlebot_calibration">
+
+     turtlebot_calibration
+
+  </description>
+  <author>Wim Meeussen</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/turtlebot_calibration</url>
+
+  <depend package="rospy"/>
+  <depend package="sensor_msgs"/>
+  <depend package="nav_msgs"/>
+  <depend package="geometry_msgs"/>
+  <depend package="kdl"/>
+
+
+</package>
+
+
