@@ -124,7 +124,7 @@ class TurtlebotDiagnostics():
         if not has_gyro:
             stat.level = diagnostic_msgs.msg.DiagnosticStatus.WARN
             stat.message = "Gyro Not Enabled"
-        elif cal_offset > 520.0 or cal_offset < 480.0:
+        elif cal_offset > 550.0 or cal_offset < 450.0:
             stat.level = diagnostic_msgs.msg.DiagnosticStatus.ERROR
             stat.message = "Bad Gyro Calibration"
         stat.values.append(diagnostic_msgs.msg.KeyValue("Gyro Enabled", str(has_gyro)))
