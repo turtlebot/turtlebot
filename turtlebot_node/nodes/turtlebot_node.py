@@ -247,6 +247,7 @@ class TurtlebotNode(object):
                     last_cmd_vel = 0, 0
                 drive_cmd(*last_cmd_vel)
             r.sleep()
+        self.robot.set_digital_outputs([0, 0, 0])
 
     def compute_odom(self, sensor_state, pos2d, last_time, odom):
         """
