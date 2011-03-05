@@ -103,8 +103,8 @@ class CalibrateRobot:
         imu_delta = 2*pi + normalize_angle(imu_end_angle - imu_start_angle) - imu_drift*(imu_end_time - imu_start_time).to_sec()
         odom_delta = 2*pi + normalize_angle(odom_end_angle - odom_start_angle)
         scan_delta = 2*pi + normalize_angle(scan_end_angle - scan_start_angle)
-        rospy.loginfo('Imu correction: %f'%(100.0*((imu_delta/scan_delta)-1.0)))
-        rospy.loginfo('Odom correction: %f'%(100.0*((odom_delta/scan_delta)-1.0)))
+        rospy.loginfo('Imu error: %f percent'%(100.0*((imu_delta/scan_delta)-1.0)))
+        rospy.loginfo('Odom error: %f percent'%(100.0*((odom_delta/scan_delta)-1.0)))
         return (imu_delta/scan_delta, odom_delta/scan_delta)
 
 
@@ -197,8 +197,14 @@ def main():
         imu_corr.append(imu)
         odom_corr.append(odom)
 
-    print 1.0/(sum(imu_corr)/len(imu_corr))
-    print 1.0/(sum(odom_corr)/len(odom_corr))
+    imu_res = 1.0/(sum(imu_corr)/len(imu_corr))
+    odom_res = 1.0/(sum(odom_corr)/len(odom_corr))
+    rospy.loginfo("Multiply the 'turtlebot_node/gyro_scale_correction' parameter with %f"%imu_res)
+    rospy.loginfo("Multiply the 'turtlebot_node/odom_angular_scale_correction' parameter with %f"%odom_res)
+                  
+
+    print imu_res
+    print odom_res
 
 
 if __name__ == '__main__':
