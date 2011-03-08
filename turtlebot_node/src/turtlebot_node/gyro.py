@@ -67,6 +67,7 @@ class TurtlebotGyro():
     def publish_imu_data(self, sensor_state, last_time):
         current_time = sensor_state.header.stamp
         dt = (current_time - last_time).to_sec()
+        past_orientation = self.orientation
         self.imu_data.header.stamp =  sensor_state.header.stamp
         self.imu_data.angular_velocity.z  = (float(sensor_state.user_analog_input)-self.cal_offset)/self.cal_offset*150.0*(math.pi/180.0)*self.gyro_scale_correction
         #sign change
@@ -80,7 +81,7 @@ class TurtlebotGyro():
         self.imu_data.angular_velocity.z  = (float(sensor_state.user_analog_input)/150.0*(math.pi/180.0)*self.gyro_scale_correction)
         #sign change
         self.imu_data.angular_velocity.z = -1.0*self.imu_data.angular_velocity.z
-        self.orientation += self.imu_data.angular_velocity.z * dt
+        raw_orientation = past_orientation + self.imu_data.angular_velocity.z * dt
         #print orientation
-        (self.imu_data.orientation.x, self.imu_data.orientation.y, self.imu_data.orientation.z, self.imu_data.orientation.w) = PyKDL.Rotation.RotZ(self.orientation).GetQuaternion()
+        (self.imu_data.orientation.x, self.imu_data.orientation.y, self.imu_data.orientation.z, self.imu_data.orientation.w) = PyKDL.Rotation.RotZ(raw_orientation).GetQuaternion()
         self.imu_pub_raw.publish(self.imu_data)
