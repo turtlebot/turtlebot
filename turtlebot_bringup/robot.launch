@@ -1,6 +1,16 @@
 <launch>
   <param name="robot_description" command="$(find xacro)/xacro.py '$(find turtlebot_description)/urdf/turtlebot.urdf.xacro'" />
 
+  <rosparam>
+robot:
+  name: robot1
+  type: turtlebot
+  </rosparam>
+
+  <node pkg="app_manager" type="app_manager" name="app_manager">
+    <param name="interface_master" value="http://localhost:11312" />
+  </node>
+
   <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
     <!-- Load the file you made above -->
     <rosparam command="load" file="$(find turtlebot_bringup)/config/diagnostics.yaml" />
