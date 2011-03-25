@@ -1,0 +1,3 @@
+published_topics:
+  /turtlebot_node/cmd_vel: geometry_msgs/Twist
+subscribed_topics: {}
