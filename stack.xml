@@ -7,6 +7,7 @@
   <depend stack="common" /> <!-- xacro, nodelet -->
   <depend stack="common_msgs" /> <!-- nav_msgs, geometry_msgs, sensor_msgs, diagnostic_msgs -->
   <depend stack="geometry" /> <!-- tf, kdl -->
+  <depend stack="image_transport_plugins" /> <!-- compressed_image_transport -->
   <depend stack="joystick_drivers" /> <!-- joy -->
   <depend stack="openni_kinect" /> <!-- openni_camera -->
   <depend stack="perception_pcl" /> <!-- pcl_ros -->

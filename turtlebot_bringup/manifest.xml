@@ -16,6 +16,9 @@
   <depend package="pointcloud_to_laserscan"/>
   <depend package="openni_camera"/>
 
+  <!-- for video teleoperation -->
+  <depend package="compressed_image_transport"/>
+  
 </package>
 
 
