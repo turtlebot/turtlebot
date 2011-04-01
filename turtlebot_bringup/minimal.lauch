@@ -1,0 +1,48 @@
+<launch>
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find turtlebot_description)/urdf/turtlebot.urdf.xacro'" />
+
+  <rosparam>
+robot:
+  name: robot1
+  type: turtlebot
+  </rosparam>
+
+  <node pkg="app_manager" type="app_manager" name="app_manager">
+    <param name="interface_master" value="http://localhost:11312" />
+  </node>
+
+  <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
+    <!-- Load the file you made above -->
+    <rosparam command="load" file="$(find turtlebot_bringup)/config/diagnostics.yaml" />
+  </node>
+
+  
+  <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="30.0" />
+    <!--param name="tf_prefix" type="string" value="" /-->
+  </node>
+
+  <!-- The odometry estimator -->
+   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+    <param name="freq" value="10.0"/>
+    <param name="sensor_timeout" value="1.0"/>
+    <param name="publish_tf" value="true"/>
+    <param name="odom_used" value="true"/>
+    <param name="imu_used" value="true"/>
+    <param name="vo_used" value="false"/>
+    <remap from="imu_data" to="imu/data"/>
+  </node>
+
+  <!-- Turtlebot Laptop Battery Diagnostics -->
+  <node pkg="turtlebot_node" type="laptop_battery.py" name="turtlebot_laptop_battery">
+  </node> 
+
+  <!-- Turtlebot Driver -->
+  <node pkg="turtlebot_node" type="turtlebot_node.py" name="turtlebot_node" output="screen">
+    <param name="bonus" value="false" />
+  </node> 
+
+  <!-- Enable breaker 1 for the kinect -->
+  <node pkg="turtlebot_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
+
+</launch>
