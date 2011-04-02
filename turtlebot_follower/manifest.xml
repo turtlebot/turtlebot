@@ -1,0 +1,20 @@
+<package>
+  <description brief="follower">
+
+     follower
+
+  </description>
+  <author>Garratt</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/follower</url>
+  <depend package="nodelet"/>
+  <depend package="tf"/>
+  <depend package="roscpp"/>
+  <depend package="pcl_ros"/>
+  <export>
+    <nodelet plugin="${prefix}/nodelets.xml" />
+  </export>
+</package>
+
+

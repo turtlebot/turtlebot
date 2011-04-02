@@ -1,0 +1,7 @@
+<library path="lib/libturtlebot_follower">
+ <class name="turtlebot_follower/TurtlebotFollower" type="turtlebot_follower::TurtlebotFollower" base_class_type="nodelet::Nodelet">
+ <description>
+ The turtlebot people follower node.
+ </description>
+ </class>
+</library> 
