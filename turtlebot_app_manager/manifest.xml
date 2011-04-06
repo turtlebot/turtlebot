@@ -8,7 +8,6 @@
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_app_manager</url>
-  <depend package="app_manager"/>
 
 </package>
 
