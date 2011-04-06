@@ -1,0 +1,15 @@
+<package>
+  <description brief="turtlebot_app_manager">
+
+     App manager configuration and launch for the turtlebot
+
+  </description>
+  <author>Ken Conley</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/turtlebot_app_manager</url>
+  <depend package="app_manager"/>
+
+</package>
+
+
