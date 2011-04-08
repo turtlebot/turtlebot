@@ -63,7 +63,11 @@ class TurtlebotDiagnostics():
         stat = diagnostic_msgs.msg.DiagnosticStatus()
         stat.name = "Operating Mode"
         stat.level = diagnostic_msgs.msg.DiagnosticStatus.OK
-        stat.message = self.oi_mode[sensor_state.oi_mode]
+        try:
+            stat.message = self.oi_mode[sensor_state.oi_mode]
+        except KeyError, ex:
+            stat.message = "Invalid OI Mode %s"%ex
+            rospy.logwarn("Invalid OI Mode %s"%ex)
         diag.status.append(stat)
         #battery info
         stat = diagnostic_msgs.msg.DiagnosticStatus()
@@ -84,7 +88,11 @@ class TurtlebotDiagnostics():
         stat = diagnostic_msgs.msg.DiagnosticStatus()
         stat.name = "Charging Sources"
         stat.level = diagnostic_msgs.msg.DiagnosticStatus.OK
-        stat.message = self.charging_source[sensor_state.charging_sources_available]
+        try:
+            stat.message = self.charging_source[sensor_state.charging_sources_available]
+        except KeyError, ex:
+            stat.message = "Invalid Charging Source %s"%ex 
+            rospy.logwarn("Invalid Charging Source %s"%ex)
         diag.status.append(stat)
         #cliff sensors
         stat = diagnostic_msgs.msg.DiagnosticStatus()

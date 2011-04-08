@@ -46,10 +46,12 @@ import os
 import sys
 import select
 import threading
+import serial
+import termios
 
 from math import sin, cos, radians, pi
 
-from turtlebot_driver import Turtlebot, WHEEL_SEPARATION, MAX_WHEEL_SPEED
+from turtlebot_driver import Turtlebot, WHEEL_SEPARATION, MAX_WHEEL_SPEED, DriverError
 from turtlebot_node.msg import TurtlebotSensorState, Drive, Turtle
 from turtlebot_node.srv import SetTurtlebotMode,SetTurtlebotModeResponse, SetDigitalOutputs, SetDigitalOutputsResponse
 from turtlebot_node.diagnostics import TurtlebotDiagnostics
@@ -61,7 +63,6 @@ from geometry_msgs.msg import Point, Pose, Pose2D, PoseWithCovariance, \
 from nav_msgs.msg import Odometry 
 from tf.broadcaster import TransformBroadcaster
 
-CMD_VEL_TIMEOUT = rospy.Duration(0.4) # try to keep timeout long enough to enable smooth interaction with teleop_base_keyboard
 
 class TurtlebotNode(object):
 
@@ -84,9 +85,18 @@ class TurtlebotNode(object):
 
         self.odom_angular_scale_correction = rospy.get_param('~odom_angular_scale_correction', 1.0)
         self.odom_linear_scale_correction = rospy.get_param('~odom_linear_scale_correction', 1.0)
+        self.cmd_vel_timeout = rospy.Duration(rospy.get_param('~cmd_vel_timeout', 0.6))
         
+
         self.lock  = threading.RLock()
-        self.robot = Turtlebot(self.port)
+        self.robot = None
+        while not rospy.is_shutdown():
+            try:
+                self.robot = Turtlebot(self.port)
+                break
+            except serial.serialutil.SerialException, ex:
+                rospy.logerr("Failed to open port %s.  Please make sure the Create cable is plugged into the computer. "%self.port)
+                rospy.sleep(3.0)
         self.robot.safe = False
 
         if rospy.get_param('~bonus', False):
@@ -192,62 +202,77 @@ class TurtlebotNode(object):
         last_cmd_vel_time = rospy.get_rostime()
         last_diagnostics_time = rospy.get_rostime()
 
-        if(self.has_gyro):
-            rospy.loginfo("Calibrating Gyro. Don't move the robot now")
-            start_time = rospy.Time.now()
-            cal_duration = rospy.Duration(2.0)
-            tmp_time = rospy.Time.now()
-            offset = 0
-            while rospy.Time.now() < start_time + cal_duration:
-                rospy.sleep(0.01)
-                self.sense(s)
-                self._gyro.update_calibration(s) 
-            self.cal_offset, self.cal_buffer = self._gyro.compute_cal_offset()
-            rospy.loginfo("Gyro calibrated with offset %f"%self.cal_offset)  
-
-        # loop rate, not yet tuned
-        r = rospy.Rate(10)
         while not rospy.is_shutdown():
-            last_time = s.header.stamp
- 
-            # sense/compute state
             try:
-                self.sense(s)
-                transform = self.compute_odom(s, pos2d, last_time, odom)
-                #check if we're not moving and update the calibration offset
-                #to account for any calibration drift due to temperature
-                if(self.has_gyro and s.requested_right_velocity == 0 and s.requested_left_velocity == 0 and s.distance == 0):
-                    self._gyro.update_calibration(s)
+                if(self.has_gyro):
+                    self.sense(s) # make sure to use the port before 
+                    rospy.loginfo("Calibrating Gyro. Don't move the robot now")
+                    start_time = rospy.Time.now()
+                    cal_duration = rospy.Duration(2.0)
+                    tmp_time = rospy.Time.now()
+                    offset = 0
+                    while rospy.Time.now() < start_time + cal_duration:
+                        rospy.sleep(0.01)
+                        self.sense(s)
+                        self._gyro.update_calibration(s) 
                     self.cal_offset, self.cal_buffer = self._gyro.compute_cal_offset()
-                if(self.has_gyro and self.cal_offset !=0):  
-                    self._gyro.publish_imu_data(s, last_time)
-                if (s.header.stamp-last_diagnostics_time).to_sec() > 1.0:
-                    last_diagnostics_time = s.header.stamp
-                    self._diagnostics.publish_diagnostics(s, self.cal_offset, self.has_gyro, self.cal_buffer)
-            except select.error:
-                # packet read can get interrupted, restart loop to
-                # check for exit conditions
-                continue
+                    rospy.loginfo("Gyro calibrated with offset %f"%self.cal_offset)  
 
-            # publish state
-            state_pub.publish(s)
-            odom_pub.publish(odom)
-            #odom_broadcaster.sendTransform(transform[0], transform[1],
-            #    s.header.stamp, "base_footprint", "odom")
+                # loop rate, not yet tuned
+                r = rospy.Rate(10)
+                while not rospy.is_shutdown():
+                    last_time = s.header.stamp
 
-            # act
-            if self.req_cmd_vel is not None:
-                # consume cmd_vel msg and store for timeout
-                last_cmd_vel = self.req_cmd_vel
-                self.req_cmd_vel = None 
-                last_cmd_vel_time = last_time
-                drive_cmd(*last_cmd_vel)
-            else:
-                if last_time - last_cmd_vel_time > CMD_VEL_TIMEOUT:
-                    last_cmd_vel = 0, 0
-                drive_cmd(*last_cmd_vel)
-            r.sleep()
-        self.robot.set_digital_outputs([0, 0, 0])
+                    # sense/compute state
+                    try:
+                        self.sense(s)
+                        transform = self.compute_odom(s, pos2d, last_time, odom)
+                        #check if we're not moving and update the calibration offset
+                        #to account for any calibration drift due to temperature
+                        if(self.has_gyro and s.requested_right_velocity == 0 and s.requested_left_velocity == 0 and s.distance == 0):
+                            self._gyro.update_calibration(s)
+                            self.cal_offset, self.cal_buffer = self._gyro.compute_cal_offset()
+                        if(self.has_gyro and self.cal_offset !=0):  
+                            self._gyro.publish_imu_data(s, last_time)
+                        if (s.header.stamp-last_diagnostics_time).to_sec() > 1.0:
+                            last_diagnostics_time = s.header.stamp
+                            self._diagnostics.publish_diagnostics(s, self.cal_offset, self.has_gyro, self.cal_buffer)
+                    except select.error:
+                        # packet read can get interrupted, restart loop to
+                        # check for exit conditions
+                        continue
+
+                    # publish state
+                    state_pub.publish(s)
+                    odom_pub.publish(odom)
+                    #odom_broadcaster.sendTransform(transform[0], transform[1],
+                    #    s.header.stamp, "base_footprint", "odom")
+
+                    # act
+                    if self.req_cmd_vel is not None:
+                        # consume cmd_vel msg and store for timeout
+                        last_cmd_vel = self.req_cmd_vel
+                        self.req_cmd_vel = None 
+                        last_cmd_vel_time = last_time
+                        drive_cmd(*last_cmd_vel)
+                    else:
+                        if last_time - last_cmd_vel_time > self.cmd_vel_timeout:
+                            last_cmd_vel = 0, 0
+                        drive_cmd(*last_cmd_vel)
+                    r.sleep()
+                self.robot.set_digital_outputs([0, 0, 0])
+
+            except DriverError, ex:
+                #self.robot.sci.wake()
+                #try:
+                #    self.sense(s)
+                #    rospy.logdebug("Successfully woke robot")
+                #except DriverError, ex:
+                rospy.logerr("Failed to contact device with error: [%s]. Please check that the Create is powered on and that the connector is plugged into the Create."%ex)
+                rospy.sleep(3.0)
+            except termios.error, ex:
+                rospy.logfatal("Write to port %s failed.  Did the usb cable become unplugged?"%self.port)
+                break
 
     def compute_odom(self, sensor_state, pos2d, last_time, odom):
         """

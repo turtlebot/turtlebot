@@ -1,0 +1,12 @@
+<launch>
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find turtlebot_description)/urdf/turtlebot.urdf.xacro'" />
+
+  <include file="$(find turtlebot_bringup)/params.launch" />
+  <include file="$(find turtlebot_bringup)/app_manager.launch" />
+
+  <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
+    <!-- Load the file you made above -->
+    <rosparam command="load" file="$(find turtlebot_bringup)/config/diagnostics.yaml" />
+  </node>
+  
+</launch>
