@@ -263,7 +263,12 @@ class TurtlebotNode(object):
                 self.robot.set_digital_outputs([0, 0, 0])
 
             except DriverError, ex:
-                rospy.logerr("Failed to contact device with error: [%s]. Please check that the Create is powered on and that the connector is plugged into the Create."%ex)
+                self.robot.sci.wake()
+                try:
+                    self.sense(s)
+                    rospy.logdebug("Successfully woke robot")
+                except DriverError, ex:
+                    rospy.logerr("Failed to contact device with error: [%s]. Please check that the Create is powered on and that the connector is plugged into the Create."%ex)
                 rospy.sleep(3.0)
             except termios.error, ex:
                 rospy.logfatal("Write to port %s failed.  Did the usb cable become unplugged?"%self.port)
