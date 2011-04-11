@@ -1,0 +1,3 @@
+<launch>
+  <node name="chirp" pkg="chirp" type="chirp.bash" cwd="node"/>
+</launch>

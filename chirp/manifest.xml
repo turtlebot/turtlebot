@@ -1,0 +1,13 @@
+<package>
+  <description brief="chirp">
+
+     Play a single fixed sound file when chirp.launch is launched, at full volume.
+
+  </description>
+  <author>Dave Hershberger</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/chirp</url>
+</package>
+
+

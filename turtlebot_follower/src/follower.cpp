@@ -70,7 +70,7 @@ namespace turtlebot_follower {
 	geometry_msgs::Twist cmd;
 	
 	if (n) {
-	  cmd.linear.x = (z - _goal_z) * z_scale_;
+	  cmd.linear.x = (z - goal_z_) * z_scale_;
 	  cmd.angular.z = -x * x_scale_;
 	  cmdpub_.publish(cmd);
 	  
