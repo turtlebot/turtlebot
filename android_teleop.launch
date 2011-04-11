@@ -11,10 +11,10 @@
     <param name="depth_frame_id" value="/openni_depth_optical_frame" />
     <param name="use_indices" value="false" />
     <param name="depth_registration" value="false" />
-    <!-- QVGA_30Hz -->
-    <param name="image_mode" value="5" />
-    <!-- QVGA_30Hz -->
-    <param name="depth_mode" value="5" />
+    <!-- QQVGA_30Hz -->
+    <param name="image_mode" value="8" />
+    <!-- QQVGA_30Hz -->
+    <param name="depth_mode" value="8" />
     <param name="debayering" value="2" />
     <param name="depth_time_offset" value="0" />
     <param name="image_time_offset" value="0" />
