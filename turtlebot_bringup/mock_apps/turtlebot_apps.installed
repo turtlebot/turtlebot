@@ -1,4 +1,3 @@
-path: /home/turtlebot/turtlebot/turtlebot_apps
 apps:
  - display: Logitech Teleop
    app: turtlebot_teleop/logitech_teleop
