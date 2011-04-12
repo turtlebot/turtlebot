@@ -12,9 +12,9 @@
     <param name="use_indices" value="false" />
     <param name="depth_registration" value="false" />
     <!-- QQVGA_30Hz -->
-    <param name="image_mode" value="5" />
+    <param name="image_mode" value="8" />
     <!-- QQVGA_30Hz -->
-    <param name="depth_mode" value="5" />
+    <param name="depth_mode" value="8" />
     <param name="debayering" value="2" />
     <param name="depth_time_offset" value="0" />
     <param name="image_time_offset" value="0" />
