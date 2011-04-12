@@ -5,11 +5,11 @@ import netifaces
 
 for inf in netifaces.interfaces():
   if inf.startswith('wlan'):
-    addrs = netifaces.addresses(inf)
-    if not netifaces.IF_INET in addrs:
+    addrs = netifaces.ifaddresses(inf)
+    if not netifaces.AF_INET in addrs:
       continue
     else:
-      print addrs[netifaces.IF_INET]['addr']
+      print addrs[netifaces.AF_INET][0]['addr']
       break
 else:
   print >> sys.stderr, "failed to determine IP address"

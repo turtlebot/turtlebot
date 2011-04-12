@@ -1,0 +1,7 @@
+#!/bin/bash
+
+source /opt/ros/diamondback/setup.bash
+#source /home/turtlebot/dev/setup.bash
+# public address is wlan0
+export ROS_IP=`rosrun turtlebot_bringup turtlebot_addr.py`
+setuidgid turtlebot roslaunch turtlebot_bringup minimal.launch

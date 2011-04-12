@@ -3,3 +3,5 @@ apps:
    app: turtlebot_teleop/logitech_teleop
  - display: Android Teleop
    app: turtlebot_teleop/android_teleop
+ - display: Chirp
+   app: chirp/chirp

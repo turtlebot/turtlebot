@@ -1,0 +1,4 @@
+turtlebot-(start|stop) go in /usr/sbin
+turtlebot.conf goes in /etc/init
+
+turtlebot.conf is currently configured for a dev setup
