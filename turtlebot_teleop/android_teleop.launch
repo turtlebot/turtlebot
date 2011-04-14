@@ -3,7 +3,7 @@
   <include file="$(find turtlebot_bringup)/base.launch" />
   
   <!-- startup kinect manually but optimized for compressed transport.  could be converted to capability -->
-  <node pkg="openni_camera" type="openni_node" name="openni_node1" output="screen" >
+  <node pkg="openni_camera" type="openni_node" name="openni_node1" output="screen" respawn="true">
     
     <param name="device_id" value="#1"/> <!-- this line uses first enumerated device -->
     <rosparam command="load" file="$(find openni_camera)/info/openni_params.yaml" />
