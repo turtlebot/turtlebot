@@ -41,6 +41,8 @@ robot:
   <!-- Turtlebot Driver -->
   <node pkg="turtlebot_node" type="turtlebot_node.py" name="turtlebot_node" output="screen">
     <param name="bonus" value="false" />
+    <param name="stop_motors_on_bump" value="true" />
+    <param name="min_abs_yaw_vel" value="0.75" />
   </node> 
 
 
@@ -74,6 +76,9 @@ robot:
   <!-- Fake Laser -->
   <node pkg="nodelet" type="nodelet" name="kinect_laser" args="load pointcloud_to_laserscan/CloudToScan openni_manager" respawn="true">
     <param name="output_frame_id" value="/kinect_depth_frame"/>
+    <!-- heights are in the (optical?) frame of the kinect -->
+    <param name="min_height" value="-0.15"/>
+    <param name="max_height" value="0.15"/>
     <remap from="cloud" to="/cloud_throttled"/>
   </node>
 

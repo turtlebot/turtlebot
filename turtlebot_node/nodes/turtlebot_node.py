@@ -86,6 +86,8 @@ class TurtlebotNode(object):
         self.odom_angular_scale_correction = rospy.get_param('~odom_angular_scale_correction', 1.0)
         self.odom_linear_scale_correction = rospy.get_param('~odom_linear_scale_correction', 1.0)
         self.cmd_vel_timeout = rospy.Duration(rospy.get_param('~cmd_vel_timeout', 0.6))
+        self.stop_motors_on_bump = rospy.get_param('~stop_motors_on_bump', False)
+        self.min_abs_yaw_vel = rospy.get_param('~min_abs_yaw_vel', None)
         
 
         self.lock  = threading.RLock()
@@ -137,6 +139,10 @@ class TurtlebotNode(object):
         # TODO: stop/brake
 
     def cmd_vel(self, msg):
+        # Clamp to min abs yaw velocity, to avoid trying to rotate at low
+        # speeds, which doesn't work well.
+        if self.min_abs_yaw_vel is not None and msg.angular.z != 0.0 and abs(msg.angular.z) < self.min_abs_yaw_vel:
+            msg.angular.z = self.min_abs_yaw_vel if msg.angular.z > 0.0 else -self.min_abs_yaw_vel
         if self.drive_mode == 'twist':
             # convert twist to direct_drive args
             ts  = msg.linear.x * 1000 # m -> mm
@@ -254,10 +260,12 @@ class TurtlebotNode(object):
                         last_cmd_vel = self.req_cmd_vel
                         self.req_cmd_vel = None 
                         last_cmd_vel_time = last_time
+                        last_cmd_vel = self.check_bumpers(s, last_cmd_vel)
                         drive_cmd(*last_cmd_vel)
                     else:
                         if last_time - last_cmd_vel_time > self.cmd_vel_timeout:
                             last_cmd_vel = 0, 0
+                        last_cmd_vel = self.check_bumpers(s, last_cmd_vel)
                         drive_cmd(*last_cmd_vel)
                     r.sleep()
                 self.robot.set_digital_outputs([0, 0, 0])
@@ -273,6 +281,18 @@ class TurtlebotNode(object):
             except termios.error, ex:
                 rospy.logfatal("Write to port %s failed.  Did the usb cable become unplugged?"%self.port)
                 break
+
+    def check_bumpers(self, s, cmd_vel):
+        # Safety: disallow forward motion if bumpers or wheeldrops 
+        # are activated.
+        # TODO: check bumps_wheeldrops flags more thoroughly, and disable
+        # all motion (not just forward motion) when wheeldrops are activated
+        forward = (cmd_vel[0] + cmd_vel[1]) > 0
+        if self.stop_motors_on_bump and s.bumps_wheeldrops > 0 and forward:
+            return (0,0)
+        else:
+            return cmd_vel
+
 
     def compute_odom(self, sensor_state, pos2d, last_time, odom):
         """
