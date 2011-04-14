@@ -3,6 +3,7 @@ description: Control the TurtleBot with an Android device
 platform: turtlebot
 launch: turtlebot_teleop/android_teleop.launch
 interface: turtlebot_teleop/android_teleop.interface
+icon: turtlebot_teleop/android-lightning-turtlebot.png
 clients:
  - type: android
    manager:
