@@ -5,7 +5,6 @@
 
   <!--- Teleop Joystick -->
   <node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="turtlebot_teleop_joystick">
-    <remap from="cmd_vel" to="/turtlebot_node/cmd_vel"/>
     <param name="scale_angular" value="1.5"/>
     <param name="scale_linear" value="0.5"/>
     <param name="axis_deadman" value="10"/>
