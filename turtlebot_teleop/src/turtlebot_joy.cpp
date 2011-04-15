@@ -73,7 +73,7 @@ TurtlebotTeleop::TurtlebotTeleop():
   ph_.param("scale_angular", a_scale_, a_scale_);
   ph_.param("scale_linear", l_scale_, l_scale_);
 
-  vel_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
+  vel_pub_ = nh_.advertise<geometry_msgs::Twist>("turtlebot_node/cmd_vel", 1);
   joy_sub_ = nh_.subscribe<joy::Joy>("joy", 10, &TurtlebotTeleop::joyCallback, this);
 
   timer_ = nh_.createTimer(ros::Duration(0.1), boost::bind(&TurtlebotTeleop::publish, this));
