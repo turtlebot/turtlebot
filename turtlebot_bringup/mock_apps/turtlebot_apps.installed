@@ -5,3 +5,5 @@ apps:
    app: turtlebot_teleop/ps3_teleop
  - display: Chirp
    app: chirp/chirp
+ - display: Base
+   app: turtlebot_bringup/base
