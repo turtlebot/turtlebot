@@ -1,5 +1,8 @@
 <launch>
 
+  <!-- convert to a capability -->
+  <include file="$(find turtlebot_bringup)/base.launch" />
+
   <!--- Teleop Joystick -->
   <node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="turtlebot_teleop_joystick">
     <remap from="cmd_vel" to="/turtlebot_node/cmd_vel"/>
@@ -9,7 +12,6 @@
     <param name="axis_linear" value="1"/>
     <param name="axis_angular" value="0"/>
   </node>
-
 
   <node pkg="joy" type="joy_node" name="joystick"/>
 
