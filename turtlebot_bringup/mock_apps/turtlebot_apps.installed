@@ -1,7 +1,7 @@
 apps:
- - display: Logitech Teleop
-   app: turtlebot_teleop/logitech_teleop
- - display: Android Teleop
+ - display: Android Joystick
    app: turtlebot_teleop/android_teleop
+ - display: PS3 Joystick
+   app: turtlebot_teleop/ps3_teleop
  - display: Chirp
    app: chirp/chirp
