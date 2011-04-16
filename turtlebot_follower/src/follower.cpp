@@ -7,6 +7,7 @@
 
 
 namespace turtlebot_follower {
+  typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
   class TurtlebotFollower : public nodelet::Nodelet 
   {
@@ -34,19 +35,17 @@ namespace turtlebot_follower {
       private_nh.getParam("z_scale", z_scale_);
       private_nh.getParam("x_scale", x_scale_);
       
-      cmdpub_ = nh.advertise<geometry_msgs::Twist> ("/cmd_vel", 1);
-      sub_= nh.subscribe("/camera/rgb/points", 1, &TurtlebotFollower::cloudcb, this);
+      cmdpub_ = nh.advertise<geometry_msgs::Twist> ("turtlebot_node/cmd_vel", 1);
+      sub_= nh.subscribe<PointCloud>("/camera/depth/points", 1, &TurtlebotFollower::cloudcb, this);
 
     }
 
-    void cloudcb(const sensor_msgs::PointCloud2::ConstPtr  &scan){
+    void cloudcb(const PointCloud::ConstPtr&  cloud){
       double x = 0.0;
       double y = 0.0;
       double z = 0.0;
       unsigned int n = 0;
-      pcl::PointCloud<pcl::PointXYZ> cloud;
-      pcl::fromROSMsg(*scan,cloud);
-      BOOST_FOREACH (const pcl::PointXYZ& pt, cloud.points) {
+      BOOST_FOREACH (const pcl::PointXYZ& pt, cloud->points) {
 
 	if ( !std::isnan(x) && !std::isnan(y) && !std::isnan(z) )  {
 	  //printf ("\t(%f, %f, %f)\n", pt.x, pt.y, pt.z);

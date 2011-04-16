@@ -1,0 +1,34 @@
+<launch>
+
+  <!-- convert to a capability -->
+  <include file="$(find turtlebot_bringup)/base.launch" />
+
+    <!-- Kinect -->
+  <node pkg="nodelet" type="nodelet" name="openni_manager" output="screen" respawn="true" args="manager"/>
+
+  <node pkg="nodelet" type="nodelet" name="openni_camera" args="load openni_camera/OpenNINodelet openni_manager" respawn="true">
+    <param name="rgb_frame_id" value="kinect_rgb_optical_frame" />
+    <param name="depth_frame_id" value="kinect_depth_optical_frame" />
+    <param name="depth_registration" value="true" />
+    <param name="image_mode" value="2" />
+    <param name="depth_mode" value="2" />
+    <param name="debayering" value="2" />
+    <param name="depth_time_offset" value="0" />
+    <param name="image_time_offset" value="0" />
+
+    <rosparam command="load" file="$(find openni_camera)/info/openni_params.yaml" />
+  </node>
+
+  <!-- Follower nodelet -->
+  <node pkg="nodelet" type="nodelet" name="turtlebot_follower" args="load turtlebot_follower/TurtlebotFollower openni_manager" respawn="true">
+    <param name="x_scale" value="7.0" />
+    <param name="z_scale" value="2.0" />
+    <param name="min_x" value="-0.2" />
+    <param name="max_x" value="0.2" />
+    <param name="min_y" value="0.1" />
+    <param name="max_y" value="0.5" />
+    <param name="max_z" value="1.0" />
+    <param name="goal_z" value="0.6" />
+  </node>	   
+
+</launch>
