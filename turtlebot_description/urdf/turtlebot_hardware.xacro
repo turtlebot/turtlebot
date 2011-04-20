@@ -9,28 +9,28 @@
       <parent link="${parent}"/>
       <child link="spacer_${number}_link" />
     </joint>
-    
+
     <link name="spacer_${number}_link">
       <inertial>
-	<mass value="1" />
-	<origin xyz="0 0 0" />
-	<inertia ixx="1.0" ixy="0.0" ixz="0.0"
-		 iyy="1.0" iyz="0.0"
-		 izz="1.0" />
+        <mass value="0.00001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
       </inertial>
-      
+
       <visual>
-	<origin xyz=" 0 0 0 " rpy="0 0 0" />
-	<geometry>
-	  <mesh filename="package://turtlebot_description/meshes/68-02403-125_Spacer.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
-	</geometry>
+        <origin xyz=" 0 0 0 " rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://turtlebot_description/meshes/68-02403-125_Spacer.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
       </visual>
-      
+
       <collision>
-	<origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
-	<geometry>
-	  <mesh filename="package://turtlebot_description/meshes/68-02403-125_Spacer.dae"/>
-	</geometry>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.003175" radius=".0127"/>
+        </geometry>
       </collision>
     </link>
   </macro>
@@ -41,28 +41,28 @@
       <parent link="${parent}"/>
       <child link="standoff_1in_${number}_link" />
     </joint>
-    
+
     <link name="standoff_1in_${number}_link">
       <inertial>
-	<mass value="1" />
-	<origin xyz="0 0 0" />
-	<inertia ixx="1.0" ixy="0.0" ixz="0.0"
-		 iyy="1.0" iyz="0.0"
-		 izz="1.0" />
+        <mass value="0.00001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
       </inertial>
-      
+
       <visual>
-	<origin xyz=" 0 0 0 " rpy="0 0 0" />
-	<geometry>
-	  <mesh filename="package://turtlebot_description/meshes/68-04552-1000-RA_Turtlebot_M-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
-	</geometry>
+        <origin xyz=" 0 0 0 " rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://turtlebot_description/meshes/68-04552-1000-RA_Turtlebot_M-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
       </visual>
-      
+
       <collision>
-	<origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
-	<geometry>
-	  <mesh filename="package://turtlebot_description/meshes/68-04552-1000-RA_Turtlebot_M-F_Standoff.dae"/>
-	</geometry>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.0381" radius="0.011113"/>
+        </geometry>
       </collision>
     </link>
   </macro>
@@ -73,28 +73,28 @@
       <parent link="${parent}"/>
       <child link="standoff_2in_${number}_link" />
     </joint>
-    
+
     <link name="standoff_2in_${number}_link">
       <inertial>
-	<mass value="1" />
-	<origin xyz="0 0 0" />
-	<inertia ixx="1.0" ixy="0.0" ixz="0.0"
-		 iyy="1.0" iyz="0.0"
-		 izz="1.0" />
+        <mass value="0.00001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
       </inertial>
-      
+
       <visual>
-	<origin xyz=" 0 0 0 " rpy="0 0 0" />
-	<geometry>
-	  <mesh filename="package://turtlebot_description/meshes/68-04552-2000-RA_Turtlebot_M-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
-	</geometry>
+        <origin xyz=" 0 0 0 " rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://turtlebot_description/meshes/68-04552-2000-RA_Turtlebot_M-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
       </visual>
-      
+
       <collision>
-	<origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
-	<geometry>
-	  <mesh filename="package://turtlebot_description/meshes/68-04552-2000-RA_Turtlebot_M-F_Standoff.dae"/>
-	</geometry>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.0635" radius="0.0381"/>
+        </geometry>
       </collision>
     </link>
   </macro>
@@ -106,28 +106,28 @@
       <parent link="${parent}"/>
       <child link="standoff_8in_${number}_link" />
     </joint>
-    
+
     <link name="standoff_8in_${number}_link">
       <inertial>
-	<mass value="1" />
-	<origin xyz="0 0 0" />
-	<inertia ixx="1.0" ixy="0.0" ixz="0.0"
-		 iyy="1.0" iyz="0.0"
-		 izz="1.0" />
+        <mass value="0.00001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
       </inertial>
-      
+
       <visual>
-	<origin xyz=" 0 0 0 " rpy="0 0 0" />
-	<geometry>
-	  <mesh filename="package://turtlebot_description/meshes/68-02421-8000-RA_Turtlebot_F-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
-	</geometry>
+        <origin xyz=" 0 0 0 " rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://turtlebot_description/meshes/68-02421-8000-RA_Turtlebot_F-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
       </visual>
-      
+
       <collision>
-	<origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
-	<geometry>
-	  <mesh filename="package://turtlebot_description/meshes/68-02421-8000-RA_Turtlebot_F-F_Standoff.dae"/>
-	</geometry>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.2032" radius="0.011113"/>
+        </geometry>
       </collision>
     </link>
   </macro>
@@ -138,30 +138,30 @@
       <parent link="${parent}"/>
       <child link="standoff_kinect_${number}_link" />
     </joint>
-    
+
     <link name="standoff_kinect_${number}_link">
       <inertial>
-	<mass value="1" />
-	<origin xyz="0 0 0" />
-	<inertia ixx="1.0" ixy="0.0" ixz="0.0"
-		 iyy="1.0" iyz="0.0"
-		 izz="1.0" />
+        <mass value="0.00001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
       </inertial>
-      
+
       <visual>
-	<origin xyz=" 0 0 0 " rpy="0 0 0" />
-	<geometry>
-	  <mesh filename="package://turtlebot_description/meshes/68-04556-RA_Kinect_Standoff_Assy.3ds" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
-	</geometry>
+        <origin xyz=" 0 0 0 " rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://turtlebot_description/meshes/68-04556-RA_Kinect_Standoff_Assy.3ds" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
       </visual>
-      
+
       <collision>
-	<origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
-	<geometry>
-	  <mesh filename="package://turtlebot_description/meshes/68-04556-RA_Kinect_Standoff_Assy.3ds"/>
-	</geometry>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.008585" radius="0.001111"/>
+        </geometry>
       </collision>
     </link>
   </macro>
-  
+
 </robot>
