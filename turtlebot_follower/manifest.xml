@@ -6,7 +6,7 @@
      turtlebot.
 
   </description>
-  <author>Garratt Gallagher and Tony Pratkanis</author>
+  <author>Tony Pratkanis</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/follower</url>
