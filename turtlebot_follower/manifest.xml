@@ -11,6 +11,7 @@
   <depend package="nodelet"/>
   <depend package="tf"/>
   <depend package="roscpp"/>
+  <depend package="turtlebot_teleop"/> <!-- for interface file -->
   <depend package="pcl_ros"/>
   <export>
     <nodelet plugin="${prefix}/nodelets.xml" />
