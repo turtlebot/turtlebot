@@ -62,6 +62,7 @@ private:
 };
 
 TurtlebotTeleop::TurtlebotTeleop():
+  ph_("~"),
   linear_(0),
   angular_(0),
   l_scale_(1.0),
