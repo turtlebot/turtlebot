@@ -18,36 +18,30 @@
     </controller:gazebo_ros_create>
   </gazebo>
 
-  <!--
   <gazebo reference="kinect_link">
     <sensor:camera name="kinect_camera">
       <imageFormat>R8G8B8</imageFormat>
       <imageSize>640 480</imageSize>
       <hfov>60</hfov>
-      <nearClip>0.1</nearClip>
-      <farClip>100</farClip>
+      <nearClip>0.5</nearClip>
+      <farClip>5</farClip>
       <updateRate>20</updateRate>
+      <baseline>0.1</baseline>
       <controller:gazebo_ros_camera name="kinect_camera_controller" plugin="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>20</updateRate>
-        <imageTopicName>kinect/image_raw</imageTopicName>
-        <pointCloudTopicName>kinect/point_cloud</pointCloudTopicName>
-        <cameraInfoTopicName>kinect/camera_info</cameraInfoTopicName>
+        <imageTopicName>/kinect_camera/image_raw</imageTopicName>
+        <pointCloudTopicName>/kinect_camera/points</pointCloudTopicName>
+        <cameraInfoTopicName>/kinect_camera/camera_info</cameraInfoTopicName>
         <frameName>kinect_depth_optical_frame</frameName>
-        <hackBaseline>0</hackBaseline>
-        <CxPrime>640.5</CxPrime>
-        <Cx>640.5</Cx>
-        <Cy>480.5</Cy>
-        <focal_length>640</focal_length>
-        <distortion_k1>0.0</distortion_k1>
-        <distortion_k2>0.0</distortion_k2>
-        <distortion_k3>0.0</distortion_k3>
-        <distortion_t1>0.0</distortion_t1>
-        <distortion_t2>0.0</distortion_t2>
+        <distortion_k1>0.00000001</distortion_k1>
+        <distortion_k2>0.00000001</distortion_k2>
+        <distortion_k3>0.00000001</distortion_k3>
+        <distortion_t1>0.00000001</distortion_t1>
+        <distortion_t2>0.00000001</distortion_t2>
       </controller:gazebo_ros_camera>
     </sensor:camera>
   </gazebo>
-  -->
 
   <gazebo reference="rear_wheel_link">
     <mu1 value="0"/>
