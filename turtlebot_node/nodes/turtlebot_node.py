@@ -62,7 +62,7 @@ from geometry_msgs.msg import Point, Pose, Pose2D, PoseWithCovariance, \
     Quaternion, Twist, TwistWithCovariance, Vector3
 from nav_msgs.msg import Odometry 
 from tf.broadcaster import TransformBroadcaster
-
+from sensor_msgs.msg import JointState
 
 class TurtlebotNode(object):
 
@@ -111,6 +111,7 @@ class TurtlebotNode(object):
         self.robot.control()
 
         self.sensor_state_pub = rospy.Publisher('~sensor_state', TurtlebotSensorState)
+        self.joint_states_pub = rospy.Publisher('joint_states', JointState)
         self.operating_mode_srv = rospy.Service('~set_operation_mode', SetTurtlebotMode, self.set_operation_mode)
         self.digital_output_srv = rospy.Service('~set_digital_outputs', SetDigitalOutputs, self.set_digital_outputs)
         if self.drive_mode == 'twist':
@@ -198,11 +199,12 @@ class TurtlebotNode(object):
         
     def spin(self):
         
-        # de-self vars
-        state_pub = self.sensor_state_pub
-        odom_pub = self.odom_pub
-        odom_broadcaster = self.odom_broadcaster
-        drive_cmd = self.drive_cmd
+        # faux joint state
+        js = JointState()
+        js.name = ["left_wheel_joint", "right_wheel_joint", "front_castor_joint", "back_castor_joint"]
+        js.position = [0,0,0,0]
+        js.velocity = [0,0,0,0]
+        js.effort = [0,0,0,0]
 
         # state
         pos2d = Pose2D()
@@ -253,10 +255,13 @@ class TurtlebotNode(object):
                         continue
 
                     # publish state
-                    state_pub.publish(s)
-                    odom_pub.publish(odom)
-                    #odom_broadcaster.sendTransform(transform[0], transform[1],
-                    #    s.header.stamp, "base_footprint", "odom")
+                    self.sensor_state_pub.publish(s)
+                    self.odom_pub.publish(odom)
+
+                    # publish faux joint states
+                    js.header.stamp = rospy.Time.now()
+                    self.joint_states_pub.publish(js)
+                    
 
                     # act
                     request_cmd_vel = None
@@ -279,9 +284,9 @@ class TurtlebotNode(object):
                         
 
                     # send command if it has changed
-                    if req_cmd_vel != last_cmd_vel:
+                    if True: #req_cmd_vel != last_cmd_vel:
                         # send command
-                        drive_cmd(*req_cmd_vel)
+                        self.drive_cmd(*req_cmd_vel)
                         # record command
                         last_cmd_vel = req_cmd_vel
 
