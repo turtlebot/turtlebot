@@ -23,6 +23,7 @@
   <!-- Turtlebot Driver -->
   <node pkg="turtlebot_node" type="turtlebot_node.py" name="turtlebot_node" output="screen">
     <param name="bonus" value="false" />
+    <param name="update_rate" value="30.0" />
   </node> 
 
   <!-- Enable breaker 1 for the kinect -->

@@ -66,7 +66,7 @@ from tf.broadcaster import TransformBroadcaster
 
 class TurtlebotNode(object):
 
-    def __init__(self, default_port='/dev/ttyUSB0'):
+    def __init__(self, default_port='/dev/ttyUSB0', default_update_rate=30.0):
         """
         @param default_port: default tty port to use for establishing
             connection to Turtlebot.  This will be overriden by ~port ROS
@@ -76,6 +76,10 @@ class TurtlebotNode(object):
 
         self.port = rospy.get_param('~port', default_port)
         rospy.loginfo("serial port: %s"%(self.port))
+
+        self.update_rate = rospy.get_param('~update_rate', default_update_rate)
+        rospy.loginfo("update_rate: %s"%(self.update_rate))
+
         # determine cmd_vel mode
         self.drive_mode = rospy.get_param('~drive_mode', 'twist')
         rospy.loginfo("drive mode: %s"%(self.drive_mode))
@@ -225,7 +229,7 @@ class TurtlebotNode(object):
                     rospy.loginfo("Gyro calibrated with offset %f"%self.cal_offset)  
 
                 # loop rate, not yet tuned
-                r = rospy.Rate(10)
+                r = rospy.Rate(self.update_rate)
                 while not rospy.is_shutdown():
                     last_time = s.header.stamp
 
@@ -255,20 +259,33 @@ class TurtlebotNode(object):
                     #    s.header.stamp, "base_footprint", "odom")
 
                     # act
+                    request_cmd_vel = None
+
                     if self.req_cmd_vel is not None:
-                        # consume cmd_vel msg and store for timeout
-                        last_cmd_vel = self.req_cmd_vel
+                        # check for bumper contact and limit drive command
+                        req_cmd_vel = self.check_bumpers(s, self.req_cmd_vel)
+                        
+                        # Set to None so we know it's a new command
                         self.req_cmd_vel = None 
+                        # reset time for timeout
                         last_cmd_vel_time = last_time
-                        last_cmd_vel = self.check_bumpers(s, last_cmd_vel)
-                        drive_cmd(*last_cmd_vel)
+
                     else:
+                        #zero commands on timeout
                         if last_time - last_cmd_vel_time > self.cmd_vel_timeout:
                             last_cmd_vel = 0, 0
-                        last_cmd_vel = self.check_bumpers(s, last_cmd_vel)
-                        drive_cmd(*last_cmd_vel)
+                        # double check bumpers
+                        req_cmd_vel = self.check_bumpers(s, last_cmd_vel)
+                        
+
+                    # send command if it has changed
+                    if req_cmd_vel != last_cmd_vel:
+                        # send command
+                        drive_cmd(*req_cmd_vel)
+                        # record command
+                        last_cmd_vel = req_cmd_vel
+
                     r.sleep()
-                self.robot.set_digital_outputs([0, 0, 0])
 
             except DriverError, ex:
                 #self.robot.sci.wake()

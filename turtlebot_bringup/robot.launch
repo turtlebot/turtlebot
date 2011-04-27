@@ -42,6 +42,7 @@ robot:
   <node pkg="turtlebot_node" type="turtlebot_node.py" name="turtlebot_node" output="screen">
     <param name="bonus" value="false" />
     <param name="stop_motors_on_bump" value="true" />
+    <param name="update_rate" value="30.0" />
     <param name="min_abs_yaw_vel" value="0.75" />
   </node> 
 
