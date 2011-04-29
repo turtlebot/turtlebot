@@ -1,6 +1,6 @@
 <stack>
   <description brief="turtlebot_apps">turtlebot_apps</description>
-  <author>Maintained by Tully Foote</author>
+  <author>Maintained by Tully Foote and Melonee Wise</author>
   <license>BSD</license>  
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_apps</url>
