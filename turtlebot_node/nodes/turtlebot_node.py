@@ -103,7 +103,7 @@ class TurtlebotNode(object):
             except serial.serialutil.SerialException, ex:
                 rospy.logerr("Failed to open port %s.  Please make sure the Create cable is plugged into the computer. "%self.port)
                 rospy.sleep(3.0)
-        self.robot.safe = False
+        self.robot.safe = True
 
         if rospy.get_param('~bonus', False):
             bonus(self.robot)
@@ -254,6 +254,10 @@ class TurtlebotNode(object):
                         # check for exit conditions
                         continue
 
+                    if((s.charging_sources_available > 0) and s.oi_mode == 1 and (s.charge < 0.93*s.capacity)):
+                        outputs = [0, 0, 0]
+                        self.robot.set_digital_outputs(outputs)
+                        self.robot.soft_reset()
                     # publish state
                     self.sensor_state_pub.publish(s)
                     self.odom_pub.publish(odom)
@@ -267,6 +271,13 @@ class TurtlebotNode(object):
                     request_cmd_vel = None
 
                     if self.req_cmd_vel is not None:
+                        # check for velocity command and set the robot into full mode
+                        if(s.oi_mode < 3  and s.charging_sources_available !=1):
+                            outputs = [1, 0, 0]
+                            self.robot.set_digital_outputs(outputs)
+                            self.robot.safe = False
+                            self.robot.control()
+
                         # check for bumper contact and limit drive command
                         req_cmd_vel = self.check_bumpers(s, self.req_cmd_vel)
                         
