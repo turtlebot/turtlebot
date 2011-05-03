@@ -172,50 +172,6 @@ BUTTON_MAX = 0x01
 
 SENSOR_GROUP_PACKET_LENGTHS = (26, 10, 6, 10, 14, 12, 52)
 
-# From: http://www.harmony-central.com/MIDI/Doc/table2.html
-MIDI_TABLE = {'rest': 0, 'R': 0, 'pause': 0,
-              'G1': 31, 'G#1': 32, 'A1': 33,
-              'A#1': 34, 'B1': 35,
-
-              'C2': 36, 'C#2': 37, 'D2': 38,
-              'D#2': 39, 'E2': 40, 'F2': 41,
-              'F#2': 42, 'G2': 43, 'G#2': 44,
-              'A2': 45, 'A#2': 46, 'B2': 47,
-
-              'C3': 48, 'C#3': 49, 'D3': 50,
-              'D#3': 51, 'E3': 52, 'F3': 53,
-              'F#3': 54, 'G3': 55, 'G#3': 56,
-              'A3': 57, 'A#3': 58, 'B3': 59,
-
-              'C4': 60, 'C#4': 61, 'D4': 62,
-              'D#4': 63, 'E4': 64, 'F4': 65,
-              'F#4': 66, 'G4': 67, 'G#4': 68,
-              'A4': 69, 'A#4': 70, 'B4': 71,
-
-              'C5': 72, 'C#5': 73, 'D5': 74,
-              'D#5': 75, 'E5': 76, 'F5': 77,
-              'F#5': 78, 'G5': 79, 'G#5': 80,
-              'A5': 81, 'A#5': 82, 'B5': 83,
-
-              'C6': 84, 'C#6': 85, 'D6': 86,
-              'D#6': 87, 'E6': 88, 'F6': 89,
-              'F#6': 90, 'G6': 91, 'G#6': 92,
-              'A6': 93, 'A#6': 94, 'B6': 95,
-
-              'C7': 96, 'C#7': 97, 'D7': 98,
-              'D#7': 99, 'E7': 100, 'F7': 101,
-              'F#7': 102, 'G7': 103, 'G#7': 104,
-              'A7': 105, 'A#7': 106, 'B7': 107,
-
-              'C8': 108, 'C#8': 109, 'D8': 110,
-              'D#8': 111, 'E8': 112, 'F8': 113,
-              'F#8': 114, 'G8': 115, 'G#8': 116,
-              'A8': 117, 'A#8': 118, 'B8': 119,
-
-              'C9': 120, 'C#9': 121, 'D9': 122,
-              'D#9': 123, 'E9': 124, 'F9': 125,
-              'F#9': 126, 'G9': 127}
-
 # drive constants.
 RADIUS_TURN_IN_PLACE_CW = -1
 RADIUS_TURN_IN_PLACE_CCW = 1
@@ -232,13 +188,10 @@ WHEEL_SEPARATION = 260  # mm
 SERIAL_TIMEOUT = 2  # Number of seconds to wait for reads. 2 is generous.
 START_DELAY = 5  # Time it takes the Roomba/Turtlebot to boot.
 
-
 assert struct.calcsize('H') == 2, 'Expecting 2-byte shorts.'
-
 
 class DriverError(Exception):
   pass
-
 
 class SerialCommandInterface(object):
 
@@ -309,12 +262,16 @@ class Roomba(object):
 
   """Represents a Roomba robot."""
 
-  def __init__(self, tty='/dev/ttyUSB0'):
+  def __init__(self):
+    self.tty = None
+    self.sci = None
+    self.safe = True
+
+  def start(self, tty='/dev/ttyUSB0'):
     self.tty = tty
     self.sci = SerialCommandInterface(tty, 57600)
     self.sci.add_opcodes(ROOMBA_OPCODES)
-    self.safe = True
-
+  
   def change_baud_rate(self, baud_rate):
     """Sets the baud rate in bits per second (bps) at which SCI commands and
     data are sent according to the baud code sent in the data byte.
@@ -419,16 +376,18 @@ class Roomba(object):
     time.sleep(0.5)
     self.sci.force_seeking_dock()
 
-
 class Turtlebot(Roomba):
 
   """Represents a Turtlebot robot."""
 
-  def __init__(self, tty='/dev/ttyUSB0'):
+  def __init__(self):
     """
     @param sensor_class: Sensor class to use for fetching and decoding sensor data.
     """
-    super(Turtlebot, self).__init__(tty)
+    super(Turtlebot, self).__init__()
+    
+  def start(self, tty='/dev/ttyUSB0'):
+    super(Turtlebot, self).start(tty)
     self.sci.add_opcodes(CREATE_OPCODES)
       
   def control(self):

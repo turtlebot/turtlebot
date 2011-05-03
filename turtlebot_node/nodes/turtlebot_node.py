@@ -80,15 +80,14 @@ class TurtlebotNode(object):
         self.default_update_rate = default_update_rate
         
         self.lock  = threading.RLock()
-        self.robot = None
-        self.sensor_handler = None
+        self.robot = Turtlebot()
+        self.create_sensor_handler = None
         self.sensor_state = TurtlebotSensorState()
         self.req_cmd_vel = None
-        self.cal_offset = 0
-        self.cal_buffer = []
 
         rospy.init_node('turtlebot')
         self._init_params()
+        self._init_pubsub()
         
         self._diagnostics = TurtlebotDiagnostics()
         if self.has_gyro:    
@@ -99,47 +98,43 @@ class TurtlebotNode(object):
     def start(self):
         while not rospy.is_shutdown():
             try:
-                self.robot = Turtlebot(self.port)
+                self.robot.start(self.port)
                 break
             except serial.serialutil.SerialException, ex:
                 rospy.logerr("Failed to open port %s.  Please make sure the Create cable is plugged into the computer. "%self.port)
                 rospy.sleep(3.0)
         
-        self.sensor_handler = TurtlebotSensorHandler(self.robot)
+        self.create_sensor_handler = TurtlebotSensorHandler(self.robot)
         self.robot.safe = True
 
         if rospy.get_param('~bonus', False):
             bonus(self.robot)
 
         self.robot.control()
-        self._init_pubsub()
         
     def _init_params(self):
         self.port = rospy.get_param('~port', self.default_port)
-        rospy.loginfo("serial port: %s"%(self.port))
-
         self.update_rate = rospy.get_param('~update_rate', self.default_update_rate)
-        rospy.loginfo("update_rate: %s"%(self.update_rate))
-
         self.drive_mode = rospy.get_param('~drive_mode', 'twist')
-        rospy.loginfo("drive mode: %s"%(self.drive_mode))
-
         self.has_gyro = rospy.get_param('~has_gyro', True)
-        rospy.loginfo("has gyro: %s"%(self.has_gyro))
-
         self.odom_angular_scale_correction = rospy.get_param('~odom_angular_scale_correction', 1.0)
         self.odom_linear_scale_correction = rospy.get_param('~odom_linear_scale_correction', 1.0)
         self.cmd_vel_timeout = rospy.Duration(rospy.get_param('~cmd_vel_timeout', 0.6))
         self.stop_motors_on_bump = rospy.get_param('~stop_motors_on_bump', False)
         self.min_abs_yaw_vel = rospy.get_param('~min_abs_yaw_vel', None)
         
+        rospy.loginfo("serial port: %s"%(self.port))
+        rospy.loginfo("update_rate: %s"%(self.update_rate))
+        rospy.loginfo("drive mode: %s"%(self.drive_mode))
+        rospy.loginfo("has gyro: %s"%(self.has_gyro))
+
     def _init_pubsub(self):
-        self.sensor_state_pub = rospy.Publisher('~sensor_state', TurtlebotSensorState)
         self.joint_states_pub = rospy.Publisher('joint_states', JointState)
+        self.odom_pub = rospy.Publisher('odom', Odometry)
+
+        self.sensor_state_pub = rospy.Publisher('~sensor_state', TurtlebotSensorState)
         self.operating_mode_srv = rospy.Service('~set_operation_mode', SetTurtlebotMode, self.set_operation_mode)
         self.digital_output_srv = rospy.Service('~set_digital_outputs', SetDigitalOutputs, self.set_digital_outputs)
-
-        self.odom_pub = rospy.Publisher('odom', Odometry)
 
         if self.drive_mode == 'twist':
             self.cmd_vel_sub = rospy.Subscriber('~cmd_vel', Twist, self.cmd_vel)
@@ -237,18 +232,9 @@ class TurtlebotNode(object):
         return SetDigitalOutputsResponse(True)
 
     def sense(self, sensor_state):
-        self.sensor_handler.get_all(sensor_state)
-
-        #check if we're not moving and update the calibration offset
-        #to account for any calibration drift due to temperature
-        if self.has_gyro and \
-               sensor_state.requested_right_velocity == 0 and \
-               sensor_state.requested_left_velocity == 0 and \
-               sensor_state.distance == 0:
+        self.create_sensor_handler.get_all(sensor_state)
+        if self._gyro:
             self._gyro.update_calibration(sensor_state)
-            # TODO: move cal_offset, cal_buffer into _gyro object
-            # TODO: get rid of has_gyro and just _gyro
-            self.cal_offset, self.cal_buffer = self._gyro.compute_cal_offset()
 
     def spin(self):
         
@@ -256,13 +242,13 @@ class TurtlebotNode(object):
         pos2d = Pose2D()
         s = self.sensor_state 
         odom = Odometry(header=rospy.Header(frame_id="odom"), child_frame_id='base_footprint')
-        last_cmd_vel = 0, 0
-        last_cmd_vel_time = rospy.get_rostime()
-        last_diagnostics_time = rospy.get_rostime()
         js = JointState(name = ["left_wheel_joint", "right_wheel_joint", "front_castor_joint", "back_castor_joint"],
                         position=[0,0,0,0], velocity=[0,0,0,0], effort=[0,0,0,0])
 
         r = rospy.Rate(self.update_rate)
+        last_cmd_vel = 0, 0
+        last_cmd_vel_time = rospy.get_rostime()
+
         while not rospy.is_shutdown():
             try:
                 last_time = s.header.stamp
@@ -286,12 +272,9 @@ class TurtlebotNode(object):
                 self.sensor_state_pub.publish(s)
                 self.odom_pub.publish(odom)
                 self.joint_states_pub.publish(js)
-                if (s.header.stamp-last_diagnostics_time).to_sec() > 1.0:
-                    last_diagnostics_time = s.header.stamp
-                    # TODO: pass in self._gyro instead
-                    self._diagnostics.publish_diagnostics(s, self._gyro)
-                if self.has_gyro and self.cal_offset !=0:  
-                    self._gyro.publish_imu_data(s, last_time)
+                self._diagnostics.publish(s, self._gyro)
+                if self._gyro:
+                    self._gyro.publish(s, last_time)
 
                 # ACT
                 if self.req_cmd_vel is not None:
@@ -376,7 +359,6 @@ class TurtlebotNode(object):
 
         # Turtlebot quaternion from yaw. simplified version of tf.transformations.quaternion_about_axis
         odom_quat = (0., 0., sin(pos2d.theta/2.), cos(pos2d.theta/2.))
-        #rospy.logerr("theta: %f odom_quat %s"%(pos2d.theta, str(odom_quat)))
 
         # construct the transform
         transform = (pos2d.x, pos2d.y, 0.), odom_quat

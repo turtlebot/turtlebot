@@ -57,11 +57,20 @@ class TurtlebotGyro():
         return self.cal_offset, self.cal_buffer
 
     def update_calibration(self, sensor_state):
-        self.cal_buffer.append(sensor_state.user_analog_input)
-        if len(self.cal_buffer) > self.cal_buffer_length:
-            del self.cal_buffer[:-self.cal_buffer_length]
+        #check if we're not moving and update the calibration offset
+        #to account for any calibration drift due to temperature
+        if sensor_state.requested_right_velocity == 0 and \
+               sensor_state.requested_left_velocity == 0 and \
+               sensor_state.distance == 0:
+        
+            self.cal_buffer.append(sensor_state.user_analog_input)
+            if len(self.cal_buffer) > self.cal_buffer_length:
+                del self.cal_buffer[:-self.cal_buffer_length]
             
-    def publish_imu_data(self, sensor_state, last_time):
+    def publish(self, sensor_state, last_time):
+        if self.cal_offset == 0:
+            return
+
         current_time = sensor_state.header.stamp
         dt = (current_time - last_time).to_sec()
         past_orientation = self.orientation

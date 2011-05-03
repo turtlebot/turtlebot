@@ -53,10 +53,16 @@ class TurtlebotDiagnostics():
                         2:"Safe",
                         3:"Full"}
         self.diag_pub = rospy.Publisher('/diagnostics', DiagnosticArray)
+        self.last_diagnostics_time = rospy.get_rostime()        
 
-    def publish_diagnostics(self, sensor_state, gyro):
+    def publish(self, sensor_state, gyro):
+        curr_time = sensor_state.header.stamp
+        # limit to 1hz
+        if (curr_time - self.last_diagnostics_time).to_sec() > 1.0:
+            self.last_diagnostics_time = curr_time
+
         diag = DiagnosticArray()
-        diag.header.stamp = sensor_state.header.stamp
+        diag.header.stamp = curr_time
         #mode info
         stat = DiagnosticStatus()
         stat.name = "Operating Mode"
