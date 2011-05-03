@@ -53,6 +53,7 @@ private:
   
   ros::NodeHandle nh_,ph_;
   double linear_, angular_;
+  ros::Time first_publish_;
   ros::Time last_publish_;
   double l_scale_, a_scale_;
   ros::Publisher vel_pub_;
@@ -110,7 +111,8 @@ int main(int argc, char** argv)
 void TurtlebotTeleop::watchdog()
 {
   boost::mutex::scoped_lock lock(publish_mutex_);
-  if (ros::Time::now() > last_publish_ + ros::Duration(0.15))
+  if ((ros::Time::now() > last_publish_ + ros::Duration(0.15)) && 
+      (ros::Time::now() > first_publish_ + ros::Duration(0.50)))
     publish(0, 0);
 }
 
@@ -133,7 +135,7 @@ void TurtlebotTeleop::keyLoop()
   puts("Use arrow keys to move the turtlebot.");
 
 
-  for(;;)
+  while (ros::ok())
   {
     // get the next event from the keyboard  
     if(read(kfd, &c, 1) < 0)
@@ -166,6 +168,9 @@ void TurtlebotTeleop::keyLoop()
         break;
     }
     boost::mutex::scoped_lock lock(publish_mutex_);
+    if (ros::Time::now() > last_publish_ + ros::Duration(1.0)) { 
+      first_publish_ = ros::Time::now();
+    }
     last_publish_ = ros::Time::now();
     publish(angular_, linear_);
   }
