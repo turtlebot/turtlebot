@@ -45,11 +45,10 @@ turtlebot_driver is based on Damon Kohler's pyrobot.py.
 import os
 import sys
 import select
-import threading
 import serial
 import termios
 
-from math import sin, cos, radians, pi
+from math import sin, cos
 
 from turtlebot_driver import Turtlebot, WHEEL_SEPARATION, MAX_WHEEL_SPEED, DriverError
 from turtlebot_node.msg import TurtlebotSensorState, Drive, Turtle
@@ -65,7 +64,6 @@ import rospy
 from geometry_msgs.msg import Point, Pose, Pose2D, PoseWithCovariance, \
     Quaternion, Twist, TwistWithCovariance, Vector3
 from nav_msgs.msg import Odometry 
-from tf.broadcaster import TransformBroadcaster
 from sensor_msgs.msg import JointState
 
 class TurtlebotNode(object):
@@ -79,7 +77,6 @@ class TurtlebotNode(object):
         self.default_port = default_port
         self.default_update_rate = default_update_rate
         
-        self.lock  = threading.RLock()
         self.robot = Turtlebot()
         self.create_sensor_handler = None
         self.sensor_state = TurtlebotSensorState()
@@ -99,7 +96,7 @@ class TurtlebotNode(object):
             try:
                 self.robot.start(self.port)
                 break
-            except serial.serialutil.SerialException, ex:
+            except serial.serialutil.SerialException as ex:
                 rospy.logerr("Failed to open port %s.  Please make sure the Create cable is plugged into the computer. "%self.port)
                 rospy.sleep(3.0)
         
