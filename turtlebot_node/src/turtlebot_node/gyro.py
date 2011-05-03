@@ -52,10 +52,6 @@ class TurtlebotGyro():
         self.imu_pub = rospy.Publisher('imu/data', sensor_msgs.msg.Imu)
         self.imu_pub_raw = rospy.Publisher('imu/raw', sensor_msgs.msg.Imu)
 
-    def compute_cal_offset(self):
-        self.cal_offset = sum(self.cal_buffer)/len(self.cal_buffer)
-        return self.cal_offset, self.cal_buffer
-
     def update_calibration(self, sensor_state):
         #check if we're not moving and update the calibration offset
         #to account for any calibration drift due to temperature
@@ -66,6 +62,7 @@ class TurtlebotGyro():
             self.cal_buffer.append(sensor_state.user_analog_input)
             if len(self.cal_buffer) > self.cal_buffer_length:
                 del self.cal_buffer[:-self.cal_buffer_length]
+            self.cal_offset = sum(self.cal_buffer)/len(self.cal_buffer)
             
     def publish(self, sensor_state, last_time):
         if self.cal_offset == 0:
