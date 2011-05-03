@@ -37,7 +37,7 @@ import time
 import rospy
 
 from math import radians
-from turtlebot_driver import RoombaSensors, SENSOR_GROUP_PACKET_LENGTHS
+from turtlebot_driver import SENSOR_GROUP_PACKET_LENGTHS
 
 ODOM_POSE_COVARIANCE = [1e-3, 0, 0, 0, 0, 0, 
                         0, 1e-3, 0, 0, 0, 0,
