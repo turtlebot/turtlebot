@@ -68,7 +68,7 @@ ODOM_TWIST_COVARIANCE2 = [1e-9, 0, 0, 0, 0, 0,
 
 _struct_I = roslib.message.struct_I
 _struct_BI = struct.Struct(">BI")
-_struct_12B2hBHhb7HBH5B4h = struct.Struct("<12B2hBHhb7HBH5B4h")
+_struct_12B2hBHhb7HBH5B4h = struct.Struct(">12B2hBHhb7HBH5B4h")
 
 def deserialize(msg, buff, timestamp):
     """
@@ -100,13 +100,12 @@ def deserialize(msg, buff, timestamp):
 
         return msg
     except struct.error, e:
-      raise roslib.message.DeserializationError('%s: %s %s'%(e,len(buff),type(buff))) #most likely buffer underfill
+      raise roslib.message.DeserializationError(e)
 
 class TurtlebotSensorHandler(object):
     
     def __init__(self, robot):
         self.robot = robot    
-
     def request_packet(self, packet_id):
         """Reqeust a sensor packet."""
         with self.robot.sci.lock:
