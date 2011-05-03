@@ -87,7 +87,6 @@ class TurtlebotNode(object):
 
         rospy.init_node('turtlebot')
         self._init_params()
-        self._init_pubsub()
         
         self._diagnostics = TurtlebotDiagnostics()
         if self.has_gyro:    
@@ -111,6 +110,7 @@ class TurtlebotNode(object):
             bonus(self.robot)
 
         self.robot.control()
+        self._init_pubsub()
         
     def _init_params(self):
         self.port = rospy.get_param('~port', self.default_port)
