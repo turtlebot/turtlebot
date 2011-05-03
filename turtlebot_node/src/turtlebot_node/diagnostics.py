@@ -1,6 +1,6 @@
 # Software License Agreement (BSD License)
 #
-# Copyright (c) 2008, Willow Garage, Inc.
+# Copyright (c) 2011, Willow Garage, Inc.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -32,11 +32,9 @@
 
 #Melonee Wise mwise@willowgarage.com
 
-import roslib
-roslib.load_manifest('turtlebot_node')
 import rospy
-import diagnostic_msgs.msg
 
+from diagnostic_msgs.msg import DiagnosticArray, DiagnosticStatus, KeyValue
 
 class TurtlebotDiagnostics():
     def __init__(self):
@@ -54,40 +52,38 @@ class TurtlebotDiagnostics():
         self.oi_mode = {1:"Passive",
                         2:"Safe",
                         3:"Full"}
-        self.diag_pub = rospy.Publisher('/diagnostics', diagnostic_msgs.msg.DiagnosticArray)
+        self.diag_pub = rospy.Publisher('/diagnostics', DiagnosticArray)
 
-    def publish_diagnostics(self, sensor_state, cal_offset, has_gyro, cal_buffer):
-        diag = diagnostic_msgs.msg.DiagnosticArray()
+    def publish_diagnostics(self, sensor_state, gyro):
+        diag = DiagnosticArray()
         diag.header.stamp = sensor_state.header.stamp
         #mode info
-        stat = diagnostic_msgs.msg.DiagnosticStatus()
+        stat = DiagnosticStatus()
         stat.name = "Operating Mode"
-        stat.level = diagnostic_msgs.msg.DiagnosticStatus.OK
+        stat.level = DiagnosticStatus.OK
         try:
             stat.message = self.oi_mode[sensor_state.oi_mode]
         except KeyError, ex:
             stat.message = "Invalid OI Mode %s"%ex
             rospy.logwarn("Invalid OI Mode %s"%ex)
         diag.status.append(stat)
+        
         #battery info
-        stat = diagnostic_msgs.msg.DiagnosticStatus()
-        stat.name = "Battery"
-        stat.level = diagnostic_msgs.msg.DiagnosticStatus.OK
-        stat.message = "OK"
+        stat = DiagnosticStatus(name="Battery", level=DiagnosticStatus.OK, message="OK")
+        values = stat.values
         if sensor_state.charging_state == 5:
-            stat.level = diagnostic_msgs.msg.DiagnosticStatus.ERROR
+            stat.level = DiagnosticStatus.ERROR
             stat.message = "Charging Fault Condition"
-            stat.values.append(diagnostic_msgs.msg.KeyValue("Charging State", self.charging_state[sensor_state.charging_state]))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Voltage (V)", str(sensor_state.voltage/1000.0)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Current (A)", str(sensor_state.current/1000.0)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Temperature (C)",str(sensor_state.temperature)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Charge (Ah)", str(sensor_state.charge/1000.0)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Capacity (Ah)", str(sensor_state.capacity/1000.0)))
+            values.append(KeyValue("Charging State", self.charging_state[sensor_state.charging_state]))
+        values.extend([KeyValue("Voltage (V)", str(sensor_state.voltage/1000.0)),
+                       KeyValue("Current (A)", str(sensor_state.current/1000.0)),
+                       KeyValue("Temperature (C)",str(sensor_state.temperature)),
+                       KeyValue("Charge (Ah)", str(sensor_state.charge/1000.0)),
+                       KeyValue("Capacity (Ah)", str(sensor_state.capacity/1000.0))])
         diag.status.append(stat)
+        
         #charging source
-        stat = diagnostic_msgs.msg.DiagnosticStatus()
-        stat.name = "Charging Sources"
-        stat.level = diagnostic_msgs.msg.DiagnosticStatus.OK
+        stat = DiagnosticStatus(name="Charging Sources", level=DiagnosticStatus.OK)
         try:
             stat.message = self.charging_source[sensor_state.charging_sources_available]
         except KeyError, ex:
@@ -95,63 +91,49 @@ class TurtlebotDiagnostics():
             rospy.logwarn("Invalid Charging Source %s"%ex)
         diag.status.append(stat)
         #cliff sensors
-        stat = diagnostic_msgs.msg.DiagnosticStatus()
-        stat.name = "Cliff Sensor"
-        stat.level = diagnostic_msgs.msg.DiagnosticStatus.OK
-        stat.message = "OK"
+        stat = DiagnosticStatus(name="Cliff Sensor", level=DiagnosticStatus.OK, message="OK")
         if sensor_state.cliff_left or sensor_state.cliff_front_left or sensor_state.cliff_right or sensor_state.cliff_front_right:
-            stat.level = diagnostic_msgs.msg.DiagnosticStatus.ERROR
+            stat.level = DiagnosticStatus.ERROR
             stat.message = "Near Cliff"
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Left", str(sensor_state.cliff_left)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Left Signal", str(sensor_state.cliff_left_signal)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Front Left", str(sensor_state.cliff_front_left)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Front Left Signal", str(sensor_state.cliff_front_left_signal)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Front Right", str(sensor_state.cliff_right)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Front Right Signal", str(sensor_state.cliff_right_signal)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Right", str(sensor_state.cliff_front_right)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Right Signal", str(sensor_state.cliff_front_right_signal)))
+        stat.values = [KeyValue("Left", str(sensor_state.cliff_left)),
+                       KeyValue("Left Signal", str(sensor_state.cliff_left_signal)),
+                       KeyValue("Front Left", str(sensor_state.cliff_front_left)),
+                       KeyValue("Front Left Signal", str(sensor_state.cliff_front_left_signal)),
+                       KeyValue("Front Right", str(sensor_state.cliff_right)),
+                       KeyValue("Front Right Signal", str(sensor_state.cliff_right_signal)),
+                       KeyValue("Right", str(sensor_state.cliff_front_right)),
+                       KeyValue("Right Signal", str(sensor_state.cliff_front_right_signal))]
         diag.status.append(stat)
         #Wall sensors
-        stat = diagnostic_msgs.msg.DiagnosticStatus()
-        stat.name = "Wall Sensor"
-        stat.level = diagnostic_msgs.msg.DiagnosticStatus.OK
-        stat.message = "OK"
+        stat = DiagnosticStatus(name="Wall Sensor", level=DiagnosticStatus.OK, message="OK")
         #wall always seems to be false??? 
         if sensor_state.wall:
-            stat.level = diagnostic_msgs.msg.DiagnosticStatus.ERROR
+            stat.level = DiagnosticStatus.ERROR
             stat.message = "Near Wall"
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Wall", str(sensor_state.wall)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Wall Signal", str(sensor_state.wall_signal)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Virtual Wall", str(sensor_state.virtual_wall)))
+        stat.values = [KeyValue("Wall", str(sensor_state.wall)),
+                       KeyValue("Wall Signal", str(sensor_state.wall_signal)),
+                       KeyValue("Virtual Wall", str(sensor_state.virtual_wall))]
         diag.status.append(stat)
         #Gyro
-        stat = diagnostic_msgs.msg.DiagnosticStatus()
-        stat.name = "Gyro Sensor"
-        stat.level = diagnostic_msgs.msg.DiagnosticStatus.OK
-        stat.message = "OK"
-        if not has_gyro:
-            stat.level = diagnostic_msgs.msg.DiagnosticStatus.WARN
+        stat = DiagnosticStatus(name="Gyro Sensor", level = DiagnosticStatus.OK, message = "OK")
+        if gyro is None:
+            stat.level = DiagnosticStatus.WARN
             stat.message = "Gyro Not Enabled"
-        elif cal_offset > 550.0 or cal_offset < 450.0:
-            stat.level = diagnostic_msgs.msg.DiagnosticStatus.ERROR
+        elif gyro.cal_offset > 550.0 or gyro.cal_offset < 450.0:
+            stat.level = DiagnosticStatus.ERROR
             stat.message = "Bad Gyro Calibration"
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Gyro Enabled", str(has_gyro)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Raw Gyro Rate", str(sensor_state.user_analog_input)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Calibration Offset", str(cal_offset)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Calibration Buffer", str(cal_buffer)))
+        stat.values = [KeyValue("Gyro Enabled", str(gyro is not None)),
+                       KeyValue("Raw Gyro Rate", str(sensor_state.user_analog_input)),
+                       KeyValue("Calibration Offset", str(gyro.cal_offset)),
+                       KeyValue("Calibration Buffer", str(gyro.cal_buffer))]
         diag.status.append(stat)
         #Digital IO
-        stat = diagnostic_msgs.msg.DiagnosticStatus()
-        stat.name = "Digital Outputs"
-        stat.level = diagnostic_msgs.msg.DiagnosticStatus.OK
-        stat.message = "OK"
+        stat = DiagnosticStatus(name="Digital Outputs", level = DiagnosticStatus.OK, message = "OK")
         out_byte = sensor_state.user_digital_outputs
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Raw Byte", str(out_byte)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Digital Out 2", self.digital_outputs[out_byte%2]))
-        out_byte = out_byte >>1
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Digital Out 1", self.digital_outputs[out_byte%2]))
-        out_byte = out_byte >>1
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Digital Out 0", self.digital_outputs[out_byte%2]))
+        stat.values = [KeyValue("Raw Byte", str(out_byte)),
+                       KeyValue("Digital Out 2", self.digital_outputs[out_byte%2]),
+                       KeyValue("Digital Out 1", self.digital_outputs[(out_byte >>1)%2]),
+                       KeyValue("Digital Out 0", self.digital_outputs[(out_byte >>2)%2])]
         diag.status.append(stat)
         #publish
         self.diag_pub.publish(diag)

@@ -433,7 +433,6 @@ class RoombaSensors(object):
     """Map unsigned 'byte' to 'name'."""
     self.data[name] = struct.unpack('B', byte)[0]
 
-
   def store_digital_state(self,byte):
     self.data['user-digital-outputs']=byte
 
@@ -445,7 +444,6 @@ class Roomba(object):
     self.tty = tty
     self.sci = SerialCommandInterface(tty, 57600)
     self.sci.add_opcodes(ROOMBA_OPCODES)
-    self.sensors = RoombaSensors(self)
     self.safe = True
 
   def change_baud_rate(self, baud_rate):
@@ -559,7 +557,6 @@ class TurtlebotSensors(RoombaSensors):
 
   def _decode_group_packet_6(self, bytes, stamp):
     """Decode sensor group packet 6."""
-    #TODO: kwc use struct unpacking on bytestr instead of list
     self.decode_short('requested-left-velocity', bytes.pop(), bytes.pop())  # mm/s
     self.decode_short('requested-right-velocity', bytes.pop(), bytes.pop())  # mm/s
     self.decode_short('requested-radius', bytes.pop(), bytes.pop())  # mm
@@ -587,17 +584,17 @@ class TurtlebotSensors(RoombaSensors):
     if bytes is not None:
       self._decode_group_packet_6(bytes, stamp)
 
-
 class Turtlebot(Roomba):
 
   """Represents a Turtlebot robot."""
 
   def __init__(self, tty='/dev/ttyUSB0'):
+    """
+    @param sensor_class: Sensor class to use for fetching and decoding sensor data.
+    """
     super(Turtlebot, self).__init__(tty)
     self.sci.add_opcodes(CREATE_OPCODES)
-    self.sensors = TurtlebotSensors(self)
-
-
+      
   def control(self):
     """Start the robot's SCI interface and place it in safe or full mode."""
     logging.info('sending control opcodes.')
@@ -623,13 +620,7 @@ class Turtlebot(Roomba):
     self.sci.low_side_drivers(byte)
 
   def set_digital_outputs(self, outputs):
-    """Enable or disable digital outputs.
-    """
-    assert len(outputs) == 3, 'Expecting 3 output states.'
-    byte = 0
-    for output, state in enumerate(outputs):
-      byte += (2 ** output) * int(state)
-      self.sensors.data['user-digital-outputs']=byte
+    """Enable or disable digital outputs."""
     self.sci.digital_outputs(byte)
 
   def soft_reset(self):

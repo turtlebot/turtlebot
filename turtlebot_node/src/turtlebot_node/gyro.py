@@ -32,8 +32,6 @@
 
 #Melonee Wise mwise@willowgarage.com
 
-import roslib
-roslib.load_manifest('turtlebot_node')
 import rospy
 import math
 import copy
@@ -46,7 +44,6 @@ class TurtlebotGyro():
         self.orientation = 0.0
         self.cal_buffer =[]
         self.cal_buffer_length = 1000
-        self.imu_data = sensor_msgs.msg.Imu()
         self.imu_data = sensor_msgs.msg.Imu(header=rospy.Header(frame_id="gyro_link"))
         self.imu_data.orientation_covariance = [1e6, 0, 0, 0, 1e6, 0, 0, 0, 1e-6]
         self.imu_data.angular_velocity_covariance = [1e6, 0, 0, 0, 1e6, 0, 0, 0, 1e-6]
@@ -63,7 +60,7 @@ class TurtlebotGyro():
         self.cal_buffer.append(sensor_state.user_analog_input)
         if len(self.cal_buffer) > self.cal_buffer_length:
             del self.cal_buffer[:-self.cal_buffer_length]
-        
+            
     def publish_imu_data(self, sensor_state, last_time):
         current_time = sensor_state.header.stamp
         dt = (current_time - last_time).to_sec()
@@ -85,3 +82,4 @@ class TurtlebotGyro():
         #print orientation
         (self.imu_data.orientation.x, self.imu_data.orientation.y, self.imu_data.orientation.z, self.imu_data.orientation.w) = PyKDL.Rotation.RotZ(raw_orientation).GetQuaternion()
         self.imu_pub_raw.publish(self.imu_data)
+
