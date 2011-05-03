@@ -32,8 +32,12 @@
 
 import roslib.message
 import struct
+import logging
+import time
+import rospy
 
-from turtlebot_driver import RoombaSensors
+from math import radians
+from turtlebot_driver import RoombaSensors, SENSOR_GROUP_PACKET_LENGTHS
 
 ODOM_POSE_COVARIANCE = [1e-3, 0, 0, 0, 0, 0, 
                         0, 1e-3, 0, 0, 0, 0,
@@ -64,8 +68,7 @@ ODOM_TWIST_COVARIANCE2 = [1e-9, 0, 0, 0, 0, 0,
 
 _struct_I = roslib.message.struct_I
 _struct_BI = struct.Struct(">BI")
-_struct_B3I = struct.Struct(">B3I")
-_struct_11B2dBHhb7H2BH5B4i = struct.Struct(">11B2dBHhb7H2BH5B4i")
+_struct_12B2hBHhb7HBH5B4h = struct.Struct("<12B2hBHhb7HBH5B4h")
 
 def deserialize(msg, buff, timestamp):
     """
@@ -74,18 +77,9 @@ def deserialize(msg, buff, timestamp):
     @type  buff: str
     """
     try:
-        end = 0
         _x = msg
-        start = end
-        end += 5
-        (_x.bumps_wheeldrops, length,) = _struct_BI.unpack(buff[start:end])
-        start = end
-        end += length
-        msg.header.frame_id = buff[start:end]
-        _x = msg
-        start = end
-        end += 72
-        (_x.wall, _x.cliff_left, _x.cliff_front_left, _x.cliff_front_right, _x.cliff_right, _x.virtual_wall, _x.motor_overcurrents, _x.dirt_detector_left, _x.dirt_detector_right, _x.remote_opcode, _x.buttons, _x.distance, _x.angle, _x.charging_state, _x.voltage, _x.current, _x.temperature, _x.charge, _x.capacity, _x.wall_signal, _x.cliff_left_signal, _x.cliff_front_left_signal, _x.cliff_front_right_signal, _x.cliff_right_signal, _x.user_digital_outputs, _x.user_digital_inputs, _x.user_analog_input, _x.charging_sources_available, _x.oi_mode, _x.song_number, _x.song_playing, _x.number_of_stream_packets, _x.requested_velocity, _x.requested_radius, _x.requested_right_velocity, _x.requested_left_velocity,) = _struct_11B2dBHhb7H2BH5B4i.unpack(buff[start:end])
+        (_x.bumps_wheeldrops, _x.wall, _x.cliff_left, _x.cliff_front_left, _x.cliff_front_right, _x.cliff_right, _x.virtual_wall, _x.motor_overcurrents, _x.dirt_detector_left, _x.dirt_detector_right, _x.remote_opcode, _x.buttons, _x.distance, _x.angle, _x.charging_state, _x.voltage, _x.current, _x.temperature, _x.charge, _x.capacity, _x.wall_signal, _x.cliff_left_signal, _x.cliff_front_left_signal, _x.cliff_front_right_signal, _x.cliff_right_signal, _x.user_digital_inputs, _x.user_analog_input, _x.charging_sources_available, _x.oi_mode, _x.song_number, _x.song_playing, _x.number_of_stream_packets, _x.requested_velocity, _x.requested_radius, _x.requested_right_velocity, _x.requested_left_velocity,) = _struct_12B2hBHhb7HBH5B4h.unpack(buff[0:52])
+
         msg.wall = bool(msg.wall)
         msg.cliff_left = bool(msg.cliff_left)
         msg.cliff_front_left = bool(msg.cliff_front_left)
@@ -99,14 +93,14 @@ def deserialize(msg, buff, timestamp):
         msg.header.stamp = rospy.Time.from_seconds(timestamp)        
         msg.distance     = float(msg.distance) / 1000.
         
-        msg.requested_velocity       = float(msg.requested-velocity) / 1000.
-        msg.requested_radius         = float(msg.requested-radius) / 1000.
-        msg.requested_right_velocity = float(msg.requested-right-velocity) / 1000.
-        msg.requested_left_velocity  = float(msg.requested-left-velocity) / 1000.
+        msg.requested_velocity       = float(msg.requested_velocity) / 1000.
+        msg.requested_radius         = float(msg.requested_radius) / 1000.
+        msg.requested_right_velocity = float(msg.requested_right_velocity) / 1000.
+        msg.requested_left_velocity  = float(msg.requested_left_velocity) / 1000.
 
         return msg
     except struct.error, e:
-      raise roslib.message.DeserializationError(e) #most likely buffer underfill
+      raise roslib.message.DeserializationError('%s: %s %s'%(e,len(buff),type(buff))) #most likely buffer underfill
 
 class TurtlebotSensorHandler(object):
     
@@ -116,7 +110,6 @@ class TurtlebotSensorHandler(object):
     def request_packet(self, packet_id):
         """Reqeust a sensor packet."""
         with self.robot.sci.lock:
-            logging.debug('Requesting sensor packet %d.' % packet_id)
             self.robot.sci.flush_input()
             self.robot.sci.sensors(packet_id)
             #kwc: there appears to be a 10-20ms latency between sending the
@@ -125,8 +118,7 @@ class TurtlebotSensorHandler(object):
             #after.
             stamp = time.time()
             length = SENSOR_GROUP_PACKET_LENGTHS[packet_id]
-            data = list(self.robot.sci.read(length))
-            return data, stamp
+            return self.robot.sci.read(length), stamp
 
     def get_all(self, sensor_state):
         buff, timestamp = self.request_packet(6)

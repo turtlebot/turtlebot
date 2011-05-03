@@ -82,6 +82,7 @@ class TurtlebotNode(object):
         self.lock  = threading.RLock()
         self.robot = None
         self.sensor_handler = None
+        self.sensor_state = TurtlebotSensorState()
         self.req_cmd_vel = None
         self.cal_offset = 0
         self.cal_buffer = []
@@ -296,7 +297,7 @@ class TurtlebotNode(object):
                 if self.req_cmd_vel is not None:
                     # check for velocity command and set the robot into full mode
                     if s.oi_mode < 3 and s.charging_sources_available != 1:
-                        self._robot_run()
+                        self._robot_run_full()
 
                     # check for bumper contact and limit drive command
                     req_cmd_vel = self.check_bumpers(s, self.req_cmd_vel)

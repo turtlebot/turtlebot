@@ -619,9 +619,9 @@ class Turtlebot(Roomba):
       byte += (2 ** driver) * int(power)
     self.sci.low_side_drivers(byte)
 
-  def set_digital_outputs(self, outputs):
+  def set_digital_outputs(self, value):
     """Enable or disable digital outputs."""
-    self.sci.digital_outputs(byte)
+    self.sci.digital_outputs(value)
 
   def soft_reset(self):
     """Do a soft reset of the Turtlebot."""

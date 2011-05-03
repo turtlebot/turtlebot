@@ -38,10 +38,9 @@ uint8 CHARGING_TRICKLE_CHARGING = 3
 uint8 CHARGING_WAITING = 4 
 uint8 CHARGING_CHARGING_ERROR = 5
 
-uint8 bumps_wheeldrops
-
 Header header
 
+uint8 bumps_wheeldrops
 bool wall
 bool cliff_left
 bool cliff_front_left
