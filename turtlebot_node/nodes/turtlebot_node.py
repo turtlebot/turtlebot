@@ -245,10 +245,12 @@ class TurtlebotNode(object):
         r = rospy.Rate(self.update_rate)
         last_cmd_vel = 0, 0
         last_cmd_vel_time = rospy.get_rostime()
+        last_js_time = rospy.Time(0)
 
         while not rospy.is_shutdown():
             try:
                 last_time = s.header.stamp
+                curr_time = rospy.get_rostime()
 
                 # SENSE/COMPUTE STATE
                 try:
@@ -258,7 +260,7 @@ class TurtlebotNode(object):
                     # packet read can get interrupted, restart loop to
                     # check for exit conditions
                     continue
-                js.header.stamp = rospy.get_rostime()
+                js.header.stamp = curr_time
 
                 if s.charging_sources_available > 0 and \
                        s.oi_mode == 1 \
@@ -268,7 +270,10 @@ class TurtlebotNode(object):
                 # PUBLISH STATE
                 self.sensor_state_pub.publish(s)
                 self.odom_pub.publish(odom)
-                self.joint_states_pub.publish(js)
+                # 10hz
+                if curr_time > last_js_time + rospy.Duration(0.1):
+                    self.joint_states_pub.publish(js)
+                    last_js_time = curr_time
                 self._diagnostics.publish(s, self._gyro)
                 if self._gyro:
                     self._gyro.publish(s, last_time)

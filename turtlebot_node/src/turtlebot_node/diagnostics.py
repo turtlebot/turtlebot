@@ -58,8 +58,9 @@ class TurtlebotDiagnostics():
     def publish(self, sensor_state, gyro):
         curr_time = sensor_state.header.stamp
         # limit to 1hz
-        if (curr_time - self.last_diagnostics_time).to_sec() > 1.0:
-            self.last_diagnostics_time = curr_time
+        if (curr_time - self.last_diagnostics_time).to_sec() < 1.0:
+            return
+        self.last_diagnostics_time = curr_time
 
         diag = DiagnosticArray()
         diag.header.stamp = curr_time
