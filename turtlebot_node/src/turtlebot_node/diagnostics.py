@@ -70,7 +70,7 @@ class TurtlebotDiagnostics():
         stat.level = DiagnosticStatus.OK
         try:
             stat.message = self.oi_mode[sensor_state.oi_mode]
-        except KeyError, ex:
+        except KeyError as ex:
             stat.message = "Invalid OI Mode %s"%ex
             rospy.logwarn("Invalid OI Mode %s"%ex)
         diag.status.append(stat)
@@ -93,7 +93,7 @@ class TurtlebotDiagnostics():
         stat = DiagnosticStatus(name="Charging Sources", level=DiagnosticStatus.OK)
         try:
             stat.message = self.charging_source[sensor_state.charging_sources_available]
-        except KeyError, ex:
+        except KeyError as ex:
             stat.message = "Invalid Charging Source %s"%ex 
             rospy.logwarn("Invalid Charging Source %s"%ex)
         diag.status.append(stat)
