@@ -50,6 +50,14 @@ import termios
 
 from math import sin, cos
 
+import roslib.rosenv
+import rospy
+
+from geometry_msgs.msg import Point, Pose, Pose2D, PoseWithCovariance, \
+    Quaternion, Twist, TwistWithCovariance, Vector3
+from nav_msgs.msg import Odometry 
+from sensor_msgs.msg import JointState
+
 from turtlebot_driver import Turtlebot, WHEEL_SEPARATION, MAX_WHEEL_SPEED, DriverError
 from turtlebot_node.msg import TurtlebotSensorState, Drive, Turtle
 from turtlebot_node.srv import SetTurtlebotMode,SetTurtlebotModeResponse, SetDigitalOutputs, SetDigitalOutputsResponse
@@ -58,13 +66,6 @@ from turtlebot_node.gyro import TurtlebotGyro
 from turtlebot_node.sense import TurtlebotSensorHandler, \
      ODOM_POSE_COVARIANCE, ODOM_POSE_COVARIANCE2, ODOM_TWIST_COVARIANCE, ODOM_TWIST_COVARIANCE2
 from turtlebot_node.songs import bonus
-
-import rospy
-
-from geometry_msgs.msg import Point, Pose, Pose2D, PoseWithCovariance, \
-    Quaternion, Twist, TwistWithCovariance, Vector3
-from nav_msgs.msg import Odometry 
-from sensor_msgs.msg import JointState
 
 class TurtlebotNode(object):
 
@@ -107,6 +108,10 @@ class TurtlebotNode(object):
             bonus(self.robot)
 
         self.robot.control()
+        # Write driver state to disk
+        with open(connected_file()) as f:
+            f.write("1")
+              
         self._init_pubsub()
         
     def _init_params(self):
@@ -248,70 +253,64 @@ class TurtlebotNode(object):
         last_js_time = rospy.Time(0)
 
         while not rospy.is_shutdown():
+            last_time = s.header.stamp
+            curr_time = rospy.get_rostime()
+
+            # SENSE/COMPUTE STATE
             try:
-                last_time = s.header.stamp
-                curr_time = rospy.get_rostime()
+                self.sense(s)
+                transform = self.compute_odom(s, pos2d, last_time, odom)
+                # Future-date the joint states so that we don't have
+                # to publish as frequently.
+                js.header.stamp = curr_time + rospy.Duration(1)
+            except select.error:
+                # packet read can get interrupted, restart loop to
+                # check for exit conditions
+                continue
 
-                # SENSE/COMPUTE STATE
-                try:
-                    self.sense(s)
-                    transform = self.compute_odom(s, pos2d, last_time, odom)
-                except select.error:
-                    # packet read can get interrupted, restart loop to
-                    # check for exit conditions
-                    continue
-                js.header.stamp = curr_time
+            if s.charging_sources_available > 0 and \
+                   s.oi_mode == 1 \
+                   and (s.charge < 0.93*s.capacity):
+                self._robot_reboot()
 
-                if s.charging_sources_available > 0 and \
-                       s.oi_mode == 1 \
-                       and (s.charge < 0.93*s.capacity):
-                    self._robot_reboot()
+            # PUBLISH STATE
+            self.sensor_state_pub.publish(s)
+            self.odom_pub.publish(odom)
+            # 1hz, future-dated joint state
+            if curr_time > last_js_time + rospy.Duration(1):
+                self.joint_states_pub.publish(js)
+                last_js_time = curr_time
+            self._diagnostics.publish(s, self._gyro)
+            if self._gyro:
+                self._gyro.publish(s, last_time)
 
-                # PUBLISH STATE
-                self.sensor_state_pub.publish(s)
-                self.odom_pub.publish(odom)
-                # 10hz
-                if curr_time > last_js_time + rospy.Duration(0.1):
-                    self.joint_states_pub.publish(js)
-                    last_js_time = curr_time
-                self._diagnostics.publish(s, self._gyro)
-                if self._gyro:
-                    self._gyro.publish(s, last_time)
+            # ACT
+            if self.req_cmd_vel is not None:
+                # check for velocity command and set the robot into full mode
+                if s.oi_mode < 3 and s.charging_sources_available != 1:
+                    self._robot_run_full()
 
-                # ACT
-                if self.req_cmd_vel is not None:
-                    # check for velocity command and set the robot into full mode
-                    if s.oi_mode < 3 and s.charging_sources_available != 1:
-                        self._robot_run_full()
+                # check for bumper contact and limit drive command
+                req_cmd_vel = self.check_bumpers(s, self.req_cmd_vel)
 
-                    # check for bumper contact and limit drive command
-                    req_cmd_vel = self.check_bumpers(s, self.req_cmd_vel)
+                # Set to None so we know it's a new command
+                self.req_cmd_vel = None 
+                # reset time for timeout
+                last_cmd_vel_time = last_time
 
-                    # Set to None so we know it's a new command
-                    self.req_cmd_vel = None 
-                    # reset time for timeout
-                    last_cmd_vel_time = last_time
+            else:
+                #zero commands on timeout
+                if last_time - last_cmd_vel_time > self.cmd_vel_timeout:
+                    last_cmd_vel = 0,0
+                # double check bumpers
+                req_cmd_vel = self.check_bumpers(s, last_cmd_vel)
 
-                else:
-                    #zero commands on timeout
-                    if last_time - last_cmd_vel_time > self.cmd_vel_timeout:
-                        last_cmd_vel = 0,0
-                    # double check bumpers
-                    req_cmd_vel = self.check_bumpers(s, last_cmd_vel)
+            # send command
+            self.drive_cmd(*req_cmd_vel)
+            # record command
+            last_cmd_vel = req_cmd_vel
 
-                # send command
-                self.drive_cmd(*req_cmd_vel)
-                # record command
-                last_cmd_vel = req_cmd_vel
-
-                r.sleep()
-
-            except DriverError, ex:
-                rospy.logerr("Failed to contact device with error: [%s]. Please check that the Create is powered on and that the connector is plugged into the Create."%ex)
-                rospy.sleep(3.0)
-            except termios.error, ex:
-                rospy.logfatal("Write to port %s failed.  Did the usb cable become unplugged?"%self.port)
-                break
+            r.sleep()
 
     def check_bumpers(self, s, cmd_vel):
         # Safety: disallow forward motion if bumpers or wheeldrops 
@@ -381,10 +380,34 @@ class TurtlebotNode(object):
         # return the transform
         return transform
                 
-def turtlebot_main():
+def connected_file():
+    return os.path.join(roslib.rosenv.get_ros_home(), 'turtlebot-connected')
+
+def turtlebot_main(argv):
+    if '--respawnable' in argv:
+        # This sleep throttles respawning of the driver node.  It
+        # appears that pyserial does not properly release the file
+        # descriptor for the USB port in the event that the Create is
+        # unplugged from the laptop.  This file desecriptor prevents
+        # the create from reassociating with the same USB port when it
+        # is plugged back in.  The solution, for now, is to quickly
+        # exit the driver and let roslaunch respawn the driver until
+        # reconnection occurs.  However, it order to not do bad things
+        # to the Create bootloader, and also to keep relaunching at a
+        # minimum, we have a 3-second sleep.
+        time.sleep(3.0)
     c = TurtlebotNode()
-    c.start()
-    c.spin()
+    try:
+        c.start()
+        c.spin()
+    except Exception as ex:
+        sys.stderr("Failed to contact device with error: [%s]. Please check that the Create is powered on and that the connector is plugged into the Create."%ex)
+    finally:
+        # Driver no longer connected, delete flag from disk
+        try:
+            os.remove(connected_file())
+        except: pass
+
 
 if __name__ == '__main__':
-    turtlebot_main()
+    turtlebot_main(sys.argv)
