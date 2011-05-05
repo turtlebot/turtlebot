@@ -1,10 +1,5 @@
 <launch>
 
-  <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" output="screen">
-    <param name="publish_frequency" type="double" value="30.0" />
-    <!--param name="tf_prefix" type="string" value="" /-->
-  </node>
-
   <!-- The odometry estimator -->
    <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
     <param name="freq" value="10.0"/>

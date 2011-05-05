@@ -3,10 +3,15 @@
 
   <include file="$(find turtlebot_bringup)/params.launch" />
   <include file="$(find turtlebot_bringup)/app_manager.launch" />
-  <tnclude file="$(find turtlebot_bringup)/driver.launch" />
+  <include file="$(find turtlebot_bringup)/driver.launch" />
 
   <!-- Turtlebot Laptop Battery Diagnostics -->
   <node pkg="turtlebot_node" type="laptop_battery.py" name="turtlebot_laptop_battery">
+  </node>
+
+  <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="30.0" />
+    <!--param name="tf_prefix" type="string" value="" /-->
   </node>
 
   <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
