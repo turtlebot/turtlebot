@@ -47,6 +47,7 @@ import sys
 import select
 import serial
 import termios
+import time
 
 from math import sin, cos
 
@@ -93,13 +94,18 @@ class TurtlebotNode(object):
             self._gyro = None            
             
     def start(self):
+        log_once = True
         while not rospy.is_shutdown():
             try:
                 self.robot.start(self.port)
                 break
             except serial.serialutil.SerialException as ex:
-                rospy.logerr("Failed to open port %s.  Please make sure the Create cable is plugged into the computer. "%self.port)
-                rospy.sleep(3.0)
+                if log_once:
+                    log_once = False
+                    rospy.logerr("Failed to open port %s.  Please make sure the Create cable is plugged into the computer. "%(self.port))
+                else:
+                    sys.stderr.write("Failed to open port %s.  Please make sure the Create cable is plugged into the computer.\n"%(self.port))
+                time.sleep(3.0)
         
         self.create_sensor_handler = TurtlebotSensorHandler(self.robot)
         self.robot.safe = True
@@ -109,7 +115,7 @@ class TurtlebotNode(object):
 
         self.robot.control()
         # Write driver state to disk
-        with open(connected_file()) as f:
+        with open(connected_file(), 'w') as f:
             f.write("1")
               
         self._init_pubsub()
@@ -253,71 +259,64 @@ class TurtlebotNode(object):
         last_js_time = rospy.Time(0)
 
         while not rospy.is_shutdown():
+            last_time = s.header.stamp
+            curr_time = rospy.get_rostime()
+
+            # SENSE/COMPUTE STATE
             try:
-                last_time = s.header.stamp
-                curr_time = rospy.get_rostime()
+                self.sense(s)
+                transform = self.compute_odom(s, pos2d, last_time, odom)
+                # Future-date the joint states so that we don't have
+                # to publish as frequently.
+                js.header.stamp = curr_time + rospy.Duration(1)
+            except select.error:
+                # packet read can get interrupted, restart loop to
+                # check for exit conditions
+                continue
 
-                # SENSE/COMPUTE STATE
-                try:
-                    self.sense(s)
-                    transform = self.compute_odom(s, pos2d, last_time, odom)
-                    # Future-date the joint states so that we don't have
-                    # to publish as frequently.
-                    js.header.stamp = curr_time + rospy.Duration(1)
-                except select.error:
-                    # packet read can get interrupted, restart loop to
-                    # check for exit conditions
-                    continue
+            if s.charging_sources_available > 0 and \
+                   s.oi_mode == 1 \
+                   and (s.charge < 0.93*s.capacity):
+                self._robot_reboot()
 
-                if s.charging_sources_available > 0 and \
-                       s.oi_mode == 1 \
-                       and (s.charge < 0.93*s.capacity):
-                    self._robot_reboot()
+            # PUBLISH STATE
+            self.sensor_state_pub.publish(s)
+            self.odom_pub.publish(odom)
+            # 1hz, future-dated joint state
+            if curr_time > last_js_time + rospy.Duration(1):
+                self.joint_states_pub.publish(js)
+                last_js_time = curr_time
+            self._diagnostics.publish(s, self._gyro)
+            if self._gyro:
+                self._gyro.publish(s, last_time)
 
-                # PUBLISH STATE
-                self.sensor_state_pub.publish(s)
-                self.odom_pub.publish(odom)
-                # 1hz, future-dated joint state
-                if curr_time > last_js_time + rospy.Duration(1):
-                    self.joint_states_pub.publish(js)
-                    last_js_time = curr_time
-                self._diagnostics.publish(s, self._gyro)
-                if self._gyro:
-                    self._gyro.publish(s, last_time)
+            # ACT
+            if self.req_cmd_vel is not None:
+                # check for velocity command and set the robot into full mode
+                if s.oi_mode < 3 and s.charging_sources_available != 1:
+                    self._robot_run_full()
 
-                # ACT
-                if self.req_cmd_vel is not None:
-                    # check for velocity command and set the robot into full mode
-                    if s.oi_mode < 3 and s.charging_sources_available != 1:
-                        self._robot_run_full()
+                # check for bumper contact and limit drive command
+                req_cmd_vel = self.check_bumpers(s, self.req_cmd_vel)
 
-                    # check for bumper contact and limit drive command
-                    req_cmd_vel = self.check_bumpers(s, self.req_cmd_vel)
+                # Set to None so we know it's a new command
+                self.req_cmd_vel = None 
+                # reset time for timeout
+                last_cmd_vel_time = last_time
 
-                    # Set to None so we know it's a new command
-                    self.req_cmd_vel = None 
-                    # reset time for timeout
-                    last_cmd_vel_time = last_time
+            else:
+                #zero commands on timeout
+                if last_time - last_cmd_vel_time > self.cmd_vel_timeout:
+                    last_cmd_vel = 0,0
+                # double check bumpers
+                req_cmd_vel = self.check_bumpers(s, last_cmd_vel)
 
-                else:
-                    #zero commands on timeout
-                    if last_time - last_cmd_vel_time > self.cmd_vel_timeout:
-                        last_cmd_vel = 0,0
-                    # double check bumpers
-                    req_cmd_vel = self.check_bumpers(s, last_cmd_vel)
+            # send command
+            self.drive_cmd(*req_cmd_vel)
+            # record command
+            last_cmd_vel = req_cmd_vel
 
-                # send command
-                self.drive_cmd(*req_cmd_vel)
-                # record command
-                last_cmd_vel = req_cmd_vel
-
-                r.sleep()
-            except DriverError as ex:
-                # port is up, but device is not
-                with open(connected_file()) as f:
-                    f.write("0")
-                sys.stderr.write("Cannot communicate with Create.  Please check that Create is powered on")
-                time.sleep(3.0)
+            r.sleep()
 
     def check_bumpers(self, s, cmd_vel):
         # Safety: disallow forward motion if bumpers or wheeldrops 
@@ -408,7 +407,7 @@ def turtlebot_main(argv):
         c.start()
         c.spin()
     except Exception as ex:
-        sys.stderr("Failed to contact device with error: [%s]. Please check that the Create is powered on and that the connector is plugged into the Create."%ex)
+        sys.stderr.write("Failed to contact device with error: [%s]. Please check that the Create is powered on and that the connector is plugged into the Create."%(ex))
     finally:
         # Driver no longer connected, delete flag from disk
         try:
