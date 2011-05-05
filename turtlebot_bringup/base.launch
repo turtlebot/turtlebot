@@ -16,10 +16,6 @@
     <remap from="imu_data" to="imu/data"/>
   </node>
 
-  <!-- Turtlebot Laptop Battery Diagnostics -->
-  <node pkg="turtlebot_node" type="laptop_battery.py" name="turtlebot_laptop_battery">
-  </node> 
-
   <!-- Enable breaker 1 for the kinect -->
   <node pkg="turtlebot_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
 
