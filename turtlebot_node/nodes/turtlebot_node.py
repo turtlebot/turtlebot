@@ -198,22 +198,24 @@ class TurtlebotNode(object):
         """
         rospy.logdebug("Setting turtlebot to passive mode.")
         #setting all the digital outputs to 0
-        self.robot.set_digital_outputs([0, 0, 0])
+        self._set_digital_outputs([0, 0, 0])
         self.robot.passive()
         
     def _robot_reboot(self):
         """
         Perform a soft-reset of the Create
         """
+        rospy.logdebug("Soft-rebooting turtlebot to passive mode.")
         self._set_digital_outputs([0, 0, 0])
         self.robot.soft_reset()
+        time.sleep(2.0)
 
     def _robot_run_safe(self):
         """
         Set robot into safe run mode
         """
         rospy.logdebug("Setting turtlebot to safe mode.")
-        self.robot.set_digital_outputs([1, 0, 0])
+        self._set_digital_outputs([1, 0, 0])
         self.robot.safe = True
         self.robot.control()
 
@@ -222,9 +224,9 @@ class TurtlebotNode(object):
         Set robot into full run mode
         """
         rospy.logdebug("Setting turtlebot to full mode.")
-        self._set_digital_outputs([1, 0, 0])
         self.robot.safe = False
         self.robot.control()
+        self._set_digital_outputs([1, 0, 0])
         
     def _set_digital_outputs(self, outputs):
         assert len(outputs) == 3, 'Expecting 3 output states.'
@@ -274,10 +276,15 @@ class TurtlebotNode(object):
                 # check for exit conditions
                 continue
 
+            # Reboot Create if we detect that charging is necessary.
             if s.charging_sources_available > 0 and \
-                   s.oi_mode == 1 \
-                   and (s.charge < 0.93*s.capacity):
+                   s.oi_mode == 1 and \
+                   s.charging_state in [0, 5] and \
+                   s.charge < 0.93*s.capacity:
+                rospy.loginfo("going into soft-reboot and exiting driver")
                 self._robot_reboot()
+                rospy.loginfo("exiting driver")
+                break
 
             # PUBLISH STATE
             self.sensor_state_pub.publish(s)
