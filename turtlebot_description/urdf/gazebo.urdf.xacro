@@ -34,7 +34,6 @@
     </sensor:ray>
   </gazebo>
 
-
   <gazebo reference="left_cliff_sensor_link">
     <sensor:ray name="left_cliff_sensor">
       <alwaysActive>true</alwaysActive>
