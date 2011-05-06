@@ -100,13 +100,30 @@ class TurtlebotNode(object):
                 self.robot.start(self.port)
                 break
             except serial.serialutil.SerialException as ex:
-                if log_once:
-                    log_once = False
-                    rospy.logerr("Failed to open port %s.  Please make sure the Create cable is plugged into the computer. "%(self.port))
+                if self.port == '/dev/ttyUSB0':
+                    self.port = '/dev/ttyUSB1'
+                    try:
+                        rospy.loginfo("first serial port failed.  Trying backup.");
+                        self.robot.start(self.port)
+                        break
+                    except serial.serialutil.SerialException, ex:
+                        if log_once:
+                            log_once = False
+                            rospy.logerr("Failed to open either port /dev/ttyUSB0 or /dev/ttyUSB1.  Please make sure the Create cable is plugged into the computer. ")
+                        else:
+                            sys.stderr.write("Failed to open either port /dev/ttyUSB0 or /dev/ttyUSB1.  Please make sure the Create cable is plugged into the computer. ")
+
                 else:
-                    sys.stderr.write("Failed to open port %s.  Please make sure the Create cable is plugged into the computer.\n"%(self.port))
+                    if log_once:
+                        log_once = False
+                        rospy.logerr("Failed to open port %s.  Please make sure the Create cable is plugged into the computer. "%(self.port))
+                    else:
+                        sys.stderr.write("Failed to open port %s.  Please make sure the Create cable is plugged into the computer.\n"%(self.port))
+                        rospy.logerr("Failed to open port %s.  Please make sure the Create cable is plugged into the computer. "%self.port)
                 time.sleep(3.0)
         
+        rospy.loginfo("using serial port: %s"%(self.port))
+
         self.create_sensor_handler = TurtlebotSensorHandler(self.robot)
         self.robot.safe = True
 
