@@ -1,10 +1,5 @@
 <launch>
 
-  <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" output="screen">
-    <param name="publish_frequency" type="double" value="30.0" />
-    <!--param name="tf_prefix" type="string" value="" /-->
-  </node>
-
   <!-- The odometry estimator -->
    <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
     <param name="freq" value="10.0"/>
@@ -15,16 +10,6 @@
     <param name="vo_used" value="false"/>
     <remap from="imu_data" to="imu/data"/>
   </node>
-
-  <!-- Turtlebot Laptop Battery Diagnostics -->
-  <node pkg="turtlebot_node" type="laptop_battery.py" name="turtlebot_laptop_battery">
-  </node> 
-
-  <!-- Turtlebot Driver -->
-  <node pkg="turtlebot_node" type="turtlebot_node.py" name="turtlebot_node" output="screen">
-    <param name="bonus" value="false" />
-    <param name="update_rate" value="30.0" />
-  </node> 
 
   <!-- Enable breaker 1 for the kinect -->
   <node pkg="turtlebot_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
