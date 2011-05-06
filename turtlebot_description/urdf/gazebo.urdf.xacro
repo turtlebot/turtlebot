@@ -2,7 +2,6 @@
 
 <robot xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor">
 
-
   <gazebo>
     <controller:gazebo_ros_create name="create_controller" plugin="libgazebo_ros_create.so">
       <alwaysOn>true</alwaysOn>
@@ -13,10 +12,94 @@
       <rear_castor_joint>rear_castor_joint</rear_castor_joint>
       <wheel_separation>.260</wheel_separation>
       <wheel_diameter>0.066</wheel_diameter>
+      <base_geom>base_link_geom_base_link</base_geom>
       <updateRate>40</updateRate>
       <torque>0.1</torque>
     </controller:gazebo_ros_create>
   </gazebo>
+
+  <gazebo reference="wall_sensor_link">
+    <sensor:ray name="wall_sensor">
+      <alwaysActive>true</alwaysActive>
+      <rayCount>1</rayCount>
+      <rangeCount>1</rangeCount>
+      <resRange>0.1</resRange>
+
+      <minAngle>0</minAngle>
+      <maxAngle>0</maxAngle>
+
+      <minRange>0.0160</minRange>
+      <maxRange>0.04</maxRange>
+      <displayRays>fan</displayRays>
+    </sensor:ray>
+  </gazebo>
+
+
+  <gazebo reference="left_cliff_sensor_link">
+    <sensor:ray name="left_cliff_sensor">
+      <alwaysActive>true</alwaysActive>
+      <rayCount>1</rayCount>
+      <rangeCount>1</rangeCount>
+      <resRange>0.1</resRange>
+
+      <minAngle>0</minAngle>
+      <maxAngle>0</maxAngle>
+
+      <minRange>0.01</minRange>
+      <maxRange>0.04</maxRange>
+      <displayRays>fan</displayRays>
+    </sensor:ray>
+  </gazebo>
+
+  <gazebo reference="right_cliff_sensor_link">
+    <sensor:ray name="right_cliff_sensor">
+      <alwaysActive>true</alwaysActive>
+      <rayCount>1</rayCount>
+      <rangeCount>1</rangeCount>
+      <resRange>0.1</resRange>
+
+      <minAngle>0</minAngle>
+      <maxAngle>0</maxAngle>
+
+      <minRange>0.01</minRange>
+      <maxRange>0.04</maxRange>
+      <displayRays>fan</displayRays>
+    </sensor:ray>
+  </gazebo>
+
+
+  <gazebo reference="leftfront_cliff_sensor_link">
+    <sensor:ray name="leftfront_cliff_sensor">
+      <alwaysActive>true</alwaysActive>
+      <rayCount>1</rayCount>
+      <rangeCount>1</rangeCount>
+      <resRange>0.1</resRange>
+
+      <minAngle>0</minAngle>
+      <maxAngle>0</maxAngle>
+
+      <minRange>0.01</minRange>
+      <maxRange>0.04</maxRange>
+      <displayRays>fan</displayRays>
+    </sensor:ray>
+  </gazebo>
+
+  <gazebo reference="rightfront_cliff_sensor_link">
+    <sensor:ray name="rightfront_cliff_sensor">
+      <alwaysActive>true</alwaysActive>
+      <rayCount>1</rayCount>
+      <rangeCount>1</rangeCount>
+      <resRange>0.1</resRange>
+
+      <minAngle>0</minAngle>
+      <maxAngle>0</maxAngle>
+
+      <minRange>0.01</minRange>
+      <maxRange>0.04</maxRange>
+      <displayRays>fan</displayRays>
+    </sensor:ray>
+  </gazebo>
+
 
   <gazebo reference="kinect_link">
     <sensor:camera name="kinect_camera">

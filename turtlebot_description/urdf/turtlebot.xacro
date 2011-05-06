@@ -64,13 +64,92 @@
     </collision>
   </link>
 
+  <link name="wall_sensor_link">
+    <inertial>
+      <mass value="0" />
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+
+
+  <link name="left_cliff_sensor_link">
+    <inertial>
+      <mass value="0" />
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+
+  <link name="right_cliff_sensor_link">
+    <inertial>
+      <mass value="0" />
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+
+
+
+  <link name="leftfront_cliff_sensor_link">
+    <inertial>
+      <mass value="0" />
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+
+  <link name="rightfront_cliff_sensor_link">
+    <inertial>
+      <mass value="0" />
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+        iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+
 
   <joint name="base_footprint_joint" type="fixed">
-  <!-- NB: While you would think this would make it go up, it is oddly reversed.  This moves the joint to 0,0,0 where we want it for rviz, etc. -->
     <origin xyz="0 0 0.017" rpy="0 0 0" />        
     <parent link="base_footprint"/>
     <child link="base_link" />
   </joint>
+
+  <joint name="base_wall_sensor_joint" type="fixed">
+    <origin xyz="0.09 -0.120 0.042" rpy="0 0 -1.0" />        
+    <parent link="base_link"/>
+    <child link="wall_sensor_link" />
+  </joint>
+
+  <joint name="base_left_cliff_sensor_joint" type="fixed">
+    <origin xyz="0.07 0.14 0.01" rpy="0 1.57079 0" />        
+    <parent link="base_link"/>
+    <child link="left_cliff_sensor_link" />
+  </joint>
+
+  <joint name="base_right_cliff_sensor_joint" type="fixed">
+    <origin xyz="0.07 -0.14 0.01" rpy="0 1.57079 0" />        
+    <parent link="base_link"/>
+    <child link="right_cliff_sensor_link" />
+  </joint>
+
+  <joint name="base_leftfront_cliff_sensor_joint" type="fixed">
+    <origin xyz="0.15 0.04 0.01" rpy="0 1.57079 0" />        
+    <parent link="base_link"/>
+    <child link="leftfront_cliff_sensor_link" />
+  </joint>
+
+  <joint name="base_rightfront_cliff_sensor_joint" type="fixed">
+    <origin xyz="0.15 -0.04 0.01" rpy="0 1.57079 0" />        
+    <parent link="base_link"/>
+    <child link="rightfront_cliff_sensor_link" />
+  </joint>
+
+
 
   <link name="left_wheel_link">
     <inertial>
