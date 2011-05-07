@@ -1,0 +1,5 @@
+<launch>
+  <!-- convert to a capability -->
+  <include file="$(find turtlebot_bringup)/base.launch" />
+</launch>
+
