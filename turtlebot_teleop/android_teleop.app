@@ -1,4 +1,4 @@
-display: Android Joystick
+display: Android Mapping
 description: Control the TurtleBot with an Android device
 platform: turtlebot
 launch: turtlebot_teleop/android_teleop.launch

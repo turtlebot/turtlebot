@@ -1,0 +1,31 @@
+<launch>
+  <!-- convert to a capability -->
+  <include file="$(find turtlebot_bringup)/base.launch" />
+
+  <!-- jpeg_quality is not always set for some reason.  maybe parameter version here does not work with remapped camera topic? -->
+  <param name="lores_camera/rgb/image_color/compressed/jpeg_quality" value="22"/>
+
+  <!-- startup kinect manually but optimized for compressed transport.  could be converted to capability -->
+  <node pkg="openni_camera" type="openni_node" name="openni_node1" output="screen" respawn="true">
+    <!-- Without remapping, the camera topic collides with the camera topic from the nodelet in the mapper, below. -->
+    <remap from="camera" to="lores_camera"/>
+    <param name="device_id" value="#1"/>
+    <rosparam command="load" file="$(find openni_camera)/info/openni_params.yaml" />
+    <param name="rgb_frame_id" value="/openni_rgb_optical_frame" />
+    <param name="depth_frame_id" value="/openni_depth_optical_frame" />
+    <param name="use_indices" value="false" />
+    <param name="depth_registration" value="false" />
+    <param name="image_mode" value="5" />
+    <param name="depth_mode" value="5" />
+    <param name="debayering" value="2" />
+    <param name="depth_time_offset" value="0" />
+    <param name="image_time_offset" value="0" />
+  </node>
+
+  <include file="$(find openni_camera)/launch/kinect_frames.launch"/>
+
+  <!-- Make a slower camera feed available. -->
+  <node pkg="topic_tools" type="throttle" name="camera_throttle" output="screen"
+        args="messages lores_camera/rgb/image_color/compressed 5"/>
+</launch>
+
