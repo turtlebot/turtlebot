@@ -1,5 +1,9 @@
 apps:
  - display: Android Joystick
+   app: turtlebot_teleop/android_joystick
+ - display: Android Teleop
+   app: turtlebot_teleop/android_teleop_no_map
+ - display: Android Mapping
    app: turtlebot_teleop/android_teleop
  - display: PS3 Joystick
    app: turtlebot_teleop/ps3_teleop
