@@ -2,7 +2,6 @@
   <!-- convert to a capability -->
   <include file="$(find turtlebot_bringup)/base.launch" />
 
-  <!-- jpeg_quality is not always set for some reason.  maybe parameter version here does not work with remapped camera topic? -->
   <param name="lores_camera/rgb/image_color/compressed/jpeg_quality" value="22"/>
 
   <!-- startup kinect manually but optimized for compressed transport.  could be converted to capability -->
@@ -27,6 +26,16 @@
   <!-- Make a slower camera feed available. -->
   <node pkg="topic_tools" type="throttle" name="camera_throttle" output="screen"
         args="messages lores_camera/rgb/image_color/compressed 5"/>
+
+  <node pkg="tf" type="change_notifier" name="tf_throttle_for_android_gui" output="screen">
+    <param name="polling_frequency" value="5"/>
+    <param name="translational_update_distance" value="-1"/>
+    <param name="angular_update_distance" value="-1"/>
+    <rosparam param="frame_pairs">
+      - {source_frame: base_link, target_frame: map}
+      - {source_frame: kinect_depth_frame, target_frame: map}
+    </rosparam>
+  </node>
 
 <!-- Additions for mapping -->
   <!-- Kinect -->
