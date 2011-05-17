@@ -1,5 +1,9 @@
 #!/bin/bash
 
+log_file=/tmp/turtlebot-upstart.log
+DATE=`date`
+echo "$DATE: turtlebot-stop" >> $log_file
+
 source /opt/ros/diamondback/setup.bash
 
 for i in $( rosnode list ); do

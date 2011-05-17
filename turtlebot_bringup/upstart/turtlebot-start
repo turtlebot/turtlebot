@@ -1,7 +1,29 @@
 #!/bin/bash
 
+# Network interface to use is passed in as the first argument.  Should
+# be wlan0 or usb0 or eth0 or similar.
+interface=$1
+
+log_file=/tmp/turtlebot-upstart.log
+DATE=`date`
+
+if [ "$interface" = "" ]; then
+    echo "$DATE: Can't run with empty network interface." >> $log_file
+    exit 1
+fi
+
 source /opt/ros/diamondback/setup.bash
 #source /home/turtlebot/dev/setup.bash
-# public address is wlan0
-export ROS_IP=`rosrun turtlebot_bringup turtlebot_addr.py`
+
+echo "$DATE: turtlebot-start on interface $interface" >> $log_file
+
+export ROS_IP=`ifconfig $interface | grep -o 'inet addr:[^ ]*' | cut -d: -f2`
+
+echo "$DATE: turtlebot-start setting ROS_IP=$ROS_IP" >> $log_file
+
+if [ "$ROS_IP" = "" ]; then
+    echo "$DATE: Can't run with empty ROS_IP." >> $log_file
+    exit 1
+fi
+
 setuidgid turtlebot roslaunch turtlebot_bringup minimal.launch
