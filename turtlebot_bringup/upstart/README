@@ -1,4 +1,20 @@
-turtlebot-(start|stop) go in /usr/sbin
-turtlebot.conf goes in /etc/init
+To install upstart files, use install.bash in this directory.
 
-turtlebot.conf is currently configured for a dev setup
+To set up for wlan0 use (the default), do:
+
+$ sudo ./install.bash
+
+For usb0 (tethered to a Xoom), do:
+
+$ sudo ./install.bash usb0
+
+This copies the files while doing a search/replace on "wlan0" to
+whatever argument you give it.
+
+turtlebot-start and turtlebot-stop look for /etc/ros/setup.bash, and
+if it exists they use it instead of /opt/ros/diamondback/setup.bash.
+So to point the robot at a dev directory, just make your own
+setup.bash and make /etc/ros/setup.bash a symlink to it.
+
+To use the installed version of the code, remove /etc/ros/setup.bash
+or make it a symlink to /opt/ros/diamondback/setup.bash.

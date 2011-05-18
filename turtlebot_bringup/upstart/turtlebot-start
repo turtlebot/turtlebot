@@ -1,20 +1,17 @@
 #!/bin/bash
 
-# Network interface to use is passed in as the first argument.  Should
-# be wlan0 or usb0 or eth0 or similar.
-interface=$1
-
 log_file=/tmp/turtlebot-upstart.log
 DATE=`date`
 
-if [ "$interface" = "" ]; then
-    echo "$DATE: Can't run with empty network interface." >> $log_file
-    exit 1
+if [ -s /etc/ros/setup.bash ]; then
+    echo "$DATE: turtlebot-start using setup file /etc/ros/setup.bash" >> $log_file
+    source /etc/ros/setup.bash
+else
+    echo "$DATE: turtlebot-start using setup file /opt/ros/diamondback/setup.bash" >> $log_file
+    source /opt/ros/diamondback/setup.bash
 fi
 
-source /opt/ros/diamondback/setup.bash
-#source /home/turtlebot/dev/setup.bash
-
+interface=wlan0
 echo "$DATE: turtlebot-start on interface $interface" >> $log_file
 
 export ROS_IP=`ifconfig $interface | grep -o 'inet addr:[^ ]*' | cut -d: -f2`
@@ -22,7 +19,7 @@ export ROS_IP=`ifconfig $interface | grep -o 'inet addr:[^ ]*' | cut -d: -f2`
 echo "$DATE: turtlebot-start setting ROS_IP=$ROS_IP" >> $log_file
 
 if [ "$ROS_IP" = "" ]; then
-    echo "$DATE: Can't run with empty ROS_IP." >> $log_file
+    echo "$DATE: turtlebot-start can't run with empty ROS_IP." >> $log_file
     exit 1
 fi
 

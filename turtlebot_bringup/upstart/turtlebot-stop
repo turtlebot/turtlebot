@@ -4,10 +4,16 @@ log_file=/tmp/turtlebot-upstart.log
 DATE=`date`
 echo "$DATE: turtlebot-stop" >> $log_file
 
-source /opt/ros/diamondback/setup.bash
+if [ -s /etc/ros/setup.bash ]; then
+    echo "$DATE: turtlebot-stop using setup file /etc/ros/setup.bash" >> $log_file
+    source /etc/ros/setup.bash
+else
+    echo "$DATE: turtlebot-stop using setup file /opt/ros/diamondback/setup.bash" >> $log_file
+    source /opt/ros/diamondback/setup.bash
+fi
 
 for i in $( rosnode list ); do
-rosnode kill $i;
+    rosnode kill $i;
 done
 
 killall roslaunch
