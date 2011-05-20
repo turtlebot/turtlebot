@@ -94,8 +94,8 @@ class TurtlebotDiagnostics():
         try:
             stat.message = self.charging_source[sensor_state.charging_sources_available]
         except KeyError as ex:
-            stat.message = "Invalid Charging Source %s"%ex 
-            rospy.logwarn("Invalid Charging Source %s"%ex)
+            stat.message = "Invalid Charging Source %s, actual value: %i"%(ex,sensor_state.charging_sources_available)
+            rospy.logwarn("Invalid Charging Source %s, actual value: %i"%(ex,sensor_state.charging_sources_available))
         diag.status.append(stat)
         #cliff sensors
         stat = DiagnosticStatus(name="Cliff Sensor", level=DiagnosticStatus.OK, message="OK")

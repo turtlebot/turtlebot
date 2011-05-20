@@ -128,7 +128,7 @@ class TurtlebotNode(object):
         self.odom_angular_scale_correction = rospy.get_param('~odom_angular_scale_correction', 1.0)
         self.odom_linear_scale_correction = rospy.get_param('~odom_linear_scale_correction', 1.0)
         self.cmd_vel_timeout = rospy.Duration(rospy.get_param('~cmd_vel_timeout', 0.6))
-        self.stop_motors_on_bump = rospy.get_param('~stop_motors_on_bump', False)
+        self.stop_motors_on_bump = rospy.get_param('~stop_motors_on_bump', True)
         self.min_abs_yaw_vel = rospy.get_param('~min_abs_yaw_vel', None)
         
         rospy.loginfo("serial port: %s"%(self.port))
