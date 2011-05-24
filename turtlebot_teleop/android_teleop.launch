@@ -32,7 +32,7 @@
     <param name="translational_update_distance" value="-1"/>
     <param name="angular_update_distance" value="-1"/>
     <rosparam param="frame_pairs">
-      - {source_frame: base_link, target_frame: map}
+      - {source_frame: base_footprint, target_frame: map}
       - {source_frame: kinect_depth_frame, target_frame: map}
     </rosparam>
   </node>
