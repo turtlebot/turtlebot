@@ -34,3 +34,4 @@ libdmtx/share
 libdmtx/include
 libdmtx/installed
 /bin/
+turtlebot_follower/lib/libturtlebot_follower.so$
