@@ -5,6 +5,8 @@ apps:
    app: turtlebot_teleop/android_teleop_no_map
  - display: Make a Map
    app: turtlebot_teleop/android_make_a_map
+ - display: Map Nav
+   app: turtlebot_teleop/android_map_nav
  - display: Use a Map
    app: turtlebot_teleop/android_teleop
  - display: PS3 Joystick
