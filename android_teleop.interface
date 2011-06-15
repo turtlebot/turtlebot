@@ -1,5 +1,0 @@
-published_topics:
-  /camera/rgb/image_color/compressed: sensor_msgs/CompressedImage
-  /camera/rgb/image_color/compressed_throttle: sensor_msgs/CompressedImage
-  /lores_camera/rgb/image_color/compressed_throttle: sensor_msgs/CompressedImage
-subscribed_topics: {}
