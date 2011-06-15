@@ -30,7 +30,7 @@
 
       <minRange>0.0160</minRange>
       <maxRange>0.04</maxRange>
-      <displayRays>fan</displayRays>
+      <displayRays>false</displayRays>
     </sensor:ray>
   </gazebo>
 
@@ -46,7 +46,7 @@
 
       <minRange>0.01</minRange>
       <maxRange>0.04</maxRange>
-      <displayRays>fan</displayRays>
+      <displayRays>false</displayRays>
     </sensor:ray>
   </gazebo>
 
@@ -62,7 +62,7 @@
 
       <minRange>0.01</minRange>
       <maxRange>0.04</maxRange>
-      <displayRays>fan</displayRays>
+      <displayRays>false</displayRays>
     </sensor:ray>
   </gazebo>
 
@@ -79,7 +79,7 @@
 
       <minRange>0.01</minRange>
       <maxRange>0.04</maxRange>
-      <displayRays>fan</displayRays>
+      <displayRays>false</displayRays>
     </sensor:ray>
   </gazebo>
 
