@@ -1,9 +1,0 @@
-# angle to turn create for full panorama
-float64 radians
-bool clockwise
----
-# number of captures
-float32 radians_completed
----
-# feedback: number of snapshots taken
-float32 radians_completed
