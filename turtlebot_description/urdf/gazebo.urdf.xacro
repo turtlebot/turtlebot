@@ -46,7 +46,7 @@
 
       <minRange>0.01</minRange>
       <maxRange>0.04</maxRange>
-      <displayRays>false<displayRays>
+      <displayRays>false</displayRays>
     </sensor:ray>
   </gazebo>
 
