@@ -1,8 +1,8 @@
 display: Android Teleop
-description: Drive TurtleBot with an Android device with a camera feed
+description: Drive a turtlebot from Android with a touch joystick and video feed.
 platform: turtlebot
-launch: turtlebot_teleop/android_teleop_no_map.launch
-interface: turtlebot_teleop/android_teleop_no_map.interface
+launch: turtlebot_teleop/android_teleop.launch
+interface: turtlebot_teleop/android_teleop.interface
 icon: turtlebot_teleop/android-lightning-turtlebot.png
 clients:
  - type: android
