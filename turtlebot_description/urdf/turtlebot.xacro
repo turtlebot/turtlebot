@@ -153,7 +153,7 @@
 
   <link name="left_wheel_link">
     <inertial>
-      <origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
+      <origin xyz="0 0 0"/>
       <mass value="0.01" />
       <inertia ixx="1.0" ixy="0.0" ixz="0.0"
         iyy="1.0" iyz="0.0" izz="1.0" />
@@ -183,7 +183,7 @@
 
   <link name="right_wheel_link">
     <inertial>
-      <origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
+      <origin xyz="0 0 0"/>
       <mass value="0.01" />
       <inertia ixx="1.0" ixy="0.0" ixz="0.0"
         iyy="1.0" iyz="0.0" izz="1.0" />
@@ -213,7 +213,7 @@
 
   <link name="rear_wheel_link">
     <inertial>
-      <origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
+      <origin xyz="0 0 0"/>
       <mass value="0.001" />
       <inertia ixx="1.0" ixy="0.0" ixz="0.0"
         iyy="1.0" iyz="0.0" izz="1.0" />
@@ -242,7 +242,7 @@
 
   <link name="front_wheel_link">
     <inertial>
-      <origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
+      <origin xyz="0 0 0" />
       <mass value="0.01" />
       <inertia ixx="1.0" ixy="0.0" ixz="0.0"
         iyy="1.0" iyz="0.0" izz="1.0" />
