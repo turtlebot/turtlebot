@@ -52,6 +52,7 @@ import struct
 import time
 import threading
 import traceback
+import rospy
 
 ROOMBA_OPCODES = dict(
     start = 128,
@@ -202,6 +203,7 @@ class SerialCommandInterface(object):
   def __init__(self, tty, baudrate):
     self.ser = serial.Serial(tty, baudrate=baudrate, timeout=SERIAL_TIMEOUT)
     self.ser.open()
+    self.wake()
     self.opcodes = {}
 
     #TODO: kwc all locking code should be outside of the driver. Instead,
@@ -211,9 +213,14 @@ class SerialCommandInterface(object):
   def wake(self):
     """wake up robot."""
     self.ser.setRTS(0)
-    time.sleep(0.25)
+    time.sleep(0.1)
     self.ser.setRTS(1)
-    time.sleep(1)  # Technically it should wake after 500ms.
+    time.sleep(2)  # Technically it should wake after 500ms.
+    for i in range(3):
+      self.ser.setRTS(0)
+      time.sleep(0.25)
+      self.ser.setRTS(1)
+      time.sleep(0.25) 
 
   def add_opcodes(self, opcodes):
     """Add available opcodes to the SCI."""
