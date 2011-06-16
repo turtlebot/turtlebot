@@ -215,7 +215,7 @@ class SerialCommandInterface(object):
     self.ser.setRTS(0)
     time.sleep(0.1)
     self.ser.setRTS(1)
-    time.sleep(2)  # Technically it should wake after 500ms.
+    time.sleep(0.75)  # Technically it should wake after 500ms.
     for i in range(3):
       self.ser.setRTS(0)
       time.sleep(0.25)
