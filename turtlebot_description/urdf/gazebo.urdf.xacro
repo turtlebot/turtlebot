@@ -105,8 +105,8 @@
       <imageFormat>R8G8B8</imageFormat>
       <imageSize>640 480</imageSize>
       <hfov>60</hfov>
-      <nearClip>0.5</nearClip>
-      <farClip>5</farClip>
+      <nearClip>0.05</nearClip>
+      <farClip>3</farClip>
       <updateRate>20</updateRate>
       <baseline>0.1</baseline>
       <controller:gazebo_ros_openni_kinect name="kinect_camera_controller" plugin="libgazebo_ros_openni_kinect.so">
