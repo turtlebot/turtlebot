@@ -112,9 +112,9 @@
       <controller:gazebo_ros_openni_kinect name="kinect_camera_controller" plugin="libgazebo_ros_openni_kinect.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>20</updateRate>
-        <imageTopicName>/kinect_camera/image_raw</imageTopicName>
-        <pointCloudTopicName>/kinect_camera/points</pointCloudTopicName>
-        <cameraInfoTopicName>/kinect_camera/camera_info</cameraInfoTopicName>
+        <imageTopicName>/camera/image_raw</imageTopicName>
+        <pointCloudTopicName>/camera/depth/points</pointCloudTopicName>
+        <cameraInfoTopicName>/camera/camera_info</cameraInfoTopicName>
         <frameName>kinect_depth_optical_frame</frameName>
         <distortion_k1>0.00000001</distortion_k1>
         <distortion_k2>0.00000001</distortion_k2>
