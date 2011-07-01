@@ -2,7 +2,6 @@
 
   <!-- Follower nodelet -->
   <node pkg="nodelet" type="nodelet" name="turtlebot_follower" args="load turtlebot_follower/TurtlebotFollower openni_manager" respawn="true">
-    <remap from="/camera/depth/points" to="/kinect_camera/points"/>
     <param name="x_scale" value="7.0" />
     <param name="z_scale" value="2.0" />
     <param name="min_x" value="-0.2" />
