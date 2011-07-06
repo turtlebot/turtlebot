@@ -31,6 +31,7 @@
 #include <interactive_markers/interactive_marker_server.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Pose.h>
+#include <tf/tf.h>
 
 using namespace visualization_msgs;
 
@@ -64,22 +65,25 @@ class TurtlebotMarkerServer
 void TurtlebotMarkerServer::processFeedback(
     const InteractiveMarkerFeedbackConstPtr &feedback )
 {
-  // To do: change this to send a move command to the turtlebot
-  ROS_INFO_STREAM( feedback->marker_name << " is now at "
-      << feedback->pose.position.x << ", " << feedback->pose.position.y 
-      << " orientation: " << feedback->pose.orientation.x << ", " 
-      << feedback->pose.orientation.y << ", "
-      << feedback->pose.orientation.z << ", "
-      << feedback->pose.orientation.w << ", " );
-      
+  // Handle angular change (yaw is the only direction in which you can rotate)
+  double yaw = tf::getYaw(feedback->pose.orientation);
   
-  // To do: handle angular change (figure out how quaternion changed?)
-  // To do: make the marker snap back to turtlebot
+  ROS_INFO_STREAM( feedback->marker_name << " is now at "
+      << feedback->pose.position.x
+      << " orientation: " << yaw);
+  
+  // To do: change this to send a move command to the turtlebot    
+  geometry_msgs::Twist vel;
+  vel.angular.z = 1*yaw;
+  vel.linear.x = 1*feedback->pose.position.x;
+
+  vel_pub.publish(vel);    
+  
+  
+  // Make the marker snap back to turtlebot
   server.setPose("turtlebot_marker", geometry_msgs::Pose());
   
   server.applyChanges();
-  
-  
 }
 
 void TurtlebotMarkerServer::createInteractiveMarkers()
@@ -127,13 +131,14 @@ void TurtlebotMarkerServer::createInteractiveMarkers()
   control.interaction_mode = InteractiveMarkerControl::ROTATE_AXIS;
   int_marker.controls.push_back(control);
 
-  control.orientation.w = 1;
+  // Commented out for non-holonomic turtlebot. If holonomic, can move in y.
+  /*control.orientation.w = 1;
   control.orientation.x = 0;
   control.orientation.y = 0;
   control.orientation.z = 1;
   control.name = "move_y";
   control.interaction_mode = InteractiveMarkerControl::MOVE_AXIS;
-  int_marker.controls.push_back(control);
+  int_marker.controls.push_back(control);*/
   
   // add the interactive marker to our collection &
   // tell the server to call processFeedback() when feedback arrives for it
