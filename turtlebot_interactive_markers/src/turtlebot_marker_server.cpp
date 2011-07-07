@@ -68,13 +68,13 @@ void TurtlebotMarkerServer::processFeedback(
   // Handle angular change (yaw is the only direction in which you can rotate)
   double yaw = tf::getYaw(feedback->pose.orientation);
   
-  ROS_INFO_STREAM( feedback->marker_name << " is now at "
+  /* ROS_INFO_STREAM( feedback->marker_name << " is now at "
       << feedback->pose.position.x
-      << " orientation: " << yaw);
+      << " orientation: " << yaw); */
   
   // To do: change this to send a move command to the turtlebot    
   geometry_msgs::Twist vel;
-  vel.angular.z = 1*yaw;
+  vel.angular.z = 2.2*yaw;// + 1*atan2(feedback->pose.position.y, feedback->pose.position.x);
   vel.linear.x = 1*feedback->pose.position.x;
 
   vel_pub.publish(vel);    
@@ -115,6 +115,7 @@ void TurtlebotMarkerServer::createInteractiveMarkers()
   
   InteractiveMarkerControl control;
 
+  control.orientation_mode = InteractiveMarkerControl::FIXED;
   control.orientation.w = 1;
   control.orientation.x = 1;
   control.orientation.y = 0;
@@ -128,7 +129,9 @@ void TurtlebotMarkerServer::createInteractiveMarkers()
   control.orientation.y = 1;
   control.orientation.z = 0;
   control.name = "rotate_z";
-  control.interaction_mode = InteractiveMarkerControl::ROTATE_AXIS;
+  
+  control.interaction_mode = InteractiveMarkerControl::MOVE_ROTATE;
+  //control.interaction_mode = InteractiveMarkerControl::ROTATE_AXIS;
   int_marker.controls.push_back(control);
 
   // Commented out for non-holonomic turtlebot. If holonomic, can move in y.
