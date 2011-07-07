@@ -42,7 +42,7 @@
 #include <pcl_ros/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/ros/conversions.h>
-
+#include <pcl_ros/transforms.h>
 
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 
@@ -54,6 +54,8 @@ public:
   {
     scan_filtered_pub_ = nh_.advertise<sensor_msgs::LaserScan>("/scan_filtered", 1);
     scan_sub_ = nh_.subscribe("/scan", 1000, &LaserFootprintFilter::update, this);
+    debug_pub_ = nh_.advertise<PointCloud> ("debug_pointcloud", 1);
+
     
     if (!nh_.getParam("footprint_inscribed_radius", inscribed_radius_))
       inscribed_radius_ = 0.16495;
@@ -67,30 +69,40 @@ public:
   {
     sensor_msgs::LaserScan filtered_scan;
     filtered_scan = input_scan;
-    sensor_msgs::PointCloud laser_cloud;
+    sensor_msgs::PointCloud2 cloud_message;
+    PointCloud laser_cloud_in, laser_cloud;
 
     // Get the pointcloud from the laser scan
-    projector_.projectLaser (const sensor_msgs::LaserScan &scan_in, sensor_msgs::PointCloud2 &cloud_out, double range_cutoff=-1.0, int channel_options=channel_option::Default);
+    projector_.projectLaser(input_scan, cloud_message);
     
+    pcl::fromROSMsg(cloud_message, laser_cloud_in);
     // Get the transform from tf_listener
-    try {
-       tf::TransformListener::waitForTransform (const std::string &target_frame, const std::string &source_frame, const ros::Time &time, const ros::Duration &timeout, const ros::Duration &polling_sleep_duration=ros::Duration(0.01), std::string *error_msg=NULL)
+    // To do: make this just execute the first time.
+    /*try 
+    {
+       tf_.waitForTransform ("/base_link", input_scan.header.frame_id, input_scan.header.stamp, ros::Duration(0.01));
     }
     catch(tf::TransformException& ex){
       ROS_ERROR("Transform unavailable %s", ex.what());
-    } 
+    }*/
+
+    // Not 100% sure what fixed_frame should be.
+    pcl_ros::transformPointCloud ("/base_link", input_scan.header.stamp, laser_cloud_in, "/base_link", laser_cloud, tf_);
 
     // Transform the pointcloud
-    transformPointCloud (const pcl::PointCloud< PointT > &cloud_in, pcl::PointCloud< PointT > &cloud_out, const tf::Transform &transform);
+    //transformPointCloud (const pcl::PointCloud< PointT > &cloud_in, pcl::PointCloud< PointT > &cloud_out, const tf::Transform &transform);
 
     for (unsigned int i=0; i < laser_cloud.points.size(); i++)  
     {
-      if (inFootprint(laser_cloud.points[i])){
+      if (inFootprint(laser_cloud.points[i]))
+      {
         //int index = laser_cloud.channels[c_idx].values[i];
+        ROS_INFO("Index: %d, range: %f, x: %f, y: %f, z: %f", i, filtered_scan.ranges[i], laser_cloud.points[i].x,  laser_cloud.points[i].y, laser_cloud.points[i].z);
         filtered_scan.ranges[i] = filtered_scan.range_max + 1.0; // If so, then make it a value bigger than the max range
       }
     }
     
+    debug_pub_.publish(laser_cloud);
 
     /* try{
     projector_.transformLaserScanToPointCloud("/base_link", input_scan, laser_cloud, tf_);
@@ -145,6 +157,7 @@ private:
   laser_geometry::LaserProjection projector_;
   double inscribed_radius_;
   ros::Publisher scan_filtered_pub_;
+  ros::Publisher debug_pub_;
   ros::Subscriber scan_sub_;
   ros::NodeHandle nh_;
 };
