@@ -42,11 +42,8 @@ class TurtlebotMarkerServer
     TurtlebotMarkerServer()
       : server("turtle_marker_server")
     {
-      ROS_INFO_STREAM("Started constructor.");
       vel_pub = nh.advertise<geometry_msgs::Twist>("cmd_vel", 1);
-      ROS_INFO_STREAM("Started interactive markers.");
       createInteractiveMarkers();
-      ROS_INFO_STREAM("Finished constructor.");
     }
     
     void processFeedback(
@@ -155,12 +152,8 @@ void TurtlebotMarkerServer::createInteractiveMarkers()
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "turtlebot_marker_server");
-
-  ROS_INFO_STREAM("Init.");
   TurtlebotMarkerServer turtleserver;
   
-  ROS_INFO_STREAM("Starting spin.");
-
   // start the ROS main loop
   ros::spin();
 }
