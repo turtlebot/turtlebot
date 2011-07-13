@@ -55,6 +55,9 @@ void InteractiveTransformServer::createTransforms()
   
   //t_base_kinect = (Translation<float,3>(0, 0, 0));
   
+  t_base_kinect = AngleAxis<float>(3.14/2.0, Vector3f(0,0,1));
+  
+  
   // define transform between baselink pose 1 and baselink pose 2:
   t_base_1_2 = (Translation<float,3>(-1, 0, 0));
   
@@ -170,7 +173,7 @@ void InteractiveTransformServer::createInteractiveMarkers()
   base_marker.color.r = 1.0f;
   base_marker.color.g = 1.0f;
   base_marker.color.b = 1.0f;
-  base_marker.color.a = 1.0;
+  base_marker.color.a = 0.5;
 
 
   base_marker.pose.position.x = t_base_marker.translation().x();
@@ -195,6 +198,14 @@ void InteractiveTransformServer::createInteractiveMarkers()
   kinect_marker.pose.position.x = t_kinect_marker.translation().x();
   kinect_marker.pose.position.y = t_kinect_marker.translation().y();
   kinect_marker.pose.position.z = t_kinect_marker.translation().z();
+  
+  Quaternion<float> quat(t_kinect_marker.rotation());
+  
+  kinect_marker.pose.orientation.x = quat.x();
+  kinect_marker.pose.orientation.y = quat.y();
+  kinect_marker.pose.orientation.z = quat.z();
+  kinect_marker.pose.orientation.w = quat.w();
+      
   
   // Target is a... box thing
   target_marker.id = 0;
@@ -251,9 +262,6 @@ void InteractiveTransformServer::createInteractiveMarkers()
   // 'commit' changes and send to all clients
   server.applyChanges();
   
-  //updateTransforms();
-  // DEBUG: make sure the intial point is in the calculation.
-  //est.addData(t_base_marker, t_kinect_obj_2);
 }
 
 

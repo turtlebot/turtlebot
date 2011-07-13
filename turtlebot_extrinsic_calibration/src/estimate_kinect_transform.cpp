@@ -24,8 +24,8 @@ double EstimateKinectTransform::computeError(int m, Transform<float, 3, Affine> 
   
   
   // Then, figure out distance between actual target_diff and calculated.
-  /*cout << "Observed position: " << endl << t_kinect_obj_2_obs.matrix() << endl
-      << "Estimated position: " << endl << t_kinect_obj_2_calc.matrix() << endl; */
+  cout << "Observed position: " << endl << t_kinect_obj_2_obs.matrix() << endl
+      << "Estimated position: " << endl << t_kinect_obj_2_calc.matrix() << endl;
   
   // Project 3 points in each plane: (0, 0, 0), (0, 1, 0), (0, 0, 1) 
   // Are these the points I want to project? Does it matter?
