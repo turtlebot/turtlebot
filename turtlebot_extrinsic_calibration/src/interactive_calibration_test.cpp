@@ -7,6 +7,7 @@
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/Pose.h>
 
+#include <turtlebot_extrinsic_calibration/estimate_kinect_transform.h>
 
 using namespace Eigen;
 using namespace std;
@@ -43,12 +44,16 @@ class InteractiveTransformServer
     
     // Visualization markers
     Marker base_marker, kinect_marker, target_marker;
+    
+    EstimateKinectTransform est;
 };
 
 void InteractiveTransformServer::createTransforms()
 {
   // define transform between baselink and kinect.
   t_base_kinect = (Translation<float,3>(-.1, 0, .025));
+  
+  //t_base_kinect = (Translation<float,3>(0, 0, 0));
   
   // define transform between baselink pose 1 and baselink pose 2:
   t_base_1_2 = (Translation<float,3>(-1, 0, 0));
@@ -81,8 +86,8 @@ void InteractiveTransformServer::updateTransforms()
   
   Transform<float, 3, Affine> t_obj_1_2 = t_kinect_obj_1 * t_kinect_obj_2.inverse();
   
-  cout << "Kinect to Kinect: " << endl << t_kinect_1_2.matrix() << endl
-    << "Object to Object: " << endl << t_obj_1_2.matrix() << endl;
+  //cout << "Kinect to Kinect: " << endl << t_kinect_1_2.matrix() << endl
+    //<< "Object to Object: " << endl << t_obj_1_2.matrix() << endl;
     //<< "Baselink: " << endl << t_base_marker.matrix() << endl
     //<< "Kinect marker: " << endl << t_kinect_marker.matrix() << endl
     //<< "Initial transform: " << endl << t_kinect_obj_1.matrix() << endl
@@ -117,6 +122,16 @@ void InteractiveTransformServer::processFeedback(
   target_marker.pose.orientation.w = quat.w();
       
   marker_pub.publish(target_marker);
+  
+  switch ( feedback->event_type )
+  {
+    case visualization_msgs::InteractiveMarkerFeedback::MOUSE_UP:
+      est.addData(t_base_marker, t_kinect_obj_2);
+      est.computeTransform();
+      cout << "Result transform: " << endl << est.getTransform().matrix() << endl;
+      break;      
+  }
+    
   //server.applyChanges();
 }
 
@@ -139,10 +154,10 @@ void InteractiveTransformServer::createInteractiveMarkers()
   t_kinect_marker = t_base_kinect*t_base_marker;
   t_target_marker = t_kinect_obj_1*t_kinect_marker;
   
-  cout << "Target marker: " << endl << t_target_marker.matrix() << endl
-    << "Kinect marker: " << endl << t_kinect_marker.matrix() << endl
-    << "Base marker: " << endl << t_base_marker.matrix() << endl
-    << t_base_marker.translation().x() << endl;
+  //cout << "Target marker: " << endl << t_target_marker.matrix() << endl
+  //  << "Kinect marker: " << endl << t_kinect_marker.matrix() << endl
+  //  << "Base marker: " << endl << t_base_marker.matrix() << endl
+   // << t_base_marker.translation().x() << endl;
 
   // Base is going to be a fat cylinder
   base_marker.id = 0;
@@ -235,6 +250,10 @@ void InteractiveTransformServer::createInteractiveMarkers()
   
   // 'commit' changes and send to all clients
   server.applyChanges();
+  
+  //updateTransforms();
+  // DEBUG: make sure the intial point is in the calculation.
+  //est.addData(t_base_marker, t_kinect_obj_2);
 }
 
 
