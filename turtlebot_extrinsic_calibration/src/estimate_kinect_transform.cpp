@@ -6,12 +6,15 @@ using namespace std;
 double EstimateKinectTransform::computeError(int m, Transform<float, 3, Affine> t_base_kinect)
 {
   Transform<float, 3, Affine> t_base_1_2, t_kinect_obj_1,
-        t_kinect_1_2, t_kinect_obj_2_calc, t_kinect_obj_2_obs, t_world_base, t_base_diff;
+        t_kinect_1_2, t_kinect_obj_2_calc, t_kinect_obj_2_obs, t_world_base, 
+        t_base_marker, t_base_diff, t_base_marker_1;
         
   // Make everything a transform.
   // TODO: Check all of these for sizes.
   t_base_diff = baselink_diff_data[m];
-  t_kinect_obj_1 = target_data[m];
+  t_base_marker = baselink_data[m+1];
+  t_base_marker_1 = baselink_data[0];
+  t_kinect_obj_1 = target_data[0];
   t_kinect_obj_2_obs = target_data[m+1];
   
   /*t_base_diff = baselink_data[m];
@@ -58,13 +61,47 @@ double EstimateKinectTransform::computeError(int m, Transform<float, 3, Affine> 
   quat_obs.norm();
   quat_calc.norm();
   
-  
-  
-  double quaternion_distance = sqrt(pow(quat_obs.x()-quat_obs.x(),2)+pow(quat_obs.y()-quat_obs.y(),2)+pow(quat_obs.z()-quat_obs.z(),2));
+  double quaternion_distance = sqrt(pow(quat_obs.x()-quat_calc.x(),2)+pow(quat_obs.y()-quat_calc.y(),2)+pow(quat_obs.z()-quat_calc.z(),2));
   double linear_distance = (t_kinect_obj_2_obs.translation() - t_kinect_obj_2_calc.translation()).norm();
   double stupid_error = quaternion_distance + 10*linear_distance;
   
-  return error;
+  
+  Transform<float, 3, Affine> t_target_marker = t_base_marker.inverse()*t_base_kinect.inverse()*t_kinect_obj_2_obs.inverse();
+  Transform<float, 3, Affine> t_target_marker_1 = t_base_marker_1.inverse()*t_base_kinect.inverse()*t_kinect_obj_1.inverse();
+  
+  cout << "Target marker: " << endl << t_target_marker.inverse().matrix() << endl
+       << "Target marker prev: " << endl << t_target_marker_1.inverse().matrix() << endl;
+  
+  Quaternionf quat_1(t_target_marker.rotation());
+  Quaternionf quat_2(t_target_marker_1.rotation());
+  quat_1.norm();
+  quat_2.norm();
+  
+  double quaternion_distance_world = sqrt(pow(quat_1.x()-quat_2.x(),2)+pow(quat_1.y()-quat_2.y(),2)+pow(quat_1.z()-quat_2.z(),2));
+  double linear_distance_world = (t_kinect_obj_2_obs.translation() - t_kinect_obj_2_calc.translation()).norm();
+  double world_error = quaternion_distance_world + linear_distance_world;
+  
+  Vector3f point(0,1,0);
+  Vector3f projpoint1, projpoint2;
+  projpoint1 = t_target_marker_1.inverse()*point;
+  projpoint2 = t_target_marker.inverse()*point;
+  double distance = (projpoint1-projpoint2).squaredNorm();
+  
+  point = Vector3f(0,0,0);
+  projpoint1 = t_target_marker_1.inverse()*point;
+  projpoint2 = t_target_marker.inverse()*point;
+  distance += (projpoint1-projpoint2).squaredNorm();
+  
+  point = Vector3f(0,0,1);
+  projpoint1 = t_target_marker_1.inverse()*point;
+  projpoint2 = t_target_marker.inverse()*point;
+  distance += (projpoint1-projpoint2).squaredNorm();
+  
+  cout << "Proj point 1: " << projpoint1.transpose() << " Proj point 2: " << projpoint2.transpose() << " Distance: " << distance << endl;
+  
+  //cout << "Quaternion distance: " << quaternion_distance_world << " linear distance: " << linear_distance_world << " world_error: " << world_error << endl;
+  
+  return distance;
 }
 
 double EstimateKinectTransform::reprojectionError(Vector3f point_obs, Vector3f point_calc)
@@ -206,7 +243,7 @@ int EstimateKinectTransform::functionToOptimize (void *p, int m, int n, const do
   transformation_matrix.matrix().topLeftCorner<3, 3>() = q.toRotationMatrix();
   transformation_matrix.translation() = t;
   
-  // cout << "Transformation matrix: " << endl << transformation_matrix.matrix() << endl;
+  cout << "Transformation matrix: " << endl << transformation_matrix.matrix() << endl;
 
   // Go through each data point and calculate error. ***
   // How do you calculate error between 2 poses?

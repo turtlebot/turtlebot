@@ -25,7 +25,7 @@ rosbuild_add_executable(transformation_test src/transformation_test.cpp)
 rosbuild_add_executable(interactive_transformation_test src/interactive_transformation_test.cpp)
 rosbuild_add_executable(lm_test src/lm_test.cpp)
 rosbuild_add_executable(interactive_calibration_test src/interactive_calibration_test.cpp src/estimate_kinect_transform.cpp)
-
+rosbuild_add_executable(point_calibration src/point_calibration.cpp)
 
 #common commands for building c++ executables and libraries
 #rosbuild_add_library(${PROJECT_NAME} src/example.cpp)

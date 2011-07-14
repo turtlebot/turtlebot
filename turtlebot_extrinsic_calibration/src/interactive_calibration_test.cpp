@@ -53,9 +53,9 @@ void InteractiveTransformServer::createTransforms()
   // define transform between baselink and kinect.
   t_base_kinect = (Translation<float,3>(-.1, 0, .025));
   
-  //t_base_kinect = (Translation<float,3>(0, 0, 0));
+  t_base_kinect = (Translation<float,3>(0, 0, 0));
   
-  //t_base_kinect = AngleAxis<float>(3.14/4.0, Vector3f(0,0,1));
+  t_base_kinect = AngleAxis<float>(3.14/4.0, Vector3f(0,0,1));
   
   
   // define transform between baselink pose 1 and baselink pose 2:
@@ -142,6 +142,7 @@ void InteractiveTransformServer::processFeedback(
     case visualization_msgs::InteractiveMarkerFeedback::MOUSE_UP:
       est.addData(t_base_marker, t_kinect_obj_2);
       est.computeTransform();
+      cout << "True marker position: " << endl << t_target_marker.inverse().matrix() << endl;
       cout << "Result transform: " << endl << est.getTransform().matrix() << endl;
       cout << "Actual transform: " << endl << t_base_kinect.matrix() << endl;
       break;
