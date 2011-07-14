@@ -19,27 +19,33 @@ double EstimateKinectTransform::computeError(int m, Transform<float, 3, Affine> 
   t_kinect_obj_2_obs = target_data[m];*/
 
   // First, figure out what the target_diff should be.
+  //t_kinect_1_2 = t_base_kinect * t_base_diff * t_base_kinect.inverse();
+  //t_kinect_obj_2_calc = t_kinect_obj_1 * t_kinect_1_2.inverse();
+  
+  // Kinect(old) to kinect(new): (kinect(old)->kinect(new)): kinect->base, base(old)->base(new), base->kinect
   t_kinect_1_2 = t_base_kinect * t_base_diff * t_base_kinect.inverse();
-  t_kinect_obj_2_calc = t_kinect_obj_1 * t_kinect_1_2.inverse();
+  // View of target (currently) (kinect(new)->target(new)): kinect(new)->kinect(old), kinect(old)->target(old) 
+  t_kinect_obj_2_calc = t_kinect_obj_1*t_kinect_1_2.inverse();
   
   
   // Then, figure out distance between actual target_diff and calculated.
-  cout << "Observed position: " << endl << t_kinect_obj_2_obs.matrix() << endl
-      << "Estimated position: " << endl << t_kinect_obj_2_calc.matrix() << endl;
+  /* cout << "Observed position: " << endl << t_kinect_obj_2_obs.matrix() << endl
+      << "Estimated position: " << endl << t_kinect_obj_2_calc.matrix() << endl; */
   
   // Project 3 points in each plane: (0, 0, 0), (0, 1, 0), (0, 0, 1) 
   // Are these the points I want to project? Does it matter?
-  Vector3f point0(0,0,0), point1(1,0,0), point2(0,1,0);
+  // Do this in a less stupid manner.
+  Vector3f point0(0,0,0), point1(0,1,0), point2(0,0,1);
   Vector3f point0_obs, point1_obs, point2_obs;
   Vector3f point0_calc, point1_calc, point2_calc;
   
-  point0_obs = t_kinect_obj_2_obs*point0;
-  point1_obs = t_kinect_obj_2_obs*point1;
-  point2_obs = t_kinect_obj_2_obs*point2;
+  point0_obs = t_kinect_obj_2_obs.inverse()*point0;
+  point1_obs = t_kinect_obj_2_obs.inverse()*point1;
+  point2_obs = t_kinect_obj_2_obs.inverse()*point2;
   
-  point0_calc = t_kinect_obj_2_calc*point0;
-  point1_calc = t_kinect_obj_2_calc*point1;
-  point2_calc = t_kinect_obj_2_calc*point2;
+  point0_calc = t_kinect_obj_2_calc.inverse()*point0;
+  point1_calc = t_kinect_obj_2_calc.inverse()*point1;
+  point2_calc = t_kinect_obj_2_calc.inverse()*point2;
   
   double error = reprojectionError(point0_obs, point0_calc) + 
                  reprojectionError(point1_obs, point1_calc) +
@@ -47,9 +53,16 @@ double EstimateKinectTransform::computeError(int m, Transform<float, 3, Affine> 
   
   // cout << "Error: " << error << endl;
   
-  double quaternion_distance = (Quaternionf(t_kinect_obj_2_obs.rotation()) * Quaternionf(t_kinect_obj_2_calc.rotation()).conjugate()).norm();
+  Quaternionf quat_obs(t_kinect_obj_2_obs.rotation());
+  Quaternionf quat_calc(t_kinect_obj_2_calc.rotation());
+  quat_obs.norm();
+  quat_calc.norm();
+  
+  
+  
+  double quaternion_distance = sqrt(pow(quat_obs.x()-quat_obs.x(),2)+pow(quat_obs.y()-quat_obs.y(),2)+pow(quat_obs.z()-quat_obs.z(),2));
   double linear_distance = (t_kinect_obj_2_obs.translation() - t_kinect_obj_2_calc.translation()).norm();
-  double stupid_error = quaternion_distance + linear_distance;
+  double stupid_error = quaternion_distance + 10*linear_distance;
   
   return error;
 }
@@ -79,6 +92,7 @@ void EstimateKinectTransform::addData(Transform<float, 3, Affine> baselink, Tran
   if (baselink_data.size() > 0)
   {
     // Add a new diff point.
+    cout << "Baselink_diff: " << (baselink*baselink_data.back().inverse()).matrix() << endl;
     baselink_diff_data.push_back(baselink*baselink_data.back().inverse());
     target_diff_data.push_back(target*target_data.back().inverse());
   }

@@ -55,7 +55,7 @@ void InteractiveTransformServer::createTransforms()
   
   //t_base_kinect = (Translation<float,3>(0, 0, 0));
   
-  t_base_kinect = AngleAxis<float>(3.14/2.0, Vector3f(0,0,1));
+  //t_base_kinect = AngleAxis<float>(3.14/4.0, Vector3f(0,0,1));
   
   
   // define transform between baselink pose 1 and baselink pose 2:
@@ -64,33 +64,43 @@ void InteractiveTransformServer::createTransforms()
   // define transform between kinect and object in pose 1:
   t_kinect_obj_1 = (Translation<float,3>(2, 0, 0));
   
-  // calculate transform between kinect 1 and kinect 2:
-  t_kinect_1_2 = t_base_kinect * t_base_1_2 * t_base_kinect.inverse();
-  
-  // calculate transform between kinect and object in pose 2:
-  t_kinect_obj_2 = t_kinect_1_2.inverse() * t_kinect_obj_1;
-  
   t_world_base = (Translation<float,3>(0, 0, 0));
 
   /* cout << "Kinect to Kinect: " << endl << t_kinect_1_2.matrix() << endl
       << "Initial transform: " << endl << t_kinect_obj_1.matrix() << endl
       << "Final transform: " << endl << t_kinect_obj_2.matrix() << endl; */
-
-  // Theoretically, should be able to do the full chain to get the w->w transformation.
-  // But not sure what the best way to do that is. So we'll figure it out.
 }
 
 void InteractiveTransformServer::updateTransforms()
 { 
-  t_kinect_marker = t_base_kinect*t_base_marker;
+  /*t_kinect_marker = t_base_kinect*t_base_marker;
   t_kinect_1_2 = t_base_kinect * t_base_marker * t_base_kinect.inverse();
-  t_kinect_obj_2 = t_kinect_obj_1 * t_kinect_1_2.inverse();
-  t_target_marker = t_kinect_obj_2*t_base_kinect*t_base_marker;
+  t_kinect_obj_2 = t_kinect_obj_1*t_kinect_1_2.inverse();
+  t_target_marker = t_base_marker.inverse()*t_base_kinect.inverse()*t_kinect_obj_2.inverse();*/
+  
+  
+  // The kinect marker (world->kinect): world->base(new), base->kinect
+  // Think about kinect->world vs world->kinect: which makes sense in this case?
+  // I suppose this is never used, so doesn't matter.
+  t_kinect_marker = t_base_kinect*t_base_marker;
+  // The target marker (initially) (target(old)->world): target(old)->kinect, kinect->base(old), base(old)->world
+  t_target_marker = t_world_base.inverse()*t_base_kinect.inverse()*t_kinect_obj_1.inverse();
+  // Kinect(old) to kinect(new): (kinect(old)->kinect(new)): kinect->base, base(old)->base(new), base->kinect
+  t_kinect_1_2 = t_base_kinect * t_base_marker * t_base_kinect.inverse();
+  // View of target (currently) (kinect(new)->target(new)): kinect(new)->kinect(old), kinect(old)->target(old) 
+  // (Does this make sense?) 
+  t_kinect_obj_2 = t_kinect_obj_1*t_kinect_1_2.inverse();
+  
+  // The target marker (current) (target(new)->world): target(new)->kinect, kinect->base(new), base(new)->world
+  t_target_marker = t_base_marker.inverse()*t_base_kinect.inverse()*t_kinect_obj_2.inverse();
+  
+  // To project: (target(new)->kinect)
+  t_kinect_obj_2.inverse();
   
   Transform<float, 3, Affine> t_obj_1_2 = t_kinect_obj_1 * t_kinect_obj_2.inverse();
   
   //cout << "Kinect to Kinect: " << endl << t_kinect_1_2.matrix() << endl
-    //<< "Object to Object: " << endl << t_obj_1_2.matrix() << endl;
+    //<< "Object to Object: " << endl << t_obj_1_2.matrix() << endl
     //<< "Baselink: " << endl << t_base_marker.matrix() << endl
     //<< "Kinect marker: " << endl << t_kinect_marker.matrix() << endl
     //<< "Initial transform: " << endl << t_kinect_obj_1.matrix() << endl
@@ -100,22 +110,23 @@ void InteractiveTransformServer::updateTransforms()
 
 void InteractiveTransformServer::processFeedback(
     const InteractiveMarkerFeedbackConstPtr &feedback )
-{
-  // Handle angular change (yaw is the only direction in which you can rotate)
-  //float yaw = tf::getYaw(feedback->pose.orientation);
-  
-  /* ROS_INFO_STREAM( feedback->marker_name << " is now at "
-      << feedback->pose.position.x
-      << " orientation: " << yaw); */
-      
+{     
   t_base_marker = Translation<float,3>(feedback->pose.position.x, feedback->pose.position.y, feedback->pose.position.z);
+  
+  // How confident am I that it's a prerotate? Should take a point (0,0,0) through t_base_marker and see what happens...
   t_base_marker.prerotate(Quaternion<float>(feedback->pose.orientation.w, feedback->pose.orientation.x, feedback->pose.orientation.y, feedback->pose.orientation.z));
 
   updateTransforms();
       
-  target_marker.pose.position.x = t_target_marker.translation().x();
-  target_marker.pose.position.y = t_target_marker.translation().y();
-  target_marker.pose.position.z = t_target_marker.translation().z();
+  Vector3f target_center(0, .125, .25);
+  Vector3f target_center_transformed = t_target_marker*target_center;
+  
+  //cout << "Target center: " << target_center_transformed << endl;
+      
+  // WTFFFF HAXXXX ******
+  target_marker.pose.position.x = -target_center_transformed.x();
+  target_marker.pose.position.y = -target_center_transformed.y();
+  target_marker.pose.position.z = -target_center_transformed.z();
   
   Quaternion<float> quat(t_target_marker.rotation());
   
@@ -132,7 +143,11 @@ void InteractiveTransformServer::processFeedback(
       est.addData(t_base_marker, t_kinect_obj_2);
       est.computeTransform();
       cout << "Result transform: " << endl << est.getTransform().matrix() << endl;
-      break;      
+      cout << "Actual transform: " << endl << t_base_kinect.matrix() << endl;
+      break;
+    default:
+      //est.addData(t_base_marker, t_kinect_obj_2); 
+      break;
   }
     
   //server.applyChanges();
@@ -155,7 +170,7 @@ void InteractiveTransformServer::createInteractiveMarkers()
 
   t_base_marker = t_world_base;
   t_kinect_marker = t_base_kinect*t_base_marker;
-  t_target_marker = t_kinect_obj_1*t_kinect_marker;
+  t_target_marker = t_kinect_marker.inverse()*t_kinect_obj_1.inverse();
   
   //cout << "Target marker: " << endl << t_target_marker.matrix() << endl
   //  << "Kinect marker: " << endl << t_kinect_marker.matrix() << endl
@@ -199,7 +214,7 @@ void InteractiveTransformServer::createInteractiveMarkers()
   kinect_marker.pose.position.y = t_kinect_marker.translation().y();
   kinect_marker.pose.position.z = t_kinect_marker.translation().z();
   
-  Quaternion<float> quat(t_kinect_marker.rotation());
+  Quaternion<float> quat(t_kinect_marker.inverse().rotation());
   
   kinect_marker.pose.orientation.x = quat.x();
   kinect_marker.pose.orientation.y = quat.y();
@@ -219,11 +234,6 @@ void InteractiveTransformServer::createInteractiveMarkers()
   target_marker.color.g = 1.0f;
   target_marker.color.b = 1.0f;
   target_marker.color.a = 1.0;
-
-  
-  target_marker.pose.position.x = t_target_marker.translation().x();
-  target_marker.pose.position.y = t_target_marker.translation().y();
-  target_marker.pose.position.z = t_target_marker.translation().z();
 
   // create a non-interactive control which contains the box
   InteractiveMarkerControl box_control;
