@@ -133,7 +133,7 @@ public:
   bool inFootprint(const PointXYZIndex& scan_pt)
   {
     // Do a radius instead of a box.
-    if (pow(scan_pt.x*scan_pt.x + scan_pt.y*scan_pt.y,2) > inscribed_radius_)
+    if (sqrt(scan_pt.x*scan_pt.x + scan_pt.y*scan_pt.y) > inscribed_radius_)
       return false;
     return true;
   }
