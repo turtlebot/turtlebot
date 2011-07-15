@@ -86,10 +86,12 @@ class EstimateKinectTransform
 };
 
 CalibrationWorld::CalibrationWorld()
-  : base_pose(), base_kinect(Translation3f(-1, 0, 0)), target(Vector3f(2, 0, 0))
+  : base_pose(), base_kinect(Translation3f(-.1, 0, 0)), target(Vector3f(2, 0, 0), Quaternionf(AngleAxis<float>(pi/4.0, Vector3f(0,1,0))))
   
   //: base_pose(), base_kinect(AngleAxis<float>(pi/2.0, Vector3f(0,0,1))), target(Vector3f(2, 0, 0))
 {
+  base_kinect.rotate(AngleAxis<float>(pi/4.0, Vector3f(0,0,1)));
+  
   // Set positions of objects in the world.
   true_points.push_back(Vector3f(0,0,0));
   true_points.push_back(Vector3f(0,1,0));
@@ -212,16 +214,43 @@ void EstimateKinectTransform::computeTransform()
   x[3] = 0; x[4] = 0; x[5] = 0;
 
   // Set tol to the square root of the machine. Unless high solutions are required, these are the recommended settings.
-  double tol = 1e-4;//sqrt (dpmpar (1));
+  double tol = sqrt (dpmpar (1));
 
   double precost = computeTotalCost();
   cout << "About to run LM. Total pre-cost: " << precost/m << endl;
   // Optimize using forward-difference approximation LM
-  int info = lmdif1 (&EstimateKinectTransform::functionToOptimize, this, m, n_unknowns, x, fvec, tol, iwa, wa, lwa); // Function call
+  //int info = lmdif1 (&EstimateKinectTransform::functionToOptimize, this, m, n_unknowns, x, fvec, tol, iwa, wa, lwa); // Function call
+
+
+  double ftol = sqrt (dpmpar (1));
+  double xtol = sqrt (dpmpar (1));
+  double gtol = sqrt (dpmpar (1));
+  int maxfev = 1000;
+  double epsfcn = 1e-5; // This is probs the variable to change.
+  double *diag = new double[n_unknowns];
+  int mode = 1;
+  double factor = 100;
+  int nprint = -1;
+  double *wa1 = new double[n_unknowns];
+  double *wa2 = new double[n_unknowns];
+  double *wa3 = new double[n_unknowns];
+  double *wa4 = new double[m];
+  int nfev = 0;
+  double *fjac = new double[m*n_unknowns];
+  int ldfjac = m; // WTF IS THIS???
+  int *ipvt = new int[n_unknowns];
+  double *qtf = new double[n_unknowns];
+  
+  int info = lmdif (&EstimateKinectTransform::functionToOptimize, this, m, n_unknowns, x, fvec, 
+        ftol, xtol, gtol, maxfev, epsfcn, diag, mode, factor, nprint, &nfev, fjac, ldfjac, ipvt,
+	      qtf, wa1, wa2, wa3, wa4 );
+
 
   cout << "Residuals: " << enorm(m,fvec) << endl;
 
   delete [] wa; delete [] fvec;
+  delete [] wa1; delete [] wa2; delete [] wa3; delete [] wa4; delete [] fjac;
+  delete [] diag; delete [] ipvt; delete [] qtf;
   
   result_transform = Translation<float, 3>(0,0,0);
   
@@ -257,7 +286,7 @@ int EstimateKinectTransform::functionToOptimize (void *p, int m, int n, const do
   transformation_matrix.matrix().topLeftCorner<3, 3>() = q.toRotationMatrix();
   transformation_matrix.translation() = t;
   
-  //cout << "Transformation matrix: " << endl << transformation_matrix.matrix() << endl;
+  cout << "Transformation matrix: " << endl << transformation_matrix.matrix() << endl;
 
   double totalcost = 0;
   for (int i = 0; i < m; ++i)
@@ -310,13 +339,15 @@ int main( int argc, char** argv )
   est.addData(world.base_pose, world.kinect_points);
   cout << endl << "Total cost: " << est.computeTotalCost() << endl << endl;
   
-  est.result_transform.translation() = Vector3f(-.05, 0, 0);
-  cout << endl << "Total cost: " << est.computeTotalCost() << endl << endl;
+  //est.result_transform.translation() = Vector3f(-.05, 0, 0);
+  //cout << endl << "Total cost: " << est.computeTotalCost() << endl << endl;
   
-  est.result_transform.translation() = Vector3f(-.1, 0, 0);
-  cout << endl << "Total cost: " << est.computeTotalCost() << endl << endl;
+  //est.result_transform.translation() = Vector3f(-.1, 0, 0);
+  //cout << endl << "Total cost: " << est.computeTotalCost() << endl << endl;
   
   est.computeTransform();
   cout << endl << "Final transform: " << endl << est.getTransform().matrix() << endl;
+  
+  cout << endl << "True transform: " << endl << (world.base_kinect).matrix() << endl;
 }
 
