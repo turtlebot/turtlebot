@@ -63,7 +63,7 @@ class EstimateKinectTransform
 {
   public:
     EstimateKinectTransform() : result_transform(Translation3f(0,0,0)) {}
-  
+    
     void addData(ObjectPose base_pose_, PointVector target_points_);
     
     void computeTransform();

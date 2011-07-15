@@ -7,7 +7,7 @@
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/Pose.h>
 
-#include <turtlebot_extrinsic_calibration/estimate_kinect_transform.h>
+#include "estimate_kinect_transform.h"
 
 using namespace Eigen;
 using namespace std;
