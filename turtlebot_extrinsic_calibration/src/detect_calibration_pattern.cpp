@@ -3,6 +3,11 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
+#include <iostream>
+#include <stdexcept>
+
+using namespace std;
+
 enum Pattern
 {
   CHESSBOARD, CIRCLES_GRID, ASYMMETRIC_CIRCLES_GRID
@@ -11,10 +16,56 @@ enum Pattern
 typedef std::vector<cv::Point3f> object_pts_t;
 typedef std::vector<cv::Point2f> observation_pts_t;
 
-static object_pts_t calcChessboardCorners(cv::Size boardSize,
+class PatternDetector
+{
+  public:
+    static object_pts_t calcChessboardCorners(cv::Size boardSize,
                                           float squareSize,
                                           Pattern patternType = CHESSBOARD,
-                                          cv::Point3f offset = cv::Point3f())
+                                          cv::Point3f offset = cv::Point3f());
+                                          
+    void detectPattern(const cv::Mat& inm);
+    
+    void setCameraMatrices(cv::Mat K_, cv::Mat D_);
+    
+    
+    void getPose();
+    void getPoints();
+    void setPattern(cv::Size grid_size_, float square_size_, 
+          Pattern pattern_type_, cv::Point3f offset_ = cv::Point3f());
+
+  private:
+    cv::Mat K;
+    cv::Mat D;
+    cv::Mat rvec, tvec, R;
+    
+    // Do we need to store anything but type and ideal points?
+    // Who knows!
+    Pattern pattern_type;
+    cv::Size grid_size;
+    float square_size;
+    object_pts_t ideal_points;
+};
+
+void PatternDetector::setCameraMatrices(cv::Mat K_, cv::Mat D_)
+{
+  K = K_;
+  D = D_; 
+}
+
+void PatternDetector::setPattern(cv::Size grid_size_, float square_size_, 
+      Pattern pattern_type_, cv::Point3f offset_)
+{
+  ideal_points = calcChessboardCorners(grid_size_, square_size_, pattern_type_, offset_);
+  pattern_type = pattern_type_;
+  grid_size = grid_size_;
+  square_size = square_size_;
+}
+
+object_pts_t PatternDetector::calcChessboardCorners(cv::Size boardSize,
+                                          float squareSize,
+                                          Pattern patternType,
+                                          cv::Point3f offset)
 {
   object_pts_t corners;
   switch (patternType)
@@ -42,43 +93,38 @@ static object_pts_t calcChessboardCorners(cv::Size boardSize,
 
 
 
-void pattern_detection()
+void PatternDetector::detectPattern(const cv::Mat& inm)
 {
   // Set these according to known quantities...
-  cv::Size grid_size_;
-  float square_size_;
-  Pattern pattern_;
-  object_pts_t ideal_pts_;
-  ideal_pts_ = calcChessboardCorners(grid_size_, square_size_, pattern_,offset);
   bool found = false;
-  switch (pattern_)
+  
+  // What is outv? inm?
+  observation_pts_t observation_points;
+  
+  switch (pattern_type)
   {
     case ASYMMETRIC_CIRCLES_GRID:
-      found
-          = cv::findCirclesGrid(inm, grid_size_, outv,
+      found = cv::findCirclesGrid(inm, grid_size, observation_points,
                                 cv::CALIB_CB_ASYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING);
       break;
     case CHESSBOARD:
-      found = cv::findChessboardCorners(inm, grid_size_,
-                                                          outv);
+      found = cv::findChessboardCorners(inm, grid_size, observation_points);
       break;
     case CIRCLES_GRID:
-      found
-          = cv::findCirclesGrid(inm, grid_size_, outv,
-                                cv::CALIB_CB_SYMMETRIC_GRID);
+      found = cv::findCirclesGrid(inm, grid_size, observation_points, cv::CALIB_CB_SYMMETRIC_GRID);
       break;
   }
 
   if(found)
   {
-    // Set these according to the camera matrix broadcast.
-    
-    cv::Mat K = ...; //3x3 camera matrix.
-    cv::Mat D;//assume no distortion
-    cv::Mat rvec, tvec,R;//output variables.
-    cv::solvePnP(object_points, observation_points, K, D,
-                 rvec, tvec,
-                 false);
+    cv::solvePnP(cv::Mat(ideal_points), cv::Mat(observation_points), K, D,
+                 rvec, tvec, false);
     cv::Rodrigues(rvec, R); //take the 3x1 rotation representation to a 3x3 rotation matrix.
   }
+  
+  cout << "Found? " << found << endl;
 }
+
+/*int main()
+{
+}*/

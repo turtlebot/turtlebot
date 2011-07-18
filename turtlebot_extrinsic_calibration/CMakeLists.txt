@@ -21,11 +21,15 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #uncomment if you have defined services
 #rosbuild_gensrv()
 
-rosbuild_add_executable(transformation_test test/transformation_test.cpp)
-rosbuild_add_executable(interactive_transformation_test test/interactive_transformation_test.cpp)
-rosbuild_add_executable(lm_test test/lm_test.cpp)
-rosbuild_add_executable(interactive_calibration_test test/interactive_calibration_test.cpp test/estimate_kinect_transform.cpp)
-rosbuild_add_executable(point_calibration test/point_calibration.cpp)
+# Testing code
+#rosbuild_add_executable(test/transformation_test test/transformation_test.cpp)
+#rosbuild_add_executable(test/interactive_transformation_test test/interactive_transformation_test.cpp)
+#rosbuild_add_executable(test/lm_test test/lm_test.cpp)
+#rosbuild_add_executable(test/interactive_calibration_test test/interactive_calibration_test.cpp test/estimate_kinect_transform.cpp)
+#rosbuild_add_executable(test/point_calibration test/point_calibration.cpp)
+
+#rosbuild_add_executable(detect_calibration_pattern src/detect_calibration_pattern.cpp)
+rosbuild_add_executable(calibrate_kinect_base_link src/calibrate_kinect_base_link.cpp)
 
 #common commands for building c++ executables and libraries
 #rosbuild_add_library(${PROJECT_NAME} src/example.cpp)

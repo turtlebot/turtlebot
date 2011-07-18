@@ -14,6 +14,11 @@
   <depend package="interactive_markers"/>
   <depend package="eigen"/>
   <depend package="cminpack"/>
+  <depend package="opencv2"/>
+  <depend package="image_geometry"/>
+  <depend package="image_transport"/>
+  <depend package="cv_bridge"/>
+  <depend package="message_filters"/>
 
 </package>
 
