@@ -125,7 +125,14 @@ class TurtlebotDiagnostics():
         stat = DiagnosticStatus(name="Gyro Sensor", level = DiagnosticStatus.OK, message = "OK")
         if gyro is None:
             stat.level = DiagnosticStatus.WARN
-            stat.message = "Gyro Not Enabled"
+            stat.message = "Gyro Not Enabled"   
+        elif gyro.cal_offset == 66 or sensor_state.user_analog_input == 66:
+            stat.level = DiagnosticStatus.ERROR
+            stat.message = "Create Robot in Quasi on State: Please Power Cycle the Create"
+            stat.values = [KeyValue("Gyro Enabled", str(gyro is not None)),
+                           KeyValue("Raw Gyro Rate", str(sensor_state.user_analog_input)),
+                           KeyValue("Calibration Offset", str(gyro.cal_offset)),
+                           KeyValue("Calibration Buffer", str(gyro.cal_buffer))]
         elif gyro.cal_offset > 550.0 or gyro.cal_offset < 450.0:
             stat.level = DiagnosticStatus.ERROR
             stat.message = "Bad Gyro Calibration"
