@@ -36,20 +36,20 @@
 import roslib
 roslib.load_manifest('turtlebot_node')
 import rospy
-from turtlebot_node.srv import SetDigitalOutputs
+from turtlebot_node.srv import SetTurtlebotMode
 
-service = 'turtlebot_node/set_digital_outputs'
+service = 'turtlebot_node/set_operation_mode'
 
-def kinect_breaker_enabler():
+def set_to_full():
 
-    rospy.init_node('kinect_breaker_enabler')
+    rospy.init_node('io_mode_changer')
     rospy.wait_for_service(service)
-    service_proxy = rospy.ServiceProxy(service, SetDigitalOutputs)
-    service_proxy(1,0,0)
+    service_proxy = rospy.ServiceProxy(service, SetTurtlebotMode)
+    service_proxy(3)
     
 
 if __name__ == '__main__':
     try:
-        kinect_breaker_enabler()
+        set_to_full()
     except rospy.ROSInterruptException: pass
     except IOError: pass
