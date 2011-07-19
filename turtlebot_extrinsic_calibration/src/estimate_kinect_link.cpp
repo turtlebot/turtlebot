@@ -1,8 +1,11 @@
 #include <turtlebot_extrinsic_calibration/estimate_kinect_link.h>
 
+using namespace Eigen;
+using namespace std;
+
 double EstimateKinectTransform::computeError(int m, Transform<float, 3, Affine> base_kinect)
 {
-  if (base_pose.size() < m+2)
+  if (base_pose.size() < (unsigned int)m+2)
     return 0;
   
   // Get the transforms and points for this iteration.

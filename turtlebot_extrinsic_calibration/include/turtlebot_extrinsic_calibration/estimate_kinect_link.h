@@ -15,9 +15,9 @@ class ObjectPose
 {
   public:
     ObjectPose() : translation(0,0,0), orientation(1,0,0,0) { }
-    ObjectPose(Vector3f trans, Quaternionf orient): translation(trans), orientation(orient) { }
-    ObjectPose(Quaternionf orient) : translation(0,0,0),  orientation(orient) { }
-    ObjectPose(Vector3f trans) : translation(trans), orientation(1,0,0,0) { }
+    ObjectPose(Eigen::Vector3f trans, Eigen::Quaternionf orient): translation(trans), orientation(orient) { }
+    ObjectPose(Eigen::Quaternionf orient) : translation(0,0,0),  orientation(orient) { }
+    ObjectPose(Eigen::Vector3f trans) : translation(trans), orientation(1,0,0,0) { }
     
     Eigen::Vector3f translation;
     Eigen::Quaternionf orientation;
