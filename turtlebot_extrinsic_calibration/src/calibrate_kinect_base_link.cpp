@@ -26,9 +26,9 @@ typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, sens
 
 const std::string world_frame = "/odom_combined";
 const std::string base_frame = "/base_link";
-const std::string camera_frame = "/kinect_rgb_optical_frame";
+const std::string camera_frame = "/narrow_stereo_optical_frame";//"/kinect_rgb_optical_frame";
 
-const std::string camera_topic = "/camera/rgb/";
+const std::string camera_topic = "/narrow_stereo/left/";///camera/rgb/";
 
 class CalibrateExtrinsics
 {
@@ -88,7 +88,7 @@ public:
     //sync_.registerCallback(boost::bind(&CalibrateExtrinsics::imageCb, this, _1, _2));
     
     info_sub_ = nh_.subscribe(camera_topic + "camera_info", 1, &CalibrateExtrinsics::infoCb, this);
-    image_sub_ = nh_.subscribe(camera_topic + "image_color", 1, &CalibrateExtrinsics::imageCb, this);
+    image_sub_ = nh_.subscribe(camera_topic + "image_rect", 1, &CalibrateExtrinsics::imageCb, this);
     
     marker_pub_ = nh_.advertise<visualization_msgs::Marker>("debug_markers", 10);
     marker_pose_pub_ = nh_.advertise<visualization_msgs::Marker>("pose_markers", 10);
@@ -99,7 +99,9 @@ public:
     
     pub_ = it_.advertise("image_out", 1);
     
-    pattern_detector_.setPattern(cv::Size(6, 7), 0.027, CHESSBOARD);
+    //pattern_detector_.setPattern(cv::Size(6, 7), 0.027, CHESSBOARD);
+    
+    pattern_detector_.setPattern(cv::Size(6, 7), 0.108, CHESSBOARD);
     
     
     true_points_.push_back(Eigen::Vector3f(6*0.027,0,0));
@@ -226,8 +228,8 @@ public:
         
         est_.addData(ObjectPose(base_translation, base_orientation), projected_points);
         
-        Transform<float,3,Affine> guess(Translation3f(0,0,0));
         
+        Transform<float,3,Affine> guess(Translation3f(0,0,0));
         // Use initial guess
         //guess = Transform<float,3,Affine>(kinect_orientation).pretranslate(kinect_translation);
         
@@ -236,7 +238,11 @@ public:
              << est_.computeTotalCost(Transform<float,3,Affine>(kinect_orientation).pretranslate(kinect_translation)) << endl << endl;
               
         est_.computeTransform(guess);
-        cout << endl << "Final transform with " << est_.base_pose.size() <<  " poses: " << endl << est_.getTransform().matrix() << endl;
+        cout << endl << "Final transform with " << est_.base_pose.size() <<  " poses: " << endl
+              << "Translation: [" << est_.getTransform().translation().transpose() 
+              << "] \n Rotation (Quat): ["  << Quaternionf(est_.getTransform().rotation()).coeffs().transpose()<< "]" << endl;
+        
+        guess = est_.getTransform();
         
         translation_old_ = translation;
         orientation_old_ = orientation;

@@ -64,15 +64,15 @@ int PatternDetector::detectPattern(cv::Mat& inm, Eigen::Vector3f& translation, E
   switch (pattern_type)
   {
     case ASYMMETRIC_CIRCLES_GRID:
-      found = cv::findCirclesGrid(inm, grid_size, observation_points,
-                                cv::CALIB_CB_ASYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING);
+      //found = cv::findCirclesGrid(inm, grid_size, observation_points,
+      //                          cv::CALIB_CB_ASYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING);
       break;
     case CHESSBOARD:
       //cout << "Finding chessboard in image with " << inm.total() << " pixels " << endl;
       found = cv::findChessboardCorners(inm, grid_size, observation_points, cv::CALIB_CB_ADAPTIVE_THRESH);
       break;
     case CIRCLES_GRID:
-      found = cv::findCirclesGrid(inm, grid_size, observation_points, cv::CALIB_CB_SYMMETRIC_GRID);
+      //found = cv::findCirclesGrid(inm, grid_size, observation_points, cv::CALIB_CB_SYMMETRIC_GRID);
       break;
   }
 

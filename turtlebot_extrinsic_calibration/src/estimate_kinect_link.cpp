@@ -5,18 +5,18 @@ using namespace std;
 
 double EstimateKinectTransform::computeError(int m, Transform<float, 3, Affine> base_kinect)
 {
-  if (base_pose.size() < (unsigned int)m+2)
+  if (base_pose.size() < (unsigned int)m+1)
     return 0;
   
   // Get the transforms and points for this iteration.
-  Transform<float,3,Affine> kinect_transform = base_pose[m+1].transform()*base_kinect;
-  PointVector kinect_points = target_points[m+1];
+  Transform<float,3,Affine> kinect_transform = base_pose[m].transform()*base_kinect;
+  PointVector kinect_points = target_points[m];
   
   double error = 0;
   
   for (unsigned int j=0; j < base_pose.size(); j++)
   {
-    if (j == m+1)
+    if (j == m)
       continue;
     Transform<float,3,Affine> previous_transform = base_pose[j].transform()*base_kinect;
     PointVector previous_points = target_points[j];
@@ -40,7 +40,7 @@ double EstimateKinectTransform::computeError(int m, Transform<float, 3, Affine> 
 double EstimateKinectTransform::reprojectionError(Vector3f point_obs, Vector3f point_calc)
 {
   // Squared distance between 2 vectors is the squared norm of their difference.
-  return (point_obs - point_calc).norm();
+  return (point_obs - point_calc).squaredNorm();
 }
 
 double EstimateKinectTransform::computeTotalCost()
@@ -92,7 +92,7 @@ void EstimateKinectTransform::computeTransform(Eigen::Transform<float, 3, Eigen:
   // Need at least 4 data points (is that true?)
   //if (base_pose.size()-1 < 4) return;
 
-  int m = base_pose.size()-1; // Number of points ***
+  int m = base_pose.size(); // Number of points ***
   double *fvec = new double[m];     // Output array of length m (error array)
   int *iwa = new int[n_unknowns];   // Integer work array of length n
   int lwa = m * n_unknowns + 5 * n_unknowns + m;  // Some other work array
@@ -186,7 +186,6 @@ int EstimateKinectTransform::functionToOptimize (void *p, int m, int n, const do
   for (int i = 0; i < m; ++i)
   {
     fvec[i] = model->computeError(i, transformation_matrix); // Cost function
-    totalcost += fvec[i];
   }
   
   //cout << "Total cost at step: " << totalcost << endl;
