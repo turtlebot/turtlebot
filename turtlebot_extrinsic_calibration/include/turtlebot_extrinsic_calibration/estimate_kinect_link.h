@@ -38,12 +38,13 @@ class EstimateKinectTransform
   
     void addData(ObjectPose base_pose_, PointVector target_points_);
     
-    void computeTransform();
+    void computeTransform(Eigen::Transform<float,3,Eigen::Affine> guess);
     double computeTotalCost();
     Eigen::Transform<float, 3, Eigen::Affine> getTransform();
     
     static int functionToOptimize (void *p, int m, int n, const double *x, double *fvec, int iflag);
     double computeError(int m, Eigen::Transform<float, 3, Eigen::Affine> t_base_kinect);
+    double computeTotalCost(Eigen::Transform<float, 3, Eigen::Affine> transform);
   
   public:
   //private:

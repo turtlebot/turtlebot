@@ -12,19 +12,26 @@ double EstimateKinectTransform::computeError(int m, Transform<float, 3, Affine> 
   Transform<float,3,Affine> kinect_transform = base_pose[m+1].transform()*base_kinect;
   PointVector kinect_points = target_points[m+1];
   
-  Transform<float,3,Affine> previous_transform = base_pose[m].transform()*base_kinect;
-  PointVector previous_points = target_points[m];
-  
   double error = 0;
-  for (unsigned int i=0; i < kinect_points.size(); i++)
-  { 
-    Vector3f previous_point_world = previous_transform*previous_points[i];
-    //cout << "Previous world point: " << previous_point_world.transpose() << endl;
-    
-    Vector3f current_point_world = kinect_transform*kinect_points[i];
-    //cout << "Current world point: " << current_point_world.transpose() << endl;
-    
-    error += reprojectionError(previous_point_world, current_point_world);
+  
+  for (unsigned int j=0; j < base_pose.size(); j++)
+  {
+    if (j == m+1)
+      continue;
+    Transform<float,3,Affine> previous_transform = base_pose[j].transform()*base_kinect;
+    PointVector previous_points = target_points[j];
+  
+  
+    for (unsigned int i=0; i < kinect_points.size(); i++)
+    { 
+      Vector3f previous_point_world = previous_transform*previous_points[i];
+      //cout << "Previous world point: " << previous_point_world.transpose() << endl;
+      
+      Vector3f current_point_world = kinect_transform*kinect_points[i];
+      //cout << "Current world point: " << current_point_world.transpose() << endl;
+      
+      error += reprojectionError(previous_point_world, current_point_world);
+    }
   }
   
   return error;
@@ -48,6 +55,18 @@ double EstimateKinectTransform::computeTotalCost()
   return sum;
 }
 
+double EstimateKinectTransform::computeTotalCost(Eigen::Transform<float, 3, Eigen::Affine> transform)
+{
+  int m = base_pose.size();
+  double sum = 0;
+  for (int i = 0; i < m; ++i)
+  {
+     sum += computeError(i, transform); // Cost function
+  }
+
+  return sum;
+}
+
 void EstimateKinectTransform::addData(ObjectPose base_pose_, PointVector target_points_)
 {
   base_pose.push_back(base_pose_);
@@ -64,7 +83,7 @@ Eigen::Transform<float, 3, Eigen::Affine> EstimateKinectTransform::getTransform(
   return result_transform;
 }
 
-void EstimateKinectTransform::computeTransform()
+void EstimateKinectTransform::computeTransform(Eigen::Transform<float, 3, Eigen::Affine> guess)
 {
   int n_unknowns = 6;      // 6 unknowns: 3 translation + 3 rotation (quaternion)
 
@@ -82,15 +101,17 @@ void EstimateKinectTransform::computeTransform()
   // Set the initial solution
   double *x = new double[n_unknowns];
   // Translation estimates - initial guess
-  x[0] = 0; x[1] = 0; x[2] = 0;
+  x[0] = guess.translation().x(); x[1] = guess.translation().y(); x[2] = guess.translation().z();
+  
+  Quaternionf guess_quat(guess.rotation());
   // Rotation estimates - initial guess quaternion: x-y-z-w
-  x[3] = 0; x[4] = 0; x[5] = 0;
+  x[3] = guess_quat.x(); x[4] = guess_quat.y(); x[5] = guess_quat.z();
 
   // Set tol to the square root of the machine. Unless high solutions are required, these are the recommended settings.
   double tol = sqrt (dpmpar (1));
 
   double precost = computeTotalCost();
-  cout << "About to run LM. Total pre-cost: " << precost/m << endl;
+  //cout << "About to run LM. Total pre-cost: " << precost/m << endl;
   // Optimize using forward-difference approximation LM
   //int info = lmdif1 (&EstimateKinectTransform::functionToOptimize, this, m, n_unknowns, x, fvec, tol, iwa, wa, lwa); // Function call
 
@@ -119,7 +140,7 @@ void EstimateKinectTransform::computeTransform()
 	      qtf, wa1, wa2, wa3, wa4 );
 
 
-  cout << "Residuals: " << enorm(m,fvec) << endl;
+  //cout << "Residuals: " << enorm(m,fvec) << endl;
 
   delete [] wa; delete [] fvec;
   delete [] wa1; delete [] wa2; delete [] wa3; delete [] wa4; delete [] fjac;
@@ -141,7 +162,7 @@ void EstimateKinectTransform::computeTransform()
   
   double postcost = computeTotalCost();
   
-  cout << "Post running LM. Status: " << info << " Pre-cost: " << precost/m << " Post-cost: " << postcost/m << endl;
+  //cout << "Post running LM. Status: " << info << " Pre-cost: " << precost/m << " Post-cost: " << postcost/m << endl;
 }
 
 int EstimateKinectTransform::functionToOptimize (void *p, int m, int n, const double *x, double *fvec, int iflag)
@@ -159,7 +180,7 @@ int EstimateKinectTransform::functionToOptimize (void *p, int m, int n, const do
   transformation_matrix.matrix().topLeftCorner<3, 3>() = q.toRotationMatrix();
   transformation_matrix.translation() = t;
   
-  cout << "Transformation matrix: " << endl << transformation_matrix.matrix() << endl;
+  //cout << "Transformation matrix: " << endl << transformation_matrix.matrix() << endl;
 
   double totalcost = 0;
   for (int i = 0; i < m; ++i)
@@ -168,7 +189,7 @@ int EstimateKinectTransform::functionToOptimize (void *p, int m, int n, const do
     totalcost += fvec[i];
   }
   
-  cout << "Total cost at step: " << totalcost << endl;
+  //cout << "Total cost at step: " << totalcost << endl;
   return (0);
 }
 

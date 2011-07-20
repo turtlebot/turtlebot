@@ -28,8 +28,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #rosbuild_add_executable(test/interactive_calibration_test test/interactive_calibration_test.cpp test/estimate_kinect_transform.cpp)
 #rosbuild_add_executable(test/point_calibration test/point_calibration.cpp)
 
-#rosbuild_add_executable(detect_calibration_pattern src/detect_calibration_pattern.cpp)
-rosbuild_add_executable(calibrate_kinect_base_link src/calibrate_kinect_base_link.cpp src/estimate_kinect_link.cpp)
+rosbuild_add_executable(calibrate_kinect_base_link src/calibrate_kinect_base_link.cpp src/estimate_kinect_link.cpp src/detect_calibration_pattern.cpp )
 
 #common commands for building c++ executables and libraries
 #rosbuild_add_library(${PROJECT_NAME} src/example.cpp)

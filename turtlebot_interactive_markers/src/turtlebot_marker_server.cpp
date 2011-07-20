@@ -42,7 +42,7 @@ class TurtlebotMarkerServer
     TurtlebotMarkerServer()
       : server("turtle_marker_server")
     {
-      vel_pub = nh.advertise<geometry_msgs::Twist>("cmd_vel", 1);
+      vel_pub = nh.advertise<geometry_msgs::Twist>("turtlebot_node/cmd_vel", 1);
       createInteractiveMarkers();
     }
     
