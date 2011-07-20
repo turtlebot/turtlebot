@@ -119,6 +119,11 @@ public:
     //cam_info_ = info_msg;
     cam_model_.fromCameraInfo(info_msg);
     
+    cv::Mat K = (cv::Mat_<double>(3,3) << 538.04668883179033, 0.0, 333.47627148365939, 0.0, 533.58807413837224, 261.72627024909525, 0.0, 0.0, 1.0);
+    cv::Mat D = (cv::Mat_<double>(4,1) << 0.11670698134925221, -0.21651116066856213, -0.0028579589456466377, 0.011540507063821316);
+
+    //pattern_detector_.setCameraMatrices(K, D);
+    
     pattern_detector_.setCameraMatrices(cam_model_.intrinsicMatrix(), cam_model_.distortionCoeffs());
     calibrated = true;
     cout << "Got camera info!" << endl;
@@ -222,6 +227,10 @@ public:
         est_.addData(ObjectPose(base_translation, base_orientation), projected_points);
         
         Transform<float,3,Affine> guess(Translation3f(0,0,0));
+        
+        // Use initial guess
+        //guess = Transform<float,3,Affine>(kinect_orientation).pretranslate(kinect_translation);
+        
         cout << endl << "Total cost with calibration: " << est_.computeTotalCost() 
               << " Without: "
              << est_.computeTotalCost(Transform<float,3,Affine>(kinect_orientation).pretranslate(kinect_translation)) << endl << endl;
@@ -296,6 +305,7 @@ public:
       // Get the transforms and points for this iteration.
       Transform<float,3,Affine> kinect_pose_transform = (est_.base_pose[i].transform()*kinect_transform);
       Transform<float,3,Affine> calibrated_pose_transform = (est_.base_pose[i].transform()*calibrated_transform);
+      
       kinect_pose_transform.translation().z() = 0;
       calibrated_pose_transform.translation().z() = 0;
       

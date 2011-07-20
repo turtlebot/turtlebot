@@ -40,7 +40,7 @@ double EstimateKinectTransform::computeError(int m, Transform<float, 3, Affine> 
 double EstimateKinectTransform::reprojectionError(Vector3f point_obs, Vector3f point_calc)
 {
   // Squared distance between 2 vectors is the squared norm of their difference.
-  return (point_obs - point_calc).squaredNorm();
+  return (point_obs - point_calc).norm();
 }
 
 double EstimateKinectTransform::computeTotalCost()
