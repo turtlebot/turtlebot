@@ -24,6 +24,12 @@ using namespace Eigen;
 
 typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, sensor_msgs::CameraInfo> CameraSyncPolicy;
 
+const std::string world_frame = "/odom_combined";
+const std::string base_frame = "/base_link";
+const std::string camera_frame = "/kinect_rgb_optical_frame";
+
+const std::string camera_topic = "/camera/rgb/";
+
 class CalibrateExtrinsics
 {
   ros::NodeHandle nh_;
@@ -81,8 +87,8 @@ public:
     
     //sync_.registerCallback(boost::bind(&CalibrateExtrinsics::imageCb, this, _1, _2));
     
-    info_sub_ = nh_.subscribe("/camera/rgb/camera_info", 1, &CalibrateExtrinsics::infoCb, this);
-    image_sub_ = nh_.subscribe("/camera/rgb/image_color", 1, &CalibrateExtrinsics::imageCb, this);
+    info_sub_ = nh_.subscribe(camera_topic + "camera_info", 1, &CalibrateExtrinsics::infoCb, this);
+    image_sub_ = nh_.subscribe(camera_topic + "image_color", 1, &CalibrateExtrinsics::imageCb, this);
     
     marker_pub_ = nh_.advertise<visualization_msgs::Marker>("debug_markers", 10);
     marker_pose_pub_ = nh_.advertise<visualization_msgs::Marker>("pose_markers", 10);
@@ -96,8 +102,8 @@ public:
     pattern_detector_.setPattern(cv::Size(6, 7), 0.027, CHESSBOARD);
     
     
-    true_points_.push_back(Eigen::Vector3f(0,0,0));
     true_points_.push_back(Eigen::Vector3f(6*0.027,0,0));
+    true_points_.push_back(Eigen::Vector3f(0,0,0));
     true_points_.push_back(Eigen::Vector3f(0,7*0.027,0));
     
     translation_old_.setZero();
@@ -167,15 +173,15 @@ public:
       ros::Duration timeout(1.0 / 30.0);
       
       // Get base_link transform
-      tf_listener_.waitForTransform("/odom_combined", "/base_link",
+      tf_listener_.waitForTransform(world_frame, base_frame,
                                     acquisition_time, timeout);
-      tf_listener_.lookupTransform("/odom_combined", "/base_link",
+      tf_listener_.lookupTransform(world_frame, base_frame,
                                    acquisition_time, transform);
                                    
       // Get the original kinect_link transform                             
-      tf_listener_.waitForTransform("/base_link", "/kinect_rgb_optical_frame",
+      tf_listener_.waitForTransform(base_frame, camera_frame,
                                     acquisition_time, timeout);
-      tf_listener_.lookupTransform("/base_link", "/kinect_rgb_optical_frame",
+      tf_listener_.lookupTransform(base_frame, camera_frame,
                                    acquisition_time, kinect_transform);
     }
     catch (tf::TransformException& ex) {
@@ -227,6 +233,7 @@ public:
         orientation_old_ = orientation;
         
         publishPoseMarkers(Transform<float,3,Affine>(kinect_orientation).pretranslate(kinect_translation), est_.getTransform());
+        publishPoseLines(Transform<float,3,Affine>(kinect_orientation).pretranslate(kinect_translation), est_.getTransform());
       }
     }
   }
@@ -234,7 +241,7 @@ public:
   void publishTargetMarker(Eigen::Vector3f& translation, Eigen::Quaternionf& orientation)
   {
     visualization_msgs::Marker target_marker;
-    target_marker.header.frame_id = "/kinect_rgb_optical_frame";
+    target_marker.header.frame_id = camera_frame;
     target_marker.header.stamp = ros::Time::now();
     
     target_marker.id = 0;
@@ -266,11 +273,22 @@ public:
     // Publish pose markers of all poses tracked in kinect frame and estimated kinect frame
     // See which ones are more self-consistent
     visualization_msgs::Marker kinect_poses, calibrated_poses;
-    kinect_poses.header.frame_id = calibrated_poses.header.frame_id = "/odom_combined";
+    kinect_poses.header.frame_id = calibrated_poses.header.frame_id = world_frame;
     kinect_poses.header.stamp = calibrated_poses.header.stamp = ros::Time::now();
     kinect_poses.type = calibrated_poses.type = visualization_msgs::Marker::LINE_LIST;
     kinect_poses.id = 0;
     calibrated_poses.id = 1;
+    
+    kinect_poses.scale.x = 0.01;
+    kinect_poses.color.r = 0;
+    kinect_poses.color.g = 1;
+    kinect_poses.color.b = 1;
+    kinect_poses.color.a = 1;
+    calibrated_poses.scale.x = 0.01;
+    calibrated_poses.color.r = 1;
+    calibrated_poses.color.g = 0;
+    calibrated_poses.color.b = 1;
+    calibrated_poses.color.a = 1;
     
     
     for (int i=0; i < est_.base_pose.size(); i++)
@@ -315,7 +333,7 @@ public:
     // Publish pose markers of all poses tracked in kinect frame and estimated kinect frame
     // See which ones are more self-consistent
     geometry_msgs::PoseArray kinect_poses, calibrated_poses;
-    kinect_poses.header.frame_id = calibrated_poses.header.frame_id = "/odom_combined";
+    kinect_poses.header.frame_id = calibrated_poses.header.frame_id = world_frame;
     kinect_poses.header.stamp = calibrated_poses.header.stamp = ros::Time::now();
     
     geometry_msgs::Pose kinect_pose;

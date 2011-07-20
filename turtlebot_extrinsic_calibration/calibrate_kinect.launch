@@ -1,0 +1,10 @@
+<launch>
+  <node pkg="nodelet" type="nodelet" name="manager" args="manager"/>
+ 
+  <!-- Driver nodelet -->
+  <node pkg="nodelet" type="nodelet" name="openni_node"
+        args="load openni_camera/driver manager">
+    <param name="rgb_camera_info_url" value="file:///home/user/rgb.yaml" />
+    <param name="depth_camera_info_url" value="file:///home/user/depth.yaml" />
+  </node>
+</launch>
