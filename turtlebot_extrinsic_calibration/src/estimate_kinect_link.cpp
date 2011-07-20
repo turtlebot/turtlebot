@@ -119,8 +119,8 @@ void EstimateKinectTransform::computeTransform(Eigen::Transform<float, 3, Eigen:
   double ftol = sqrt (dpmpar (1));
   double xtol = sqrt (dpmpar (1));
   double gtol = sqrt (dpmpar (1));
-  int maxfev = 1000;
-  double epsfcn = 1e-5; // This is probs the variable to change.
+  int maxfev = 10000;
+  double epsfcn = 1e-8; // This is probs the variable to change.
   double *diag = new double[n_unknowns];
   int mode = 1;
   double factor = 100;

@@ -65,6 +65,8 @@ class CalibrateExtrinsics
   PointVector true_points_;
   Eigen::Vector3f translation_old_;
   Eigen::Quaternionf orientation_old_;
+  Eigen::Vector3f translation_stat_;
+  Eigen::Quaternionf orientation_stat_;
   
   bool calibrated;
 
@@ -110,6 +112,8 @@ public:
     
     translation_old_.setZero();
     orientation_old_.setIdentity();
+    translation_stat_.setZero();
+    orientation_stat_.setIdentity();
     cout << "Finished constructor." << endl;
   }
 
@@ -218,8 +222,18 @@ public:
       // Whichever seems most convenient.
       //cout << endl << "Translation norm: " << (translation - translation_old_).norm()
       //      << " Quaternion norm: " << (orientation.angularDistance(orientation_old_)) << endl << endl;
+      
+      // Enough of a change to do keyframing
       if ((translation - translation_old_).norm() > 0.01 || (orientation.angularDistance(orientation_old_)) > 0.01)
       {
+        // Check if it's small enough change to assume we're stationary
+        if ((translation - translation_stat_).norm() > 0.01 || (orientation.angularDistance(orientation_stat_)) > 0.01)
+        {
+          translation_stat_ = translation;
+          orientation_stat_ = orientation;
+          return;
+        }
+        
         PointVector projected_points(true_points_.size());
         for (unsigned int i=0; i < true_points_.size(); i++)
         {

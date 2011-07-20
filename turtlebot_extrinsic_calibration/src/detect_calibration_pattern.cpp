@@ -74,6 +74,8 @@ int PatternDetector::detectPattern(cv::Mat& inm, Eigen::Vector3f& translation, E
 
   if(found)
   {
+    cv::cornerSubPix(inm, observation_points, cv::Size(5,5), cv::Size(-1,-1), cv::TermCriteria(cv::TermCriteria::MAX_ITER + cv::TermCriteria::EPS, 100, 0.01));
+  
     cv::solvePnP(cv::Mat(ideal_points), cv::Mat(observation_points), K, D,
                  rvec, tvec, false);
     cv::Rodrigues(rvec, R); //take the 3x1 rotation representation to a 3x3 rotation matrix.
