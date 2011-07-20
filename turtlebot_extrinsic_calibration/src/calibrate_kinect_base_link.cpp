@@ -26,9 +26,9 @@ typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, sens
 
 const std::string world_frame = "/odom_combined";
 const std::string base_frame = "/base_link";
-const std::string camera_frame = "/narrow_stereo_optical_frame";//"/kinect_rgb_optical_frame";
+const std::string camera_frame = "/kinect_rgb_optical_frame";
 
-const std::string camera_topic = "/narrow_stereo/left/";///camera/rgb/";
+const std::string camera_topic = "camera/rgb/";
 
 class CalibrateExtrinsics
 {
@@ -88,7 +88,7 @@ public:
     //sync_.registerCallback(boost::bind(&CalibrateExtrinsics::imageCb, this, _1, _2));
     
     info_sub_ = nh_.subscribe(camera_topic + "camera_info", 1, &CalibrateExtrinsics::infoCb, this);
-    image_sub_ = nh_.subscribe(camera_topic + "image_rect", 1, &CalibrateExtrinsics::imageCb, this);
+    image_sub_ = nh_.subscribe(camera_topic + "image_mono", 1, &CalibrateExtrinsics::imageCb, this);
     
     marker_pub_ = nh_.advertise<visualization_msgs::Marker>("debug_markers", 10);
     marker_pose_pub_ = nh_.advertise<visualization_msgs::Marker>("pose_markers", 10);
