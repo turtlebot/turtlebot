@@ -28,7 +28,7 @@ void convertCVtoEigen(cv::Mat& tvec, cv::Mat& R, Eigen::Vector3f& translation, E
 class PatternDetector
 {
   public:
-    PatternDetector() { cv::namedWindow("image_test", CV_WINDOW_AUTOSIZE); }
+    PatternDetector() { }
   
     static object_pts_t calcChessboardCorners(cv::Size boardSize,
                                           float squareSize,
