@@ -48,10 +48,6 @@ object_pts_t PatternDetector::calcChessboardCorners(cv::Size boardSize,
 
 int PatternDetector::detectPattern(cv::Mat& inm, Eigen::Vector3f& translation, Eigen::Quaternionf& orientation)
 {
-  cv::imshow("image_test", inm);
-  cv::imwrite("image.png", inm);
-
-  
   translation.setZero();
   orientation.setIdentity();
   
