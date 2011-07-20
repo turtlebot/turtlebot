@@ -99,9 +99,9 @@ public:
     
     pub_ = it_.advertise("image_out", 1);
     
-    //pattern_detector_.setPattern(cv::Size(6, 7), 0.027, CHESSBOARD);
+    pattern_detector_.setPattern(cv::Size(6, 7), 0.027, CHESSBOARD);
     
-    pattern_detector_.setPattern(cv::Size(6, 7), 0.108, CHESSBOARD);
+    //pattern_detector_.setPattern(cv::Size(6, 7), 0.108, CHESSBOARD);
     
     
     true_points_.push_back(Eigen::Vector3f(6*0.027,0,0));
