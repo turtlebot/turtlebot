@@ -136,6 +136,8 @@ class TurtlebotDiagnostics():
         elif gyro.cal_offset > 550.0 or gyro.cal_offset < 450.0:
             stat.level = DiagnosticStatus.ERROR
             stat.message = "Bad Gyro Calibration"
+
+        if gyro is not None:    
             stat.values = [KeyValue("Gyro Enabled", str(gyro is not None)),
                            KeyValue("Raw Gyro Rate", str(sensor_state.user_analog_input)),
                            KeyValue("Calibration Offset", str(gyro.cal_offset)),
