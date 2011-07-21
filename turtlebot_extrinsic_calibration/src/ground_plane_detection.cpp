@@ -28,7 +28,7 @@ void callback(const PointCloud::ConstPtr& msg)
   
   pcl::VoxelGrid<pcl::PointXYZ> sor;
   sor.setInputCloud (msg);
-  sor.setLeafSize (0.01, 0.01, 0.01);
+  sor.setLeafSize (0.02, 0.02, 0.02);
   sor.filter (cloud_filtered);
 
   std::cerr << "PointCloud after filtering: " << cloud_filtered.width * cloud_filtered.height 
@@ -136,10 +136,10 @@ void callback(const PointCloud::ConstPtr& msg)
 
       std::cerr << "Model inliers: " << inliers->indices.size () << std::endl;
       
-      std::cerr << "PointCloud " << i << " with normal agreement " << floor_normal.dot(plane_normal) << std::endl;
-    
       if (cloud_ground.size() < nr_points/10.0)
       {
+        std::cerr << "PointCloud " << i << " with normal agreement " << floor_normal.dot(plane_normal) << std::endl;
+
         cout << "But not using this one because it sucks... try again!" << endl;
         found_ground = false;
       }

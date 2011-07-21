@@ -85,8 +85,6 @@ int PatternDetector::detectPattern(cv::Mat& inm, Eigen::Vector3f& translation, E
     convertCVtoEigen(tvec, R, translation, orientation);
   }
   
-  cout << "Found? " << found << endl;
-  
   return found;
 }
 
