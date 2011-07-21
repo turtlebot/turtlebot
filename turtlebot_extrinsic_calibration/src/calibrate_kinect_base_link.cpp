@@ -155,28 +155,11 @@ public:
     
     bool detected = pattern_detector_.detectPattern(bridge_->image, translation, orientation);
     
-    if (detected)
-    {
-      //cout << "Translation: " << translation.transpose() << endl
-       //    << "Rotation: " << orientation.toRotationMatrix() << endl;
-     
-      // If pattern detected, should probably do stuff.
-      // Visualize the markers in 3D: 
-           
+    if (!detected)
+      return;
       
-
-
-      // Rotate from image coordinate frame to world coordinate frame
-      Eigen::Matrix3f rotmat;
-      rotmat << 0, 0, 1, -1, 0, 0, 0, -1, 0;
-      Eigen::Quaternionf quat(rotmat);
-      
-      //translation = quat*translation;
-      //orientation = quat*orientation;
-      
-      publishTargetMarker(translation, orientation);
-
-    }
+    publishTargetMarker(translation, orientation);
+    
     
     tf::StampedTransform transform, kinect_transform;
     try {
@@ -199,6 +182,7 @@ public:
       ROS_WARN("[calibrate] TF exception:\n%s", ex.what());
       return;
     }
+    
     
     // Alright, now we have a btTransform...
     // Convert it to something we can use.
@@ -227,12 +211,12 @@ public:
       if ((translation - translation_old_).norm() > 0.01 || (orientation.angularDistance(orientation_old_)) > 0.01)
       {
         // Check if it's small enough change to assume we're stationary
-        if ((translation - translation_stat_).norm() > 0.01 || (orientation.angularDistance(orientation_stat_)) > 0.01)
+        /*if ((translation - translation_stat_).norm() > 0.01 || (orientation.angularDistance(orientation_stat_)) > 0.01)
         {
           translation_stat_ = translation;
           orientation_stat_ = orientation;
           return;
-        }
+        }*/
         
         PointVector projected_points(true_points_.size());
         for (unsigned int i=0; i < true_points_.size(); i++)
@@ -393,7 +377,7 @@ public:
       Vector3f translation = kinect_pose_transform.translation();
       kinect_pose.position.x = kinect_point.x();
       kinect_pose.position.y = kinect_point.y();
-      kinect_pose.position.z = 0;//kinect_point.z();
+      kinect_pose.position.z = kinect_point.z();
       
       Quaternionf orientation = Quaternionf(kinect_pose_transform.rotation());
       kinect_pose.orientation.x = orientation.x();

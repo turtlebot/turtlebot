@@ -18,6 +18,8 @@ double EstimateKinectTransform::computeError(int m, Transform<float, 3, Affine> 
   {
     if (j == m)
       continue;
+    //if (j != m+1)
+      //continue;
     Transform<float,3,Affine> previous_transform = base_pose[j].transform()*base_kinect;
     PointVector previous_points = target_points[j];
   
@@ -152,6 +154,9 @@ void EstimateKinectTransform::computeTransform(Eigen::Transform<float, 3, Eigen:
   // Compute w from the unit quaternion
   Eigen::Quaternionf q (0, x[3], x[4], x[5]);
   q.w () = sqrt (1 - q.dot (q));
+  
+  q = Quaternionf(0.500, -0.500, 0.500, -0.500);
+  
   result_transform.matrix().topLeftCorner<3, 3>() = q.toRotationMatrix ();
 
   Eigen::Vector3f t (x[0], x[1], x[2]);
@@ -174,6 +179,8 @@ int EstimateKinectTransform::functionToOptimize (void *p, int m, int n, const do
   // Compute w from the unit quaternion
   Eigen::Quaternionf q (0, x[3], x[4], x[5]);
   q.w () = sqrt (1 - q.dot (q));
+  
+  q = Quaternionf(0.500, -0.500, 0.500, -0.500);
   
   Transform<float, 3, Affine> transformation_matrix;
   transformation_matrix = Translation<float, 3>(0,0,0);
