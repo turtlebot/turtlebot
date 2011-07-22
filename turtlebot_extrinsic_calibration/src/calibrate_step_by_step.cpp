@@ -61,6 +61,10 @@ class CalibrateStepByStep
     // State variable
     CalibrationState state_;
     
+    // Order of states
+    std::vector<CalibrationState> state_list_;
+    int state_index_;
+    
     // The optimized transform
     Eigen::Transform<float, 3, Eigen::Affine> transform;
     
@@ -75,12 +79,12 @@ class CalibrateStepByStep
 
 public:
   CalibrateStepByStep()
-    : nh_(), it_(nh_), state_(CALIB_INIT) 
+    : nh_(), it_(nh_), state_(CALIB_INIT), state_index_(0)
   {
     pattern_detector_.setPattern(cv::Size(checkerboard_width, checkerboard_height), checkerboard_grid, CHESSBOARD);
-    true_points_.push_back(Eigen::Vector3f(checkerboard_width*checkerboard_grid,0,0));
+    //true_points_.push_back(Eigen::Vector3f(checkerboard_width*checkerboard_grid,0,0));
     true_points_.push_back(Eigen::Vector3f(0,0,0));
-    true_points_.push_back(Eigen::Vector3f(0,checkerboard_height*checkerboard_grid,0));
+    //true_points_.push_back(Eigen::Vector3f(0,checkerboard_height*checkerboard_grid,0));
     
     translation_old_.setZero();
     orientation_old_.setIdentity();
@@ -88,18 +92,32 @@ public:
     setState(CALIB_INIT);
     
     transform.translation().setZero();
-    transform.rotation() = Quaternionf().setIdentity().toRotationMatrix();
+    transform.matrix().topLeftCorner<3, 3>() = Quaternionf().setIdentity().toRotationMatrix();
+    
+    //transform.matrix().topLeftCorner<3, 3>() = Quaternionf(.5,-.5,.5,-.5).toRotationMatrix();
+    
+    state_list_.push_back(CALIB_INIT);
+    state_list_.push_back(CALIB_ROTATION);
+    //state_list_.push_back(CALIB_GROUND_PLANE);
+    state_list_.push_back(CALIB_XY);
+    state_list_.push_back(CALIB_FINISHED);
+    
+    // DEBUG
+    pub_ = it_.advertise("image_out", 1);
   }
     
   void advanceState()
   {
     unsetState();
-    setState((CalibrationState)((int)state_+1));
+    state_index_++;
+    setState(state_list_[state_index_]);
   }
   
   void setState(CalibrationState new_state)
   {
     state_ = new_state;
+  
+    displayResults();
   
     switch (new_state)
     {
@@ -111,6 +129,7 @@ public:
         image_sub_ = nh_.subscribe(camera_topic + image_topic, 1, &CalibrateStepByStep::imageCallback, this);
         iterations = 0;
         cout << "[calibrate] Calibrating rotation." << endl;
+        est_.setMask(ESTIMATOR_MASK_ROTATION);
         break;
       case CALIB_GROUND_PLANE:
         pointcloud_sub_ = nh_.subscribe<pcl::PointCloud<pcl::PointXYZ> >
@@ -120,6 +139,7 @@ public:
       case CALIB_XY:
         image_sub_ = nh_.subscribe(camera_topic + image_topic, 1, &CalibrateStepByStep::imageCallback, this);
         iterations = 0;
+        est_.setMask(ESTIMATOR_MASK_XY);
         cout << "[calibrate] Calibrating x-y." << endl;
         break;
       case CALIB_FINISHED:
@@ -192,7 +212,7 @@ public:
     {
       // Is this actually z OH GOD I DON'T KNOW
       // This is probably horribly wrong
-      transform.translation().z() = ground_plane_detector_.getDistance();
+      transform.translation().z() = -ground_plane_detector_.getDistance();
       advanceState();
     }
   }
@@ -259,7 +279,10 @@ public:
       translation_old_ = translation;
       orientation_old_ = orientation;
       
-      if (iterations > 30)
+      // DEBUG
+      pub_.publish(bridge_->toImageMsg());
+      
+      if (iterations >= 30)
       {
         cout << endl << "Total cost with calibration: " << est_.computeTotalCost() << endl;
               

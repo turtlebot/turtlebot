@@ -304,7 +304,7 @@ public:
     calibrated_poses.color.a = 1;
     
     
-    for (int i=0; i < est_.base_pose.size(); i++)
+    for (unsigned int i=0; i < est_.base_pose.size(); i++)
     {
       // Get the transforms and points for this iteration.
       Transform<float,3,Affine> kinect_pose_transform = (est_.base_pose[i].transform()*kinect_transform);
@@ -313,7 +313,7 @@ public:
       kinect_pose_transform.translation().z() = 0;
       calibrated_pose_transform.translation().z() = 0;
       
-      for (int j=0; j < est_.target_points[i].size(); j++)
+      for (unsigned int j=0; j < est_.target_points[i].size(); j++)
       {
         geometry_msgs::Point pointk, pointc;
         Vector3f kinect_point = kinect_pose_transform*est_.target_points[i][j];
@@ -356,7 +356,7 @@ public:
     //Eigen::Transformf kinect_transform;
     //Eigen::Transformf calibrated_transform;
     
-    for (int i=0; i < est_.base_pose.size(); i++)
+    for (unsigned int i=0; i < est_.base_pose.size(); i++)
     {
       // Get the transforms and points for this iteration.
       Transform<float,3,Affine> kinect_pose_transform = (est_.base_pose[i].transform()*kinect_transform);

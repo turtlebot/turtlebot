@@ -31,10 +31,17 @@ class ObjectPose
     }
 };
 
+enum EstimatorMask
+{
+  ESTIMATOR_MASK_ALL, ESTIMATOR_MASK_ROTATION, ESTIMATOR_MASK_XYZ, ESTIMATOR_MASK_XY
+};
+
 class EstimateKinectTransform
 {
   public:
-    EstimateKinectTransform() : result_transform(Eigen::Translation3f(0,0,0)) {}
+    EstimateKinectTransform() : result_transform(Eigen::Translation3f(0,0,0)), mask(ESTIMATOR_MASK_ALL) {}
+  
+    
   
     void addData(ObjectPose base_pose_, PointVector target_points_);
     
@@ -46,6 +53,10 @@ class EstimateKinectTransform
     double computeError(int m, Eigen::Transform<float, 3, Eigen::Affine> t_base_kinect);
     double computeTotalCost(Eigen::Transform<float, 3, Eigen::Affine> transform);
   
+    void setMask(EstimatorMask mask_);
+    void transformFromX(const double* x, Eigen::Transform<float, 3, Eigen::Affine>& transform);
+    void xFromTransform(const Eigen::Transform<float, 3, Eigen::Affine>& transform, double* x);
+  
   public:
   //private:
     double reprojectionError(Eigen::Vector3f point_obs, Eigen::Vector3f point_calc);
@@ -53,6 +64,8 @@ class EstimateKinectTransform
     std::vector<ObjectPose,Eigen::aligned_allocator<ObjectPose> > base_pose;
     std::vector<PointVector> target_points;
     Eigen::Transform<float, 3, Eigen::Affine> result_transform;
+    Eigen::Transform<float, 3, Eigen::Affine> input_transform;
+    EstimatorMask mask;
     
   public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW

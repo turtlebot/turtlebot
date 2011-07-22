@@ -16,10 +16,10 @@ double EstimateKinectTransform::computeError(int m, Transform<float, 3, Affine> 
   
   for (unsigned int j=0; j < base_pose.size(); j++)
   {
-    if (j == m)
+    if (j == (unsigned int)m)
       continue;
-    //if (j != m+1)
-      //continue;
+    //if (j > m)
+    //  continue;
     Transform<float,3,Affine> previous_transform = base_pose[j].transform()*base_kinect;
     PointVector previous_points = target_points[j];
   
@@ -88,6 +88,23 @@ Eigen::Transform<float, 3, Eigen::Affine> EstimateKinectTransform::getTransform(
 void EstimateKinectTransform::computeTransform(Eigen::Transform<float, 3, Eigen::Affine> guess)
 {
   int n_unknowns = 6;      // 6 unknowns: 3 translation + 3 rotation (quaternion)
+  switch (mask)
+  {
+    case ESTIMATOR_MASK_ALL:
+      n_unknowns = 6;
+      break;
+    case ESTIMATOR_MASK_ROTATION:
+      n_unknowns = 3;
+      break;
+    case ESTIMATOR_MASK_XYZ:
+      n_unknowns = 3;
+      break;
+    case ESTIMATOR_MASK_XY:
+      n_unknowns = 2;
+      break;
+  }
+
+  input_transform = guess;
 
   // Check that data is the same size.
 
@@ -102,16 +119,9 @@ void EstimateKinectTransform::computeTransform(Eigen::Transform<float, 3, Eigen:
 
   // Set the initial solution
   double *x = new double[n_unknowns];
-  // Translation estimates - initial guess
-  x[0] = guess.translation().x(); x[1] = guess.translation().y(); x[2] = guess.translation().z();
-  
-  Quaternionf guess_quat(guess.rotation());
-  // Rotation estimates - initial guess quaternion: x-y-z-w
-  x[3] = guess_quat.x(); x[4] = guess_quat.y(); x[5] = guess_quat.z();
-
-  // Set tol to the square root of the machine. Unless high solutions are required, these are the recommended settings.
-  double tol = sqrt (dpmpar (1));
-
+ 
+  xFromTransform(input_transform, x);
+ 
   double precost = computeTotalCost();
   //cout << "About to run LM. Total pre-cost: " << precost/m << endl;
   // Optimize using forward-difference approximation LM
@@ -148,17 +158,11 @@ void EstimateKinectTransform::computeTransform(Eigen::Transform<float, 3, Eigen:
   delete [] wa1; delete [] wa2; delete [] wa3; delete [] wa4; delete [] fjac;
   delete [] diag; delete [] ipvt; delete [] qtf;
   
-  result_transform = Translation<float, 3>(0,0,0);
+  result_transform = input_transform;
   
   // Return the correct transformation
   // Compute w from the unit quaternion
-  Eigen::Quaternionf q (0, x[3], x[4], x[5]);
-  q.w () = sqrt (1 - q.dot (q));
-  
-  result_transform.matrix().topLeftCorner<3, 3>() = q.toRotationMatrix ();
-
-  Eigen::Vector3f t (x[0], x[1], x[2]);
-  result_transform.translation() = t;
+  transformFromX(x, result_transform);
   
   delete[] iwa;
   delete[] x;
@@ -171,18 +175,10 @@ void EstimateKinectTransform::computeTransform(Eigen::Transform<float, 3, Eigen:
 int EstimateKinectTransform::functionToOptimize (void *p, int m, int n, const double *x, double *fvec, int iflag)
 {
   EstimateKinectTransform *model = (EstimateKinectTransform*)p;
+  
+  Transform<float, 3, Affine> transformation_matrix = model->input_transform;
+  model->transformFromX(x, transformation_matrix);
 
-  // Copy the rotation and translation components
-  Eigen::Vector3f t (x[0], x[1], x[2]);
-  // Compute w from the unit quaternion
-  Eigen::Quaternionf q (0, x[3], x[4], x[5]);
-  q.w () = sqrt (1 - q.dot (q));
-  
-  Transform<float, 3, Affine> transformation_matrix;
-  transformation_matrix = Translation<float, 3>(0,0,0);
-  transformation_matrix.matrix().topLeftCorner<3, 3>() = q.toRotationMatrix();
-  transformation_matrix.translation() = t;
-  
   //cout << "Transformation matrix: " << endl << transformation_matrix.matrix() << endl;
 
   double totalcost = 0;
@@ -194,4 +190,56 @@ int EstimateKinectTransform::functionToOptimize (void *p, int m, int n, const do
   //cout << "Total cost at step: " << totalcost << endl;
   return (0);
 }
+
+void EstimateKinectTransform::setMask(EstimatorMask mask_)
+{
+  mask = mask_;
+}
+
+void EstimateKinectTransform::transformFromX(const double* x, Eigen::Transform<float, 3, Eigen::Affine>& transform)
+{
+  Eigen::Quaternionf q(1, 0, 0, 0);
+  switch (mask)
+  {
+    case ESTIMATOR_MASK_ALL:
+      transform.translation() = Eigen::Vector3f(x[0], x[1], x[2]);
+      q = Quaternionf(0, x[3], x[4], x[5]);
+      q.w () = sqrt (1 - q.dot (q));
+      transform.matrix().topLeftCorner<3, 3>() = q.toRotationMatrix();
+      break;
+    case ESTIMATOR_MASK_ROTATION:
+      q = Quaternionf(0, x[0], x[1], x[2]);
+      q.w () = sqrt (1 - q.dot (q));
+      transform.matrix().topLeftCorner<3, 3>() = q.toRotationMatrix();
+      break;
+    case ESTIMATOR_MASK_XYZ:
+      transform.translation() = Eigen::Vector3f(x[0], x[1], x[2]);
+      break;
+    case ESTIMATOR_MASK_XY:
+      transform.matrix().topRightCorner<2, 1>() = Eigen::Vector2f(x[0], x[1]);
+      break;
+  };
+}
+
+void EstimateKinectTransform::xFromTransform(const Eigen::Transform<float, 3, Eigen::Affine>& transform, double* x)
+{
+  Quaternionf transform_quat(transform.rotation());
+  switch (mask)
+  {
+    case ESTIMATOR_MASK_ALL:
+      x[0] = transform.translation().x(); x[1] = transform.translation().y(); x[2] = transform.translation().z(); 
+      x[3] = transform_quat.x(); x[4] = transform_quat.y(); x[5] = transform_quat.z();
+      break;
+    case ESTIMATOR_MASK_ROTATION:
+      x[0] = transform_quat.x(); x[1] = transform_quat.y(); x[2] = transform_quat.z();
+      break;
+    case ESTIMATOR_MASK_XYZ:
+      x[0] = transform.translation().x(); x[1] = transform.translation().y(); x[2] = transform.translation().z(); 
+      break;
+    case ESTIMATOR_MASK_XY:
+      x[0] = transform.translation().x(); x[1] = transform.translation().y();
+      break;
+  };
+}
+
 

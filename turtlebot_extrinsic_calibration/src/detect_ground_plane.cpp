@@ -50,7 +50,9 @@ bool GroundPlaneDetector::findGroundPlane(const PointCloud::ConstPtr& msg)
     seg.setInputCloud (cloud_filtered.makeShared ());
     seg.setInputNormals (cloud_normals);
     
-    cout << "Cloud filtered size: " << cloud_filtered.size() << " Cloud normals size: " << cloud_normals->size() << endl;
+    cout << "Cloud filtered size: " << cloud_filtered.size() 
+          << " Cloud normals size: " << cloud_normals->size() 
+          << endl;
     
     seg.segment (*inliers, *coefficients);
 
@@ -59,6 +61,10 @@ bool GroundPlaneDetector::findGroundPlane(const PointCloud::ConstPtr& msg)
       PCL_ERROR ("Could not estimate a planar model for the given dataset.");
       return false;
     }
+    
+    cout << "Normals: " << coefficients->values[0] << " " 
+          << coefficients->values[1] << " " << coefficients->values[2] 
+          << " " << coefficients->values[3] << std::endl;
     
     // Extract the inliers
     extract.setInputCloud (cloud_filtered.makeShared());
@@ -71,7 +77,7 @@ bool GroundPlaneDetector::findGroundPlane(const PointCloud::ConstPtr& msg)
     
     // Two conditions: the dot product between the normals is above a certain 
     // threshold AND it's at least the minimum percentage ground
-    if (normal.dot(plane_normal) > normal_threshold 
+    if (abs(normal.dot(plane_normal)) > normal_threshold
         && cloud_ground.size() > nr_points*min_percentage_ground)
     {
       std::cerr << "Model coefficients: " << coefficients->values[0] << " " 
@@ -82,6 +88,9 @@ bool GroundPlaneDetector::findGroundPlane(const PointCloud::ConstPtr& msg)
       std::cerr << "PointCloud " << i << " with normal agreement " << normal.dot(plane_normal) << std::endl;
       
       cloud_output = cloud_ground;
+      
+      detected_distance = coefficients->values[3];
+      detected_normal = Eigen::Vector3f(coefficients->values[0], coefficients->values[1], coefficients->values[2]);
       return true;
     }
 
