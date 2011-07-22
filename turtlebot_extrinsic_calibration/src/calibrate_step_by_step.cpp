@@ -126,7 +126,9 @@ public:
         cout << "[calibrate] Initialized." << endl;
         break;
       case CALIB_ROTATION:
-        image_sub_ = nh_.subscribe(camera_topic + image_topic, 1, &CalibrateStepByStep::imageCallback, this);
+        pointcloud_sub_ = nh_.subscribe<pcl::PointCloud<pcl::PointXYZRGB> >
+                                  (camera_topic + "points", 1, &CalibrateStepByStep::pointcloudToImageCallback, this);
+        //image_sub_ = nh_.subscribe(camera_topic + image_topic, 1, &CalibrateStepByStep::imageCallback, this);
         iterations = 0;
         cout << "[calibrate] Calibrating rotation." << endl;
         est_.setMask(ESTIMATOR_MASK_ROTATION);
@@ -137,7 +139,9 @@ public:
         cout << "[calibrate] Calibrating ground plane." << endl;
         break;
       case CALIB_XY:
-        image_sub_ = nh_.subscribe(camera_topic + image_topic, 1, &CalibrateStepByStep::imageCallback, this);
+        pointcloud_sub_ = nh_.subscribe<pcl::PointCloud<pcl::PointXYZRGB> >
+                                  (camera_topic + "points", 1, &CalibrateStepByStep::pointcloudToImageCallback, this);
+        //image_sub_ = nh_.subscribe(camera_topic + image_topic, 1, &CalibrateStepByStep::imageCallback, this);
         iterations = 0;
         est_.setMask(ESTIMATOR_MASK_XY);
         cout << "[calibrate] Calibrating x-y." << endl;
@@ -160,13 +164,15 @@ public:
         info_sub_.shutdown();
         break;
       case CALIB_ROTATION:
-        image_sub_.shutdown();
+        pointcloud_sub_.shutdown();
+        //image_sub_.shutdown();
         break;
       case CALIB_GROUND_PLANE:
         pointcloud_sub_.shutdown();
         break;
       case CALIB_XY:
-        image_sub_.shutdown();
+        pointcloud_sub_.shutdown();
+        //image_sub_.shutdown();
         break;
       case CALIB_FINISHED:
         break;
@@ -194,7 +200,7 @@ public:
     advanceState();
   }
   
-  void pointcloudCallback(const PointCloud::ConstPtr& msg)
+  void pointcloudCallback(const pcl::PointCloud<pcl::PointXYZ>::ConstPtr& msg)
   {
     // Figure out normal...
     // How do you figure out a normal from a quaternion?
@@ -216,6 +222,14 @@ public:
       advanceState();
     }
   }
+  
+  void pointcloudToImageCallback(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& msg)
+  {
+    const sensor_msgs::ImagePtr image(new sensor_msgs::Image);
+    pcl::toROSMsg(*msg, *image);
+    imageCallback(image);
+  }
+  
   
   void imageCallback(const sensor_msgs::ImageConstPtr& image_msg)
   {

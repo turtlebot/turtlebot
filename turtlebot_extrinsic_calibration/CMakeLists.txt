@@ -34,6 +34,8 @@ rosbuild_add_executable(ground_plane_detection src/ground_plane_detection.cpp )
 
 rosbuild_add_executable(calibrate_step_by_step src/calibrate_step_by_step.cpp src/estimate_kinect_link.cpp src/detect_calibration_pattern.cpp src/detect_ground_plane.cpp)
 
+rosbuild_add_executable(throttle_image src/throttle_image.cpp)
+
 #common commands for building c++ executables and libraries
 #rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
 #target_link_libraries(${PROJECT_NAME} another_library)
