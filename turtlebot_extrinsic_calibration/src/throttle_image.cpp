@@ -9,8 +9,9 @@ public:
   ImageThrottle(): max_update_rate_(0)
   {
     ros::NodeHandle nh;
+    ros::NodeHandle private_nh("~");
     
-    nh.getParam("~max_rate", max_update_rate_);
+    private_nh.getParam("max_rate", max_update_rate_);
 
     pub_ = nh.advertise<sensor_msgs::Image>("image_out", 10);
     sub_ = nh.subscribe("image_in", 10, &ImageThrottle::callback, this);
