@@ -353,13 +353,13 @@
     </collision>
   </link>
 
-  <turtlebot_standoff_1in parent="base_link" number="0" x_loc="0.0676402" y_loc="0.1314196" z_loc="0.0709803"/>
-  <turtlebot_standoff_1in parent="base_link" number="1" x_loc="0.0676402" y_loc="-0.1314196" z_loc="0.0709803"/>
-  <turtlebot_standoff_1in parent="base_link" number="2" x_loc="-0.052832" y_loc="-0.1314196" z_loc="0.0709803"/>
-  <turtlebot_standoff_1in parent="base_link" number="3" x_loc="-0.052832" y_loc="0.1314196" z_loc="0.0709803"/>
+  <turtlebot_standoff_2in parent="base_link" number="0" x_loc="0.0676402" y_loc="0.1314196" z_loc="0.0709803"/>
+  <turtlebot_standoff_2in parent="base_link" number="1" x_loc="0.0676402" y_loc="-0.1314196" z_loc="0.0709803"/>
+  <turtlebot_standoff_2in parent="base_link" number="2" x_loc="-0.052832" y_loc="-0.1314196" z_loc="0.0709803"/>
+  <turtlebot_standoff_2in parent="base_link" number="3" x_loc="-0.052832" y_loc="0.1314196" z_loc="0.0709803"/>
 
   <joint name="plate_1_joint" type="fixed">
-    <origin xyz="0.04068 0 0.0318008" rpy="0 0 0" />
+    <origin xyz="0.04068 0 0.05715" rpy="0 0 0" />
     <parent link="plate_0_link"/>
     <child link="plate_1_link" />
   </joint>
@@ -388,10 +388,10 @@
     </collision>
   </link>
 
-  <turtlebot_standoff_2in parent="standoff_1in_0_link" number="0" x_loc="0" y_loc="0" z_loc="0.0318008"/>
-  <turtlebot_standoff_2in parent="standoff_1in_1_link" number="1" x_loc="0" y_loc="0" z_loc="0.0318008"/>
-  <turtlebot_standoff_2in parent="standoff_1in_2_link" number="2" x_loc="0" y_loc="0" z_loc="0.0318008"/>
-  <turtlebot_standoff_2in parent="standoff_1in_3_link" number="3" x_loc="0" y_loc="0" z_loc="0.0318008"/>
+  <turtlebot_standoff_2in parent="standoff_2in_0_link" number="4" x_loc="0" y_loc="0" z_loc="0.05715"/>
+  <turtlebot_standoff_2in parent="standoff_2in_1_link" number="5" x_loc="0" y_loc="0" z_loc="0.05715"/>
+  <turtlebot_standoff_2in parent="standoff_2in_2_link" number="6" x_loc="0" y_loc="0" z_loc="0.05715"/>
+  <turtlebot_standoff_2in parent="standoff_2in_3_link" number="7" x_loc="0" y_loc="0" z_loc="0.05715"/>
 
   <joint name="plate_2_joint" type="fixed">
     <origin xyz="0 0 0.0572008" rpy="0 0 0" />
@@ -524,10 +524,10 @@
   <turtlebot_standoff_kinect parent="plate_2_link" number="0" x_loc="-0.1024382" y_loc="0.098" z_loc="0.0032004"/>
   <turtlebot_standoff_kinect parent="plate_2_link" number="1" x_loc="-0.1024382" y_loc="-0.098" z_loc="0.0032004"/>
 
-  <turtlebot_standoff_8in parent="standoff_2in_0_link" number="0" x_loc="0" y_loc="0" z_loc="0.05715"/>
-  <turtlebot_standoff_8in parent="standoff_2in_1_link" number="1" x_loc="0" y_loc="0" z_loc="0.05715"/>
-  <turtlebot_standoff_8in parent="standoff_2in_2_link" number="2" x_loc="0" y_loc="0" z_loc="0.05715"/>
-  <turtlebot_standoff_8in parent="standoff_2in_3_link" number="3" x_loc="0" y_loc="0" z_loc="0.05715"/>
+  <turtlebot_standoff_8in parent="standoff_2in_4_link" number="0" x_loc="0" y_loc="0" z_loc="0.05715"/>
+  <turtlebot_standoff_8in parent="standoff_2in_5_link" number="1" x_loc="0" y_loc="0" z_loc="0.05715"/>
+  <turtlebot_standoff_8in parent="standoff_2in_6_link" number="2" x_loc="0" y_loc="0" z_loc="0.05715"/>
+  <turtlebot_standoff_8in parent="standoff_2in_7_link" number="3" x_loc="0" y_loc="0" z_loc="0.05715"/>
 
   <joint name="plate_3_joint" type="fixed">
     <origin xyz="-0.01316 0 0.2063496" rpy="0 0 0" />
