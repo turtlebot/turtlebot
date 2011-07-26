@@ -70,7 +70,10 @@
   <include file="$(find turtlebot_navigation)/config/gmapping_turtlebot.launch" />
 
   <!-- Save the maps to a warehouse. -->
-  <include file="$(find warehouse)/launch/warehouse.launch"/>
+  <node name="mongo" type="wrapper.py" pkg="mongodb" output="log">
+    <param name="database_path" value="warehouse_data"/>
+    <param name="overwrite" value="false"/>
+  </node>
   <node pkg="map_store" type="map_saver" name="map_saver" output="screen"/>
 </launch>
 
