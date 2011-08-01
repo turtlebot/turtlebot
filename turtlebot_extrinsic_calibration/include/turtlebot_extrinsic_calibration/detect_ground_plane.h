@@ -35,7 +35,7 @@ class GroundPlaneDetector
   public:
     GroundPlaneDetector()
       : leaf_size(0.02), normal_radius(0.1), probability(0.5), 
-        distance_threshold(0.1), normal_threshold(0.90), 
+        distance_threshold(0.01), normal_threshold(0.90), 
         min_percentage_ground(0.10), normal(0,1,0)
     { }
   

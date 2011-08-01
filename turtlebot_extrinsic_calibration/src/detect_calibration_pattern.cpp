@@ -51,30 +51,32 @@ int PatternDetector::detectPattern(cv::Mat& inm, Eigen::Vector3f& translation, E
   translation.setZero();
   orientation.setIdentity();
   
-  // Set these according to known quantities...
   bool found = false;
   
-  // What is outv? inm?
   observation_pts_t observation_points;
   
   switch (pattern_type)
   {
     case ASYMMETRIC_CIRCLES_GRID:
-      //found = cv::findCirclesGrid(inm, grid_size, observation_points,
-      //                          cv::CALIB_CB_ASYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING);
+      found = cv::findCirclesGrid(inm, grid_size, observation_points,
+                                cv::CALIB_CB_ASYMMETRIC_GRID | cv::CALIB_CB_CLUSTERING);
       break;
     case CHESSBOARD:
-      //cout << "Finding chessboard in image with " << inm.total() << " pixels " << endl;
       found = cv::findChessboardCorners(inm, grid_size, observation_points, cv::CALIB_CB_ADAPTIVE_THRESH);
       break;
     case CIRCLES_GRID:
-      //found = cv::findCirclesGrid(inm, grid_size, observation_points, cv::CALIB_CB_SYMMETRIC_GRID);
+      found = cv::findCirclesGrid(inm, grid_size, observation_points, cv::CALIB_CB_SYMMETRIC_GRID);
       break;
   }
 
   if(found)
   {
-    cv::cornerSubPix(inm, observation_points, cv::Size(5,5), cv::Size(-1,-1), cv::TermCriteria(cv::TermCriteria::MAX_ITER + cv::TermCriteria::EPS, 100, 0.01));
+    // Do subpixel ONLY IF THE PATTERN IS A CHESSBOARD
+    if (pattern_type == CHESSBOARD)
+    {
+      cv::cornerSubPix(inm, observation_points, cv::Size(5,5), cv::Size(-1,-1), 
+      cv::TermCriteria(cv::TermCriteria::MAX_ITER + cv::TermCriteria::EPS, 100, 0.01));
+    }
   
     cv::solvePnP(cv::Mat(ideal_points), cv::Mat(observation_points), K, D,
                  rvec, tvec, false);

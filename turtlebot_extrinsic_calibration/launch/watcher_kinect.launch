@@ -1,0 +1,5 @@
+<launch>
+  <group ns="watcher_kinect">
+    <include file="$(find openni_camera)/launch/openni_node.launch" />
+  </group>
+</launch>

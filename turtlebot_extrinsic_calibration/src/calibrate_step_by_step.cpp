@@ -7,6 +7,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include <image_geometry/pinhole_camera_model.h>
 #include <tf/transform_listener.h>
+#include <tf/transform_broadcaster.h>
 
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/CameraInfo.h>
@@ -19,20 +20,32 @@
 using namespace std;
 using namespace Eigen;
 
-const std::string world_frame = "/odom_combined";
-const std::string base_frame = "/base_link";
+const std::string world_frame = "/ground_frame";
+const std::string base_frame = "/target_frame";
 const std::string camera_frame = "/kinect_rgb_optical_frame";
+const std::string target_frame = "/calibration_pattern";
 
 const std::string camera_topic = "/camera/rgb/";
-const std::string image_topic = "image_mono";
+const std::string image_topic = camera_topic + "image_mono";
+const std::string cloud_topic = camera_topic + "points";
+const std::string info_topic = camera_topic + "camera_info";
+
+//const std::string image_topic = "/image_throttled";
+//const std::string cloud_topic = "/cloud_throttled";
 
 const int checkerboard_width = 6;
 const int checkerboard_height = 7;
 const double checkerboard_grid = 0.027;
 
+const int circles_width = 3;
+const int circles_height = 5;
+const double circles_grid = 0.04;
+
+const int num_iterations = 15;
+
 enum CalibrationState
 {
-  CALIB_INIT, CALIB_ROTATION, CALIB_GROUND_PLANE, CALIB_XY, CALIB_FINISHED 
+  CALIB_INIT, CALIB_ROTATION, CALIB_GROUND_PLANE, CALIB_XY, CALIB_XYZ, CALIB_ALL, CALIB_FINISHED 
 };
 
 class CalibrateStepByStep
@@ -51,6 +64,7 @@ class CalibrateStepByStep
     // Structures for interacting with ROS messages
     cv_bridge::CvImagePtr bridge_;
     tf::TransformListener tf_listener_;
+    tf::TransformBroadcaster tf_broadcaster_;
     image_geometry::PinholeCameraModel cam_model_;
     
     // Calibration objects
@@ -73,6 +87,8 @@ class CalibrateStepByStep
     PointVector true_points_;
     Eigen::Vector3f translation_old_;
     Eigen::Quaternionf orientation_old_;
+    Eigen::Vector3f base_translation_old_;
+    Eigen::Quaternionf base_orientation_old_;
     
     int iterations;
 
@@ -81,29 +97,34 @@ public:
   CalibrateStepByStep()
     : nh_(), it_(nh_), state_(CALIB_INIT), state_index_(0)
   {
-    pattern_detector_.setPattern(cv::Size(checkerboard_width, checkerboard_height), checkerboard_grid, CHESSBOARD);
-    //true_points_.push_back(Eigen::Vector3f(checkerboard_width*checkerboard_grid,0,0));
+    //pattern_detector_.setPattern(cv::Size(checkerboard_width, checkerboard_height), checkerboard_grid, CHESSBOARD);
+    pattern_detector_.setPattern(cv::Size(circles_width, circles_height), circles_grid, ASYMMETRIC_CIRCLES_GRID);    
+    
+    //convertIdealPointsToPointVector();
+    
+    true_points_.push_back(Eigen::Vector3f(checkerboard_width*checkerboard_grid,0,0));
     true_points_.push_back(Eigen::Vector3f(0,0,0));
-    //true_points_.push_back(Eigen::Vector3f(0,checkerboard_height*checkerboard_grid,0));
+    true_points_.push_back(Eigen::Vector3f(0,checkerboard_height*checkerboard_grid,0));
     
     translation_old_.setZero();
     orientation_old_.setIdentity();
-    
-    setState(CALIB_INIT);
-    
+
     transform.translation().setZero();
     transform.matrix().topLeftCorner<3, 3>() = Quaternionf().setIdentity().toRotationMatrix();
     
     //transform.matrix().topLeftCorner<3, 3>() = Quaternionf(.5,-.5,.5,-.5).toRotationMatrix();
     
+    setState(CALIB_INIT);
+    
     state_list_.push_back(CALIB_INIT);
+    //state_list_.push_back(CALIB_ALL);
     state_list_.push_back(CALIB_ROTATION);
-    //state_list_.push_back(CALIB_GROUND_PLANE);
+    state_list_.push_back(CALIB_GROUND_PLANE);
     state_list_.push_back(CALIB_XY);
     state_list_.push_back(CALIB_FINISHED);
     
     // DEBUG
-    pub_ = it_.advertise("image_out", 1);
+    pub_ = it_.advertise("calibration_pattern_out", 1);
   }
     
   void advanceState()
@@ -122,29 +143,39 @@ public:
     switch (new_state)
     {
       case CALIB_INIT:
-        info_sub_ = nh_.subscribe(camera_topic + "camera_info", 1, &CalibrateStepByStep::infoCallback, this);
+        info_sub_ = nh_.subscribe(info_topic, 1, &CalibrateStepByStep::infoCallback, this);
+        iterations = 0;
         cout << "[calibrate] Initialized." << endl;
         break;
       case CALIB_ROTATION:
-        pointcloud_sub_ = nh_.subscribe<pcl::PointCloud<pcl::PointXYZRGB> >
-                                  (camera_topic + "points", 1, &CalibrateStepByStep::pointcloudToImageCallback, this);
-        //image_sub_ = nh_.subscribe(camera_topic + image_topic, 1, &CalibrateStepByStep::imageCallback, this);
-        iterations = 0;
+        //pointcloud_sub_ = nh_.subscribe<pcl::PointCloud<pcl::PointXYZRGB> >
+        //                          (camera_topic + cloud_topic, 1, &CalibrateStepByStep::pointcloudToImageCallback, this);
+        image_sub_ = nh_.subscribe(image_topic, 1, &CalibrateStepByStep::imageCallback, this);
         cout << "[calibrate] Calibrating rotation." << endl;
         est_.setMask(ESTIMATOR_MASK_ROTATION);
         break;
       case CALIB_GROUND_PLANE:
         pointcloud_sub_ = nh_.subscribe<pcl::PointCloud<pcl::PointXYZ> >
-                                  (camera_topic + "points", 1, &CalibrateStepByStep::pointcloudCallback, this);
+                                  (cloud_topic, 1, &CalibrateStepByStep::pointcloudCallback, this);
         cout << "[calibrate] Calibrating ground plane." << endl;
         break;
       case CALIB_XY:
-        pointcloud_sub_ = nh_.subscribe<pcl::PointCloud<pcl::PointXYZRGB> >
-                                  (camera_topic + "points", 1, &CalibrateStepByStep::pointcloudToImageCallback, this);
-        //image_sub_ = nh_.subscribe(camera_topic + image_topic, 1, &CalibrateStepByStep::imageCallback, this);
+        //pointcloud_sub_ = nh_.subscribe<pcl::PointCloud<pcl::PointXYZRGB> >
+        //                          (camera_topic + cloud_topic, 1, &CalibrateStepByStep::pointcloudToImageCallback, this);
+        image_sub_ = nh_.subscribe(image_topic, 1, &CalibrateStepByStep::imageCallback, this);
         iterations = 0;
         est_.setMask(ESTIMATOR_MASK_XY);
         cout << "[calibrate] Calibrating x-y." << endl;
+        break;
+      case CALIB_XYZ:
+        image_sub_ = nh_.subscribe(image_topic, 1, &CalibrateStepByStep::imageCallback, this);
+        est_.setMask(ESTIMATOR_MASK_XYZ);
+        cout << "[calibrate] Calibrating x-y-z." << endl;
+        break;
+      case CALIB_ALL:
+        image_sub_ = nh_.subscribe(image_topic, 1, &CalibrateStepByStep::imageCallback, this);
+        est_.setMask(ESTIMATOR_MASK_ALL);
+        cout << "[calibrate] Calibrating all." << endl;
         break;
       case CALIB_FINISHED:
         displayResults();
@@ -164,15 +195,17 @@ public:
         info_sub_.shutdown();
         break;
       case CALIB_ROTATION:
-        pointcloud_sub_.shutdown();
-        //image_sub_.shutdown();
+        //pointcloud_sub_.shutdown();
+        image_sub_.shutdown();
         break;
       case CALIB_GROUND_PLANE:
         pointcloud_sub_.shutdown();
         break;
       case CALIB_XY:
-        pointcloud_sub_.shutdown();
-        //image_sub_.shutdown();
+      case CALIB_XYZ:
+      case CALIB_ALL:
+        //pointcloud_sub_.shutdown();
+        image_sub_.shutdown();
         break;
       case CALIB_FINISHED:
         break;
@@ -186,16 +219,17 @@ public:
   void infoCallback(const sensor_msgs::CameraInfoConstPtr& info_msg)
   {
     cam_model_.fromCameraInfo(info_msg);
-    
+   
     cv::Mat K = (cv::Mat_<double>(3,3) << 
-        538.04668883179033, 0.0, 333.47627148365939, 
-        0.0, 533.58807413837224, 261.72627024909525, 
-        0.0, 0.0, 1.0);
+          538.04668883179033, 0.0, 333.47627148365939, 
+          0.0, 533.58807413837224, 261.72627024909525, 
+          0.0, 0.0, 1.0);
     cv::Mat D = (cv::Mat_<double>(4,1) << 
-        0.11670698134925221, -0.21651116066856213, -0.0028579589456466377, 
-        0.011540507063821316);
-
+          0.11670698134925221, -0.21651116066856213, -0.0028579589456466377, 
+          0.011540507063821316);
+   
     //pattern_detector_.setCameraMatrices(K, D);
+    
     pattern_detector_.setCameraMatrices(cam_model_.intrinsicMatrix(), cam_model_.distortionCoeffs());
     advanceState();
   }
@@ -249,6 +283,7 @@ public:
     if (!pattern_detector_.detectPattern(bridge_->image, translation, orientation))
       return;
     
+    tf::Transform target_transform;
     tf::StampedTransform base_transform;
     try
     {
@@ -260,11 +295,15 @@ public:
                                     acquisition_time, timeout);
       tf_listener_.lookupTransform(world_frame, base_frame,
                                    acquisition_time, base_transform);
+                                   
+      target_transform.setOrigin( tf::Vector3(translation.x(), translation.y(), translation.z()) );
+      target_transform.setRotation( tf::Quaternion(orientation.x(), orientation.y(), orientation.z(), orientation.w()) );
+      tf_broadcaster_.sendTransform(tf::StampedTransform(target_transform, image_msg->header.stamp, image_msg->header.frame_id, target_frame));
     }
     catch (tf::TransformException& ex)
     {
       ROS_WARN("[calibrate] TF exception:\n%s", ex.what());
-      return;
+      return;                  
     }
     
     // Alright, now we have a btTransform...
@@ -275,6 +314,14 @@ public:
     Eigen::Quaternionf base_orientation(base_transform.getRotation().w(), 
                   base_transform.getRotation().x(), base_transform.getRotation().y(), 
                   base_transform.getRotation().z());
+    
+    // Check for base movement
+    if ((base_translation - base_translation_old_).norm() > 0.01 || (base_orientation.angularDistance(base_orientation_old_)) > 0.01)
+    {
+      base_translation_old_ = base_translation;
+      base_orientation_old_ = base_orientation;
+      return;
+    }
     
     // Enough of a change to do keyframing
     if ((translation - translation_old_).norm() > 0.01 || (orientation.angularDistance(orientation_old_)) > 0.01)
@@ -296,7 +343,9 @@ public:
       // DEBUG
       pub_.publish(bridge_->toImageMsg());
       
-      if (iterations >= 30)
+      cout << "Added pose " << iterations << endl;
+      
+      if (true)
       {
         cout << endl << "Total cost with calibration: " << est_.computeTotalCost() << endl;
               
@@ -304,7 +353,13 @@ public:
         cout << endl << "Final transform with " << est_.base_pose.size() <<  " poses: " << endl
               << "Translation: [" << est_.getTransform().translation().transpose() 
               << "] \n Rotation (Quat): ["  << Quaternionf(est_.getTransform().rotation()).coeffs().transpose()<< "]" << endl;
-        
+              
+        // Use prior state as guess, only if calibrating just XY
+        if (state_ == CALIB_XY)
+          transform = est_.getTransform();
+      }
+      if (iterations >= num_iterations)
+      {
         transform = est_.getTransform();
         advanceState();
       }
@@ -313,9 +368,17 @@ public:
   
   void displayResults()
   {
+    cout << endl << "Final transform: " << endl
+    << "Translation: [" << transform.translation().transpose() 
+    << "] \n Rotation (Quat): ["  << Quaternionf(transform.rotation()).coeffs().transpose() << "]" << endl;
+    
+    /*
+    
     tf::StampedTransform kinect_transform;
     ros::Time acquisition_time = ros::Time::now();
     ros::Duration timeout(10.0 / 30.0);
+    
+    
     try 
     {
       // Get the original kinect_link transform                             
@@ -336,13 +399,23 @@ public:
             kinect_transform.getRotation().x(), kinect_transform.getRotation().y(), 
             kinect_transform.getRotation().z());
             
-    cout << endl << "Final transform: " << endl
-        << "Translation: [" << transform.translation().transpose() 
-        << "] \n Rotation (Quat): ["  << Quaternionf(transform.rotation()).coeffs().transpose() << "]" << endl;
+
         
     cout << endl << "Compared to (TF): " << endl
         << "Translation: [" << kinect_translation.transpose() 
         << "] \n Rotation (Quat): [" << kinect_orientation.coeffs().transpose() << "]" << endl;
+        
+    */
+  }
+  
+  void convertIdealPointsToPointVector()
+  {
+    true_points_.resize(pattern_detector_.ideal_points.size());
+    for (unsigned int i=0; i < pattern_detector_.ideal_points.size(); i++)
+    {
+      cv::Point3f pt = pattern_detector_.ideal_points[i];
+      true_points_[i].x() = pt.x; true_points_[i].y() = pt.y; true_points_[i].z() = pt.z; 
+    }
   }
   
 };

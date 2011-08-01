@@ -43,7 +43,7 @@ class PatternDetector
     void setPattern(cv::Size grid_size_, float square_size_, 
           Pattern pattern_type_, cv::Point3f offset_ = cv::Point3f());
 
-  private:
+  public:
     cv::Mat K;
     cv::Mat D;
     cv::Mat rvec, tvec, R;

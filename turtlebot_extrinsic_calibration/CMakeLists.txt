@@ -36,6 +36,10 @@ rosbuild_add_executable(calibrate_step_by_step src/calibrate_step_by_step.cpp sr
 
 rosbuild_add_executable(throttle_image src/throttle_image.cpp)
 
+rosbuild_add_executable(tf_logger src/tf_logger.cpp)
+
+rosbuild_add_executable(detect_and_publish src/detect_and_publish.cpp src/detect_calibration_pattern.cpp src/detect_ground_plane.cpp)
+
 #common commands for building c++ executables and libraries
 #rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
 #target_link_libraries(${PROJECT_NAME} another_library)
