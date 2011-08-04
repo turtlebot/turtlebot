@@ -29,34 +29,41 @@
 
 #include <ros/ros.h>
 #include <interactive_markers/interactive_marker_server.h>
+#include <string.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Pose.h>
 #include <tf/tf.h>
 
 using namespace visualization_msgs;
 
-// To do: split into header file
 class TurtlebotMarkerServer
 {
   public:
     TurtlebotMarkerServer()
-      : server("turtle_marker_server")
+      : nh("~"), server("turtlebot_marker_server")
     {
-      vel_pub = nh.advertise<geometry_msgs::Twist>("turtlebot_node/cmd_vel", 1);
+      std::string cmd_vel_topic;
+      
+      nh.param<std::string>("cmd_vel_topic", cmd_vel_topic, "/turtlebot_node/cmd_vel");
+      nh.param<double>("linear_scale", linear_scale, 1.0);
+      nh.param<double>("angular_scale", angular_scale, 2.2);
+      
+      vel_pub = nh.advertise<geometry_msgs::Twist>(cmd_vel_topic, 1);
       createInteractiveMarkers();
     }
     
     void processFeedback(
         const InteractiveMarkerFeedbackConstPtr &feedback );
   
-  
   private:
     void createInteractiveMarkers();
   
-    
     ros::NodeHandle nh;
     ros::Publisher vel_pub;
     interactive_markers::InteractiveMarkerServer server;
+    
+    double linear_scale;
+    double angular_scale;
 };
 
 void TurtlebotMarkerServer::processFeedback(
@@ -65,17 +72,11 @@ void TurtlebotMarkerServer::processFeedback(
   // Handle angular change (yaw is the only direction in which you can rotate)
   double yaw = tf::getYaw(feedback->pose.orientation);
   
-  /* ROS_INFO_STREAM( feedback->marker_name << " is now at "
-      << feedback->pose.position.x
-      << " orientation: " << yaw); */
-  
-  // To do: change this to send a move command to the turtlebot    
   geometry_msgs::Twist vel;
-  vel.angular.z = 2.2*yaw;// + 1*atan2(feedback->pose.position.y, feedback->pose.position.x);
-  vel.linear.x = 1*feedback->pose.position.x;
+  vel.angular.z = angular_scale*yaw;
+  vel.linear.x = linear_scale*feedback->pose.position.x;
 
   vel_pub.publish(vel);    
-  
   
   // Make the marker snap back to turtlebot
   server.setPose("turtlebot_marker", geometry_msgs::Pose());
@@ -90,25 +91,6 @@ void TurtlebotMarkerServer::createInteractiveMarkers()
   int_marker.header.frame_id = "/base_link";
   int_marker.name = "turtlebot_marker";
   int_marker.description = "Move the turtlebot";
-
-  // create a grey box marker
-  Marker box_marker;
-  box_marker.type = Marker::CUBE;
-  box_marker.scale.x = 0.2;
-  box_marker.scale.y = 0.2;
-  box_marker.scale.z = 0.2;
-  box_marker.color.r = 1.0;
-  box_marker.color.g = 0.3;
-  box_marker.color.b = 0.3;
-  box_marker.color.a = 1.0;
-
-  // create a non-interactive control which contains the box
-  InteractiveMarkerControl box_control;
-  box_control.always_visible = true;
-  box_control.markers.push_back( box_marker );
-
-  // add the control to the interactive marker 
-  int_marker.controls.push_back( box_control );
   
   InteractiveMarkerControl control;
 
@@ -140,11 +122,8 @@ void TurtlebotMarkerServer::createInteractiveMarkers()
   control.interaction_mode = InteractiveMarkerControl::MOVE_AXIS;
   int_marker.controls.push_back(control);*/
   
-  // add the interactive marker to our collection &
-  // tell the server to call processFeedback() when feedback arrives for it
   server.insert(int_marker, boost::bind( &TurtlebotMarkerServer::processFeedback, this, _1 ));
   
-  // 'commit' changes and send to all clients
   server.applyChanges();
 }
 
@@ -154,6 +133,5 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "turtlebot_marker_server");
   TurtlebotMarkerServer turtleserver;
   
-  // start the ROS main loop
   ros::spin();
 }

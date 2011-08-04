@@ -65,19 +65,13 @@ class LaserFootprintFilter
 {
 public:
   LaserFootprintFilter()
-    : tf_(ros::Duration(10000000)), first_(true)
+    : nh_("~"), tf_(ros::Duration(10))
   {
     scan_filtered_pub_ = nh_.advertise<sensor_msgs::LaserScan>("/scan_filtered", 1);
     scan_sub_ = nh_.subscribe("/scan", 1000, &LaserFootprintFilter::update, this);
-    debug_pub_ = nh_.advertise<PointCloud> ("debug_pointcloud", 1);
 
-    
-    if (!nh_.getParam("footprint_inscribed_radius", inscribed_radius_))
-      inscribed_radius_ = 0.16495;
-  }
-
-  virtual ~LaserFootprintFilter()
-  { 
+    nh_.param<double>("footprint_inscribed_radius", inscribed_radius_, 0.16495);
+    nh_.param<std::string>("base_frame", base_frame_, "/base_link");
   }
 
   void update(const sensor_msgs::LaserScan& input_scan)
@@ -90,33 +84,16 @@ public:
     // Get the pointcloud from the laser scan
     projector_.projectLaser(input_scan, cloud_message);
     
-    debug_pub_.publish(cloud_message);
     pcl::fromROSMsg(cloud_message, laser_cloud_in);
-    
-    /* if (first_)
-    {
-      // Get the transform from tf_listener
-      // To do: make this just execute the first time.
-      try 
-      {
-         tf_.waitForTransform ("/base_link", input_scan.header.frame_id, input_scan.header.stamp, ros::Duration(10));
-      }
-      catch(tf::TransformException& ex){
-        ROS_ERROR("Transform unavailable %s", ex.what());
-      }
-      ROS_INFO("Acquired laser transform.");
-      first_ = false;
-      
-    } */
-
-    // Not 100% sure what fixed_frame should be.
-    pcl_ros::transformPointCloud ("/base_link", input_scan.header.stamp, laser_cloud_in, "/base_link", laser_cloud, tf_);
 
     // Transform the pointcloud
-    //transformPointCloud (const pcl::PointCloud< PointT > &cloud_in, pcl::PointCloud< PointT > &cloud_out, const tf::Transform &transform);
+    pcl_ros::transformPointCloud (base_frame_, input_scan.header.stamp, laser_cloud_in, base_frame_, laser_cloud, tf_);
 
+    // Go through each point in the pointcloud and keep or remove corresponding
+    // points in the original scan as necessary.
     for (unsigned int i=0; i < laser_cloud.points.size(); i++)  
     {
+      // Check if the point is in the footprint
       if (inFootprint(laser_cloud.points[i]))
       {
         int index = laser_cloud.points[i].index;
@@ -127,9 +104,7 @@ public:
     scan_filtered_pub_.publish(filtered_scan);
   }
 
-
-  // To do: Currently removes everything in a box: since our robot is circular,
-  // change this to be a circle instead.
+  // Filter out circular area
   bool inFootprint(const PointXYZIndex& scan_pt)
   {
     // Do a radius instead of a box.
@@ -139,14 +114,14 @@ public:
   }
 
 private:
+  ros::NodeHandle nh_;
   tf::TransformListener tf_;
   laser_geometry::LaserProjection projector_;
   double inscribed_radius_;
+  std::string base_frame_;
   ros::Publisher scan_filtered_pub_;
   ros::Publisher debug_pub_;
   ros::Subscriber scan_sub_;
-  ros::NodeHandle nh_;
-  bool first_;
 };
 
 int main(int argc, char** argv)
@@ -154,8 +129,6 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "filter_laser_footprint");
 
   LaserFootprintFilter filter;
-
-  // start the ROS main loop
   ros::spin();
 }
 

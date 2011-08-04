@@ -1,0 +1,16 @@
+<package>
+  <description brief="turtlebot_navigation_laser">
+
+     turtlebot_navigation_laser
+
+  </description>
+  <author>Elena Oleynikova</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/turtlebot_navigation_laser</url>
+  <depend package="turtlebot_navigation"/>
+  <depend package="turtlebot_laser"/>
+
+</package>
+
+
