@@ -1,0 +1,18 @@
+<package>
+  <description brief="turtlebot_laser">
+
+     turtlebot_laser
+
+  </description>
+  <author>Elena Oleynikova</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/turtlebot_laser</url>
+
+  <depend package="sensor_msgs"/>
+  <depend package="laser_geometry"/>
+  <depend package="pcl_ros"/>
+
+</package>
+
+
