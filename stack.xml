@@ -13,5 +13,7 @@
   <depend stack="ros_comm" /> <!-- rospy, roscpp -->
   <depend stack="vision_opencv" /><!-- opencv2 -->
   <depend stack="image_common" />
+  <depend stack="visualization" /><!-- interactive_markers -->
+  <depend stack="laser_pipeline" /><!-- laser_geometry -->
 
 </stack>
