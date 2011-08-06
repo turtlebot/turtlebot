@@ -1,7 +1,7 @@
 <launch>
 
-  <!-- convert to a capability -->
-  <include file="$(find turtlebot_bringup)/base.launch" />
+  <!-- Enable breaker 1 for the kinect -->
+  <node pkg="turtlebot_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
 
     <!-- Kinect -->
   <node pkg="nodelet" type="nodelet" name="openni_manager" output="screen" respawn="true" args="manager"/>

@@ -1,4 +1,6 @@
 <launch>
+  <include file="$(find turtlebot_bringup)/kinect.launch" />
+
   <node pkg="turtlebot_calibration" type="scan_to_angle.py" name="scan_to_angle" >
     <param name="min_angle" value="-0.3" />
     <param name="max_angle" value="0.3" />
