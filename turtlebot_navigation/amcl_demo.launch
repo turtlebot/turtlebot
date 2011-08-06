@@ -1,4 +1,9 @@
 <launch>
+  <!--- Run the base -->
+  <include file="$(find turtlebot_bringup)/base.launch" />
+
+  <!--- Run the kinect -->
+  <include file="$(find turtlebot_bringup)/kinect.launch" />
 
   <arg name="map_file" default="$(find turtlebot_navigation)/maps/willow-2010-02-18-0.10.yaml"/>
 
