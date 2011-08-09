@@ -171,7 +171,7 @@ class TurtlebotNode(object):
         self.odom_linear_scale_correction = config['odom_linear_scale_correction']
         self.cmd_vel_timeout = rospy.Duration(config['cmd_vel_timeout'])
         self.stop_motors_on_bump = config['stop_motors_on_bump']
-#        self.min_abs_yaw_vel = config['min_abs_yaw_vel']
+        self.min_abs_yaw_vel = config['min_abs_yaw_vel']
         return config
 
     def cmd_vel(self, msg):
