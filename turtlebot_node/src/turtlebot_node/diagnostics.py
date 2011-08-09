@@ -100,7 +100,7 @@ class TurtlebotDiagnostics():
         #cliff sensors
         stat = DiagnosticStatus(name="Cliff Sensor", level=DiagnosticStatus.OK, message="OK")
         if sensor_state.cliff_left or sensor_state.cliff_front_left or sensor_state.cliff_right or sensor_state.cliff_front_right:
-            stat.level = DiagnosticStatus.ERROR
+            stat.level = DiagnosticStatus.WARN
             stat.message = "Near Cliff"
         stat.values = [KeyValue("Left", str(sensor_state.cliff_left)),
                        KeyValue("Left Signal", str(sensor_state.cliff_left_signal)),
