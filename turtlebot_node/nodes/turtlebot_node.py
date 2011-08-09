@@ -68,6 +68,11 @@ from turtlebot_node.sense import TurtlebotSensorHandler, \
      ODOM_POSE_COVARIANCE, ODOM_POSE_COVARIANCE2, ODOM_TWIST_COVARIANCE, ODOM_TWIST_COVARIANCE2
 from turtlebot_node.songs import bonus
 
+#dynamic reconfigure
+import dynamic_reconfigure.server
+from turtlebot_node.cfg import TurtleBotConfig
+
+
 class TurtlebotNode(object):
 
     def __init__(self, default_port='/dev/ttyUSB0', default_update_rate=30.0):
@@ -92,6 +97,8 @@ class TurtlebotNode(object):
             self._gyro = TurtlebotGyro()
         else:
             self._gyro = None
+            
+        dynamic_reconfigure.server.Server(TurtleBotConfig, self.reconfigure)
 
     def start(self):
         log_once = True
@@ -155,6 +162,17 @@ class TurtlebotNode(object):
             self.drive_cmd = self.robot.direct_drive
         else:
             rospy.logerr("unknown drive mode :%s"%(self.drive_mode))
+    
+    def reconfigure(self, config, level):
+        self.update_rate = config['update_rate']
+        self.drive_mode = config['drive_mode']
+        self.has_gyro = config['has_gyro']
+        self.odom_angular_scale_correction = config['odom_angular_scale_correction']
+        self.odom_linear_scale_correction = config['odom_linear_scale_correction']
+        self.cmd_vel_timeout = rospy.Duration(config['cmd_vel_timeout'])
+        self.stop_motors_on_bump = config['stop_motors_on_bump']
+#        self.min_abs_yaw_vel = config['min_abs_yaw_vel']
+        return config
 
     def cmd_vel(self, msg):
         # Clamp to min abs yaw velocity, to avoid trying to rotate at low
