@@ -9,7 +9,7 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_navigation_laser</url>
   <depend package="turtlebot_navigation"/>
-  <depend package="turtlebot_laser"/>
+  <depend package="turtlebot_self_filter"/>
 
 </package>
 
