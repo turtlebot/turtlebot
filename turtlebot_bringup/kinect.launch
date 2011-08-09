@@ -9,11 +9,11 @@
   <node pkg="nodelet" type="nodelet" name="openni_camera" args="load openni_camera/OpenNINodelet openni_manager" respawn="true">
     <param name="rgb_frame_id" value="kinect_rgb_optical_frame" />
     <param name="depth_frame_id" value="kinect_depth_optical_frame" />
-    <param name="depth_registration" value="true" />
+    <param name="depth_registration" value="false" />
     <param name="image_mode" value="2" />
     <param name="depth_mode" value="2" />
     <param name="debayering" value="2" />
-    <param name="depth_time_offset" value="0" />
+    <param name="depth_time_offset" value="-0.055" />
     <param name="image_time_offset" value="0" />
 
     <rosparam command="load" file="$(find openni_camera)/info/openni_params.yaml" />
