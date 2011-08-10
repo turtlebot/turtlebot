@@ -11,6 +11,7 @@
   <depend package="nodelet"/>
   <depend package="sensor_msgs"/>
   <depend package="pcl_ros"/>
+  <depend package="dynamic_reconfigure"/>
   <export>
     <nodelet plugin="${prefix}/nodelets.xml" />
   </export>
