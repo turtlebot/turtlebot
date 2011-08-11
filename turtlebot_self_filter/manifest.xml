@@ -1,13 +1,13 @@
 <package>
-  <description brief="turtlebot_laser">
+  <description brief="turtlebot_self_filter">
 
-     turtlebot_laser
+     turtlebot_self_filter
 
   </description>
-  <author>Elena Oleynikova</author>
+  <author>Helen Oleynikova</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/turtlebot_laser</url>
+  <url>http://ros.org/wiki/turtlebot_turtlebot_self_filter</url>
 
   <depend package="sensor_msgs"/>
   <depend package="laser_geometry"/>
