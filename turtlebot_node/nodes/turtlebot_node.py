@@ -167,6 +167,8 @@ class TurtlebotNode(object):
         self.update_rate = config['update_rate']
         self.drive_mode = config['drive_mode']
         self.has_gyro = config['has_gyro']
+        if self.has_gyro:
+            self._gyro.gyro_scale_correction = config['gyro_scale_correction']
         self.odom_angular_scale_correction = config['odom_angular_scale_correction']
         self.odom_linear_scale_correction = config['odom_linear_scale_correction']
         self.cmd_vel_timeout = rospy.Duration(config['cmd_vel_timeout'])
