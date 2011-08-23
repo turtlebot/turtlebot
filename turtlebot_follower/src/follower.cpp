@@ -33,6 +33,8 @@
 #include <geometry_msgs/Twist.h>
 #include <pcl_ros/point_cloud.h>
 #include <pcl/point_types.h>
+#include "dynamic_reconfigure/server.h"
+#include "turtlebot_follower/FollowerConfig.h"
 
 
 namespace turtlebot_follower
@@ -89,7 +91,24 @@ private:
     private_nh.getParam("x_scale", x_scale_);
     
     cmdpub_ = nh.advertise<geometry_msgs::Twist> ("turtlebot_node/cmd_vel", 1);
-    sub_= nh.subscribe<PointCloud>("/camera/depth/points", 1, &TurtlebotFollower::cloudcb, this);
+    sub_= nh.subscribe<PointCloud>("/camera/depth/points", 1, &TurtlebotFollower::cloudcb, this);\
+
+    dynamic_reconfigure::Server<turtlebot_follower::FollowerConfig> srv;
+    dynamic_reconfigure::Server<turtlebot_follower::FollowerConfig>::CallbackType f = boost::bind(&TurtlebotFollower::reconfigure, this, _1, _2);
+    srv.setCallback(f);
+
+  }
+
+  void reconfigure(turtlebot_follower::FollowerConfig &config, uint32_t level)
+  {
+    min_y_ = config.min_y;
+    max_y_ = config.max_y;
+    min_x_ = config.min_x;
+    max_x_ = config.max_x;
+    max_z_ = config.max_z;
+    goal_z_ = config.goal_z;
+    z_scale_ = config.z_scale;
+    x_scale_ = config.x_scale;
   }
   
   /*!
