@@ -52,7 +52,7 @@ struct PointXYZIndex
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW   // make sure our new allocators are aligned
 } EIGEN_ALIGN16;                    // enforce SSE padding for correct memory alignment
 
-POINT_CLOUD_REGISTER_POINT_STRUCT (PointXYZIndex,           // here we assume a XYZ + "test" (as fields)
+POINT_CLOUD_REGISTER_POINT_STRUCT (PointXYZIndex,
                                   (float, x, x)
                                   (float, y, y)
                                   (float, z, z)

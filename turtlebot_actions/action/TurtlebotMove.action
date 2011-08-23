@@ -1,0 +1,11 @@
+#goal definition
+float32 turn_distance     # in radians, ccw = +, cw = -
+float32 forward_distance  # in meters, forward = +, backward = -
+---
+#result definition
+float32 turn_distance
+float32 forward_distance
+---
+#feedback
+float32 turn_distance
+float32 forward_distance
