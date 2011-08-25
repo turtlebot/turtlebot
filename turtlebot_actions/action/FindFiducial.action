@@ -3,11 +3,11 @@ uint8   CHESSBOARD = 1
 uint8   CIRCLES_GRID = 2
 uint8   ASYMMETRIC_CIRCLES_GRID =3
 
-string  camera_name       # name of the camera 
-uint8   pattern_width     # number of objects across
-uint8   pattern_height    # number of objects down
-uint8   pattern_size      # size the object pattern (square size or circle size)
-uint8   pattern_type      # type of pattern (CHESSBOARD, CIRCLES_GRID, ASYMMETRIC_CIRCLES_GRID)
+string    camera_name       # name of the camera 
+uint8     pattern_width     # number of objects across
+uint8     pattern_height    # number of objects down
+float32   pattern_size      # size the object pattern (square size or circle size)
+uint8     pattern_type      # type of pattern (CHESSBOARD, CIRCLES_GRID, ASYMMETRIC_CIRCLES_GRID)
 ---
 #result definition
 geometry_msgs/PoseStamped pose
