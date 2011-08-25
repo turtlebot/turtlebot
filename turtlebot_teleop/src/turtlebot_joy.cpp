@@ -65,8 +65,6 @@ TurtlebotTeleop::TurtlebotTeleop():
   l_scale_(0.3),
   a_scale_(0.9)
 {
-
-
   ph_.param("axis_linear", linear_, linear_);
   ph_.param("axis_angular", angular_, angular_);
   ph_.param("axis_deadman", deadman_axis_, deadman_axis_);
