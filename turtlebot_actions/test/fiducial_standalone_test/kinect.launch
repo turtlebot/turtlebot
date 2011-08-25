@@ -1,0 +1,11 @@
+<launch>
+
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find turtlebot_description)/urdf/turtlebot.urdf.xacro'" />
+  <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" type="double" value="30.0" />
+  </node>
+
+   <include file="$(find openni_launch)/launch/openni.launch"/>
+
+
+</launch>
