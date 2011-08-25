@@ -3,31 +3,22 @@
   <!-- Enable breaker 1 for the kinect -->
   <node pkg="turtlebot_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
 
-  <!-- Kinect -->
-  <node pkg="nodelet" type="nodelet" name="openni_manager" output="screen" respawn="true" args="manager"/>
+  <arg name="camera" default="kinect" />
 
-  <node pkg="nodelet" type="nodelet" name="openni_camera" args="load openni_camera/OpenNINodelet openni_manager" respawn="true">
-    <param name="rgb_frame_id" value="kinect_rgb_optical_frame" />
-    <param name="depth_frame_id" value="kinect_depth_optical_frame" />
-    <param name="depth_registration" value="false" />
-    <param name="image_mode" value="2" />
-    <param name="depth_mode" value="2" />
-    <param name="debayering" value="2" />
-    <param name="depth_time_offset" value="-0.055" />
-    <param name="image_time_offset" value="0" />
-
-    <rosparam command="load" file="$(find openni_camera)/info/openni_params.yaml" />
-  </node>
+ <!-- kinect launch -->
+  <include file="$(find openni_launch)/launch/openni.launch">
+    <arg name="camera" value="$(arg camera)" />
+  </include>
 
   <!-- throttling -->
-  <node pkg="nodelet" type="nodelet" name="pointcloud_throttle" args="load pointcloud_to_laserscan/CloudThrottle openni_manager" respawn="true">
+  <node pkg="nodelet" type="nodelet" name="pointcloud_throttle" args="load pointcloud_to_laserscan/CloudThrottle kinect_nodelet_manager" respawn="true">
     <param name="max_rate" value="20.0"/>
-    <remap from="cloud_in" to="/camera/depth/points"/>
+    <remap from="cloud_in" to="/kinect/depth/points"/>
     <remap from="cloud_out" to="cloud_throttled"/>
   </node>
 
   <!-- Fake Laser -->
-  <node pkg="nodelet" type="nodelet" name="kinect_laser" args="load pointcloud_to_laserscan/CloudToScan openni_manager" respawn="true">
+  <node pkg="nodelet" type="nodelet" name="kinect_laser" args="load pointcloud_to_laserscan/CloudToScan kinect_nodelet_manager" respawn="true">
     <param name="output_frame_id" value="/kinect_depth_frame"/>
     <!-- heights are in the (optical?) frame of the kinect -->
     <param name="min_height" value="-0.15"/>
@@ -36,7 +27,7 @@
   </node>
 
   <!-- Fake Laser (narrow one, for localization -->
-  <node pkg="nodelet" type="nodelet" name="kinect_laser_narrow" args="load pointcloud_to_laserscan/CloudToScan openni_manager" respawn="true">
+  <node pkg="nodelet" type="nodelet" name="kinect_laser_narrow" args="load pointcloud_to_laserscan/CloudToScan kinect_nodelet_manager" respawn="true">
     <param name="output_frame_id" value="/kinect_depth_frame"/>
     <!-- heights are in the (optical?) frame of the kinect -->
     <param name="min_height" value="-0.025"/>
