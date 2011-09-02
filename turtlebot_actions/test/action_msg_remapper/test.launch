@@ -1,11 +1,4 @@
 <launch>
-  <rosparam param="remappings" ns="remapper">      
-    goal.pattern_width: goal.pattern_height
-    goal.pattern_height: goal.pattern_width
-  </rosparam>
-  <node pkg="turtlebot_actions" type="action_msg_mapper.py" name="remapper" output="screen" >
-    <remap from="input" to="find_fiducial_pose/goal" />
-    <param name="input_type" type="string" value="turtlebot_actions/FindFiducialActionGoal"/>
-    <param name="output_type" type="string" value="turtlebot_actions/FindFiducialActionGoal"/>
-  </node>
+  <node pkg="turtlebot_actions" type="action_msg_mapper.py" name="remapper" output="screen" />
+
 </launch>

@@ -38,46 +38,54 @@ import roslib; roslib.load_manifest('turtlebot_actions')
 import rospy
 import string
 import rosgraph.masterapi
+import actionlib
+import turtlebot_actions.msg 
 
-NAME= 'remapper'
-#from turtlebot_actions.msg import *
+class ActionMsgMapper(object): 
+    _result   = turtlebot_actions.msg.ActionMsgMapperResult()
 
-class ActionMsgMapper(): 
-    def __init__(self):
-        rospy.init_node(NAME)
-        self.remap_dict={}
-        self._init_params()
+    def __init__(self, name):
+        self._action_name = name
+        self._as = actionlib.SimpleActionServer(self._action_name, turtlebot_actions.msg.ActionMsgMapperAction, execute_cb=self.init_cb)
 
-        self.input_sub = rospy.Subscriber('input', roslib.message.get_message_class(self.input_type), self.input_cb)
-        self.output_pub = rospy.Publisher('output', roslib.message.get_message_class(self.output_type))
+    
+    def init_cb(self, goal):
+        self.goal = goal
 
-    def _init_params(self):
-        topic_types = rosgraph.masterapi.Master(NAME).getTopicTypes()
-        self.input_type = rospy.get_param('~input_type', None)
-        self.output_type = rospy.get_param('~output_type', None)                       
-        self.remap_dict = rospy.get_param('~remappings')
-        
+        self.input_sub = rospy.Subscriber(goal.input_topic, roslib.message.get_message_class(goal.input_type), self.input_cb)
+        self.output_pub = rospy.Publisher(goal.output_topic, roslib.message.get_message_class(goal.output_type))
+
+        if len(self.goal.input_list)!=len(self.goal.input_list):
+            rospy.logerror('%s: remap lists not the smae length' % self._action_name)
+            self._as.set_aborted(self._result)
+
+        self._as.set_succeeded()
+
     def input_cb(self, input_msg):
-        output_msg = roslib.message.get_message_class(self.output_type)()
 
-        for item in self.remap_dict:
+        output_msg = roslib.message.get_message_class(self.goal.output_type)()
+
+        for i in range(len(self.goal.input_list)):
             #get the input attribute by steping down through the attributes   
-            in_attributes = string.split(item,'.')
+            in_attributes = string.split(self.goal.input_list[i],'.')
             in_att = getattr(input_msg, in_attributes[0])
             if len(in_attributes)>1:
                 for a in in_attributes[1:]:
                     in_att = getattr(in_att,a)
             #get the output attribute by steping down through the attributes
-            out_attributes = string.split(self.remap_dict[item],'.')
+            out_attributes = string.split(self.goal.output_list[i],'.')
             out_att = getattr(output_msg, out_attributes[0])
             if len(out_attributes)>1:
                 for a in out_attributes[1:len(out_attributes)-1]:
                     out_att = getattr(out_att,a)
-            setattr(out_att, out_attributes[len(out_attributes)-1], in_att)
+                setattr(out_att, out_attributes[len(out_attributes)-1], in_att)
+            else:
+                setattr(output_msg, out_attributes[0], in_att)
         self.output_pub.publish(output_msg)    
 
-def main():
-    n = ActionMsgMapper()
-    rospy.spin()
+
 if __name__ == '__main__':
-    main()
+    rospy.init_node('remapper')
+    ActionMsgMapper(rospy.get_name())
+    rospy.spin()
+
