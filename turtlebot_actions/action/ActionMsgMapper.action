@@ -1,0 +1,14 @@
+#goal definition
+string    input_topic      
+string    output_topic      
+string    input_type      
+string    output_type      
+string[]   input_list
+string[]   output_list
+
+
+---
+#result definition
+---
+#feedback
+
