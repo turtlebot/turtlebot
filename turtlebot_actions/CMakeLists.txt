@@ -31,6 +31,9 @@ rosbuild_genmsg()
 #rosbuild_add_boost_directories()
 #rosbuild_link_boost(${PROJECT_NAME} thread)
 rosbuild_add_executable(turtlebot_move_action_server src/turtlebot_move_action_server.cpp)
+rosbuild_add_executable(turtlebot_goto_action_server src/turtlebot_goto_action_server.cpp)
+
 rosbuild_add_executable(find_fiducial_pose src/find_fiducial_pose.cpp src/detect_calibration_pattern.cpp)
 
+rosbuild_add_executable(follow_fiducial test/follow_fiducial.cpp)
 #target_link_libraries(example ${PROJECT_NAME})
