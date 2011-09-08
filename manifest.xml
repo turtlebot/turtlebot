@@ -1,7 +1,7 @@
 <package>
   <description brief="turtlebot_teleop">
 
-     turtlebot_teleop
+     Provides teleoperation using joysticks or keyboard. 
 
   </description>
   <author>Melonee Wise</author>
