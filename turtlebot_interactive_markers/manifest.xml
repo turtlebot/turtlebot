@@ -1,7 +1,7 @@
 <package>
-  <description brief="turtlebot_interactive_markers">
+  <description brief="Interactive control for the Turtlebot.">
 
-     turtlebot_interactive_markers
+    A package that allows controlling a Turtlebot from Rviz using interactive markers. 
 
   </description>
   <author>Elena Oleynikova</author>

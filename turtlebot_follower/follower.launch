@@ -2,14 +2,22 @@
 
   <!-- Enable breaker 1 for the kinect -->
   <node pkg="turtlebot_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
+  
+  <!-- Kinect -->
+  <node pkg="nodelet" type="nodelet" name="kinect_nodelet_manager" output="screen" respawn="true" args="manager"/>
 
-  <arg name="camera" default="kinect" />
+  <node pkg="nodelet" type="nodelet" name="openni_camera" args="load openni_camera/OpenNINodelet kinect_nodelet_manager" respawn="true">
+    <param name="rgb_frame_id" value="kinect_rgb_optical_frame" />
+    <param name="depth_frame_id" value="kinect_depth_optical_frame" />
+    <param name="depth_registration" value="true" />
+    <param name="image_mode" value="2" />
+    <param name="depth_mode" value="2" />
+    <param name="debayering" value="2" />
+    <param name="depth_time_offset" value="0" />
+    <param name="image_time_offset" value="0" />
 
- <!-- kinect launch -->
-  <include file="$(find openni_launch)/launch/openni.launch">
-    <arg name="camera" value="$(arg camera)" />
-  </include>
-
+    <rosparam command="load" file="$(find openni_camera)/info/openni_params.yaml" />
+  </node>
 
   <!-- Follower nodelet -->
   <node pkg="nodelet" type="nodelet" name="turtlebot_follower" args="load turtlebot_follower/TurtlebotFollower kinect_nodelet_manager" respawn="true">
