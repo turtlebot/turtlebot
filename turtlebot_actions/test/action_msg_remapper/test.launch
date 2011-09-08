@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="turtlebot_actions" type="action_msg_mapper.py" name="remapper" output="screen" />
+
+</launch>
