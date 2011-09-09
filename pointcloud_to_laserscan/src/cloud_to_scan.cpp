@@ -55,7 +55,7 @@ public:
                  scan_time_(1.0/30.0),
                  range_min_(0.45),
                  range_max_(10.0),
-                 output_frame_id_("/openi_depth_frame")
+                 output_frame_id_("/kinect_depth_frame")
   {
   };
 
