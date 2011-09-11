@@ -101,7 +101,10 @@ class TurtlebotDiagnostics():
         stat = DiagnosticStatus(name="Cliff Sensor", level=DiagnosticStatus.OK, message="OK")
         if sensor_state.cliff_left or sensor_state.cliff_front_left or sensor_state.cliff_right or sensor_state.cliff_front_right:
             stat.level = DiagnosticStatus.WARN
-            stat.message = "Near Cliff"
+            if (sensor_state.current/1000.0)>0:
+                stat.message = "Near Cliff: While the irobot create is charging, the create thinks it's near a cliff."
+            else:
+                stat.message = "Near Cliff"
         stat.values = [KeyValue("Left", str(sensor_state.cliff_left)),
                        KeyValue("Left Signal", str(sensor_state.cliff_left_signal)),
                        KeyValue("Front Left", str(sensor_state.cliff_front_left)),
@@ -125,13 +128,13 @@ class TurtlebotDiagnostics():
         stat = DiagnosticStatus(name="Gyro Sensor", level = DiagnosticStatus.OK, message = "OK")
         if gyro is None:
             stat.level = DiagnosticStatus.WARN
-            stat.message = "Gyro Not Enabled"   
-        elif gyro.cal_offset == 66 or sensor_state.user_analog_input == 66:
+            stat.message = "Gyro Not Enabled: To enable the gyro set the has_gyro param in the turtlebot_node."   
+        elif gyro.cal_offset < 100:
             stat.level = DiagnosticStatus.ERROR
-            stat.message = "Create Robot in Quasi on State: Please Power Cycle the Create"
-        elif gyro.cal_offset > 550.0 or gyro.cal_offset < 450.0:
+            stat.message = "Gyro Power Problem: For more information visit http://answers.ros.org/question/2091/turtlebot-bad-gyro-calibration-also."
+        elif gyro.cal_offset > 575.0 or gyro.cal_offset < 425.0:
             stat.level = DiagnosticStatus.ERROR
-            stat.message = "Bad Gyro Calibration"
+            stat.message = "Bad Gyro Calibration Offset: The gyro average is outside the standard deviation."
 
         if gyro is not None:    
             stat.values = [KeyValue("Gyro Enabled", str(gyro is not None)),
