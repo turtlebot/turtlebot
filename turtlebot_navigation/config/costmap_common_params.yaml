@@ -3,4 +3,4 @@ raytrace_range: 3.0
 robot_radius: 0.35
 inflation_radius: 0.50
 observation_sources: scan
-scan: {sensor_frame: /kinect_depth_frame, data_type: LaserScan, topic: /scan, marking: true, clearing: true}
+scan: {data_type: LaserScan, topic: /scan, marking: true, clearing: true}
