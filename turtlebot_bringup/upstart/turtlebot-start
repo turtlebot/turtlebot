@@ -23,4 +23,8 @@ if [ "$ROS_IP" = "" ]; then
     exit 1
 fi
 
-setuidgid turtlebot roslaunch turtlebot_bringup minimal.launch
+if [ -s /etc/ros/turtlebot/bringup.launch ]; then
+    setuidgid turtlebot roslaunch /etc/ros/turtlebot/bringup.launch
+else
+    setuidgid turtlebot roslaunch turtlebot_bringup minimal.launch
+fi
