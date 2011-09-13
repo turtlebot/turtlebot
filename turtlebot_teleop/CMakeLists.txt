@@ -30,4 +30,3 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #target_link_libraries(example ${PROJECT_NAME})
 
 rosbuild_add_executable(turtlebot_teleop_joy src/turtlebot_joy.cpp)
-rosbuild_add_executable(turtlebot_teleop_key src/turtlebot_key.cpp)
