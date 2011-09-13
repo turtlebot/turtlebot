@@ -246,7 +246,9 @@ class TurtlebotNode(object):
         rospy.logdebug("Setting turtlebot to full mode.")
         self.robot.safe = False
         self.robot.control()
-        self._set_digital_outputs([1, 0, 0])
+        b1 = (self.sensor_state.user_digital_inputs & 2)/2
+        b2 = (self.sensor_state.user_digital_inputs & 4)/4
+        self._set_digital_outputs([1, b1, b2])
 
     def _set_digital_outputs(self, outputs):
         assert len(outputs) == 3, 'Expecting 3 output states.'
