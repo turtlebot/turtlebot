@@ -9,5 +9,4 @@
     <rosparam file="$(find turtlebot_navigation)/config/base_local_planner_params.yaml" command="load" />
   </node>
 
-
 </launch>

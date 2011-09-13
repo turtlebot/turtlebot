@@ -1,21 +1,19 @@
 <launch>
+
   <!--- Run the base -->
   <include file="$(find turtlebot_bringup)/base.launch" />
 
   <!--- Run the kinect -->
   <include file="$(find turtlebot_bringup)/kinect.launch" />
 
-  <arg name="map_file" default="$(find turtlebot_navigation)/maps/willow-2010-02-18-0.10.yaml"/>
-
   <!-- Run the map server -->
+  <arg name="map_file" default="$(find turtlebot_navigation)/maps/willow-2010-02-18-0.10.yaml"/>
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
 
   <!--- Run AMCL -->
   <include file="$(find turtlebot_navigation)/config/amcl_turtlebot.launch" />
 
-
   <!--- Run Move Base and Robot Pose EKF -->
   <include file="$(find turtlebot_navigation)/config/move_base_turtlebot.launch" />
-
 
 </launch>

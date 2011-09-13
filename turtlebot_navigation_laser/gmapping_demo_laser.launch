@@ -6,9 +6,7 @@
   <!--- Run gmapping -->
   <include file="$(find turtlebot_navigation_laser)/config/gmapping_turtlebot_laser.launch" />
 
-
   <!--- Run Move Base and Robot Pose EKF -->
   <include file="$(find turtlebot_navigation_laser)/config/move_base_turtlebot_laser.launch" />
-
 
 </launch>

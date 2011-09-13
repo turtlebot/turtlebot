@@ -4,9 +4,9 @@
   <node pkg="turtlebot_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
   
   <!-- Kinect -->
-  <node pkg="nodelet" type="nodelet" name="kinect_nodelet_manager" output="screen" respawn="true" args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="openni_manager" output="screen" respawn="true" args="manager"/>
 
-  <node pkg="nodelet" type="nodelet" name="openni_camera" args="load openni_camera/OpenNINodelet kinect_nodelet_manager" respawn="true">
+  <node pkg="nodelet" type="nodelet" name="openni_camera" args="load openni_camera/OpenNINodelet openni_manager" respawn="true">
     <param name="rgb_frame_id" value="kinect_rgb_optical_frame" />
     <param name="depth_frame_id" value="kinect_depth_optical_frame" />
     <param name="depth_registration" value="true" />
@@ -20,7 +20,7 @@
   </node>
 
   <!-- Follower nodelet -->
-  <node pkg="nodelet" type="nodelet" name="turtlebot_follower" args="load turtlebot_follower/TurtlebotFollower kinect_nodelet_manager" respawn="true">
+  <node pkg="nodelet" type="nodelet" name="turtlebot_follower" args="load turtlebot_follower/TurtlebotFollower openni_manager" respawn="true">
     <param name="x_scale" value="7.0" />
     <param name="z_scale" value="2.0" />
     <param name="min_x" value="-0.2" />
