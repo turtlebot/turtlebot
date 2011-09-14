@@ -1,10 +1,10 @@
 <package>
-  <description brief="Interactive control for the Turtlebot.">
+  <description brief="Interactive control for the TurtleBot.">
 
-    A package that allows controlling a Turtlebot from Rviz using interactive markers. 
+    A package that allows controlling a TurtleBot from rviz using interactive markers. 
 
   </description>
-  <author>Elena Oleynikova</author>
+  <author>Helen Oleynikova</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_interactive_markers</url>

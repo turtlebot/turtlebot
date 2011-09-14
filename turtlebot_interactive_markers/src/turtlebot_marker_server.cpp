@@ -90,7 +90,7 @@ void TurtlebotMarkerServer::createInteractiveMarkers()
   InteractiveMarker int_marker;
   int_marker.header.frame_id = "/base_link";
   int_marker.name = "turtlebot_marker";
-  int_marker.description = "Move the turtlebot";
+  //int_marker.description = "Move the turtlebot";
   
   InteractiveMarkerControl control;
 
