@@ -233,7 +233,7 @@
       </geometry>
     </collision>
   </link>
-  <joint name="rear_castor_joint" type="continuous">
+  <joint name="rear_castor_joint" type="fixed">
     <origin xyz="-0.13 0 0.0" rpy="0 0 0"/>
     <parent link="base_link"/>
     <child link="rear_wheel_link"/>
