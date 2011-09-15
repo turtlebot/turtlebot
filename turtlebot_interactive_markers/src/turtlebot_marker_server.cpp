@@ -45,11 +45,14 @@ class TurtlebotMarkerServer
       std::string cmd_vel_topic;
       
       nh.param<std::string>("cmd_vel_topic", cmd_vel_topic, "/turtlebot_node/cmd_vel");
+      nh.param<std::string>("link_name", link_name, "/base_link");
       nh.param<double>("linear_scale", linear_scale, 1.0);
       nh.param<double>("angular_scale", angular_scale, 2.2);
       
       vel_pub = nh.advertise<geometry_msgs::Twist>(cmd_vel_topic, 1);
       createInteractiveMarkers();
+      
+      ROS_INFO("[turtlebot_marker_server] Initialized.");
     }
     
     void processFeedback(
@@ -64,6 +67,8 @@ class TurtlebotMarkerServer
     
     double linear_scale;
     double angular_scale;
+    
+    std::string link_name;
 };
 
 void TurtlebotMarkerServer::processFeedback(
@@ -88,7 +93,7 @@ void TurtlebotMarkerServer::createInteractiveMarkers()
 { 
   // create an interactive marker for our server
   InteractiveMarker int_marker;
-  int_marker.header.frame_id = "/base_link";
+  int_marker.header.frame_id = link_name;
   int_marker.name = "turtlebot_marker";
   //int_marker.description = "Move the turtlebot";
   
