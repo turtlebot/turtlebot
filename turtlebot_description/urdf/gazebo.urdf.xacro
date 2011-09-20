@@ -14,7 +14,7 @@
       <wheel_diameter>0.066</wheel_diameter>
       <base_geom>base_link_geom_base_link</base_geom>
       <updateRate>40</updateRate>
-      <torque>0.1</torque>
+      <torque>1.0</torque>
     </controller:gazebo_ros_create>
   </gazebo>
 
@@ -125,18 +125,33 @@
     </sensor:camera>
   </gazebo>
 
+  <gazebo reference="left_wheel_link">
+    <mu1 value="10.0"/>
+    <mu2 value="0.5"/>
+    <kp value="100000000.0"/>
+    <kd value="10000.0"/>
+    <fdir1 value="0 1 0"/>
+  </gazebo>
+
+  <gazebo reference="right_wheel_link">
+    <mu1 value="10.0"/>
+    <mu2 value="0.5"/>
+    <kp value="100000000.0"/>
+    <kd value="10000.0"/>
+    <fdir1 value="0 1 0"/>
+  </gazebo>
   <gazebo reference="rear_wheel_link">
     <mu1 value="0"/>
     <mu2 value="0"/>
-    <kp value="100000.0"/>
-    <kd value="1.0"/>
+    <kp value="100000000.0"/>
+    <kd value="1000.0"/>
   </gazebo>
 
   <gazebo reference="front_wheel_link">
     <mu1 value="0"/>
     <mu2 value="0"/>
-    <kp value="100000.0"/>
-    <kd value="1.0"/>
+    <kp value="100000000.0"/>
+    <kd value="1000.0"/>
   </gazebo>
 
 </robot>
