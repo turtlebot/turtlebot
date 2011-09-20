@@ -43,18 +43,17 @@ class TurtlebotMarkerServer
       : nh("~"), server("turtlebot_marker_server")
     {
       std::string cmd_vel_topic;
-      
-      nh.param<std::string>("cmd_vel_topic", cmd_vel_topic, "/turtlebot_node/cmd_vel");
+
       nh.param<std::string>("link_name", link_name, "/base_link");
       nh.param<double>("linear_scale", linear_scale, 1.0);
       nh.param<double>("angular_scale", angular_scale, 2.2);
-      
-      vel_pub = nh.advertise<geometry_msgs::Twist>(cmd_vel_topic, 1);
+
+      vel_pub = nh.advertise<geometry_msgs::Twist>("/turtlebot_node/cmd_vel", 1);
       createInteractiveMarkers();
-      
+
       ROS_INFO("[turtlebot_marker_server] Initialized.");
     }
-    
+
     void processFeedback(
         const InteractiveMarkerFeedbackConstPtr &feedback );
   
