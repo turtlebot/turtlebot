@@ -45,10 +45,10 @@
 
   <link name="base_link">
     <inertial>
-      <mass value="1" />
-      <origin xyz="0 0 0.0308" />
-      <inertia ixx="0.1" ixy="0.0" ixz="0.0"
-        iyy="0.1" iyz="0.0" izz="0.1" />
+      <mass value="2" />
+      <origin xyz="0 0 0.0" />
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0" izz="0.5" />
     </inertial>
 
     <visual>
@@ -61,7 +61,7 @@
     <collision>
       <origin xyz="0.0 0.0 0.0308" rpy="0 0 0" />
       <geometry>
-        <cylinder length="0.0611632" radius="0.16495"/>
+        <cylinder length="0.0611632" radius="0.016495"/>
       </geometry>
     </collision>
   </link>
@@ -101,7 +101,7 @@
       <mass value="0.01" />
       <origin xyz="0 0 0"/>
       <inertia ixx="1.0" ixy="0.0" ixz="0.0"
-        iyy="0.1" iyz="0.0" izz="0.1" />
+        iyy="0.01" iyz="0.0" izz="0.01" />
     </inertial>
   </link>
 
@@ -224,18 +224,18 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
       <geometry>
-        <sphere radius="0.018" />
+        <sphere radius="0.015" />
       </geometry>
     </visual>
 
     <collision>
       <origin xyz="0 0 0" rpy="0 1.5707 1.5707" />
       <geometry>
-        <sphere radius="0.018" />
+        <sphere radius="0.015" />
       </geometry>
     </collision>
   </link>
-  <!-- not sure why this is set to fixed -->
+  <!-- fixed because there's no transmission -->
   <joint name="rear_castor_joint" type="fixed">
     <origin xyz="-0.13 0 0.0" rpy="0 0 0"/>
     <parent link="base_link"/>
@@ -266,7 +266,8 @@
     </collision>
   </link>
 
-  <joint name="front_castor_joint" type="continuous">
+  <!-- fixed because there's no transmission -->
+  <joint name="front_castor_joint" type="fixed">
     <origin xyz="0.13 0 0.0" rpy="0 0 0"/>
     <parent link="base_link"/>
     <child link="front_wheel_link"/>
@@ -334,9 +335,9 @@
     <inertial>
       <mass value="0.01" />
       <origin xyz="0 0 0" />
-      <inertia ixx="0.1" ixy="0.0" ixz="0.0"
-        iyy="0.1" iyz="0.0"
-        izz="0.1" />
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01" />
     </inertial>
 
     <visual>
