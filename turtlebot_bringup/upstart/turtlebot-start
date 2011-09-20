@@ -7,8 +7,8 @@ if [ -s /etc/ros/setup.bash ]; then
     echo "$DATE: turtlebot-start using setup file /etc/ros/setup.bash" >> $log_file
     source /etc/ros/setup.bash
 else
-    echo "$DATE: turtlebot-start using setup file /opt/ros/diamondback/setup.bash" >> $log_file
-    source /opt/ros/diamondback/setup.bash
+    echo "$DATE: turtlebot-start using setup file /opt/ros/electric/setup.bash" >> $log_file
+    source /opt/ros/electric/setup.bash
 fi
 
 interface=wlan0
@@ -23,4 +23,8 @@ if [ "$ROS_IP" = "" ]; then
     exit 1
 fi
 
-setuidgid turtlebot roslaunch turtlebot_bringup minimal.launch
+if [ -s /etc/ros/turtlebot/bringup.launch ]; then
+    setuidgid turtlebot roslaunch /etc/ros/turtlebot/bringup.launch
+else
+    setuidgid turtlebot roslaunch turtlebot_bringup minimal.launch
+fi

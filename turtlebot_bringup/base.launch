@@ -8,10 +8,8 @@
     <param name="odom_used" value="true"/>
     <param name="imu_used" value="true"/>
     <param name="vo_used" value="false"/>
+    <param name="output_frame" value="odom"/>
     <remap from="imu_data" to="imu/data"/>
   </node>
-
-  <!-- Enable breaker 1 for the kinect -->
-  <node pkg="turtlebot_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
 
 </launch>

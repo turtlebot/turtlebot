@@ -12,9 +12,9 @@ This copies the files while doing a search/replace on "wlan0" to
 whatever argument you give it.
 
 turtlebot-start and turtlebot-stop look for /etc/ros/setup.bash, and
-if it exists they use it instead of /opt/ros/diamondback/setup.bash.
+if it exists they use it instead of /opt/ros/electric/setup.bash.
 So to point the robot at a dev directory, just make your own
 setup.bash and make /etc/ros/setup.bash a symlink to it.
 
 To use the installed version of the code, remove /etc/ros/setup.bash
-or make it a symlink to /opt/ros/diamondback/setup.bash.
+or make it a symlink to /opt/ros/electric/setup.bash.

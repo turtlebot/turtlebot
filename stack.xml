@@ -4,16 +4,19 @@
   <license>BSD,MIT</license>  
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot</url>
-  <depend stack="common" /> <!-- xacro, actionlib, nodelet -->
-  <depend stack="common_msgs" /> <!-- nav_msgs, geometry_msgs, actionlib_msgs, sensor_msgs, diagnostic_msgs -->
-  <depend stack="geometry" /> <!-- tf, kdl -->
+  <depend stack="common_msgs" /> <!-- nav_msgs, geometry_msgs, sensor_msgs, diagnostic_msgs -->
+  <depend stack="driver_common" /> <!-- dynamic_reconfigure -->
+  <depend stack="geometry" /> <!-- tf -->
   <depend stack="image_transport_plugins" /> <!-- compressed_image_transport -->
   <depend stack="joystick_drivers" /> <!-- joy -->
   <depend stack="multimaster_experimental" /> <!-- app_manager -->
+  <depend stack="nodelet_core" /> <!-- nodelet -->
   <depend stack="openni_kinect" /> <!-- openni_camera -->
+  <depend stack="orocos_kinematics_dynamics" /> <!-- kdl -->
   <depend stack="perception_pcl" /> <!-- pcl_ros -->
   <depend stack="robot_model" /> <!-- robot_state_publisher, urdf -->
   <depend stack="ros" />
   <depend stack="ros_comm" /> <!-- rospy -->
+  <depend stack="xacro" /> <!-- xacro -->
 
 </stack>

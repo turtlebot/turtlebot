@@ -19,6 +19,7 @@
   <depend package="geometry_msgs"/>
   <depend package="diagnostic_msgs"/>
   <depend package="kdl"/>
+  <depend package="dynamic_reconfigure"/>
   <export>
     <rosdoc config="rosdoc.yaml" />
   </export>
