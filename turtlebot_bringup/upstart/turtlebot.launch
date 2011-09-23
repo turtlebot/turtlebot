@@ -1,6 +1,6 @@
 <launch>
 
-  <!-- sample bringup.launch file, copy this to /etc/ros/turtlebot/ -->
+  <!-- sample file, copy this to /etc/ros/electric/turtlebot.launch -->
 
   <param name="turtlebot_node/gyro_scale_correction" value="1.0"/>
   <param name="turtlebot_node/odom_angular_scale_correction" value="1.0"/>

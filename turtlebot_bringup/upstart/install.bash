@@ -22,3 +22,8 @@ echo "Installing using network interface $interface."
 sed "s/wlan0/$interface/g" < turtlebot-start > /usr/sbin/turtlebot-start
 sed "s/wlan0/$interface/g" < turtlebot-stop > /usr/sbin/turtlebot-stop
 sed "s/wlan0/$interface/g" < turtlebot.conf > /etc/init/turtlebot.conf
+
+# Copy files into /etc/ros/electric/turtlebot
+mkdir /etc/ros
+mkdir /etc/ros/electric
+cat turtlebot.launch > /etc/ros/electric/turtlebot.launch 
