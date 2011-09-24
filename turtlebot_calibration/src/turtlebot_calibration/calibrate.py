@@ -65,7 +65,12 @@ def normalize_angle(angle):
 class CalibrateRobot:
     def __init__(self):
         self.lock = threading.Lock()
-        self.sub_imu  = rospy.Subscriber('imu', Imu, self.imu_cb)
+
+        self.has_gyro = rospy.get_param("turtlebot_node/has_gyro")
+        rospy.loginfo('has_gyro %s'%self.has_gyro)
+        if self.has_gyro:
+            self.sub_imu  = rospy.Subscriber('imu', Imu, self.imu_cb)
+
         self.sub_odom = rospy.Subscriber('odom', Odometry, self.odom_cb)
         self.sub_scan = rospy.Subscriber('scan_angle', ScanAngle, self.scan_cb)
         self.cmd_pub = rospy.Publisher('cmd_vel', Twist)
@@ -76,8 +81,12 @@ class CalibrateRobot:
         # params
         self.inital_wall_angle = rospy.get_param("inital_wall_angle", 0.1)
         self.imu_calibrate_time = rospy.get_param("imu_calibrate_time", 10.0)
-        
-
+        self.imu_angle = 0
+        self.imu_time = rospy.Time.now()
+        self.scan_angle = 0
+        self.scan_time = rospy.Time.now()
+        self.odom_angle = 0
+        self.odom_time = rospy.Time.now()
 
     def calibrate(self, speed, imu_drift=0):
         # rotate 360 degrees
@@ -100,18 +109,25 @@ class CalibrateRobot:
 
         (imu_end_angle, odom_end_angle, scan_end_angle,
          imu_end_time, odom_end_time, scan_end_time) = self.sync_timestamps()
-        imu_delta = 2*pi + normalize_angle(imu_end_angle - imu_start_angle) - imu_drift*(imu_end_time - imu_start_time).to_sec()
-        odom_delta = 2*pi + normalize_angle(odom_end_angle - odom_start_angle)
+
         scan_delta = 2*pi + normalize_angle(scan_end_angle - scan_start_angle)
-        rospy.loginfo('Imu error: %f percent'%(100.0*((imu_delta/scan_delta)-1.0)))
+
+        odom_delta = 2*pi + normalize_angle(odom_end_angle - odom_start_angle)
         rospy.loginfo('Odom error: %f percent'%(100.0*((odom_delta/scan_delta)-1.0)))
-        return (imu_delta/scan_delta, odom_delta/scan_delta)
+        
+        if self.has_gyro:
+            imu_delta = 2*pi + normalize_angle(imu_end_angle - imu_start_angle) - imu_drift*(imu_end_time - imu_start_time).to_sec()
+            rospy.loginfo('Imu error: %f percent'%(100.0*((imu_delta/scan_delta)-1.0)))
+            imu_result = imu_delta/scan_delta
+        else: 
+            imu_result = None
 
-
-
+        return (imu_result, odom_delta/scan_delta)
 
 
     def imu_drift(self):
+        if not self.has_gyro:
+            return 0
         # estimate imu drift
         rospy.loginfo('Estimating imu drift')
         (imu_start_angle, odom_start_angle, scan_start_angle, 
@@ -119,12 +135,14 @@ class CalibrateRobot:
         rospy.sleep(self.imu_calibrate_time)
         (imu_end_angle, odom_end_angle, scan_end_angle,
          imu_end_time, odom_end_time, scan_end_time) = self.sync_timestamps()
+
         imu_drift = normalize_angle(imu_end_angle - imu_start_angle) / ((imu_end_time - imu_start_time).to_sec())
         rospy.loginfo(' ... imu drift is %f degrees per second'%(imu_drift*180.0/pi))
         return imu_drift
 
 
     def align(self):
+        self.sync_timestamps()
         rospy.loginfo("Aligning base with wall")
         with self.lock:
             angle = self.scan_angle
@@ -144,15 +162,13 @@ class CalibrateRobot:
 
 
 
-
-
     def sync_timestamps(self, start_time=None):
         if not start_time:
             start_time = rospy.Time.now() + rospy.Duration(0.5)
         while not rospy.is_shutdown():
             rospy.sleep(0.3)
             with self.lock:
-                if self.imu_time < start_time:
+                if self.imu_time < start_time and self.has_gyro:
                     rospy.loginfo("Still waiting for imu")
                 elif self.odom_time < start_time:
                     rospy.loginfo("Still waiting for odom")
@@ -194,17 +210,16 @@ def main():
     for speed in (0.3, 0.7, 1.0, 1.5):
         robot.align()
         (imu, odom) = robot.calibrate(speed, imu_drift)
-        imu_corr.append(imu)
+        if imu:
+            imu_corr.append(imu)
         odom_corr.append(odom)
 
-    imu_res = 1.0/(sum(imu_corr)/len(imu_corr))
-    odom_res = 1.0/(sum(odom_corr)/len(odom_corr))
-    rospy.loginfo("Multiply the 'turtlebot_node/gyro_scale_correction' parameter with %f"%imu_res)
-    rospy.loginfo("Multiply the 'turtlebot_node/odom_angular_scale_correction' parameter with %f"%odom_res)
-                  
+    if len(imu_corr)>0:    
+        imu_res = 1.0/(sum(imu_corr)/len(imu_corr))
+        rospy.loginfo("Multiply the 'turtlebot_node/gyro_scale_correction' parameter with %f"%imu_res)
 
-    print imu_res
-    print odom_res
+    odom_res = 1.0/(sum(odom_corr)/len(odom_corr))
+    rospy.loginfo("Multiply the 'turtlebot_node/odom_angular_scale_correction' parameter with %f"%odom_res)
 
 
 if __name__ == '__main__':
