@@ -20,13 +20,13 @@
   <include file="$(find openni_camera)/launch/kinect_frames.launch"/>
 
   <!-- fake laser -->
-  <node pkg="nodelet" type="nodelet" name="kinect_laser" args="load pointcloud_to_laserscan/CloudToScan openni_camera" output="screen">
+  <node pkg="nodelet" type="nodelet" name="kinect_laser" args="load pointcloud_to_laserscan/CloudToScan openni_manager" output="screen">
     <param name="output_frame_id" value="/kinect_depth_frame"/>
     <remap from="cloud" to="cloud_throttled"/>
   </node>
 
   <!-- throttling -->
-  <node pkg="nodelet" type="nodelet" name="pointcloud_throttle" args="load pointcloud_to_laserscan/CloudThrottle openni_camera">
+  <node pkg="nodelet" type="nodelet" name="pointcloud_throttle" args="load pointcloud_to_laserscan/CloudThrottle openni_manager">
     <param name="max_rate" value="2"/>
     <remap from="cloud_in" to="/camera/rgb/points"/>
     <remap from="cloud_out" to="cloud_throttled"/>
