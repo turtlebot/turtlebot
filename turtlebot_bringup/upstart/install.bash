@@ -20,5 +20,14 @@ fi
 echo "Installing using network interface $interface."
 
 sed "s/wlan0/$interface/g" < turtlebot-start > /usr/sbin/turtlebot-start
+chmod +x /usr/bin/turtlebot-start
 sed "s/wlan0/$interface/g" < turtlebot-stop > /usr/sbin/turtlebot-stop
+chmod +x /usr/bin/turtlebot-stop
 sed "s/wlan0/$interface/g" < turtlebot.conf > /etc/init/turtlebot.conf
+
+# Copy files into /etc/ros/diamondback/turtlebot
+mkdir /etc/ros
+mkdir /etc/ros/diamondback
+cat turtlebot.launch > /etc/ros/diamondback/turtlebot.launch
+
+echo '. /opt/ros/diamondback/setup.bash; export ROS_PACKAGE_PATH=/home/turtlebot/ros:${ROS_PACKAGE_PATH}' > /etc/ros/setup.bash
