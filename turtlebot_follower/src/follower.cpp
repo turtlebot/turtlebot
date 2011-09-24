@@ -61,6 +61,11 @@ public:
   {
     
   }
+
+  ~TurtlebotFollower()
+  {
+    delete srv_;
+  }
   
 private:
   double min_y_; /**< The minimum y position of the points in the box. */
@@ -71,6 +76,10 @@ private:
   double goal_z_; /**< The distance away from the robot to hold the centroid */
   double z_scale_; /**< The scaling factor for translational robot speed */
   double x_scale_; /**< The scaling factor for rotational robot speed */
+
+
+  // Dynamic reconfigure server
+  dynamic_reconfigure::Server<turtlebot_follower::FollowerConfig>* srv_;
   
   /*!
    * @brief OnInit method from node handle.
@@ -93,9 +102,9 @@ private:
     cmdpub_ = nh.advertise<geometry_msgs::Twist> ("turtlebot_node/cmd_vel", 1);
     sub_= nh.subscribe<PointCloud>("/camera/depth/points", 1, &TurtlebotFollower::cloudcb, this);\
 
-    dynamic_reconfigure::Server<turtlebot_follower::FollowerConfig> srv;
+    srv_ = new dynamic_reconfigure::Server<turtlebot_follower::FollowerConfig>(private_nh);
     dynamic_reconfigure::Server<turtlebot_follower::FollowerConfig>::CallbackType f = boost::bind(&TurtlebotFollower::reconfigure, this, _1, _2);
-    srv.setCallback(f);
+    srv_->setCallback(f);
 
   }
 
