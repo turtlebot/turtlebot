@@ -59,7 +59,16 @@ public:
   {
   };
 
+  ~CloudToScan()
+  {
+    delete srv_;
+  }
+  
+
 private:
+  // Dynamic reconfigure server
+  dynamic_reconfigure::Server<pointcloud_to_laserscan::CloudScanConfig>* srv_;
+
   virtual void onInit()
   {
     ros::NodeHandle& nh = getNodeHandle();
@@ -82,9 +91,9 @@ private:
     pub_ = nh.advertise<sensor_msgs::LaserScan>("scan", 10);
     sub_ = nh.subscribe<PointCloud>("cloud", 10, &CloudToScan::callback, this);
 
-    dynamic_reconfigure::Server<pointcloud_to_laserscan::CloudScanConfig> srv;
+    srv_ = new dynamic_reconfigure::Server<pointcloud_to_laserscan::CloudScanConfig>(private_nh);
     dynamic_reconfigure::Server<pointcloud_to_laserscan::CloudScanConfig>::CallbackType f = boost::bind(&CloudToScan::reconfigure, this, _1, _2);
-    srv.setCallback(f);
+    srv_->setCallback(f);
   };
 
   void reconfigure(pointcloud_to_laserscan::CloudScanConfig &config, uint32_t level)
