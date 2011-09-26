@@ -1,7 +1,7 @@
 <package>
   <description brief="turtlebot_self_filter">
 
-     turtlebot_self_filter
+     turtlebot_self_filter takes in a laser scan and filters out parts of the scan that are in the footprint.
 
   </description>
   <author>Helen Oleynikova</author>
