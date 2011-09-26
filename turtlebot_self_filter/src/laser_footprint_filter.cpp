@@ -126,7 +126,7 @@ private:
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "laser_footprint_filer");
+  ros::init(argc, argv, "laser_footprint_filter");
 
   LaserFootprintFilter filter;
   ros::spin();
