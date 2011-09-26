@@ -36,11 +36,6 @@
 #include <tf/transform_listener.h>
 #include <cmath>
 
-const std::string base_frame = "base_link";
-const std::string odom_frame = "odom_combined";
-const double turn_rate = 0.75;
-const double forward_rate = 0.25;
-
 class MoveActionServer
 {
 private:
@@ -57,10 +52,22 @@ private:
   ros::Publisher        cmd_vel_pub_;
   tf::TransformListener listener_;
   
+  // Parameters
+  std::string base_frame;
+  std::string odom_frame;
+  double turn_rate;
+  double forward_rate;
+  
 public:
   MoveActionServer(const std::string name) : 
-    nh_(), as_(nh_, name, false), action_name_(name)
+    nh_("~"), as_(nh_, name, false), action_name_(name)
   {
+    // Get parameters
+    nh_.param<std::string>("base_frame", base_frame, "base_link");
+    nh_.param<std::string>("odom_frame", odom_frame, "odom");
+    nh_.param<double>("turn_rate", turn_rate, 0.75);
+    nh_.param<double>("forward_rate", forward_rate, 0.25);
+    
     //register the goal and feeback callbacks
     as_.registerGoalCallback(boost::bind(&MoveActionServer::goalCB, this));
     as_.registerPreemptCallback(boost::bind(&MoveActionServer::preemptCB, this));
@@ -86,8 +93,6 @@ public:
       as_.setAborted(result_);
       return;
     }
-    
-    std::cout << "Forward distance: " << goal_->forward_distance << " Abs distance: " << fabs(goal_->forward_distance) << std::endl;
     
     if (driveForwardOdom(goal_->forward_distance))
       as_.setSucceeded(result_);
@@ -210,7 +215,6 @@ public:
     base_cmd.angular.z = turn_rate;
     if (radians < 0)
       base_cmd.angular.z = -turn_rate;
-    //if (clockwise) base_cmd.angular.z = -base_cmd.angular.z;
     
     //the axis we want to be rotating by
     tf::Vector3 desired_turn_axis(0,0,1);

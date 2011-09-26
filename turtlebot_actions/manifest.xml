@@ -1,10 +1,10 @@
 <package>
   <description brief="turtlebot_actions">
 
-     turtlebot_actions
+     turtlebot_actions provides several basic actionlib actions for the TurtleBot.
 
   </description>
-  <author>Elena Oleynikova</author>
+  <author>Helen Oleynikova, Melonee Wise</author>
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_actions</url>
