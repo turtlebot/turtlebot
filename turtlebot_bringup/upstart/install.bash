@@ -20,9 +20,9 @@ fi
 echo "Installing using network interface $interface."
 
 sed "s/wlan0/$interface/g" < turtlebot-start > /usr/sbin/turtlebot-start
-chmod +x /usr/bin/turtlebot-start
+chmod +x /usr/sbin/turtlebot-start
 sed "s/wlan0/$interface/g" < turtlebot-stop > /usr/sbin/turtlebot-stop
-chmod +x /usr/bin/turtlebot-stop
+chmod +x /usr/sbin/turtlebot-stop
 sed "s/wlan0/$interface/g" < turtlebot.conf > /etc/init/turtlebot.conf
 
 # Copy files into /etc/ros/diamondback/turtlebot
