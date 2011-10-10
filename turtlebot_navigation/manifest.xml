@@ -8,8 +8,8 @@
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_navigation</url>
-  <depends package="navigation"/>
-  <depends package="gmapping"/>
+  <depend package="move_base"/>
+  <depend package="gmapping"/>
 </package>
 
 
