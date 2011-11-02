@@ -6,4 +6,4 @@ apps:
  - display: Follower
    app: turtlebot_follower/follower
  - display: Chirp
-   app: chirp/chirp
+   app: turtlebot_sounds/chirp
