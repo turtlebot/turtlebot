@@ -1,5 +1,7 @@
 <launch>
 
+  <param name="/use_sim_time" value="false"/>
+
   <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/urdf/turtlebot.urdf.xacro'" />
   <param name="robot_description" command="$(arg urdf_file)" />
 
