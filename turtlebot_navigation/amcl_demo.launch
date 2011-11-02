@@ -1,8 +1,5 @@
 <launch>
 
-  <!--- Run Robot Pose EKF -->
-  <include file="$(find turtlebot_bringup)/base.launch" />
-
   <!--- Run the kinect -->
   <include file="$(find turtlebot_bringup)/kinect.launch" />
 
