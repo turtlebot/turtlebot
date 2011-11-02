@@ -99,7 +99,7 @@ private:
     private_nh.getParam("z_scale", z_scale_);
     private_nh.getParam("x_scale", x_scale_);
     
-    cmdpub_ = nh.advertise<geometry_msgs::Twist> ("turtlebot_node/cmd_vel", 1);
+    cmdpub_ = nh.advertise<geometry_msgs::Twist> ("cmd_vel", 1);
     sub_= nh.subscribe<PointCloud>("/camera/depth/points", 1, &TurtlebotFollower::cloudcb, this);\
 
     srv_ = new dynamic_reconfigure::Server<turtlebot_follower::FollowerConfig>(private_nh);

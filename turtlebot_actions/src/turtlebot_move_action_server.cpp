@@ -74,7 +74,7 @@ public:
     
     as_.start();
     
-    cmd_vel_pub_ = nh_.advertise<geometry_msgs::Twist>("turtlebot_node/cmd_vel", 1);
+    cmd_vel_pub_ = nh_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
   }
 
   void goalCB()
