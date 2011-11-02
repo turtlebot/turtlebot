@@ -1,5 +1,7 @@
 <launch>
 
+  <arg name="scan_topic" default="narrow_scan" />
+
   <node pkg="amcl" type="amcl" name="amcl" args="scan:=/scan">
     <!-- Publish scans from best pose at a max of 10 Hz -->
     <param name="odom_model_type" value="diff"/>
@@ -33,7 +35,7 @@
     <param name="transform_tolerance" value="1.0"/>
     <param name="recovery_alpha_slow" value="0.0"/>
     <param name="recovery_alpha_fast" value="0.0"/>
-    <remap from="scan" to="narrow_scan"/>    
+    <remap from="scan" to="$(arg scan_topic)"/>    
   </node>
 
 </launch>

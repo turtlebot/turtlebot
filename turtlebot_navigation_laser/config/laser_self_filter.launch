@@ -1,3 +1,0 @@
-<launch>
-  <node pkg="turtlebot_self_filter" type="laser_footprint_filter" />
-</launch>

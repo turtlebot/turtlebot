@@ -1,5 +1,7 @@
 <launch>
 
+    <arg name="scan_topic" default="scan" />
+
   <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
     <param name="odom_frame" value="odom"/>
     <param name="map_update_interval" value="30.0"/>
@@ -38,5 +40,6 @@
     <param name="llsamplestep" value="0.01"/>
     <param name="lasamplerange" value="0.005"/>
     <param name="lasamplestep" value="0.005"/>
+    <remap from="scan" to="$(arg scan_topic)"/>
   </node>
 </launch>

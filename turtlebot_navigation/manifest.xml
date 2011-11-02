@@ -10,6 +10,7 @@
   <url>http://ros.org/wiki/turtlebot_navigation</url>
   <depend package="move_base"/>
   <depend package="gmapping"/>
+  <depend package="turtlebot_self_filter"/>
 </package>
 
 
