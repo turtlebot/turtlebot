@@ -152,13 +152,13 @@ class TurtlebotNode(object):
         self.digital_output_srv = rospy.Service('~set_digital_outputs', SetDigitalOutputs, self.set_digital_outputs)
 
         if self.drive_mode == 'twist':
-            self.cmd_vel_sub = rospy.Subscriber('~cmd_vel', Twist, self.cmd_vel)
+            self.cmd_vel_sub = rospy.Subscriber('cmd_vel', Twist, self.cmd_vel)
             self.drive_cmd = self.robot.direct_drive
         elif self.drive_mode == 'drive':
-            self.cmd_vel_sub = rospy.Subscriber('~cmd_vel', Drive, self.cmd_vel)
+            self.cmd_vel_sub = rospy.Subscriber('cmd_vel', Drive, self.cmd_vel)
             self.drive_cmd = self.robot.drive
         elif self.drive_mode == 'turtle':
-            self.cmd_vel_sub = rospy.Subscriber('~cmd_vel', Turtle, self.cmd_vel)
+            self.cmd_vel_sub = rospy.Subscriber('cmd_vel', Turtle, self.cmd_vel)
             self.drive_cmd = self.robot.direct_drive
         else:
             rospy.logerr("unknown drive mode :%s"%(self.drive_mode))
