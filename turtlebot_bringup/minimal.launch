@@ -3,9 +3,16 @@
   <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/urdf/turtlebot.urdf.xacro'" />
   <param name="robot_description" command="$(arg urdf_file)" />
 
-  <include file="$(find turtlebot_bringup)/params.launch" />
+  <param name="robot/name" value="$(optenv ROBOT turtlebot)"/>
+  <param name="robot/type" value="turtlebot"/>
+
   <include file="$(find turtlebot_bringup)/app_manager.launch" />
-  <include file="$(find turtlebot_bringup)/driver.launch" />
+
+  <!-- Turtlebot Driver -->
+  <node pkg="turtlebot_node" type="turtlebot_node.py" name="turtlebot_node" output="screen" respawn="true" args="--respawnable">
+    <param name="bonus" value="false" />
+    <param name="update_rate" value="30.0" />
+  </node>
 
   <!-- Turtlebot Laptop Battery Diagnostics -->
   <node pkg="turtlebot_node" type="laptop_battery.py" name="turtlebot_laptop_battery">
@@ -19,6 +26,18 @@
   <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
     <!-- Load the file you made above -->
     <rosparam command="load" file="$(find turtlebot_bringup)/config/diagnostics.yaml" />
+  </node>
+
+  <!-- The odometry estimator -->
+   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+    <param name="freq" value="10.0"/>
+    <param name="sensor_timeout" value="1.0"/>
+    <param name="publish_tf" value="true"/>
+    <param name="odom_used" value="true"/>
+    <param name="imu_used" value="true"/>
+    <param name="vo_used" value="false"/>
+    <param name="output_frame" value="odom"/>
+    <remap from="imu_data" to="imu/data"/>
   </node>
   
 </launch>

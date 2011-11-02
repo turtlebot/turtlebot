@@ -1,4 +1,0 @@
-<launch>
-  <param name="robot/name" value="$(optenv ROBOT turtlebot)"/>
-  <param name="robot/type" value="turtlebot"/>
-</launch>
