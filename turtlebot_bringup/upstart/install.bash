@@ -26,8 +26,8 @@ chmod +x /usr/sbin/turtlebot-stop
 sed "s/wlan0/$interface/g" < turtlebot.conf > /etc/init/turtlebot.conf
 
 # Copy files into /etc/ros/electric/turtlebot
-mkdir /etc/ros
-mkdir /etc/ros/electric
+mkdir -p /etc/ros
+mkdir -p /etc/ros/electric
 cat turtlebot.launch > /etc/ros/electric/turtlebot.launch
 
 echo '. /opt/ros/electric/setup.bash; export ROS_PACKAGE_PATH=/home/turtlebot/ros:${ROS_PACKAGE_PATH}' > /etc/ros/setup.bash
