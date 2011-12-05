@@ -1,7 +1,4 @@
 <launch>
-  <!-- convert to a capability -->
-  <include file="$(find turtlebot_bringup)/base.launch" />
-
   <param name="camera/rgb/image_color/compressed/jpeg_quality" value="22"/>
 
   <include file="$(find openni_camera)/launch/kinect_frames.launch"/>
@@ -20,7 +17,6 @@
     </rosparam>
   </node>
 
-<!-- Additions for mapping -->
   <!-- Kinect -->
   <node pkg="nodelet" type="nodelet" name="openni_manager" output="screen" respawn="true" args="manager"/>
 

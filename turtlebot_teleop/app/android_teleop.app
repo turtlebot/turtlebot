@@ -11,3 +11,4 @@ clients:
      intent-action: ros.android.teleop.Teleop
    app: 
      gravityMode: 0
+     base_control_topic: /cmd_vel

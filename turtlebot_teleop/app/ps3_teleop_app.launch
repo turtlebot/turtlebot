@@ -1,8 +1,5 @@
 <launch>
 
-  <!-- convert to a capability -->
-  <include file="$(find turtlebot_bringup)/base.launch" />
-
   <!--- Teleop Joystick -->
   <node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="turtlebot_teleop_joystick">
     <param name="scale_angular" value="1.5"/>
