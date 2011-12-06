@@ -32,85 +32,208 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+##\author Kevin Watts
+##\brief Monitors laptop battery status
 
-import roslib
-roslib.load_manifest('turtlebot_node')
+from __future__ import division
+
+import roslib; roslib.load_manifest('turtlebot_node')
+
+from   collections import deque
+import threading
+import copy
+import yaml
+
 import rospy
-import diagnostic_msgs.msg
-import subprocess
 
-def laptop_battery_monitor():
-    diag_pub = rospy.Publisher('/diagnostics', diagnostic_msgs.msg.DiagnosticArray)
-    rospy.init_node('laptop_battery_monitor')
-    while not rospy.is_shutdown():
+from turtlebot_node.msg import LaptopChargeStatus
+from diagnostic_msgs.msg import DiagnosticStatus, DiagnosticArray, KeyValue
+
+def _strip_Ah(raw_val):
+    if 'mAh' in raw_val:
+        rv = float(raw_val.rstrip('mAh').strip()) / 1000.0
+    elif 'Ah' in raw_val:
+        rv = float(raw_val.rstrip('Ah').strip())
+    else:
+        raise Exception('Value %s did not have "Ah" or "mAh"' % raw_val)
+    return rv
+
+def _strip_V(raw_val):
+    if 'mV' in raw_val:
+        rv = float(raw_val.rstrip('mV').strip()) / 1000.0
+    elif 'V' in raw_val:
+        rv = float(raw_val.rstrip('V').strip())
+    else:
+        raise Exception('Value %s did not have "V" or "mV"' % raw_val)
+    return rv
+
+def _strip_A(raw_val):
+    if 'mA' in raw_val:
+        rv = float(raw_val.rstrip('mA').strip()) / 1000.0
+    elif 'A' in raw_val:
+        rv = float(raw_val.rstrip('A').strip())
+    else:
+        raise Exception('Value %s did not have "A" or "mA"' % raw_val)
+    return rv
+
+def slerp(filename):
+    f = open(filename, 'r')
+    data = f.read()
+    f.close()
+    data = data.replace('\t', '  ')
+    return data
+
+#/proc/acpi/battery/BAT0/state
+def _check_battery_info():
+    o = slerp('/proc/acpi/battery/BAT0/info')
+
+    batt_info = yaml.load(o)
+    design_capacity    = _strip_Ah(batt_info.get('design capacity',    '0 mAh'))
+    last_full_capacity = _strip_Ah(batt_info.get('last full capacity', '0 mAh'))
+    
+    return (design_capacity, last_full_capacity)
+
+state_to_val = {'charged':     LaptopChargeStatus.CHARGED, 
+                'charging':    LaptopChargeStatus.CHARGING, 
+                'discharging': LaptopChargeStatus.DISCHARGING }
+
+diag_level_to_msg = { DiagnosticStatus.OK:    'OK', 
+                      DiagnosticStatus.WARN:  'Warning',
+                      DiagnosticStatus.ERROR: 'Error'    }
+
+def _check_battery_state():
+    """
+    @return LaptopChargeStatus
+    """
+    o = slerp('/proc/acpi/battery/BAT0/state')
+
+    batt_info = yaml.load(o)
+
+    rv = LaptopChargeStatus()
+
+    state = batt_info.get('charging state', 'discharging')
+    rv.charge_state = state_to_val.get(state, 0)
+    rv.rate     = _strip_A(batt_info.get('present rate',        '-1 mA'))
+    rv.charge   = _strip_Ah(batt_info.get('remaining capacity', '-1 mAh'))
+    rv.voltage  = _strip_V(batt_info.get('present voltage',     '-1 mV'))
+    rv.present  = batt_info.get('present', False)
+
+    rv.header.stamp = rospy.get_rostime()
+
+    return rv
+
+def _laptop_charge_to_diag(laptop_msg):
+    rv = DiagnosticStatus()
+    rv.level   = DiagnosticStatus.OK
+    rv.message = 'OK'
+    rv.name    = 'Laptop Battery'
+
+    if not laptop_msg.present:
+        rv.level = DiagnosticStatus.ERROR
+        rv.message = 'Laptop battery missing'
+
+    rv.values.append(KeyValue('Voltage (V)',          str(laptop_msg.voltage)))
+    rv.values.append(KeyValue('Current (A)',          str(laptop_msg.rate)))
+    rv.values.append(KeyValue('Charge (Ah)',          str(laptop_msg.charge)))
+    rv.values.append(KeyValue('Capacity (Ah)',        str(laptop_msg.capacity)))
+    rv.values.append(KeyValue('Design Capacity (Ah)', str(laptop_msg.design_capacity)))
+
+    return rv
+
+class LaptopBatteryMonitor(object):
+    def __init__(self):
+        self._mutex = threading.Lock()
+
+        self._last_info_update  = 0
+        self._last_state_update = 0
+        self._msg = LaptopChargeStatus()
         
-        #Main header
-        diag = diagnostic_msgs.msg.DiagnosticArray()
-        diag.header.stamp = rospy.Time.now()
-
+        self._power_pub = rospy.Publisher('laptop_charge', LaptopChargeStatus, latch=True)
+        self._diag_pub  = rospy.Publisher('/diagnostics', DiagnosticArray)
         
-        #battery info                                                                                                                              
-        stat = diagnostic_msgs.msg.DiagnosticStatus()
-        stat.name = "Laptop Battery"
-        stat.level = diagnostic_msgs.msg.DiagnosticStatus.OK
-        stat.message = "OK"
+        # Battery info
+        self._batt_design_capacity = 0
+        self._batt_last_full_capacity = 0
+        self._last_info_update = 0
 
+        self._batt_info_rate = 1 / 60.0
+        self._batt_info_thread = threading.Thread(target=self._check_batt_info)
+        self._batt_info_thread.daemon = True
+        self._batt_info_thread.start()
 
-        # get values from upower
-        cmd = ['upower', '-d']
-        command_line = subprocess.Popen(cmd, stdout=subprocess.PIPE,  stderr=subprocess.STDOUT)
-        (pstd_out, pstd_err) = command_line.communicate() # pstd_err should be None due to pipe above 
-        raw_battery_stats = {}
-        for l in pstd_out.split('\n'):
-            l_vec = l.split(':')
-            l_stripped = [l.strip() for l in l_vec]
-            if len(l_stripped) == 2:
-                k, v = l_stripped
-                if k == 'voltage':
-                    raw_battery_stats['voltage'] = v.split()[0]
-                elif k == 'energy-rate':
-                    raw_battery_stats['watts'] = v.split()[0]
-                elif k == 'energy-full':
-                    raw_battery_stats['energy_full_wh'] = v.split()[0]
-                elif k == 'percentage':
-                    raw_battery_stats['percentage'] = v.rstrip('%')
-                elif k == 'on-battery':
-                    raw_battery_stats['on_battery'] = v
-                    
+        # Battery state
+        self._batt_state_rate = 1 / 5.0
+        self._batt_state_thread = threading.Thread(target=self._check_batt_state)
+        self._batt_state_thread.daemon = True
+        self._batt_state_thread.start()
 
-                #else:
-                #    print "not processing", l_vec
+    def _check_batt_info(self):
+        rate = rospy.Rate(self._batt_info_rate)
+        while not rospy.is_shutdown():
+            try:
+                design_cap, last_full_cap = _check_battery_info()
+                with self._mutex:
+                    self._batt_last_full_capacity = last_full_cap
+                    self._batt_design_capacity    = design_cap
+                    self._last_info_update        = rospy.get_time()
+            except Exception, e:
+                rospy.logwarn('Unable to check laptop battery info. Exception: %s' % e)
+                
+            rate.sleep()
 
+    def _check_batt_state(self):
+        rate = rospy.Rate(self._batt_state_rate)
+        while not rospy.is_shutdown():
+            try:
+                msg = _check_battery_state()
+                with self._mutex:
+                    self._msg = msg
+                    self._last_state_update = rospy.get_time()
+            except Exception, e:
+                rospy.logwarn('Unable to check laptop battery state. Exception: %s' % e)
+                
+            rate.sleep()
 
-        voltage = float(raw_battery_stats['voltage'])
-        watts = float(raw_battery_stats['watts'])
-        if raw_battery_stats['on_battery'] == 'no':
-            current_direction = 1
-        else:
-            current_direction = -1
-        current = current_direction * watts / voltage
-        capacity_fraction  = float(raw_battery_stats['percentage'])/100.0
-        energy_full = float(raw_battery_stats['energy_full_wh'])
-        capacity = energy_full / voltage
-        charge = capacity_fraction * capacity
-        
+    def update(self):
+        with self._mutex:
+            diag = DiagnosticArray()
+            diag.header.stamp = rospy.get_rostime()
+            
+            info_update_ok  = rospy.get_time() - self._last_info_update  < 5.0 / self._batt_info_rate
+            state_update_ok = rospy.get_time() - self._last_state_update < 5.0 / self._batt_state_rate
 
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Voltage (V)", str(voltage)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Current (A)", str(current)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Charge (Ah)", str(charge)))
-        stat.values.append(diagnostic_msgs.msg.KeyValue("Capacity (Ah)", str(capacity)))
+            if info_update_ok:
+                self._msg.design_capacity = self._batt_design_capacity
+                self._msg.capacity        = self._batt_last_full_capacity
+            else:
+                self._msg.design_capacity = 0.0
+                self._msg.capacity        = 0.0
+                
+            if info_update_ok and state_update_ok and self._msg.capacity != 0:
+                self._msg.percentage = int(self._msg.charge / self._msg.capacity * 100.0)
 
-        #append
-        diag.status.append(stat)
-        
-        #publish
-        diag_pub.publish(diag)
-        rospy.sleep(1.0)
+            diag_stat = _laptop_charge_to_diag(self._msg)
+            if not info_update_ok or not state_update_ok:
+                diag_stat.level   = DiagnosticStatus.ERROR
+                diag_stat.message = 'Laptop battery data stale'
 
+            diag.status.append(diag_stat)
+
+            self._diag_pub.publish(diag)
+            self._power_pub.publish(self._msg)
 
 if __name__ == '__main__':
+    rospy.init_node('laptop_battery')
+
+    bm = LaptopBatteryMonitor()
     try:
-        laptop_battery_monitor()
-    except rospy.ROSInterruptException: pass
-    except IOError: pass
-    except KeyError: pass
+        r = rospy.Rate(1.0)
+        while not rospy.is_shutdown():
+            bm.update()
+            r.sleep()
+    except KeyboardInterrupt:
+        pass
+    except Exception:
+        import traceback
+        traceback.print_exc()
+
