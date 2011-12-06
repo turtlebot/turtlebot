@@ -38,11 +38,8 @@
 #include "dynamic_reconfigure/server.h"
 #include "pointcloud_to_laserscan/CloudScanConfig.h"
 
-
 namespace pointcloud_to_laserscan
 {
-typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
-
 class CloudToScan : public nodelet::Nodelet
 {
 public:
@@ -63,15 +60,17 @@ public:
   {
     delete srv_;
   }
-  
 
 private:
+  typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
+
+  boost::mutex connect_mutex_;
   // Dynamic reconfigure server
   dynamic_reconfigure::Server<pointcloud_to_laserscan::CloudScanConfig>* srv_;
 
   virtual void onInit()
   {
-    ros::NodeHandle& nh = getNodeHandle();
+    nh_ = getNodeHandle();
     ros::NodeHandle& private_nh = getPrivateNodeHandle();
 
     private_nh.getParam("min_height", min_height_);
@@ -84,22 +83,43 @@ private:
     private_nh.getParam("range_min", range_min_);
     private_nh.getParam("range_max", range_max_);
 
-    //private_nh.getParam("row_min", u_min_);
-    //private_nh.getParam("row_max", u_max_);
+    range_min_sq_ = range_min_ * range_min_;
 
     private_nh.getParam("output_frame_id", output_frame_id_);
-    pub_ = nh.advertise<sensor_msgs::LaserScan>("scan", 10);
-    sub_ = nh.subscribe<PointCloud>("cloud", 10, &CloudToScan::callback, this);
 
     srv_ = new dynamic_reconfigure::Server<pointcloud_to_laserscan::CloudScanConfig>(private_nh);
     dynamic_reconfigure::Server<pointcloud_to_laserscan::CloudScanConfig>::CallbackType f = boost::bind(&CloudToScan::reconfigure, this, _1, _2);
     srv_->setCallback(f);
+
+    // Lazy subscription to point cloud topic
+    ros::AdvertiseOptions scan_ao = ros::AdvertiseOptions::create<sensor_msgs::LaserScan>(
+      "scan", 10,
+      boost::bind( &CloudToScan::connectCB, this),
+      boost::bind( &CloudToScan::disconnectCB, this), ros::VoidPtr(), nh_.getCallbackQueue());
+
+    boost::lock_guard<boost::mutex> lock(connect_mutex_);
+    pub_ = nh_.advertise(scan_ao);
   };
+
+  void connectCB() {
+      boost::lock_guard<boost::mutex> lock(connect_mutex_);
+      if (pub_.getNumSubscribers() > 0) {
+          NODELET_DEBUG("Connecting to point cloud topic.");
+          sub_ = nh_.subscribe<PointCloud>("cloud", 10, &CloudToScan::callback, this);
+      }
+  }
+
+  void disconnectCB() {
+      boost::lock_guard<boost::mutex> lock(connect_mutex_);
+      if (pub_.getNumSubscribers() == 0) {
+          NODELET_DEBUG("Unsubscribing from point cloud topic.");
+          sub_.shutdown();
+      }
+  }
 
   void reconfigure(pointcloud_to_laserscan::CloudScanConfig &config, uint32_t level)
   {
-
-    min_height_ = config.min_height; 
+    min_height_ = config.min_height;
     max_height_ = config.max_height;
     angle_min_ = config.angle_min;
     angle_max_ = config.angle_max;
@@ -108,15 +128,14 @@ private:
     range_min_ = config.range_min;
     range_max_ = config.range_max;
 
+    range_min_sq_ = range_min_ * range_min_;
   }
 
   void callback(const PointCloud::ConstPtr& cloud)
   {
     sensor_msgs::LaserScanPtr output(new sensor_msgs::LaserScan());
-    NODELET_DEBUG("Got cloud");
-    //Copy Header
     output->header = cloud->header;
-    output->header.frame_id = output_frame_id_;
+    output->header.frame_id = output_frame_id_; // Set output frame. Point clouds come from "optical" frame, scans come from corresponding mount frame
     output->angle_min = angle_min_;
     output->angle_max = angle_max_;
     output->angle_increment = angle_increment_;
@@ -128,35 +147,30 @@ private:
     uint32_t ranges_size = std::ceil((output->angle_max - output->angle_min) / output->angle_increment);
     output->ranges.assign(ranges_size, output->range_max + 1.0);
 
-    //pcl::PointCloud<pcl::PointXYZ> cloud;
-    //pcl::fromROSMsg(*input, cloud);
-
     for (PointCloud::const_iterator it = cloud->begin(); it != cloud->end(); ++it)
     {
       const float &x = it->x;
       const float &y = it->y;
       const float &z = it->z;
 
-    /*    for (uint32_t u = std::max((uint32_t)u_min_, 0U); u < std::min((uint32_t)u_max_, cloud.height - 1); u++)
-      for (uint32_t v = 0; v < cloud.width -1; v++)
-      {
-        //NODELET_ERROR("%d %d,  %d %d", u, v, cloud.height, cloud.width);
-        pcl::PointXYZ point = cloud.at(v,u); ///WTF Column major?
-        const float &x = point.x;
-        const float &y = point.y;
-        const float &z = point.z;
-    */
-
       if ( std::isnan(x) || std::isnan(y) || std::isnan(z) )
       {
         NODELET_DEBUG("rejected for nan in point(%f, %f, %f)\n", x, y, z);
         continue;
       }
+
       if (-y > max_height_ || -y < min_height_)
       {
         NODELET_DEBUG("rejected for height %f not in range (%f, %f)\n", x, min_height_, max_height_);
         continue;
       }
+
+      double range_sq = z*z+x*x;
+      if (range_sq < range_min_sq_) {
+        NODELET_DEBUG("rejected for range %f below minimum value %f. Point: (%f, %f, %f)", range_sq, range_min_sq_, x, y, z);
+        continue;
+      }
+
       double angle = -atan2(x, z);
       if (angle < output->angle_min || angle > output->angle_max)
       {
@@ -164,8 +178,8 @@ private:
         continue;
       }
       int index = (angle - output->angle_min) / output->angle_increment;
-      //printf ("index xyz( %f %f %f) angle %f index %d\n", x, y, z, angle, index);
-      double range_sq = z*z+x*x;
+
+
       if (output->ranges[index] * output->ranges[index] > range_sq)
         output->ranges[index] = sqrt(range_sq);
       }
@@ -174,15 +188,14 @@ private:
   }
 
 
-  double min_height_, max_height_, angle_min_, angle_max_, angle_increment_, scan_time_, range_min_, range_max_;
-  //int32_t u_min_, u_max_;
+  double min_height_, max_height_, angle_min_, angle_max_, angle_increment_, scan_time_, range_min_, range_max_, range_min_sq_;
   std::string output_frame_id_;
 
+  ros::NodeHandle nh_;
   ros::Publisher pub_;
   ros::Subscriber sub_;
 
 };
-
 
 PLUGINLIB_DECLARE_CLASS(pointcloud_to_laserscan, CloudToScan, pointcloud_to_laserscan::CloudToScan, nodelet::Nodelet);
 }
