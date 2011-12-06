@@ -187,9 +187,9 @@ class TurtlebotNode(object):
             tw  = msg.angular.z  * (WHEEL_SEPARATION / 2)
             # Prevent saturation at max wheel speed when a compound command is sent.
             if ts > 0:
-                ts = min(ts, MAX_WHEEL_SPEED - tw)
+                ts = min(ts,   MAX_WHEEL_SPEED - abs(tw))
             else:
-                ts = max(ts, -MAX_WHEEL_SPEED + tw)
+                ts = max(ts, -(MAX_WHEEL_SPEED - abs(tw))
             self.req_cmd_vel = int(ts - tw), int(ts + tw)
         elif self.drive_mode == 'turtle':
             # convert to direct_drive args
