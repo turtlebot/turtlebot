@@ -43,7 +43,7 @@ from   collections import deque
 import threading
 import copy
 import yaml
-
+import math
 import rospy
 
 from turtlebot_node.msg import LaptopChargeStatus
@@ -114,6 +114,9 @@ def _check_battery_state():
     state = batt_info.get('charging state', 'discharging')
     rv.charge_state = state_to_val.get(state, 0)
     rv.rate     = _strip_A(batt_info.get('present rate',        '-1 mA'))
+    if rv.charge_state == LaptopChargeStatus.DISCHARGING:
+        rv.rate = math.copysign(rv.rate, -1) # Need to set discharging rate to negative
+    
     rv.charge   = _strip_Ah(batt_info.get('remaining capacity', '-1 mAh'))
     rv.voltage  = _strip_V(batt_info.get('present voltage',     '-1 mV'))
     rv.present  = batt_info.get('present', False)
