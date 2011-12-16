@@ -189,8 +189,8 @@ class TurtlebotNode(object):
             if ts > 0:
                 ts = min(ts,   MAX_WHEEL_SPEED - abs(tw))
             else:
-                ts = max(ts, -(MAX_WHEEL_SPEED - abs(tw))
-            self.req_cmd_vel = int(ts - tw), int(ts + tw)
+                ts = max(ts, -(MAX_WHEEL_SPEED - abs(tw)))
+            self.req_cmd_vel = (int(ts - tw), int(ts + tw))
         elif self.drive_mode == 'turtle':
             # convert to direct_drive args
             ts  = msg.linear * 1000 # m -> mm
