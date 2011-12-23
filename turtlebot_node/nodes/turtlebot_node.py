@@ -312,6 +312,16 @@ class TurtlebotNode(object):
                 rospy.loginfo("exiting driver")
                 break
 
+            # Reboot Create if we detect that battery is at critical level switch to passive mode.
+            if s.charging_sources_available > 0 and \
+                   s.oi_mode == 3 and \
+                   s.charging_state in [0, 5] and \
+                   s.charge < 0.15*s.capacity:
+                rospy.loginfo("going into soft-reboot and exiting driver")
+                self._robot_reboot()
+                rospy.loginfo("exiting driver")
+                break
+
             # PUBLISH STATE
             self.sensor_state_pub.publish(s)
             self.odom_pub.publish(odom)
