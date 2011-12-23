@@ -1,6 +1,11 @@
 pub_rate: 1.0 # Optional
 base_path: '' # Optional, prepended to all diagnostic output
 analyzers:
+  nodes: 
+    type: GenericAnalyzer
+    path: 'Nodes'
+    timeout: 5.0
+    contains: ['Node']
   mode:
     type: GenericAnalyzer
     path: 'Mode'

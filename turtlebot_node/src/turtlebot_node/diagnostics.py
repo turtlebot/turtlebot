@@ -55,19 +55,36 @@ class TurtlebotDiagnostics():
         self.diag_pub = rospy.Publisher('/diagnostics', DiagnosticArray)
         self.last_diagnostics_time = rospy.get_rostime()        
 
+    def node_status(self, msg, status):
+        curr_time = rospy.Time.now()
+        diag = DiagnosticArray()
+        diag.header.stamp = curr_time
+        stat = DiagnosticStatus()
+        if status == "error":
+            stat = DiagnosticStatus(name="TurtleBot Node", level=DiagnosticStatus.ERROR, message=msg)
+        if status == "warn":
+            stat = DiagnosticStatus(name="TurtleBot Node", level=DiagnosticStatus.WARN, message=msg)
+        diag.status.append(stat)
+        self.diag_pub.publish(diag)
+
+
     def publish(self, sensor_state, gyro):
         curr_time = sensor_state.header.stamp
-        # limit to 1hz
-        if (curr_time - self.last_diagnostics_time).to_sec() < 1.0:
+        # limit to 5hz
+        if (curr_time - self.last_diagnostics_time).to_sec() < 0.2:
             return
         self.last_diagnostics_time = curr_time
 
         diag = DiagnosticArray()
         diag.header.stamp = curr_time
-        #mode info
         stat = DiagnosticStatus()
-        stat.name = "Operating Mode"
-        stat.level = DiagnosticStatus.OK
+
+        #node status
+        stat = DiagnosticStatus(name="TurtleBot Node", level=DiagnosticStatus.OK, message="RUNNING")
+        diag.status.append(stat)
+
+        #mode info
+        stat = DiagnosticStatus(name="Operating Mode", level=DiagnosticStatus.OK)
         try:
             stat.message = self.oi_mode[sensor_state.oi_mode]
         except KeyError as ex:

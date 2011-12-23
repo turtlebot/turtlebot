@@ -107,11 +107,13 @@ class TurtlebotNode(object):
                 self.robot.start(self.port)
                 break
             except serial.serialutil.SerialException as ex:
+                msg = "Failed to open port %s.  Please make sure the Create cable is plugged into the computer. \n"%(self.port)
+                self._diagnostics.node_status(msg,"error")
                 if log_once:
                     log_once = False
-                    rospy.logerr("Failed to open port %s.  Please make sure the Create cable is plugged into the computer. "%(self.port))
+                    rospy.logerr(msg)
                 else:
-                    sys.stderr.write("Failed to open port %s.  Please make sure the Create cable is plugged into the computer.\n"%(self.port))
+                    sys.stderr.write(msg)
                 time.sleep(3.0)
 
         self.create_sensor_handler = TurtlebotSensorHandler(self.robot)
@@ -225,7 +227,9 @@ class TurtlebotNode(object):
         """
         Perform a soft-reset of the Create
         """
-        rospy.logdebug("Soft-rebooting turtlebot to passive mode.")
+        msg ="Soft-rebooting turtlebot to passive mode."
+        rospy.logdebug(msg)
+        self._diagnostics.node_status(msg,"warn")
         self._set_digital_outputs([0, 0, 0])
         self.robot.soft_reset()
         time.sleep(2.0)
@@ -436,7 +440,9 @@ def turtlebot_main(argv):
         c.start()
         c.spin()
     except Exception as ex:
-        sys.stderr.write("Failed to contact device with error: [%s]. Please check that the Create is powered on and that the connector is plugged into the Create."%(ex))
+        msg = "Failed to contact device with error: [%s]. Please check that the Create is powered on and that the connector is plugged into the Create."%(ex)
+        c._diagnostics.node_status(msg,"error")
+        sys.stderr.write(msg)
     finally:
         # Driver no longer connected, delete flag from disk
         try:
