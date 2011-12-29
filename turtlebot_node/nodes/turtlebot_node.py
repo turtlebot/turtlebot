@@ -91,6 +91,7 @@ class TurtlebotNode(object):
 
         rospy.init_node('turtlebot')
         self._init_params()
+        self._init_pubsub()
 
         self._diagnostics = TurtlebotDiagnostics()
         if self.has_gyro:
@@ -126,8 +127,6 @@ class TurtlebotNode(object):
         # Write driver state to disk
         with open(connected_file(), 'w') as f:
             f.write("1")
-
-        self._init_pubsub()
 
     def _init_params(self):
         self.port = rospy.get_param('~port', self.default_port)
@@ -203,6 +202,9 @@ class TurtlebotNode(object):
             self.req_cmd_vel = msg.velocity * 1000, msg.radius * 1000
 
     def set_operation_mode(self,req):
+        if not self.robot.sci:
+            raise Exception("Robot not connected, SCI not available")
+
         if req.mode == 1: #passive
             self._robot_run_passive()
         elif req.mode == 2: #safe
@@ -263,6 +265,9 @@ class TurtlebotNode(object):
         self.sensor_state.user_digital_outputs = byte
 
     def set_digital_outputs(self,req):
+        if not self.robot.sci:
+            raise Exception("Robot not connected, SCI not available")
+            
         outputs = [req.digital_out_0,req.digital_out_1, req.digital_out_2]
         self._set_digital_outputs(outputs)
         return SetDigitalOutputsResponse(True)
@@ -433,31 +438,34 @@ def connected_file():
     return os.path.join(roslib.rosenv.get_ros_home(), 'turtlebot-connected')
 
 def turtlebot_main(argv):
-    if '--respawnable' in argv:
-        # This sleep throttles respawning of the driver node.  It
-        # appears that pyserial does not properly release the file
-        # descriptor for the USB port in the event that the Create is
-        # unplugged from the laptop.  This file desecriptor prevents
-        # the create from reassociating with the same USB port when it
-        # is plugged back in.  The solution, for now, is to quickly
-        # exit the driver and let roslaunch respawn the driver until
-        # reconnection occurs.  However, it order to not do bad things
-        # to the Create bootloader, and also to keep relaunching at a
-        # minimum, we have a 3-second sleep.
-        time.sleep(3.0)
     c = TurtlebotNode()
-    try:
-        c.start()
-        c.spin()
-    except Exception as ex:
-        msg = "Failed to contact device with error: [%s]. Please check that the Create is powered on and that the connector is plugged into the Create."%(ex)
-        c._diagnostics.node_status(msg,"error")
-        sys.stderr.write(msg)
-    finally:
-        # Driver no longer connected, delete flag from disk
+    while not rospy.is_shutdown():
         try:
-            os.remove(connected_file())
-        except: pass
+            # This sleep throttles reconnecting of the driver.  It
+            # appears that pyserial does not properly release the file
+            # descriptor for the USB port in the event that the Create is
+            # unplugged from the laptop.  This file desecriptor prevents
+            # the create from reassociating with the same USB port when it
+            # is plugged back in.  The solution, for now, is to quickly
+            # exit the driver and let roslaunch respawn the driver until
+            # reconnection occurs.  However, it order to not do bad things
+            # to the Create bootloader, and also to keep relaunching at a
+            # minimum, we have a 3-second sleep.
+            time.sleep(3.0)
+            
+            c.start()
+            c.spin()
+
+        except Exception as ex:
+            msg = "Failed to contact device with error: [%s]. Please check that the Create is powered on and that the connector is plugged into the Create."%(ex)
+            c._diagnostics.node_status(msg,"error")
+            rospy.logerr(msg)
+
+        finally:
+            # Driver no longer connected, delete flag from disk
+            try:
+                os.remove(connected_file())
+            except Exception: pass
 
 
 if __name__ == '__main__':

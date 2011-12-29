@@ -88,8 +88,9 @@ class TurtlebotDiagnostics():
         try:
             stat.message = self.oi_mode[sensor_state.oi_mode]
         except KeyError as ex:
-            stat.message = "Invalid OI Mode %s"%ex
-            rospy.logwarn("Invalid OI Mode %s"%ex)
+            stat.level=DiagnosticStatus.ERROR
+            stat.message = "Invalid OI Mode Reported %s"%ex
+            rospy.logwarn(stat.message)
         diag.status.append(stat)
         
         #battery info
@@ -111,8 +112,9 @@ class TurtlebotDiagnostics():
         try:
             stat.message = self.charging_source[sensor_state.charging_sources_available]
         except KeyError as ex:
+            stat.level=DiagnosticStatus.ERROR
             stat.message = "Invalid Charging Source %s, actual value: %i"%(ex,sensor_state.charging_sources_available)
-            rospy.logwarn("Invalid Charging Source %s, actual value: %i"%(ex,sensor_state.charging_sources_available))
+            rospy.logwarn(stat.message)
         diag.status.append(stat)
         #cliff sensors
         stat = DiagnosticStatus(name="Cliff Sensor", level=DiagnosticStatus.OK, message="OK")
@@ -120,6 +122,7 @@ class TurtlebotDiagnostics():
             stat.level = DiagnosticStatus.WARN
             if (sensor_state.current/1000.0)>0:
                 stat.message = "Near Cliff: While the irobot create is charging, the create thinks it's near a cliff."
+                stat.level = DiagnosticStatus.OK # We're OK here
             else:
                 stat.message = "Near Cliff"
         stat.values = [KeyValue("Left", str(sensor_state.cliff_left)),
