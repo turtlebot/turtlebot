@@ -128,6 +128,16 @@ class TurtlebotNode(object):
         with open(connected_file(), 'w') as f:
             f.write("1")
 
+        # Startup readings from Create can be incorrect, discard first values
+        s = TurtlebotSensorState()
+        try:
+            self.sense(s)
+        except Exception:
+            # packet read can get interrupted, restart loop to
+            # check for exit conditions
+            pass
+
+
     def _init_params(self):
         self.port = rospy.get_param('~port', self.default_port)
         self.update_rate = rospy.get_param('~update_rate', self.default_update_rate)
@@ -399,6 +409,10 @@ class TurtlebotNode(object):
 
         current_time = sensor_state.header.stamp
         dt = (current_time - last_time).to_sec()
+
+        # On startup, Create can report junk readings
+        if abs(sensor_state.distance) > 1.0 or abs(sensor_state.angle) > 1.0:
+            raise Exception("Distance, angle displacement too big, invalid readings from robot. Distance: %.2f, Angle: %.2f" % (sensor_state.distance, sensor_state.angle))
 
         # this is really delta_distance, delta_angle
         d  = sensor_state.distance * self.odom_linear_scale_correction #correction factor from calibration
