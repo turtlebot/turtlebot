@@ -1,10 +1,15 @@
 <?xml version="1.0"?>
 
-<robot>
+<robot name="turtlebot"  
+       xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro">
   <include filename="$(find turtlebot_description)/urdf/turtlebot_hardware.xacro" />
   <include filename="$(find turtlebot_description)/urdf/gazebo.urdf.xacro"/>
   <include filename="$(find turtlebot_description)/urdf/turtlebot_calibration.xacro" />
 
+  <include filename="$(find turtlebot_description)/urdf/sensors/microstrain_3dmgx2_imu.urdf.xacro"/>
 
   <material name="Green">
     <color rgba="0.0 0.8 0.0 1.0"/>
@@ -279,27 +284,10 @@
   <turtlebot_spacer parent="base_link" number="2" x_loc="-0.07239" y_loc="-0.1114679" z_loc="0.062992"/>
   <turtlebot_spacer parent="base_link" number="3" x_loc="-0.07239" y_loc="0.1114679" z_loc="0.062992"/>
 
-  <joint name="gyro_joint" type="fixed">
-    <origin xyz="0 0 0.04" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="gyro_link" />
-  </joint>
 
-  <link name="gyro_link">
-    <visual>
-      <geometry>
-        <box size="0.02 0.035 0.002" />
-      </geometry>
-      <material name="Green" />
-    </visual>
-    <inertial>
-      <mass value="0.001" />
-      <origin xyz="0 0 0" />
-      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-        iyy="0.0001" iyz="0.0"
-        izz="0.0001" />
-    </inertial>
-  </link>
+ <xacro:microstrain_3dmgx2_imu_v0 name="gyro" parent="base" imu_topic="imu/data" update_rate="100.0" stdev="0.00017">
+   <origin xyz="0 0 0.04" rpy="0 0 0" />
+ </xacro:microstrain_3dmgx2_imu_v0>
 
   <joint name="laser_joint" type="fixed">
     <origin xyz="-0.065 0 0.075" rpy="0 0 0" />
@@ -561,5 +549,33 @@
       </geometry>
     </collision>
   </link>
-  </macro>
+  
+  <!-- Hokuyo laser -->
+  <gazebo reference="laser">
+    <sensor:ray name="laser">
+      <rayCount>180</rayCount>
+      <rangeCount>180</rangeCount>
+      <laserCount>1</laserCount>
+      
+      <origin>0.0 0.0 0.0</origin>
+      <displayRays>false</displayRays>
+      
+      <minAngle>-130</minAngle>
+      <maxAngle>130</maxAngle>
+      
+      <minRange>0.08</minRange>
+      <maxRange>10.0</maxRange>
+      <resRange>0.01</resRange>
+      <updateRate>20</updateRate>
+      <controller:gazebo_ros_laser name="gazebo_ros_laser_controller" plugin="libgazebo_ros_laser.so">
+	<gaussianNoise>0.005</gaussianNoise>
+	<alwaysOn>true</alwaysOn>
+	<updateRate>20</updateRate>
+	<topicName>scan</topicName>
+	<frameName>laser</frameName>
+	<interface:laser name="gazebo_ros_laser_iface" />
+      </controller:gazebo_ros_laser>
+    </sensor:ray>
+  </gazebo>
+  </macro> <!--turtlebot -->
 </robot>

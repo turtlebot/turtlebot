@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 
-<!-- Do not use this macro, use the one in turtlebot_description/robots instead -->
-
 <robot name="turtlebot"
     xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
     xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
