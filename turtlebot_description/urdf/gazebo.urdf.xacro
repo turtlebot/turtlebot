@@ -2,6 +2,38 @@
 
 <robot xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" xmlns:xacro="http://ros.org/wiki/xacro" name="turtlebot_gazebo">
 
+<!-- ASUS Xtion PRO camera for simulation -->
+<!-- gazebo_ros_wge100 plugin is in kt2_gazebo_plugins package -->
+<xacro:macro name="turtlebot_sim_asus_xtion">
+  <gazebo reference="kinect_link" >
+    <sensor:camera name="camera" >
+      <imageSize>640 480</imageSize>
+      <imageFormat>R8G8B8</imageFormat>
+      <hfov>62.8</hfov>
+      <nearClip>0.1</nearClip>
+      <farClip>10</farClip>
+      <updateRate>2.0</updateRate>
+      <controller:gazebo_ros_wge100 name="kinect_camera_controller" plugin="libgazebo_ros_wge100.so">
+	<alwaysOn>true</alwaysOn>
+	<updateRate>5000.0</updateRate>
+	<cameraName>camera/rgb</cameraName>
+	<frameName>kinect_rgb_optical_frame</frameName>
+	<hackBaseline>0.0</hackBaseline>
+	<CxPrime>320.5</CxPrime>
+	<Cx>320.5</Cx>
+	<Cy>240.5</Cy>
+	<baseline>0.09</baseline>
+	<!-- image_width / (2*tan(hfov_radian /2)) -->
+	<!-- 320 for wide and 772.55 for narrow stereo camera -->
+	<focal_length>525</focal_length>
+	<cameraNamespace>camera/rgb</cameraNamespace>
+	<depthData>true</depthData>
+	<interface:camera name="camera_iface" />
+      </controller:gazebo_ros_wge100>
+    </sensor:camera>
+  </gazebo>
+</xacro:macro>
+
 <xacro:macro name="turtlebot_sim_kinect">
   <gazebo reference="kinect_link">
     <sensor:camera name="kinect_camera">
