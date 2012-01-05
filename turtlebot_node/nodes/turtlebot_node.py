@@ -92,6 +92,8 @@ class TurtlebotNode(object):
         rospy.init_node('turtlebot')
         self._init_params()
         self._init_pubsub()
+        
+        self._pos2d = Pose2D() # 2D pose for odometry
 
         self._diagnostics = TurtlebotDiagnostics()
         if self.has_gyro:
@@ -290,7 +292,6 @@ class TurtlebotNode(object):
     def spin(self):
 
         # state
-        pos2d = Pose2D()
         s = self.sensor_state
         odom = Odometry(header=rospy.Header(frame_id="odom"), child_frame_id='base_footprint')
         js = JointState(name = ["left_wheel_joint", "right_wheel_joint", "front_castor_joint", "back_castor_joint"],
@@ -308,7 +309,7 @@ class TurtlebotNode(object):
             # SENSE/COMPUTE STATE
             try:
                 self.sense(s)
-                transform = self.compute_odom(s, pos2d, last_time, odom)
+                transform = self.compute_odom(s, last_time, odom)
                 # Future-date the joint states so that we don't have
                 # to publish as frequently.
                 js.header.stamp = curr_time + rospy.Duration(1)
@@ -387,7 +388,7 @@ class TurtlebotNode(object):
         else:
             return cmd_vel
 
-    def compute_odom(self, sensor_state, pos2d, last_time, odom):
+    def compute_odom(self, sensor_state, last_time, odom):
         """
         Compute current odometry.  Updates odom instance and returns tf
         transform. compute_odom() does not set frame ids or covariances in
@@ -395,8 +396,6 @@ class TurtlebotNode(object):
 
         @param sensor_state: Current sensor reading
         @type  sensor_state: TurtlebotSensorState
-        @param pos2d: Current position
-        @type  pos2d: geometry_msgs.msg.Pose2D
         @param last_time: time of last sensor reading
         @type  last_time: rospy.Time
         @param odom: Odometry instance to update.
@@ -421,20 +420,20 @@ class TurtlebotNode(object):
         x = cos(angle) * d
         y = -sin(angle) * d
 
-        last_angle = pos2d.theta
-        pos2d.x += cos(last_angle)*x - sin(last_angle)*y
-        pos2d.y += sin(last_angle)*x + cos(last_angle)*y
-        pos2d.theta += angle
+        last_angle = self._pos2d.theta
+        self._pos2d.x += cos(last_angle)*x - sin(last_angle)*y
+        self._pos2d.y += sin(last_angle)*x + cos(last_angle)*y
+        self._pos2d.theta += angle
 
         # Turtlebot quaternion from yaw. simplified version of tf.transformations.quaternion_about_axis
-        odom_quat = (0., 0., sin(pos2d.theta/2.), cos(pos2d.theta/2.))
+        odom_quat = (0., 0., sin(self._pos2d.theta/2.), cos(self._pos2d.theta/2.))
 
         # construct the transform
-        transform = (pos2d.x, pos2d.y, 0.), odom_quat
+        transform = (self._pos2d.x, self._pos2d.y, 0.), odom_quat
 
         # update the odometry state
         odom.header.stamp = current_time
-        odom.pose.pose   = Pose(Point(pos2d.x, pos2d.y, 0.), Quaternion(*odom_quat))
+        odom.pose.pose   = Pose(Point(self._pos2d.x, self._pos2d.y, 0.), Quaternion(*odom_quat))
         odom.twist.twist = Twist(Vector3(d/dt, 0, 0), Vector3(0, 0, angle/dt))
         if sensor_state.requested_right_velocity == 0 and \
                sensor_state.requested_left_velocity == 0 and \
