@@ -14,7 +14,8 @@
   <depend package="tf"/>
   <depend package="opencv2"/>
   <depend package="image_transport"/>
-  <depend package="eigen"/>
+  <depend package="common_rosdeps" />
+  <rosdep name="eigen" />
   <depend package="cv_bridge"/>
   <depend package="image_geometry"/>
 </package>

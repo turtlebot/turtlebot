@@ -6,7 +6,7 @@
   <url>http://ros.org/wiki/turtlebot_apps</url>
   <depend stack="common" /> <!-- actionlib -->
   <depend stack="common_msgs" /> <!-- nav_msgs, sensor_msgs, geometry_msgs -->
-  <depend stack="eigen" /> <!-- eigen -->
+  <depend stack="common_rosdeps" /> <!-- eigen -->
   <depend stack="geometry" /> <!-- tf -->
   <depend stack="image_common" /> <!-- image_transport -->
   <depend stack="joystick_drivers" /> <!-- joy -->
