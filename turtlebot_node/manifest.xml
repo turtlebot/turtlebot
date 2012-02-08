@@ -23,7 +23,6 @@
   <export>
     <rosdoc config="rosdoc.yaml" />
   </export>
+  <rosdep name="daemontools"/>
 
 </package>
-
-
