@@ -274,9 +274,9 @@ class Roomba(object):
     self.sci = None
     self.safe = True
 
-  def start(self, tty='/dev/ttyUSB0'):
+  def start(self, tty='/dev/ttyUSB0', baudrate=57600):
     self.tty = tty
-    self.sci = SerialCommandInterface(tty, 57600)
+    self.sci = SerialCommandInterface(tty, baudrate)
     self.sci.add_opcodes(ROOMBA_OPCODES)
   
   def change_baud_rate(self, baud_rate):
@@ -393,8 +393,8 @@ class Turtlebot(Roomba):
     """
     super(Turtlebot, self).__init__()
     
-  def start(self, tty='/dev/ttyUSB0'):
-    super(Turtlebot, self).start(tty)
+  def start(self, tty='/dev/ttyUSB0', baudrate=57600):
+    super(Turtlebot, self).start(tty, baudrate)
     self.sci.add_opcodes(CREATE_OPCODES)
       
   def control(self):

@@ -84,6 +84,7 @@ class TurtlebotNode(object):
         """
         self.default_port = default_port
         self.default_update_rate = default_update_rate
+        self.default_baudrate = 57600
 
         self.robot = Turtlebot()
         self.create_sensor_handler = None
@@ -105,7 +106,7 @@ class TurtlebotNode(object):
         log_once = True
         while not rospy.is_shutdown():
             try:
-                self.robot.start(self.port)
+                self.robot.start(self.port, self.baudrate)
                 break
             except serial.serialutil.SerialException as ex:
                 msg = "Failed to open port %s.  Please make sure the Create cable is plugged into the computer. \n"%(self.port)
@@ -132,6 +133,7 @@ class TurtlebotNode(object):
 
     def _init_params(self):
         self.port = rospy.get_param('~port', self.default_port)
+        self.baudrate = rospy.get_param('~baudrate', self.default_baudrate)
         self.update_rate = rospy.get_param('~update_rate', self.default_update_rate)
         self.drive_mode = rospy.get_param('~drive_mode', 'twist')
         self.has_gyro = rospy.get_param('~has_gyro', True)
