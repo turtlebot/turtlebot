@@ -1,7 +1,7 @@
 /*********************************************************************
 * Software License Agreement (BSD License)
 * 
-*  Copyright (c) 2011, Willow Garage, Inc.
+*  Copyright (c) 2011-2012, Willow Garage, Inc.
 *  All rights reserved.
 * 
 *  Redistribution and use in source and binary forms, with or without
@@ -32,40 +32,16 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
+#include <math.h>
 #include <ros/ros.h>
 #include <sensor_msgs/LaserScan.h>
 #include <tf/transform_listener.h>
-#include <sensor_msgs/PointCloud.h>
-#include <laser_geometry/laser_geometry.h>
-
-#include <pcl/point_cloud.h>
-#include <pcl/point_types.h>
-#include <pcl_ros/point_cloud.h>
-#include <pcl/ros/conversions.h>
-#include <pcl_ros/transforms.h>
-#include <pcl_ros/impl/transforms.hpp>
-
-struct PointXYZIndex
-{
-  PCL_ADD_POINT4D;                  // preferred way of adding a XYZ+padding
-  int32_t index;
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW   // make sure our new allocators are aligned
-} EIGEN_ALIGN16;                    // enforce SSE padding for correct memory alignment
-
-POINT_CLOUD_REGISTER_POINT_STRUCT (PointXYZIndex,
-                                  (float, x, x)
-                                  (float, y, y)
-                                  (float, z, z)
-                                  (int32_t, index, index)
-)
-
-typedef pcl::PointCloud<PointXYZIndex> PointCloud;
 
 class LaserFootprintFilter
 {
 public:
   LaserFootprintFilter()
-    : nh_("~"), tf_(ros::Duration(10))
+    : nh_("~"), listener_(ros::Duration(10))
   {
     scan_filtered_pub_ = nh_.advertise<sensor_msgs::LaserScan>("/scan_filtered", 1);
     scan_sub_ = nh_.subscribe("/scan", 1000, &LaserFootprintFilter::update, this);
@@ -78,45 +54,49 @@ public:
   {
     sensor_msgs::LaserScan filtered_scan;
     filtered_scan = input_scan;
-    sensor_msgs::PointCloud2 cloud_message;
-    PointCloud laser_cloud_in, laser_cloud;
 
-    // Get the pointcloud from the laser scan
-    projector_.projectLaser(input_scan, cloud_message);
-    
-    pcl::fromROSMsg(cloud_message, laser_cloud_in);
+    double angle = filtered_scan.angle_min - filtered_scan.angle_increment;
+    geometry_msgs::PointStamped p_input;
+    p_input.header = input_scan.header;
 
-    // Transform the pointcloud
-    pcl_ros::transformPointCloud (base_frame_, input_scan.header.stamp, laser_cloud_in, base_frame_, laser_cloud, tf_);
-
-    // Go through each point in the pointcloud and keep or remove corresponding
-    // points in the original scan as necessary.
-    for (unsigned int i=0; i < laser_cloud.points.size(); i++)  
+    for(size_t i=0; i < filtered_scan.ranges.size(); i++)
     {
-      // Check if the point is in the footprint
-      if (inFootprint(laser_cloud.points[i]))
-      {
-        int index = laser_cloud.points[i].index;
-        filtered_scan.ranges[index] = filtered_scan.range_max + 1.0; // If so, then make it a value bigger than the max range
-      }
-    }
+        angle += filtered_scan.angle_increment;
+        if(filtered_scan.ranges[i] >= filtered_scan.range_max) continue;
+
+        p_input.point.x = cos(angle) * filtered_scan.ranges[i];
+        p_input.point.y = sin(angle) * filtered_scan.ranges[i];
+
+        geometry_msgs::PointStamped p_transformed;        
+        try{
+            listener_.transformPoint(base_frame_, p_input, p_transformed);
+        }catch(tf::TransformException &ex){
+            ROS_ERROR("Received an exception trying to transform a point: %s", ex.what());
+            return;
+        }
     
+        if( !inFootprint(p_transformed) )
+        {
+            filtered_scan.ranges[i] = filtered_scan.range_max + 1.0;
+        }
+
+    }
+
     scan_filtered_pub_.publish(filtered_scan);
   }
 
   // Filter out circular area
-  bool inFootprint(const PointXYZIndex& scan_pt)
+  bool inFootprint(const geometry_msgs::PointStamped& scan_pt)
   {
     // Do a radius instead of a box.
-    if (sqrt(scan_pt.x*scan_pt.x + scan_pt.y*scan_pt.y) > inscribed_radius_)
+    if (sqrt(scan_pt.point.x*scan_pt.point.x + scan_pt.point.y*scan_pt.point.y) > inscribed_radius_)
       return false;
     return true;
   }
 
 private:
   ros::NodeHandle nh_;
-  tf::TransformListener tf_;
-  laser_geometry::LaserProjection projector_;
+  tf::TransformListener listener_;
   double inscribed_radius_;
   std::string base_frame_;
   ros::Publisher scan_filtered_pub_;

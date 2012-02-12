@@ -1,7 +1,7 @@
 <launch>
 
   <!-- Run self-filter -->
-  <node pkg="turtlebot_self_filter" type="laser_footprint_filter" />
+  <node pkg="turtlebot_navigation" type="laser_footprint_filter" />
  
   <!--- Run gmapping -->
   <include file="$(find turtlebot_navigation)/config/gmapping_turtlebot.launch" />
