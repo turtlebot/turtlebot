@@ -53,6 +53,7 @@ from math import sin, cos
 
 import roslib.rosenv
 import rospy
+import tf
 
 from geometry_msgs.msg import Point, Pose, Pose2D, PoseWithCovariance, \
     Quaternion, Twist, TwistWithCovariance, Vector3
@@ -139,6 +140,9 @@ class TurtlebotNode(object):
         self.cmd_vel_timeout = rospy.Duration(rospy.get_param('~cmd_vel_timeout', 0.6))
         self.stop_motors_on_bump = rospy.get_param('~stop_motors_on_bump', True)
         self.min_abs_yaw_vel = rospy.get_param('~min_abs_yaw_vel', None)
+        self.publish_tf = rospy.get_param('~publish_tf', False)
+        self.odom_frame = rospy.get_param('~odom_frame', 'odom')
+        self.base_frame = rospy.get_param('~base_frame', 'base_footprint')
 
         rospy.loginfo("serial port: %s"%(self.port))
         rospy.loginfo("update_rate: %s"%(self.update_rate))
@@ -164,6 +168,10 @@ class TurtlebotNode(object):
             self.drive_cmd = self.robot.direct_drive
         else:
             rospy.logerr("unknown drive mode :%s"%(self.drive_mode))
+
+        self.transform_broadcaster = None
+        if self.publish_tf:
+            self.transform_broadcaster = tf.TransformBroadcaster()
     
     def reconfigure(self, config, level):
         self.update_rate = config['update_rate']
@@ -277,7 +285,7 @@ class TurtlebotNode(object):
         # state
         pos2d = Pose2D()
         s = self.sensor_state
-        odom = Odometry(header=rospy.Header(frame_id="odom"), child_frame_id='base_footprint')
+        odom = Odometry(header=rospy.Header(frame_id=self.odom_frame), child_frame_id=self.base_frame)
         js = JointState(name = ["left_wheel_joint", "right_wheel_joint", "front_castor_joint", "back_castor_joint"],
                         position=[0,0,0,0], velocity=[0,0,0,0], effort=[0,0,0,0])
 
@@ -325,6 +333,8 @@ class TurtlebotNode(object):
             # PUBLISH STATE
             self.sensor_state_pub.publish(s)
             self.odom_pub.publish(odom)
+            if self.publish_tf:
+                self.publish_odometry_transform(odom)
             # 1hz, future-dated joint state
             if curr_time > last_js_time + rospy.Duration(1):
                 self.joint_states_pub.publish(js)
@@ -428,6 +438,13 @@ class TurtlebotNode(object):
 
         # return the transform
         return transform
+
+    def publish_odometry_transform(self, odometry):
+        self.transform_broadcaster.sendTransform(
+            (odometry.pose.pose.position.x, odometry.pose.pose.position.y, odometry.pose.pose.position.z),
+            (odometry.pose.pose.orientation.x, odometry.pose.pose.orientation.y, odometry.pose.pose.orientation.z,
+             odometry.pose.pose.orientation.w),
+             odometry.header.stamp, odometry.child_frame_id, odometry.header.frame_id)
 
 def connected_file():
     return os.path.join(roslib.rosenv.get_ros_home(), 'turtlebot-connected')
