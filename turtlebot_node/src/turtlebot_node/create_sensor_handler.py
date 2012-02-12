@@ -39,33 +39,6 @@ import rospy
 from math import radians
 from turtlebot_driver import SENSOR_GROUP_PACKET_LENGTHS
 
-ODOM_POSE_COVARIANCE = [1e-3, 0, 0, 0, 0, 0, 
-                        0, 1e-3, 0, 0, 0, 0,
-                        0, 0, 1e6, 0, 0, 0,
-                        0, 0, 0, 1e6, 0, 0,
-                        0, 0, 0, 0, 1e6, 0,
-                        0, 0, 0, 0, 0, 1e3]
-ODOM_POSE_COVARIANCE2 = [1e-9, 0, 0, 0, 0, 0, 
-                         0, 1e-3, 1e-9, 0, 0, 0,
-                         0, 0, 1e6, 0, 0, 0,
-                         0, 0, 0, 1e6, 0, 0,
-                         0, 0, 0, 0, 1e6, 0,
-                         0, 0, 0, 0, 0, 1e-9]
-
-ODOM_TWIST_COVARIANCE = [1e-3, 0, 0, 0, 0, 0, 
-                         0, 1e-3, 0, 0, 0, 0,
-                         0, 0, 1e6, 0, 0, 0,
-                         0, 0, 0, 1e6, 0, 0,
-                         0, 0, 0, 0, 1e6, 0,
-                         0, 0, 0, 0, 0, 1e3]
-ODOM_TWIST_COVARIANCE2 = [1e-9, 0, 0, 0, 0, 0, 
-                          0, 1e-3, 1e-9, 0, 0, 0,
-                          0, 0, 1e6, 0, 0, 0,
-                          0, 0, 0, 1e6, 0, 0,
-                          0, 0, 0, 0, 1e6, 0,
-                          0, 0, 0, 0, 0, 1e-9]
-
-
 _struct_I = roslib.message.struct_I
 _struct_BI = struct.Struct(">BI")
 _struct_12B2hBHhb7HBH5B4h = struct.Struct(">12B2hBHhb7HBH5B4h")
@@ -102,7 +75,7 @@ def deserialize(msg, buff, timestamp):
     except struct.error, e:
       raise roslib.message.DeserializationError(e)
 
-class TurtlebotSensorHandler(object):
+class CreateSensorHandler(object):
     
     def __init__(self, robot):
         self.robot = robot    

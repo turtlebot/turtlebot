@@ -171,7 +171,15 @@ BUTTON_SPOT = 0x04
 BUTTON_CLEAN = 0x02
 BUTTON_MAX = 0x01
 
-SENSOR_GROUP_PACKET_LENGTHS = (26, 10, 6, 10, 14, 12, 52)
+SENSOR_GROUP_PACKET_LENGTHS = {
+    0: 26,
+    1: 10,
+    2: 6,
+    3: 10,
+    4: 14,
+    5: 12,
+    6: 52,
+    100: 80 }
 
 # drive constants.
 RADIUS_TURN_IN_PLACE_CW = -1
