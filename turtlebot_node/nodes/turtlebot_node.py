@@ -60,12 +60,13 @@ from geometry_msgs.msg import Point, Pose, Pose2D, PoseWithCovariance, \
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import JointState
 
-from turtlebot_driver import Turtlebot, WHEEL_SEPARATION, MAX_WHEEL_SPEED, DriverError
+from turtlebot_driver import Turtlebot, MAX_WHEEL_SPEED, DriverError
 from turtlebot_node.msg import TurtlebotSensorState, Drive, Turtle
 from turtlebot_node.srv import SetTurtlebotMode,SetTurtlebotModeResponse, SetDigitalOutputs, SetDigitalOutputsResponse
 from turtlebot_node.diagnostics import TurtlebotDiagnostics
 from turtlebot_node.gyro import TurtlebotGyro
-from turtlebot_node.sense import TurtlebotSensorHandler, \
+import turtlebot_node.robot_types as robot_types
+from turtlebot_node.covariances import \
      ODOM_POSE_COVARIANCE, ODOM_POSE_COVARIANCE2, ODOM_TWIST_COVARIANCE, ODOM_TWIST_COVARIANCE2
 from turtlebot_node.songs import bonus
 
@@ -84,10 +85,9 @@ class TurtlebotNode(object):
         """
         self.default_port = default_port
         self.default_update_rate = default_update_rate
-        self.default_baudrate = 57600
 
         self.robot = Turtlebot()
-        self.create_sensor_handler = None
+        self.sensor_handler = None
         self.sensor_state = TurtlebotSensorState()
         self.req_cmd_vel = None
 
@@ -109,7 +109,7 @@ class TurtlebotNode(object):
         log_once = True
         while not rospy.is_shutdown():
             try:
-                self.robot.start(self.port, self.baudrate)
+                self.robot.start(self.port, robot_types.ROBOT_TYPES[self.robot_type].baudrate)
                 break
             except serial.serialutil.SerialException as ex:
                 msg = "Failed to open port %s.  Please make sure the Create cable is plugged into the computer. \n"%(self.port)
@@ -121,7 +121,7 @@ class TurtlebotNode(object):
                     sys.stderr.write(msg)
                 time.sleep(3.0)
 
-        self.create_sensor_handler = TurtlebotSensorHandler(self.robot)
+        self.sensor_handler = robot_types.ROBOT_TYPES[self.robot_type].sensor_handler(self.robot) 
         self.robot.safe = True
 
         if rospy.get_param('~bonus', False):
@@ -144,7 +144,8 @@ class TurtlebotNode(object):
 
     def _init_params(self):
         self.port = rospy.get_param('~port', self.default_port)
-        self.baudrate = rospy.get_param('~baudrate', self.default_baudrate)
+        self.robot_type = rospy.get_param('~robot_type', 'create')
+        #self.baudrate = rospy.get_param('~baudrate', self.default_baudrate)
         self.update_rate = rospy.get_param('~update_rate', self.default_update_rate)
         self.drive_mode = rospy.get_param('~drive_mode', 'twist')
         self.has_gyro = rospy.get_param('~has_gyro', True)
@@ -207,7 +208,7 @@ class TurtlebotNode(object):
         if self.drive_mode == 'twist':
             # convert twist to direct_drive args
             ts  = msg.linear.x * 1000 # m -> mm
-            tw  = msg.angular.z  * (WHEEL_SEPARATION / 2)
+            tw  = msg.angular.z  * (robot_types.ROBOT_TYPES[self.robot_type].wheel_separation / 2) * 1000 
             # Prevent saturation at max wheel speed when a compound command is sent.
             if ts > 0:
                 ts = min(ts,   MAX_WHEEL_SPEED - abs(tw))
@@ -217,7 +218,7 @@ class TurtlebotNode(object):
         elif self.drive_mode == 'turtle':
             # convert to direct_drive args
             ts  = msg.linear * 1000 # m -> mm
-            tw  = msg.angular  * (WHEEL_SEPARATION / 2)
+            tw  = msg.angular  * (robot_types.ROBOT_TYPES[self.robot_type].wheel_separation / 2) * 1000 
             self.req_cmd_vel = int(ts - tw), int(ts + tw)
         elif self.drive_mode == 'drive':
             # convert twist to drive args, m->mm (velocity, radius)
@@ -295,7 +296,7 @@ class TurtlebotNode(object):
         return SetDigitalOutputsResponse(True)
 
     def sense(self, sensor_state):
-        self.create_sensor_handler.get_all(sensor_state)
+        self.sensor_handler.get_all(sensor_state)
         if self._gyro:
             self._gyro.update_calibration(sensor_state)
 
