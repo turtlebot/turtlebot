@@ -93,6 +93,9 @@ class TurtlebotNode(object):
 
         rospy.init_node('turtlebot')
         self._init_params()
+        self._init_pubsub()
+        
+        self._pos2d = Pose2D() # 2D pose for odometry
 
         self._diagnostics = TurtlebotDiagnostics()
         if self.has_gyro:
@@ -129,7 +132,15 @@ class TurtlebotNode(object):
         with open(connected_file(), 'w') as f:
             f.write("1")
 
-        self._init_pubsub()
+        # Startup readings from Create can be incorrect, discard first values
+        s = TurtlebotSensorState()
+        try:
+            self.sense(s)
+        except Exception:
+            # packet read can get interrupted, restart loop to
+            # check for exit conditions
+            pass
+
 
     def _init_params(self):
         self.port = rospy.get_param('~port', self.default_port)
@@ -214,6 +225,9 @@ class TurtlebotNode(object):
             self.req_cmd_vel = msg.velocity * 1000, msg.radius * 1000
 
     def set_operation_mode(self,req):
+        if not self.robot.sci:
+            raise Exception("Robot not connected, SCI not available")
+
         if req.mode == 1: #passive
             self._robot_run_passive()
         elif req.mode == 2: #safe
@@ -274,6 +288,9 @@ class TurtlebotNode(object):
         self.sensor_state.user_digital_outputs = byte
 
     def set_digital_outputs(self,req):
+        if not self.robot.sci:
+            raise Exception("Robot not connected, SCI not available")
+            
         outputs = [req.digital_out_0,req.digital_out_1, req.digital_out_2]
         self._set_digital_outputs(outputs)
         return SetDigitalOutputsResponse(True)
@@ -286,7 +303,6 @@ class TurtlebotNode(object):
     def spin(self):
 
         # state
-        pos2d = Pose2D()
         s = self.sensor_state
         odom = Odometry(header=rospy.Header(frame_id=self.odom_frame), child_frame_id=self.base_frame)
         js = JointState(name = ["left_wheel_joint", "right_wheel_joint", "front_castor_joint", "back_castor_joint"],
@@ -304,7 +320,7 @@ class TurtlebotNode(object):
             # SENSE/COMPUTE STATE
             try:
                 self.sense(s)
-                transform = self.compute_odom(s, pos2d, last_time, odom)
+                transform = self.compute_odom(s, last_time, odom)
                 # Future-date the joint states so that we don't have
                 # to publish as frequently.
                 js.header.stamp = curr_time + rospy.Duration(1)
@@ -385,7 +401,7 @@ class TurtlebotNode(object):
         else:
             return cmd_vel
 
-    def compute_odom(self, sensor_state, pos2d, last_time, odom):
+    def compute_odom(self, sensor_state, last_time, odom):
         """
         Compute current odometry.  Updates odom instance and returns tf
         transform. compute_odom() does not set frame ids or covariances in
@@ -393,8 +409,6 @@ class TurtlebotNode(object):
 
         @param sensor_state: Current sensor reading
         @type  sensor_state: TurtlebotSensorState
-        @param pos2d: Current position
-        @type  pos2d: geometry_msgs.msg.Pose2D
         @param last_time: time of last sensor reading
         @type  last_time: rospy.Time
         @param odom: Odometry instance to update.
@@ -408,6 +422,10 @@ class TurtlebotNode(object):
         current_time = sensor_state.header.stamp
         dt = (current_time - last_time).to_sec()
 
+        # On startup, Create can report junk readings
+        if abs(sensor_state.distance) > 1.0 or abs(sensor_state.angle) > 1.0:
+            raise Exception("Distance, angle displacement too big, invalid readings from robot. Distance: %.2f, Angle: %.2f" % (sensor_state.distance, sensor_state.angle))
+
         # this is really delta_distance, delta_angle
         d  = sensor_state.distance * self.odom_linear_scale_correction #correction factor from calibration
         angle = sensor_state.angle * self.odom_angular_scale_correction #correction factor from calibration
@@ -415,20 +433,20 @@ class TurtlebotNode(object):
         x = cos(angle) * d
         y = -sin(angle) * d
 
-        last_angle = pos2d.theta
-        pos2d.x += cos(last_angle)*x - sin(last_angle)*y
-        pos2d.y += sin(last_angle)*x + cos(last_angle)*y
-        pos2d.theta += angle
+        last_angle = self._pos2d.theta
+        self._pos2d.x += cos(last_angle)*x - sin(last_angle)*y
+        self._pos2d.y += sin(last_angle)*x + cos(last_angle)*y
+        self._pos2d.theta += angle
 
         # Turtlebot quaternion from yaw. simplified version of tf.transformations.quaternion_about_axis
-        odom_quat = (0., 0., sin(pos2d.theta/2.), cos(pos2d.theta/2.))
+        odom_quat = (0., 0., sin(self._pos2d.theta/2.), cos(self._pos2d.theta/2.))
 
         # construct the transform
-        transform = (pos2d.x, pos2d.y, 0.), odom_quat
+        transform = (self._pos2d.x, self._pos2d.y, 0.), odom_quat
 
         # update the odometry state
         odom.header.stamp = current_time
-        odom.pose.pose   = Pose(Point(pos2d.x, pos2d.y, 0.), Quaternion(*odom_quat))
+        odom.pose.pose   = Pose(Point(self._pos2d.x, self._pos2d.y, 0.), Quaternion(*odom_quat))
         odom.twist.twist = Twist(Vector3(d/dt, 0, 0), Vector3(0, 0, angle/dt))
         if sensor_state.requested_right_velocity == 0 and \
                sensor_state.requested_left_velocity == 0 and \
@@ -453,31 +471,34 @@ def connected_file():
     return os.path.join(roslib.rosenv.get_ros_home(), 'turtlebot-connected')
 
 def turtlebot_main(argv):
-    if '--respawnable' in argv:
-        # This sleep throttles respawning of the driver node.  It
-        # appears that pyserial does not properly release the file
-        # descriptor for the USB port in the event that the Create is
-        # unplugged from the laptop.  This file desecriptor prevents
-        # the create from reassociating with the same USB port when it
-        # is plugged back in.  The solution, for now, is to quickly
-        # exit the driver and let roslaunch respawn the driver until
-        # reconnection occurs.  However, it order to not do bad things
-        # to the Create bootloader, and also to keep relaunching at a
-        # minimum, we have a 3-second sleep.
-        time.sleep(3.0)
     c = TurtlebotNode()
-    try:
-        c.start()
-        c.spin()
-    except Exception as ex:
-        msg = "Failed to contact device with error: [%s]. Please check that the Create is powered on and that the connector is plugged into the Create."%(ex)
-        c._diagnostics.node_status(msg,"error")
-        sys.stderr.write(msg)
-    finally:
-        # Driver no longer connected, delete flag from disk
+    while not rospy.is_shutdown():
         try:
-            os.remove(connected_file())
-        except: pass
+            # This sleep throttles reconnecting of the driver.  It
+            # appears that pyserial does not properly release the file
+            # descriptor for the USB port in the event that the Create is
+            # unplugged from the laptop.  This file desecriptor prevents
+            # the create from reassociating with the same USB port when it
+            # is plugged back in.  The solution, for now, is to quickly
+            # exit the driver and let roslaunch respawn the driver until
+            # reconnection occurs.  However, it order to not do bad things
+            # to the Create bootloader, and also to keep relaunching at a
+            # minimum, we have a 3-second sleep.
+            time.sleep(3.0)
+            
+            c.start()
+            c.spin()
+
+        except Exception as ex:
+            msg = "Failed to contact device with error: [%s]. Please check that the Create is powered on and that the connector is plugged into the Create."%(ex)
+            c._diagnostics.node_status(msg,"error")
+            rospy.logerr(msg)
+
+        finally:
+            # Driver no longer connected, delete flag from disk
+            try:
+                os.remove(connected_file())
+            except Exception: pass
 
 
 if __name__ == '__main__':

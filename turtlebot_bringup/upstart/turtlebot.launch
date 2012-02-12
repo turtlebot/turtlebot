@@ -6,7 +6,7 @@
   <param name="turtlebot_node/odom_angular_scale_correction" value="1.0"/>
 
   <include file="$(find turtlebot_bringup)/minimal.launch">
-    <arg name="urdf_file" value="$(find xacro)/xacro.py '$(find turtlebot_description)/urdf/turtlebot.urdf.xacro'" />
+    <arg name="urdf_file" value="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/turtlebot.urdf.xacro'" />
   </include>
 
 </launch>

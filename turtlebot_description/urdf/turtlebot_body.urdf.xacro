@@ -1,21 +1,18 @@
 <?xml version="1.0"?>
-
-<robot>
-  <include filename="$(find turtlebot_description)/urdf/turtlebot_hardware.xacro" />
-  <include filename="$(find turtlebot_description)/urdf/gazebo.urdf.xacro"/>
-  <include filename="$(find turtlebot_description)/urdf/turtlebot_calibration.xacro" />
-
-
-  <material name="Green">
-    <color rgba="0.0 0.8 0.0 1.0"/>
-  </material>
-
+<robot name="turtlebot_hardware" xmlns:xacro="http://ros.org/wiki/xacro">
   <property name="M_PI" value="3.14159"/>
-  <property name="SCALE" value="0.0254"/>
+
+  <!-- Macro for TurtleBot body. Including Gazebo extensions, but does not include Kinect -->
+  <include filename="$(find turtlebot_description)/urdf/gazebo.urdf.xacro"/>
+
   <property name="base_x" value="0.33" />
   <property name="base_y" value="0.33" />
 
-  <macro name="turtlebot">
+  <xacro:macro name="turtlebot_body">
+    <material name="Green">
+      <color rgba="0.0 0.8 0.0 1.0"/>
+    </material>
+
   <!-- base_footprint is a fictitious link(frame) that is on the ground right below base_link origin, navigation stack depends on this frame -->
 
   <link name="base_footprint">
@@ -151,8 +148,6 @@
     <child link="rightfront_cliff_sensor_link" />
   </joint>
 
-
-
   <link name="left_wheel_link">
     <inertial>
       <origin xyz="0 0 0"/>
@@ -280,24 +275,16 @@
   <turtlebot_spacer parent="base_link" number="3" x_loc="-0.07239" y_loc="0.1114679" z_loc="0.062992"/>
 
   <joint name="gyro_joint" type="fixed">
+    <axis xyz="0 1 0" />
     <origin xyz="0 0 0.04" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="gyro_link" />
+    <parent link="base_link"/>
+    <child link="gyro_link"/>
   </joint>
-
   <link name="gyro_link">
-    <visual>
-      <geometry>
-        <box size="0.02 0.035 0.002" />
-      </geometry>
-      <material name="Green" />
-    </visual>
     <inertial>
       <mass value="0.001" />
-      <origin xyz="0 0 0" />
-      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-        iyy="0.0001" iyz="0.0"
-        izz="0.0001" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001" />
     </inertial>
   </link>
 
@@ -425,103 +412,6 @@
     </collision>
   </link>
 
-  <joint name="base_kinect_joint" type="fixed">
-    <origin xyz="${turtlebot_calib_cam_x} ${turtlebot_calib_cam_y} ${turtlebot_calib_cam_z}" 
-            rpy="${turtlebot_calib_cam_rr} ${turtlebot_calib_cam_rp} ${turtlebot_calib_cam_ry}" />
-    <parent link="${turtlebot_kinect_frame_name}" />
-    <child link="kinect_link" />
-  </joint>
-
-  <link name="kinect_link">
-    <inertial>
-      <mass value="0.01" />
-      <origin xyz="0 0 0" />
-      <inertia ixx="0.001" ixy="0.0" ixz="0.0"
-        iyy="0.001" iyz="0.0"
-        izz="0.001" />
-    </inertial>
-
-    <visual>
-      <origin xyz=" 0 0 0 " rpy="0 0 0" />
-      <geometry>
-        <mesh filename="package://turtlebot_description/meshes/kinect.dae"/>
-      </geometry>
-    </visual>
-
-    <collision>
-      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
-      <geometry>
-        <box size="0.0730 .2760 0.0720"/>
-      </geometry>
-    </collision>
-
-  </link>
-
-  <joint name="kinect_depth_joint" type="fixed">
-    <origin xyz="0 0.018 0" rpy="0 0 0" />
-    <parent link="kinect_link" />
-    <child link="kinect_depth_frame" />
-  </joint>
-
-  <link name="kinect_depth_frame">
-    <inertial>
-      <mass value="0.01" />
-      <origin xyz="0 0 0" />
-      <inertia ixx="0.001" ixy="0.0" ixz="0.0"
-        iyy="0.001" iyz="0.0"
-        izz="0.001" />
-    </inertial>
-  </link>
-
-  <joint name="kinect_depth_optical_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
-    <parent link="kinect_depth_frame" />
-    <child link="kinect_depth_optical_frame" />
-  </joint>
-
-  <link name="kinect_depth_optical_frame">
-    <inertial>
-      <mass value="0.001" />
-      <origin xyz="0 0 0" />
-      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-        iyy="0.0001" iyz="0.0"
-        izz="0.0001" />
-    </inertial>
-  </link>
-
-
-  <joint name="kinect_rgb_joint" type="fixed">
-    <origin xyz="0 -0.005 0" rpy="0 0 0" />
-    <parent link="kinect_link" />
-    <child link="kinect_rgb_frame" />
-  </joint>
-
-  <link name="kinect_rgb_frame">
-    <inertial>
-      <mass value="0.001" />
-      <origin xyz="0 0 0" />
-      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-        iyy="0.0001" iyz="0.0"
-        izz="0.0001" />
-    </inertial>
-  </link>
-
-
-  <joint name="kinect_rgb_optical_joint" type="fixed">
-    <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
-    <parent link="kinect_rgb_frame" />
-    <child link="kinect_rgb_optical_frame" />
-  </joint>
-
-  <link name="kinect_rgb_optical_frame">
-    <inertial>
-      <mass value="0.001" />
-      <origin xyz="0 0 0" />
-      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-        iyy="0.0001" iyz="0.0"
-        izz="0.0001" />
-    </inertial>
-  </link>
 
 
   <turtlebot_standoff_kinect parent="plate_2_link" number="0" x_loc="-0.1024382" y_loc="0.098" z_loc="0.0032004"/>
@@ -561,5 +451,12 @@
       </geometry>
     </collision>
   </link>
-  </macro>
+  
+  <!-- Simulation sensors -->
+  <turtlebot_sim_imu/>
+  <turtlebot_sim_laser/>
+  <turtlebot_sim_create/>
+  <turtlebot_sim_wall_sensors/>
+  </xacro:macro>
+
 </robot>
