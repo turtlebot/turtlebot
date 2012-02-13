@@ -27,55 +27,107 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from os import system
-import curses
-
 import roslib; roslib.load_manifest('turtlebot_teleop')
 import rospy
 
 from geometry_msgs.msg import Twist
 
-def mymain(screen):
+import sys, select, termios, tty
+
+msg = """
+Control Your TurtleBot!
+---------------------------
+Moving around:
+   u    i    o
+   j    k    l
+   m    ,    .
+
+q/z : increase/decrease max speeds by 10%
+w/x : increase/decrease only linear speed by 10%
+e/c : increase/decrease only angular speed by 10%
+anything else : stop
+
+CTRL-C to quit
+"""
+
+moveBindings = {
+        'i':(1,0),
+        'o':(1,-1),
+        'j':(0,1),
+        'l':(0,-1),
+        'u':(1,1),
+        ',':(-1,0),
+        '.':(-1,1),
+        'm':(-1,-1),
+           }
+
+speedBindings={
+        'q':(1.1,1.1),
+        'z':(.9,.9),
+        'w':(1.1,1),
+        'x':(.9,1),
+        'e':(1,1.1),
+        'c':(1,.9),
+          }
+
+def getKey():
+    tty.setraw(sys.stdin.fileno())
+    select.select([sys.stdin], [], [], 0)
+    key = sys.stdin.read(1)
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+    return key
+
+speed = .3
+turn = 1
+
+def vels(speed,turn):
+    return "currently:\tspeed %s\tturn %s " % (speed,turn)
+
+if __name__=="__main__":
+    settings = termios.tcgetattr(sys.stdin)
+    
+    pub = rospy.Publisher('cmd_vel', Twist)
     rospy.init_node('turtlebot_teleop')
-    rospy.sleep(0.0001)
 
-    tpub = rospy.Publisher("cmd_vel", Twist)
+    x = 0
+    th = 0
+    status = 0
 
-    a_scale = rospy.get_param("~scale_angular", 1.5)
-    l_scale = rospy.get_param("~scale_linear", 0.5)
+    try:
+        print msg
+        print vels(speed,turn)
+        while(1):
+            key = getKey()
+            if key in moveBindings.keys():
+                x = moveBindings[key][0]
+                th = moveBindings[key][1]
+            elif key in speedBindings.keys():
+                speed = speed * speedBindings[key][0]
+                turn = turn * speedBindings[key][1]
 
-    t = Twist()
-    screen.nodelay(1)
-    down = False
-    menu(screen, t)
-    fnmap = { curses.KEY_LEFT : (1, 0.0),
-              curses.KEY_RIGHT : (-1, 0.0),
-              curses.KEY_UP : (0.0, 1),
-              curses.KEY_DOWN : (0.0, -1)
-              }
+                print vels(speed,turn)
+                if (status == 14):
+                    print msg
+                status = (status + 1) % 15
+            else:
+                x = 0
+                th = 0
+                if (key == '\x03'):
+                    break
 
-    while True:
-        gotch = screen.getch()
-        
-        if gotch == 27 or gotch == ord('q') or gotch == ord('Q'): # ESC key or q
-            return
-        if gotch in fnmap:
-            down = True
-            ang, lin = fnmap[gotch]
-            t.angular.z = ang * a_scale
-            t.linear.x = lin * l_scale
-            tpub.publish(t)
-            menu(screen, t)
+            twist = Twist()
+            twist.linear.x = x*speed; twist.linear.y = 0; twist.linear.z = 0
+            twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = th*turn
+            pub.publish(twist)
 
-def menu(s, twist):
-    s.clear()
-    s.border(0)
-    s.addstr(2, 2, "Turtlebot Control", curses.A_BOLD)
-    s.addstr(4, 2, "Use arrow keys to move, ESC or Q to exit", curses.A_BOLD)
+    except:
+        print e
 
-    s.addstr(6, 2, "Last Published", curses.A_UNDERLINE)
-    s.addstr(7, 2, "Linear:  %1.2f" % twist.linear.x)
-    s.addstr(8, 2, "Angular: %1.2f" % twist.angular.z)
-    s.refresh()
+    finally:
+        twist = Twist()
+        twist.linear.x = 0; twist.linear.y = 0; twist.linear.z = 0
+        twist.angular.x = 0; twist.angular.y = 0; twist.angular.z = 0
+        pub.publish(twist)
 
-curses.wrapper(mymain)
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+
