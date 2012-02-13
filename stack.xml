@@ -1,6 +1,6 @@
 <stack>
   <description brief="turtlebot">The turtlebot stack provides all the basic drivers for running and using a TurtleBot. </description>
-  <author>Maintained by Tully Foote and Melonee Wise</author>
+  <author>Maintained by Tully Foote, Michael Ferguson, and Melonee Wise</author>
   <license>BSD,MIT</license>  
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot</url>
