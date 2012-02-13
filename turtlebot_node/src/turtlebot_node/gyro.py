@@ -48,9 +48,16 @@ class TurtlebotGyro():
         self.imu_data.orientation_covariance = [1e6, 0, 0, 0, 1e6, 0, 0, 0, 1e-6]
         self.imu_data.angular_velocity_covariance = [1e6, 0, 0, 0, 1e6, 0, 0, 0, 1e-6]
         self.imu_data.linear_acceleration_covariance = [-1,0,0,0,0,0,0,0,0]
+        self.gyro_measurement_range = rospy.get_param('~gyro_measurement_range', 150.0) 
         self.gyro_scale_correction = rospy.get_param('~gyro_scale_correction', 1.35)
         self.imu_pub = rospy.Publisher('imu/data', sensor_msgs.msg.Imu)
         self.imu_pub_raw = rospy.Publisher('imu/raw', sensor_msgs.msg.Imu)
+
+    def reconfigure(self, config, level): 
+        self.gyro_measurement_range = rospy.get_param('~gyro_measurement_range', 150.0) 
+        self.gyro_scale_correction = rospy.get_param('~gyro_scale_correction', 1.35) 
+        rospy.loginfo('self.gyro_measurement_range %f'%self.gyro_measurement_range) 
+        rospy.loginfo('self.gyro_scale_correction %f'%self.gyro_scale_correction) 
 
     def update_calibration(self, sensor_state):
         #check if we're not moving and update the calibration offset
@@ -72,7 +79,7 @@ class TurtlebotGyro():
         dt = (current_time - last_time).to_sec()
         past_orientation = self.orientation
         self.imu_data.header.stamp =  sensor_state.header.stamp
-        self.imu_data.angular_velocity.z  = (float(sensor_state.user_analog_input)-self.cal_offset)/self.cal_offset*150.0*(math.pi/180.0)*self.gyro_scale_correction
+        self.imu_data.angular_velocity.z  = (float(sensor_state.user_analog_input)-self.cal_offset)/self.cal_offset*self.gyro_measurement_range*(math.pi/180.0)*self.gyro_scale_correction
         #sign change
         self.imu_data.angular_velocity.z = -1.0*self.imu_data.angular_velocity.z
         self.orientation += self.imu_data.angular_velocity.z * dt
@@ -81,7 +88,7 @@ class TurtlebotGyro():
         self.imu_pub.publish(self.imu_data)
 
         self.imu_data.header.stamp =  sensor_state.header.stamp
-        self.imu_data.angular_velocity.z  = (float(sensor_state.user_analog_input)/150.0*(math.pi/180.0)*self.gyro_scale_correction)
+        self.imu_data.angular_velocity.z  = (float(sensor_state.user_analog_input)/self.gyro_measurement_range*(math.pi/180.0)*self.gyro_scale_correction)
         #sign change
         self.imu_data.angular_velocity.z = -1.0*self.imu_data.angular_velocity.z
         raw_orientation = past_orientation + self.imu_data.angular_velocity.z * dt

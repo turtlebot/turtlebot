@@ -192,12 +192,13 @@ class TurtlebotNode(object):
         self.drive_mode = config['drive_mode']
         self.has_gyro = config['has_gyro']
         if self.has_gyro:
-            self._gyro.gyro_scale_correction = config['gyro_scale_correction']
+            self._gyro.reconfigure(config, level)
         self.odom_angular_scale_correction = config['odom_angular_scale_correction']
         self.odom_linear_scale_correction = config['odom_linear_scale_correction']
         self.cmd_vel_timeout = rospy.Duration(config['cmd_vel_timeout'])
         self.stop_motors_on_bump = config['stop_motors_on_bump']
         self.min_abs_yaw_vel = config['min_abs_yaw_vel']
+        self.max_abs_yaw_vel = config['max_abs_yaw_vel']
         return config
 
     def cmd_vel(self, msg):
@@ -205,6 +206,9 @@ class TurtlebotNode(object):
         # speeds, which doesn't work well.
         if self.min_abs_yaw_vel is not None and msg.angular.z != 0.0 and abs(msg.angular.z) < self.min_abs_yaw_vel:
             msg.angular.z = self.min_abs_yaw_vel if msg.angular.z > 0.0 else -self.min_abs_yaw_vel
+        # Limit maximum yaw to avoid saturating the gyro
+        if self.max_abs_yaw_vel is not None and self.max_abs_yaw_vel > 0.0 and msg.angular.z != 0.0 and abs(msg.angular.z) > self.max_abs_yaw_vel: 
+            msg.angular.z = self.max_abs_yaw_vel if msg.angular.z > 0.0 else -self.max_abs_yaw_vel 
         if self.drive_mode == 'twist':
             # convert twist to direct_drive args
             ts  = msg.linear.x * 1000 # m -> mm
