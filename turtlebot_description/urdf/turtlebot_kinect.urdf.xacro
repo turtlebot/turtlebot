@@ -6,14 +6,14 @@
   <include filename="$(find turtlebot_description)/urdf/turtlebot_calibration.xacro" />
 
 <xacro:macro name="turtlebot_kinect">
-  <joint name="base_kinect_joint" type="fixed">
+  <joint name="base_camera_joint" type="fixed">
     <origin xyz="${turtlebot_calib_cam_x} ${turtlebot_calib_cam_y} ${turtlebot_calib_cam_z}" 
             rpy="${turtlebot_calib_cam_rr} ${turtlebot_calib_cam_rp} ${turtlebot_calib_cam_ry}" />
-    <parent link="${turtlebot_kinect_frame_name}" />
-    <child link="kinect_link" />
+    <parent link="${turtlebot_camera_parent_name}" />
+    <child link="camera_link" />
   </joint>
 
-  <link name="kinect_link">
+  <link name="camera_link">
     <inertial>
       <mass value="0.01" />
       <origin xyz="0 0 0" />
@@ -38,13 +38,13 @@
 
   </link>
 
-  <joint name="kinect_depth_joint" type="fixed">
+  <joint name="camera_depth_joint" type="fixed">
     <origin xyz="0 0.018 0" rpy="0 0 0" />
-    <parent link="kinect_link" />
-    <child link="kinect_depth_frame" />
+    <parent link="camera_link" />
+    <child link="camera_depth_frame" />
   </joint>
 
-  <link name="kinect_depth_frame">
+  <link name="camera_depth_frame">
     <inertial>
       <mass value="0.01" />
       <origin xyz="0 0 0" />
@@ -54,13 +54,13 @@
     </inertial>
   </link>
 
-  <joint name="kinect_depth_optical_joint" type="fixed">
+  <joint name="camera_depth_optical_joint" type="fixed">
     <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
-    <parent link="kinect_depth_frame" />
-    <child link="kinect_depth_optical_frame" />
+    <parent link="camera_depth_frame" />
+    <child link="camera_depth_optical_frame" />
   </joint>
 
-  <link name="kinect_depth_optical_frame">
+  <link name="camera_depth_optical_frame">
     <inertial>
       <mass value="0.001" />
       <origin xyz="0 0 0" />
@@ -70,14 +70,13 @@
     </inertial>
   </link>
 
-
-  <joint name="kinect_rgb_joint" type="fixed">
+  <joint name="camera_rgb_joint" type="fixed">
     <origin xyz="0 -0.005 0" rpy="0 0 0" />
-    <parent link="kinect_link" />
-    <child link="kinect_rgb_frame" />
+    <parent link="camera_link" />
+    <child link="camera_rgb_frame" />
   </joint>
 
-  <link name="kinect_rgb_frame">
+  <link name="camera_rgb_frame">
     <inertial>
       <mass value="0.001" />
       <origin xyz="0 0 0" />
@@ -87,14 +86,13 @@
     </inertial>
   </link>
 
-
-  <joint name="kinect_rgb_optical_joint" type="fixed">
+  <joint name="camera_rgb_optical_joint" type="fixed">
     <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
-    <parent link="kinect_rgb_frame" />
-    <child link="kinect_rgb_optical_frame" />
+    <parent link="camera_rgb_frame" />
+    <child link="camera_rgb_optical_frame" />
   </joint>
 
-  <link name="kinect_rgb_optical_frame">
+  <link name="camera_rgb_optical_frame">
     <inertial>
       <mass value="0.001" />
       <origin xyz="0 0 0" />

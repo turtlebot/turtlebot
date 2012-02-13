@@ -7,9 +7,9 @@
   <node pkg="nodelet" type="nodelet" name="openni_manager" output="screen" respawn="true" args="manager"/>
 
   <node pkg="nodelet" type="nodelet" name="openni_camera" args="load openni_camera/OpenNINodelet openni_manager" respawn="true">
-    <param name="rgb_frame_id" value="kinect_rgb_optical_frame" />
-    <param name="depth_frame_id" value="kinect_depth_optical_frame" />
-    <param name="depth_registration" value="false" />
+    <param name="rgb_frame_id" value="camera_rgb_optical_frame" />
+    <param name="depth_frame_id" value="camera_depth_optical_frame" />
+    <param name="depth_registration" value="true" />
     <param name="image_mode" value="2" />
     <param name="depth_mode" value="2" />
     <param name="debayering" value="2" />
@@ -28,7 +28,7 @@
 
   <!-- Fake Laser -->
   <node pkg="nodelet" type="nodelet" name="kinect_laser" args="load pointcloud_to_laserscan/CloudToScan openni_manager" respawn="true">
-    <param name="output_frame_id" value="/kinect_depth_frame"/>
+    <param name="output_frame_id" value="/camera_depth_frame"/>
     <!-- heights are in the (optical?) frame of the kinect -->
     <param name="min_height" value="-0.15"/>
     <param name="max_height" value="0.15"/>
@@ -37,7 +37,7 @@
 
   <!-- Fake Laser (narrow one, for localization -->
   <node pkg="nodelet" type="nodelet" name="kinect_laser_narrow" args="load pointcloud_to_laserscan/CloudToScan openni_manager" respawn="true">
-    <param name="output_frame_id" value="/kinect_depth_frame"/>
+    <param name="output_frame_id" value="/camera_depth_frame"/>
     <!-- heights are in the (optical?) frame of the kinect -->
     <param name="min_height" value="-0.025"/>
     <param name="max_height" value="0.025"/>
