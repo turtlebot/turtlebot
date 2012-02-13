@@ -313,11 +313,11 @@ class Roomba(object):
   def control(self):
     """Start the robot's SCI interface and place it in safe mode."""
     self.passive()
-    self.sci.control()  # Also puts the Roomba in to safe mode.
     if not self.safe:
       self.sci.full()
     else:
-      self.passive()
+      self.sci.safe()
+#    self.sci.control()  # Also puts the Roomba in to safe mode.
     time.sleep(0.5)
 
   def direct_drive(self, velocity_left, velocity_right):
@@ -411,7 +411,6 @@ class Turtlebot(Roomba):
     self.passive()
     if self.safe:
       self.sci.safe()
-      self.passive()
     else:
       self.sci.full()
     time.sleep(0.5)
