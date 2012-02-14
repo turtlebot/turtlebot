@@ -46,7 +46,7 @@ public:
     scan_filtered_pub_ = nh_.advertise<sensor_msgs::LaserScan>("/scan_filtered", 1);
     scan_sub_ = nh_.subscribe("/scan", 1000, &LaserFootprintFilter::update, this);
 
-    nh_.param<double>("footprint_inscribed_radius", inscribed_radius_, 0.16495);
+    nh_.param<double>("footprint_inscribed_radius", inscribed_radius_, 0.16495*1.1);
     nh_.param<std::string>("base_frame", base_frame_, "/base_link");
   }
 
@@ -75,7 +75,7 @@ public:
             return;
         }
     
-        if( !inFootprint(p_transformed) )
+        if( inFootprint(p_transformed) )
         {
             filtered_scan.ranges[i] = filtered_scan.range_max + 1.0;
         }
