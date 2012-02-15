@@ -71,13 +71,14 @@ class ScanToAngle:
                 sum_xy += x*y
                 num += 1
             angle += d_angle
-        angle=atan2((-sum_x*sum_y+num*sum_xy)/(num*sum_xx-sum_x*sum_x), 1)
-        res = ScanAngle()
-        res.header = msg.header
-        res.scan_angle = angle
-        self.pub.publish(res)
-
-
+        if num > 0:
+            angle=atan2((-sum_x*sum_y+num*sum_xy)/(num*sum_xx-sum_x*sum_x), 1)
+            res = ScanAngle()
+            res.header = msg.header
+            res.scan_angle = angle
+            self.pub.publish(res)
+        else:
+            rospy.logerr("Please point me at a wall.")
 
 def main():
     rospy.init_node('scan_to_angle')
