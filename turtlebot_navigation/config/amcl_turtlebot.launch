@@ -1,8 +1,10 @@
 <launch>
 
+  <arg name="use_map_topic" default="false"/>
   <arg name="scan_topic" default="narrow_scan" />
 
-  <node pkg="amcl" type="amcl" name="amcl" args="scan:=/scan">
+  <node pkg="amcl" type="amcl" name="amcl">
+    <param name="use_map_topic" value="$(arg use_map_topic)"/>
     <!-- Publish scans from best pose at a max of 10 Hz -->
     <param name="odom_model_type" value="diff"/>
     <param name="odom_alpha5" value="0.1"/>
