@@ -157,6 +157,7 @@ class TurtlebotNode(object):
         self.cmd_vel_timeout = rospy.Duration(rospy.get_param('~cmd_vel_timeout', 0.6))
         self.stop_motors_on_bump = rospy.get_param('~stop_motors_on_bump', True)
         self.min_abs_yaw_vel = rospy.get_param('~min_abs_yaw_vel', None)
+        self.max_abs_yaw_vel = rospy.get_param('~max_abs_yaw_vel', None)
         self.publish_tf = rospy.get_param('~publish_tf', False)
         self.odom_frame = rospy.get_param('~odom_frame', 'odom')
         self.base_frame = rospy.get_param('~base_frame', 'base_footprint')
