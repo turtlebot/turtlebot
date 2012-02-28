@@ -5,7 +5,7 @@
 <!-- ASUS Xtion PRO camera for simulation -->
 <!-- gazebo_ros_wge100 plugin is in kt2_gazebo_plugins package -->
 <xacro:macro name="turtlebot_sim_asus_xtion">
-  <gazebo reference="kinect_link" >
+  <gazebo reference="camera_link" >
     <sensor:camera name="camera" >
       <imageSize>640 480</imageSize>
       <imageFormat>R8G8B8</imageFormat>
@@ -17,7 +17,7 @@
 	<alwaysOn>true</alwaysOn>
 	<updateRate>5000.0</updateRate>
 	<cameraName>camera/rgb</cameraName>
-	<frameName>kinect_rgb_optical_frame</frameName>
+	<frameName>camera_rgb_optical_frame</frameName>
 	<hackBaseline>0.0</hackBaseline>
 	<CxPrime>320.5</CxPrime>
 	<Cx>320.5</Cx>
@@ -35,8 +35,8 @@
 </xacro:macro>
 
 <xacro:macro name="turtlebot_sim_kinect">
-  <gazebo reference="kinect_link">
-    <sensor:camera name="kinect_camera">
+  <gazebo reference="camera_link">
+    <sensor:camera name="camera">
       <imageFormat>R8G8B8</imageFormat>
       <imageSize>640 480</imageSize>
       <hfov>60</hfov>
@@ -50,7 +50,7 @@
         <imageTopicName>/camera/image_raw</imageTopicName>
         <pointCloudTopicName>/camera/depth/points</pointCloudTopicName>
         <cameraInfoTopicName>/camera/camera_info</cameraInfoTopicName>
-        <frameName>kinect_depth_optical_frame</frameName>
+        <frameName>camera_depth_optical_frame</frameName>
         <distortion_k1>0.0</distortion_k1>
         <distortion_k2>0.0</distortion_k2>
         <distortion_k3>0.0</distortion_k3>
