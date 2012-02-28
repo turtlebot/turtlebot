@@ -272,11 +272,12 @@ class TurtlebotNode(object):
         Set robot into safe run mode
         """
         rospy.loginfo("Setting turtlebot to safe mode.")
+        self.robot.safe = True
+        self.robot.control()
         b1 = (self.sensor_state.user_digital_inputs & 2)/2
         b2 = (self.sensor_state.user_digital_inputs & 4)/4
         self._set_digital_outputs([1, b1, b2])
-        self.robot.safe = True
-        self.robot.control()
+
 
 
     def _robot_run_full(self):
@@ -284,11 +285,12 @@ class TurtlebotNode(object):
         Set robot into full run mode
         """
         rospy.loginfo("Setting turtlebot to full mode.")
+        self.robot.safe = False
+        self.robot.control()
         b1 = (self.sensor_state.user_digital_inputs & 2)/2
         b2 = (self.sensor_state.user_digital_inputs & 4)/4
         self._set_digital_outputs([1, b1, b2])
-        self.robot.safe = False
-        self.robot.control()
+
 
 
     def _set_digital_outputs(self, outputs):
