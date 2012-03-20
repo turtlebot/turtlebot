@@ -38,6 +38,8 @@ rosbuild_add_executable(turtlebot_move_action_server src/turtlebot_move_action_s
 #rosbuild_add_executable(turtlebot_goto_action_server src/turtlebot_goto_action_server.cpp)
 
 rosbuild_add_executable(find_fiducial_pose src/find_fiducial_pose.cpp src/detect_calibration_pattern.cpp)
+find_package(OpenCV)
+target_link_libraries(find_fiducial_pose ${OpenCV_LIBRARIES})
 
 #rosbuild_add_executable(follow_fiducial test/follow_fiducial.cpp)
 #target_link_libraries(example ${PROJECT_NAME})

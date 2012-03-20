@@ -12,7 +12,7 @@
   <depend package="roscpp"/>
   <depend package="actionlib"/>
   <depend package="tf"/>
-  <depend package="opencv2"/>
+  <rosdep name="opencv2"/>
   <depend package="image_transport"/>
   <depend package="common_rosdeps" />
   <rosdep name="eigen" />
