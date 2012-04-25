@@ -1,5 +1,8 @@
 <launch>
 
+  <node pkg="mjpeg_server" type="mjpeg_server"  name="mjpeg_server" output="screen">
+                <param name="port" type="int" value="8181" />
+  </node>
   <param name="camera/rgb/image_color/compressed/jpeg_quality" value="22"/>
 
   <include file="$(find turtlebot_bringup)/kinect.launch"/>
