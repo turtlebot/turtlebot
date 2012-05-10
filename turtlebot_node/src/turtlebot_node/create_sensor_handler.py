@@ -39,7 +39,7 @@ import rospy
 from math import radians
 from turtlebot_driver import SENSOR_GROUP_PACKET_LENGTHS
 
-_struct_I = roslib.message.struct_I
+#_struct_I = roslib.message.struct_I
 _struct_BI = struct.Struct(">BI")
 _struct_12B2hBHhb7HBH5B4h = struct.Struct(">12B2hBHhb7HBH5B4h")
 

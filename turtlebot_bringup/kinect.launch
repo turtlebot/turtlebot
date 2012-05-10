@@ -6,7 +6,7 @@
   <!-- Kinect -->
   <node pkg="nodelet" type="nodelet" name="openni_manager" output="screen" respawn="true" args="manager"/>
 
-  <node pkg="nodelet" type="nodelet" name="openni_camera" args="load openni_camera/OpenNINodelet openni_manager" respawn="true">
+  <node pkg="nodelet" type="nodelet" name="openni_launch" args="load openni_camera/OpenNINodelet openni_manager" respawn="true">
     <param name="rgb_frame_id" value="camera_rgb_optical_frame" />
     <param name="depth_frame_id" value="camera_depth_optical_frame" />
     <param name="depth_registration" value="true" />
@@ -16,7 +16,7 @@
     <param name="depth_time_offset" value="-0.055" />
     <param name="image_time_offset" value="0" />
 
-    <rosparam command="load" file="$(find openni_camera)/info/openni_params.yaml" />
+    <rosparam command="load" />
   </node>
 
   <!-- throttling -->
