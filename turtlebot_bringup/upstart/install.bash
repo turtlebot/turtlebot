@@ -9,11 +9,11 @@
 # sudo ./install.bash usb0 fuerte
 #
 # where usb0 is whatever network interface you want to set the robot
-# up for.  wlan0 is the default.
+# up for.  Default wireless interface is the default.
 # and fuerte is the specified version of ROS to use.
 # Default is the latest installed.
 
-interface=wlan0
+interface=$(iwconfig 2>/dev/null | awk '{print $1}' | head -n1)
 
 if [ $# -gt 0 ]; then
     if [ "$1" != "" ]; then
@@ -27,6 +27,20 @@ if [ $# -gt 1 ]; then
     if [ "$2" != "" ]; then
         release=$2
     fi
+fi
+
+# checks if turtlebot user+group exists, if it doesn't, then it creates a turtlebot daemon.
+
+if grep "^turtlebot:" /etc/group >/dev/null 2>&1; then
+else
+    echo "Group turtlebot does not exist, creating."
+    groupadd turtlebot
+fi
+
+if id -u turtlebot >/dev/null 2>&1; then
+else
+    echo "User turtlebot does not exist, creating and adding it to group turtlebot."
+    useradd -rg turtlebot turtlebot
 fi
 
 source /opt/ros/$release/setup.bash

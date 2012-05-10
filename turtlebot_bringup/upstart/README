@@ -1,6 +1,6 @@
 To install upstart files, use install.bash in this directory.
 
-To set up for wlan0 use (the default), do:
+To set up for the default wireless interface, do:
 
 $ sudo ./install.bash
 
