@@ -9,7 +9,7 @@
 # sudo ./install.bash usb0 fuerte
 #
 # where usb0 is whatever network interface you want to set the robot
-# up for.  Default wireless interface is the default.
+# up for.
 # and fuerte is the specified version of ROS to use.
 # Default is the latest installed.
 
