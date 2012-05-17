@@ -199,6 +199,29 @@ class CalibrateRobot:
             self.scan_time = msg.header.stamp
 
 
+def writeParamsToLaunchFile(gyro, odom):
+    try:
+        f = open("/etc/ros/distro/turtlebot.launch", "r")
+        # this is totally NOT the best way to solve this problem.
+        foo = []
+        for lines in f:
+            if "turtlebot_node/gyro_scale_correction" in lines:
+                foo.append("  <param name=\"turtlebot_node/gyro_scale_correction\" value=\"%f\"/>\n" % gyro)
+            elif "turtlebot_node/odom_angular_scale_correction" in lines:
+                foo.append("  <param name=\"turtlebot_node/odom_angular_scale_correction\" value=\"%f\"/>\n" % odom)
+            else:
+                foo.append(lines)
+        f.close()
+
+        # and... write!
+        f = open("/etc/ros/distro/turtlebot.launch", "w")
+        for i in foo:
+            f.write(i)
+        f.close()
+        rospy.loginfo("Automatically updated turtlebot.launch, please restart the turtlebot service.")
+    except:
+        rospy.loginfo("Could not automatically update turtlebot.launch, please manually update it.")
+
 
 def main():
     rospy.init_node('scan_to_angle')
@@ -220,6 +243,7 @@ def main():
 
     odom_res = 1.0/(sum(odom_corr)/len(odom_corr))
     rospy.loginfo("Multiply the 'turtlebot_node/odom_angular_scale_correction' parameter with %f"%odom_res)
+    writeParamsToLaunchFile(imu_res, odom_res)
 
 
 if __name__ == '__main__':
