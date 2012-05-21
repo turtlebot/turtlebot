@@ -15,6 +15,9 @@
 
 interface=$(iwconfig 2>/dev/null | awk '{print $1}' | head -n1)
 
+#stackPath=/opt/ros/fuerte/stacks/turtlebot/turtlebot_bringup/upstart
+stackPath=./
+
 if [ $# -gt 0 ]; then
     if [ "$1" != "" ]; then
         interface=$1
@@ -31,32 +34,37 @@ fi
 
 # checks if turtlebot user+group exists, if it doesn't, then it creates a turtlebot daemon.
 
-if grep "^turtlebot:" /etc/group >/dev/null 2>&1; then
-else
+if ! grep "^turtlebot:" /etc/group >/dev/null 2>&1; then
     echo "Group turtlebot does not exist, creating."
     groupadd turtlebot
 fi
 
-if id -u turtlebot >/dev/null 2>&1; then
-else
-    echo "User turtlebot does not exist, creating and adding it to group turtlebot."
-    useradd -rg turtlebot turtlebot
+if ! id -u turtlebot >/dev/null 2>&1; then
+    echo "User turtlebot does not exist, creating and adding it to groups turtlebot and sudo."
+    useradd -g turtlebot turtlebot
+    usermod turtlebot -G sudo
+    if [ ! -e /home/turtlebot ]; then
+        echo "Turtlebot home directory was not created, creating."
+        mkdir /home/turtlebot
+        chown turtlebot:turtlebot /home/turtlebot
+    fi
 fi
+
+cp $stackPath/52-turtlebot.rules /etc/udev/rules.d/
 
 source /opt/ros/$release/setup.bash
 
 echo "Installing using network interface $interface."
 
-sed "s/wlan0/$interface/g" < turtlebot-start | sed "s/electric/$release/"g > /usr/sbin/turtlebot-start
+sed "s/wlan0/$interface/g" < $stackPath/turtlebot-start | sed "s/electric/$release/"g > /usr/sbin/turtlebot-start
 chmod +x /usr/sbin/turtlebot-start
-sed "s/wlan0/$interface/g" < turtlebot-stop | sed "s/electric/$release/"g > /usr/sbin/turtlebot-stop
+sed "s/wlan0/$interface/g" < $stackPath/turtlebot-stop | sed "s/electric/$release/"g > /usr/sbin/turtlebot-stop
 chmod +x /usr/sbin/turtlebot-stop
-sed "s/wlan0/$interface/g" < turtlebot.conf > /etc/init/turtlebot.conf
+sed "s/wlan0/$interface/g" < $stackPath/turtlebot.conf > /etc/init/turtlebot.conf
 
 # Copy files into /etc/ros/$release/turtlebot
 mkdir -p /etc/ros
 mkdir -p /etc/ros/$release
-cat turtlebot.launch > /etc/ros/$release/turtlebot.launch
+cat $stackPath/turtlebot.launch > /etc/ros/$release/turtlebot.launch
 
-echo ". /opt/ros/$release/setup.bash; export ROS_PACKAGE_PATH=/home/turtlebot/ros:${ROS_PACKAGE_PATH}" > /etc/ros/setup.bash
-
+echo ". /opt/ros/$release/setup.bash;" > /etc/ros/setup.bash
