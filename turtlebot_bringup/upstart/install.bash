@@ -32,6 +32,11 @@ if [ $# -gt 1 ]; then
     fi
 fi
 
+
+source /opt/ros/$release/setup.bash
+OLD_DIR=$(pwd)
+cd `rospack find turtlebot_bringup`/upstart
+
 # checks if turtlebot user+group exists, if it doesn't, then it creates a turtlebot daemon.
 
 if ! grep "^turtlebot:" /etc/group >/dev/null 2>&1; then
@@ -68,3 +73,5 @@ mkdir -p /etc/ros/$release
 cat $stackPath/turtlebot.launch > /etc/ros/$release/turtlebot.launch
 
 echo ". /opt/ros/$release/setup.bash;" > /etc/ros/setup.bash
+
+cd $OLD_DIR
