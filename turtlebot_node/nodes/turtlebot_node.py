@@ -161,6 +161,7 @@ class TurtlebotNode(object):
         self.publish_tf = rospy.get_param('~publish_tf', False)
         self.odom_frame = rospy.get_param('~odom_frame', 'odom')
         self.base_frame = rospy.get_param('~base_frame', 'base_footprint')
+        self.operate_mode = rospy.get_param('~operation_mode', 3)
 
         rospy.loginfo("serial port: %s"%(self.port))
         rospy.loginfo("update_rate: %s"%(self.update_rate))
@@ -235,6 +236,8 @@ class TurtlebotNode(object):
     def set_operation_mode(self,req):
         if not self.robot.sci:
             raise Exception("Robot not connected, SCI not available")
+
+        self.operate_mode = req.mode
 
         if req.mode == 1: #passive
             self._robot_run_passive()
@@ -395,8 +398,11 @@ class TurtlebotNode(object):
             # ACT
             if self.req_cmd_vel is not None:
                 # check for velocity command and set the robot into full mode if not plugged in
-                if s.oi_mode < 3 and s.charging_sources_available != 1:
-                    self._robot_run_full()
+                if s.oi_mode != self.operate_mode and s.charging_sources_available != 1:
+                    if self.operate_mode == 2:
+                        self._robot_run_safe()
+                    else:
+                        self._robot_run_full()
 
                 # check for bumper contact and limit drive command
                 req_cmd_vel = self.check_bumpers(s, self.req_cmd_vel)
