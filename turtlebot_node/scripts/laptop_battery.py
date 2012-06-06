@@ -54,8 +54,12 @@ def _strip_Ah(raw_val):
         rv = float(raw_val.rstrip('mAh').strip()) / 1000.0
     elif 'Ah' in raw_val:
         rv = float(raw_val.rstrip('Ah').strip())
+    elif 'mWh' in raw_val:
+        rv = float(raw_val.rstrip('mWh').strip()) / 1000.0
+    elif 'Wh' in raw_val:
+        rv = float(raw_val.rstrip('Wh').strip())
     else:
-        raise Exception('Value %s did not have "Ah" or "mAh"' % raw_val)
+        raise Exception('Value %s did not have supported units. (mAh,Ah,mWh,Wh)' % raw_val)
     return rv
 
 def _strip_V(raw_val):
@@ -72,8 +76,12 @@ def _strip_A(raw_val):
         rv = float(raw_val.rstrip('mA').strip()) / 1000.0
     elif 'A' in raw_val:
         rv = float(raw_val.rstrip('A').strip())
+    elif 'mW' in raw_val:
+        rv = float(raw_val.rstrip('mW').strip()) / 1000.0
+    elif 'W' in raw_val:
+        rv = float(raw_val.rstrip('W').strip())
     else:
-        raise Exception('Value %s did not have "A" or "mA"' % raw_val)
+        raise Exception('Value %s did not have supported units. (A,mA,W,mW)' % raw_val)
     return rv
 
 def slerp(filename):
@@ -84,8 +92,8 @@ def slerp(filename):
     return data
 
 #/proc/acpi/battery/BAT0/state
-def _check_battery_info():
-    o = slerp('/proc/acpi/battery/BAT0/info')
+def _check_battery_info(_battery_acpi_path):
+    o = slerp(_battery_acpi_path+'/info')
 
     batt_info = yaml.load(o)
     design_capacity    = _strip_Ah(batt_info.get('design capacity',    '0 mAh'))
@@ -101,11 +109,11 @@ diag_level_to_msg = { DiagnosticStatus.OK:    'OK',
                       DiagnosticStatus.WARN:  'Warning',
                       DiagnosticStatus.ERROR: 'Error'    }
 
-def _check_battery_state():
+def _check_battery_state(_battery_acpi_path):
     """
     @return LaptopChargeStatus
     """
-    o = slerp('/proc/acpi/battery/BAT0/state')
+    o = slerp(_battery_acpi_path+'/state')
 
     batt_info = yaml.load(o)
 
@@ -155,6 +163,7 @@ class LaptopBatteryMonitor(object):
         self._diag_pub  = rospy.Publisher('/diagnostics', DiagnosticArray)
         
         # Battery info
+        self._batt_acpi_path = rospy.get_param('~acpi_path', "/proc/acpi/battery/BAT0")
         self._batt_design_capacity = 0
         self._batt_last_full_capacity = 0
         self._last_info_update = 0
@@ -174,7 +183,7 @@ class LaptopBatteryMonitor(object):
         rate = rospy.Rate(self._batt_info_rate)
         while not rospy.is_shutdown():
             try:
-                design_cap, last_full_cap = _check_battery_info()
+                design_cap, last_full_cap = _check_battery_info(self._batt_acpi_path)
                 with self._mutex:
                     self._batt_last_full_capacity = last_full_cap
                     self._batt_design_capacity    = design_cap
@@ -188,7 +197,7 @@ class LaptopBatteryMonitor(object):
         rate = rospy.Rate(self._batt_state_rate)
         while not rospy.is_shutdown():
             try:
-                msg = _check_battery_state()
+                msg = _check_battery_state(self._batt_acpi_path)
                 with self._mutex:
                     self._msg = msg
                     self._last_state_update = rospy.get_time()
