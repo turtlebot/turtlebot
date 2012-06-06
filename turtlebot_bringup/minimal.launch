@@ -18,6 +18,7 @@
 
   <!-- Turtlebot Laptop Battery Diagnostics -->
   <node pkg="turtlebot_node" type="laptop_battery.py" name="turtlebot_laptop_battery">
+        <param name="acpi_path" type="string" value="/proc/acpi/battery/BAT0" />
   </node>
 
   <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" output="screen">
