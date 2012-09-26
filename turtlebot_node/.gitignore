@@ -1,0 +1,10 @@
+/bin
+/build
+/srv_gen
+/msg_gen
+*.pyc
+/src/turtlebot_node/cfg/
+/src/turtlebot_node/msg/
+/src/turtlebot_node/srv/
+/docs
+

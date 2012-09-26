@@ -1,0 +1,27 @@
+<!--
+  The mobile platform base.
+  
+  We use this to move kobuki driver public topics/services out from their 
+  private namespace (maybe should do that in kobuki_node itself?)
+ -->
+<launch>
+  <arg name="base"/>
+  <node pkg="kobuki_node" type="kobuki_node" name="mobile_base" output="screen" required="true">
+    <rosparam file="$(find turtlebot_bringup)/yaml/$(arg base)/base.yaml" command="load"/>
+    <remap from="mobile_base/odom" to="odom"/>
+    <remap from="mobile_base/cmd_vel" to="cmd_vel"/>
+    <remap from="mobile_base/enable" to="enable"/>
+    <remap from="mobile_base/disable" to="disable"/>
+    <remap from="mobile_base/joint_states" to="joint_states"/>
+  </node>
+  <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+    <remap from="imu_data" to="mobile_base/sensors/imu_data"/>
+    <param name="freq" value="10.0"/>
+    <param name="sensor_timeout" value="1.0"/>
+    <param name="odom_used" value="true"/>
+    <param name="imu_used" value="true"/>
+    <param name="vo_used" value="false"/>
+    <param name="output_frame" value="odom"/>
+  </node>
+</launch>
+

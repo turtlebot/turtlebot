@@ -1,0 +1,18 @@
+<launch>
+  <arg name="base" value="$(optenv TURTLEBOT_BASE kobuki)"/>  <!-- create, rhoomba -->
+  <arg name="simulation" value="false"/>
+  <param name="/use_sim_time" value="$(arg simulation)"/>
+  
+  <include file="$(find turtlebot_bringup)/launch/components/zeroconf.launch"/>
+  <include file="$(find turtlebot_bringup)/launch/components/robot.launch">
+    <arg name="base" value="$(arg base)" />
+  </include>
+  <include file="$(find turtlebot_bringup)/launch/$(arg base)/mobile_base.launch">
+    <arg name="base" value="$(arg base)" />
+  </include>
+  <include file="$(find turtlebot_bringup)/launch/components/netbook.launch"/>
+  <include file="$(find turtlebot_bringup)/launch/components/app_manager.launch">
+    <arg name="base" value="$(arg base)" />
+  </include>
+
+</launch>

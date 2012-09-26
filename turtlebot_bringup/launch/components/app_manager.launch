@@ -1,7 +1,8 @@
 <launch>
+  <arg name="base"/>
   <node pkg="app_manager" type="appmaster" name="appmaster" args="-p 11312"/>
 
-  <node pkg="app_manager" type="app_manager" name="app_manager" args="--applist $(find turtlebot_bringup)/mock_apps" output="screen">
+  <node pkg="app_manager" type="app_manager" name="app_manager" args="--applist $(find turtlebot_bringup)/apps/$(arg base)" output="screen">
         <param name="interface_master" value="http://localhost:11312"/>
   </node>
 </launch>

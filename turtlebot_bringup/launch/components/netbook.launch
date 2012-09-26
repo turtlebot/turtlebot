@@ -1,0 +1,11 @@
+<!--
+  Netbook battery monitor
+  
+  Todo: check that kobuki's netbook monitor is not different/better
+ -->
+<launch>
+  <node pkg="turtlebot_node" type="laptop_battery.py" name="turtlebot_laptop_battery">
+        <param name="acpi_path" type="string" value="/proc/acpi/battery/BAT0" />
+  </node>
+</launch>
+  
