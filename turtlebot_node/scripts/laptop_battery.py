@@ -37,7 +37,7 @@
 
 from __future__ import division
 
-import roslib; roslib.load_manifest('turtlebot_node')
+import roslib; roslib.load_manifest('kobuki_node')
 
 from   collections import deque
 import threading
@@ -45,6 +45,7 @@ import copy
 import yaml
 import math
 import rospy
+import os  # to check path existence
 
 from turtlebot_node.msg import LaptopChargeStatus
 from diagnostic_msgs.msg import DiagnosticStatus, DiagnosticArray, KeyValue
@@ -59,7 +60,7 @@ def _strip_Ah(raw_val):
     elif 'Wh' in raw_val:
         rv = float(raw_val.rstrip('Wh').strip())
     else:
-        raise Exception('Value %s did not have supported units. (mAh,Ah,mWh,Wh)' % raw_val)
+        raise Exception('Value %s did not have "Ah" or "mAh"' % raw_val)
     return rv
 
 def _strip_V(raw_val):
@@ -81,7 +82,7 @@ def _strip_A(raw_val):
     elif 'W' in raw_val:
         rv = float(raw_val.rstrip('W').strip())
     else:
-        raise Exception('Value %s did not have supported units. (A,mA,W,mW)' % raw_val)
+        raise Exception('Value %s did not have "A" or "mA"' % raw_val)
     return rv
 
 def slerp(filename):
@@ -92,8 +93,13 @@ def slerp(filename):
     return data
 
 #/proc/acpi/battery/BAT0/state
-def _check_battery_info(_battery_acpi_path):
-    o = slerp(_battery_acpi_path+'/info')
+def _check_battery_info():
+    if os.access('/proc/acpi/battery/BAT0', os.F_OK):
+        o = slerp('/proc/acpi/battery/BAT0/info')
+    elif os.access('/proc/acpi/battery/BAT1', os.F_OK):
+        o = slerp('/proc/acpi/battery/BAT1/info')
+    else:
+        raise Exception('/proc/acpi/battery/BAT* directory is not exist.')
 
     batt_info = yaml.load(o)
     design_capacity    = _strip_Ah(batt_info.get('design capacity',    '0 mAh'))
@@ -109,14 +115,18 @@ diag_level_to_msg = { DiagnosticStatus.OK:    'OK',
                       DiagnosticStatus.WARN:  'Warning',
                       DiagnosticStatus.ERROR: 'Error'    }
 
-def _check_battery_state(_battery_acpi_path):
+def _check_battery_state():
     """
     @return LaptopChargeStatus
     """
-    o = slerp(_battery_acpi_path+'/state')
+    if os.access('/proc/acpi/battery/BAT0', os.F_OK):
+        o = slerp('/proc/acpi/battery/BAT0/state')
+    elif os.access('/proc/acpi/battery/BAT1', os.F_OK):
+        o = slerp('/proc/acpi/battery/BAT1/state')
+    else:
+        raise Exception('/proc/acpi/battery/BAT* directory is not exist.')
 
     batt_info = yaml.load(o)
-
     rv = LaptopChargeStatus()
 
     state = batt_info.get('charging state', 'discharging')
@@ -163,7 +173,6 @@ class LaptopBatteryMonitor(object):
         self._diag_pub  = rospy.Publisher('/diagnostics', DiagnosticArray)
         
         # Battery info
-        self._batt_acpi_path = rospy.get_param('~acpi_path', "/proc/acpi/battery/BAT0")
         self._batt_design_capacity = 0
         self._batt_last_full_capacity = 0
         self._last_info_update = 0
@@ -183,13 +192,14 @@ class LaptopBatteryMonitor(object):
         rate = rospy.Rate(self._batt_info_rate)
         while not rospy.is_shutdown():
             try:
-                design_cap, last_full_cap = _check_battery_info(self._batt_acpi_path)
+                design_cap, last_full_cap = _check_battery_info()
                 with self._mutex:
                     self._batt_last_full_capacity = last_full_cap
                     self._batt_design_capacity    = design_cap
                     self._last_info_update        = rospy.get_time()
             except Exception, e:
                 rospy.logwarn('Unable to check laptop battery info. Exception: %s' % e)
+                rospy.signal_shutdown('Unable to check laptop battery state. Exception: %s' % e)
                 
             rate.sleep()
 
@@ -197,12 +207,13 @@ class LaptopBatteryMonitor(object):
         rate = rospy.Rate(self._batt_state_rate)
         while not rospy.is_shutdown():
             try:
-                msg = _check_battery_state(self._batt_acpi_path)
+                msg = _check_battery_state()
                 with self._mutex:
                     self._msg = msg
                     self._last_state_update = rospy.get_time()
             except Exception, e:
                 rospy.logwarn('Unable to check laptop battery state. Exception: %s' % e)
+                rospy.signal_shutdown('Unable to check laptop battery state. Exception: %s' % e)
                 
             rate.sleep()
 
