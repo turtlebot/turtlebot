@@ -60,7 +60,7 @@ def _strip_Ah(raw_val):
     elif 'Wh' in raw_val:
         rv = float(raw_val.rstrip('Wh').strip())
     else:
-        raise Exception('Value %s did not have "Ah" or "mAh"' % raw_val)
+        raise Exception('Value %s did not have supported units. (mAh,Ah,mWh,Wh)' % raw_val)
     return rv
 
 def _strip_V(raw_val):
@@ -82,7 +82,7 @@ def _strip_A(raw_val):
     elif 'W' in raw_val:
         rv = float(raw_val.rstrip('W').strip())
     else:
-        raise Exception('Value %s did not have "A" or "mA"' % raw_val)
+        raise Exception('Value %s did not have supported units. (mAh,Ah,mWh,Wh)' % raw_val)
     return rv
 
 def slerp(filename):
@@ -92,7 +92,9 @@ def slerp(filename):
     data = data.replace('\t', '  ')
     return data
 
-#/proc/acpi/battery/BAT0/state
+# Parameterise battery status location if we need as done in the old turtlebot repository. 
+# I like this better as is though, no need to expose parameters and complicate things
+# unless we really need to.
 def _check_battery_info():
     if os.access('/proc/acpi/battery/BAT0', os.F_OK):
         o = slerp('/proc/acpi/battery/BAT0/info')
