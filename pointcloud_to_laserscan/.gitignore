@@ -1,2 +1,6 @@
+docs
+src/pointcloud_to_laserscan
 build
 lib
+cfg/cpp
+

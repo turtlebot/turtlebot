@@ -1,7 +1,7 @@
 <launch>
+  <arg name="base" value="$(optenv TURTLEBOT_BASE kobuki)"/>  <!-- create, rhoomba -->
 
-  <!-- Enable breaker 1 for the kinect -->
-  <node pkg="turtlebot_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
+  <include file="$(find turtlebot_bringup)/launch/$(arg base)/_kinect_extras.launch"/>
 
   <!-- Kinect -->
   <node pkg="nodelet" type="nodelet" name="openni_manager" output="screen" respawn="true" args="manager"/>
@@ -18,6 +18,17 @@
 
     <rosparam command="load" />
   </node>
+
+  <!-- 
+    An alternative way - load standard constellation of processing nodelets from the openni launcher directly
+    In this case, the nodelete managers should have the name /camera_nodelet_manager 
+  -->
+  <!-- 
+  <include file="$(find openni_launch)/launch/openni.launch" ns="/">
+    <arg name="camera" value="camera"/>
+    <arg name="publish_tf" default="false"/>
+  </include>
+   -->
 
   <!-- throttling -->
   <node pkg="nodelet" type="nodelet" name="pointcloud_throttle" args="load pointcloud_to_laserscan/CloudThrottle openni_manager" respawn="true">

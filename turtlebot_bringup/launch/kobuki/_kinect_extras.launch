@@ -1,0 +1,7 @@
+<!--
+  Kobuki based platform doesn't need any extras for the kinect, but it needs this file for
+  the launcher platform setting magic in kinect.launch 
+ -->
+<launch>
+</launch>
+

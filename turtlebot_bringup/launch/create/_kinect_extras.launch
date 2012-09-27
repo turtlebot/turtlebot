@@ -1,0 +1,8 @@
+<!--
+  Platform specific extras required by the create based turtlebot.
+ -->
+<launch>
+  <!-- Enable breaker 1 for the kinect -->
+  <node pkg="turtlebot_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
+</launch>
+
