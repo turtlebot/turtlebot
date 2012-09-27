@@ -15,6 +15,6 @@
     <!--param name="tf_prefix" type="string" value="" /-->
   </node>
   <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
-    <rosparam command="load" file="$(find turtlebot_bringup)/yaml/$(arg base)/diagnostics.yaml" />
+    <rosparam command="load" file="$(find turtlebot_bringup)/param/$(arg base)/diagnostics.yaml" />
   </node>
 </launch>

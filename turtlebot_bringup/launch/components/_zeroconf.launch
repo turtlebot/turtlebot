@@ -1,6 +1,6 @@
 <launch>
   <node pkg="zeroconf_avahi" type="zeroconf" name="zeroconf"  output="screen">
-    <rosparam file="$(find turtlebot_bringup)/yaml/zeroconf.yaml" command="load"/>
+    <rosparam file="$(find turtlebot_bringup)/param/zeroconf.yaml" command="load"/>
     <!-- 
     <rosparam param="services">
       [ { name: "Turtlebot", type: _ros-master._tcp, domain: local, description: "ros master" } ]

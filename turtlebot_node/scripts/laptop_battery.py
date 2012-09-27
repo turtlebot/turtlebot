@@ -101,7 +101,7 @@ def _check_battery_info():
     elif os.access('/proc/acpi/battery/BAT1', os.F_OK):
         o = slerp('/proc/acpi/battery/BAT1/info')
     else:
-        raise Exception('/proc/acpi/battery/BAT* directory is not exist.')
+        raise Exception('/proc/acpi/battery/BAT* directory does not exist.')
 
     batt_info = yaml.load(o)
     design_capacity    = _strip_Ah(batt_info.get('design capacity',    '0 mAh'))
@@ -126,7 +126,7 @@ def _check_battery_state():
     elif os.access('/proc/acpi/battery/BAT1', os.F_OK):
         o = slerp('/proc/acpi/battery/BAT1/state')
     else:
-        raise Exception('/proc/acpi/battery/BAT* directory is not exist.')
+        raise Exception('/proc/acpi/battery/BAT* directory does not exist.')
 
     batt_info = yaml.load(o)
     rv = LaptopChargeStatus()

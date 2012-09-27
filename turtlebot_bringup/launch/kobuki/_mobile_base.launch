@@ -7,7 +7,7 @@
 <launch>
   <arg name="base"/>
   <node pkg="kobuki_node" type="kobuki_node" name="mobile_base" output="screen" required="true">
-    <rosparam file="$(find turtlebot_bringup)/yaml/$(arg base)/base.yaml" command="load"/>
+    <rosparam file="$(find turtlebot_bringup)/param/$(arg base)/base.yaml" command="load"/>
     <remap from="mobile_base/odom" to="odom"/>
     <remap from="mobile_base/cmd_vel" to="cmd_vel"/>
     <remap from="mobile_base/enable" to="enable"/>
