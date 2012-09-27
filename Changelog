@@ -1,0 +1,10 @@
+
+===== Turtlebot 2 =====
+
+To make it easy for others to follow, this covers the sweeping changes made while getting 
+ready for turtlebot2.
+
+- Platform: using roslaunch argument 'base' to customise what gets launched for which platform.
+  - This indirectly can be set via the TURTLEBOT_BASE environment variable.
+- Zeroconf: for advertising the ros master.
+
