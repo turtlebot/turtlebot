@@ -1,7 +1,7 @@
 <!--
   Used for visualising turtlebot in action.  
   
-  It requires minimal.launch to already be up and running.
+  It requires minimal.launch and optionally kinect.launch to already be up and running.
  -->
 <launch>
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtlebot_bringup)/rviz/turtlebot.vcg" />

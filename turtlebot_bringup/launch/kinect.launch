@@ -5,28 +5,20 @@
 
   <!-- Kinect -->
   <node pkg="nodelet" type="nodelet" name="openni_manager" output="screen" respawn="true" args="manager"/>
-
   <node pkg="nodelet" type="nodelet" name="openni_launch" args="load openni_camera/OpenNINodelet openni_manager" respawn="true">
-    <param name="rgb_frame_id" value="camera_rgb_optical_frame" />
-    <param name="depth_frame_id" value="camera_depth_optical_frame" />
-    <param name="depth_registration" value="true" />
-    <param name="image_mode" value="2" />
-    <param name="depth_mode" value="2" />
-    <param name="debayering" value="2" />
-    <param name="depth_time_offset" value="-0.055" />
-    <param name="image_time_offset" value="0" />
-
-    <rosparam command="load" />
+    <rosparam file="$(find turtlebot_bringup)/param/kinect.yaml" command="load"/>
   </node>
-
   <!-- 
-    An alternative way - load standard constellation of processing nodelets from the openni launcher directly
-    In this case, the nodelete managers should have the name /camera_nodelet_manager 
+    Alternative way - load standard constellation of processing nodelets from the openni launcher directly
+    This I suspect is too heavy - see http://www.ros.org/wiki/openni_camera 
   -->
   <!-- 
   <include file="$(find openni_launch)/launch/openni.launch" ns="/">
     <arg name="camera" value="camera"/>
-    <arg name="publish_tf" default="false"/>
+    <arg name="publish_tf" default="true"/>
+    <arg name="rgb_frame_id" value="$(arg camera)__rgb_optical_frame" />
+    <arg name="depth_frame_id" value="$(arg camera)_depth_optical_frame" />
+    <arg name="depth_registration" value="true" />
   </include>
    -->
 
