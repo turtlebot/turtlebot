@@ -92,12 +92,12 @@ def slerp(filename):
     data = data.replace('\t', '  ')
     return data
 
-# Parameterise battery status location if we need as done in the old turtlebot repository. 
-# I like this better as is though, no need to expose parameters and complicate things
-# unless we really need to.
 def _check_battery_info(_battery_acpi_path):
-    o = slerp(_battery_acpi_path+'/info')
-
+    if os.access(_battery_acpi_path, os.F_OK):
+        o = slerp(_battery_acpi_path+'/info')
+    else:
+        raise Exception(_battery_acpi_path+' does not exist')
+    
     batt_info = yaml.load(o)
     design_capacity    = _strip_Ah(batt_info.get('design capacity',    '0 mAh'))
     last_full_capacity = _strip_Ah(batt_info.get('last full capacity', '0 mAh'))
@@ -116,7 +116,11 @@ def _check_battery_state(_battery_acpi_path):
     """
     @return LaptopChargeStatus
     """
-    o = slerp(_battery_acpi_path+'/state')
+    if os.access(_battery_acpi_path, os.F_OK):
+        o = slerp(_battery_acpi_path+'/state')
+    else:
+        raise Exception(_battery_acpi_path+' does not exist')
+    
     batt_info = yaml.load(o)
     rv = LaptopChargeStatus()
 
@@ -190,8 +194,8 @@ class LaptopBatteryMonitor(object):
                     self._batt_design_capacity    = design_cap
                     self._last_info_update        = rospy.get_time()
             except Exception, e:
-                rospy.logwarn('Unable to check laptop battery info. Exception: %s' % e)
-                rospy.signal_shutdown('Unable to check laptop battery state. Exception: %s' % e)
+                rospy.logwarn('Battery : unable to check laptop battery info [%s]' % e)
+                rospy.signal_shutdown('Battery : unable to check laptop battery info [%s]' % e)
                 
             rate.sleep()
 
@@ -204,8 +208,8 @@ class LaptopBatteryMonitor(object):
                     self._msg = msg
                     self._last_state_update = rospy.get_time()
             except Exception, e:
-                rospy.logwarn('Unable to check laptop battery state. Exception: %s' % e)
-                rospy.signal_shutdown('Unable to check laptop battery state. Exception: %s' % e)
+                rospy.logwarn('Battery : unable to check laptop battery state [%s]' % e)
+                rospy.signal_shutdown('Battery : unable to check laptop battery state [%s]' % e)
                 
             rate.sleep()
 
