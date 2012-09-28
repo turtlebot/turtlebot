@@ -28,7 +28,7 @@
       <arg name="publish_tf" default="false"/>
       <arg name="rgb_frame_id" value="$(arg camera)_rgb_optical_frame" />
       <arg name="depth_frame_id" value="$(arg camera)_depth_optical_frame" />
-      <arg name="depth_registration" value="false" />
+      <arg name="depth_registration" value="true" />
     </include>
   </group>
 
