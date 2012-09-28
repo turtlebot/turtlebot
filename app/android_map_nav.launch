@@ -1,7 +1,9 @@
 <launch>
+  <arg name="base" value="$(optenv TURTLEBOT_BASE kobuki)"/>  <!-- create, rhoomba -->
+  
   <param name="camera/rgb/image_color/compressed/jpeg_quality" value="22"/>
 
-  <include file="$(find openni_camera)/launch/kinect_frames.launch"/>
+  <include file="$(find openni_launch)/launch/kinect_frames.launch"/>
 
   <!-- Make a slower camera feed available. -->
   <node pkg="topic_tools" type="throttle" name="camera_throttle" output="screen"
@@ -17,20 +19,25 @@
     </rosparam>
   </node>
 
-  <include file="$(find turtlebot_bringup)/kinect.launch"/>
+  <include file="$(find turtlebot_bringup)/launch/kinect.launch"/>
 
   <!--- Run Move Base and Robot Pose EKF -->
-  <include file="$(find turtlebot_navigation)/config/move_base_turtlebot.launch" />
+  <include file="$(find turtlebot_navigation)/launch/_move_base.launch">
+    <arg name="base" value="$(arg base)" />
+  </include>
 
   <!-- Load the maps from a warehouse. -->
   <node name="mongo" type="wrapper.py" pkg="mongodb" output="log">
     <param name="database_path" value="warehouse_data"/>
     <param name="overwrite" value="false"/>
+    <!--  
+     -->
   </node>
-  <node pkg="map_store" type="map_loader" name="map_manager" output="screen"/>
+  <!-- <node pkg="map_store" type="map_loader" name="map_manager" output="screen"/> -->
+  <node pkg="map_store" type="map_manager" name="map_manager" output="screen"/>
 
   <!--- Run AMCL -->
-  <include file="$(find turtlebot_navigation)/config/amcl_turtlebot.launch">
+  <include file="$(find turtlebot_navigation)/launch/_amcl.launch">
     <arg name="use_map_topic" value="true"/>
   </include>
 </launch>
