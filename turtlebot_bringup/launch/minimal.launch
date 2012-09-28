@@ -1,5 +1,6 @@
 <launch>
   <arg name="base" value="$(optenv TURTLEBOT_BASE kobuki)"/>  <!-- create, rhoomba -->
+  <arg name="battery" value="$(optenv TURTLEBOT_BATTERY /proc/acpi/battery/BAT0)"/>  <!-- /proc/acpi/battery/BAT0 -->
   <arg name="simulation" value="false"/>
   <param name="/use_sim_time" value="$(arg simulation)"/>
   
@@ -10,7 +11,9 @@
   <include file="$(find turtlebot_bringup)/launch/$(arg base)/_mobile_base.launch">
     <arg name="base" value="$(arg base)" />
   </include>
-  <include file="$(find turtlebot_bringup)/launch/components/_netbook.launch"/>
+  <include file="$(find turtlebot_bringup)/launch/components/_netbook.launch">
+    <arg name="battery" value="$(arg battery)" />
+  </include>
   <include file="$(find turtlebot_bringup)/launch/components/_app_manager.launch">
     <arg name="base" value="$(arg base)" />
   </include>
