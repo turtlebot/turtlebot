@@ -33,7 +33,6 @@
     <!--  
      -->
   </node>
-  <!-- <node pkg="map_store" type="map_loader" name="map_manager" output="screen"/> -->
   <node pkg="map_store" type="map_manager" name="map_manager" output="screen"/>
 
   <!--- Run AMCL -->
