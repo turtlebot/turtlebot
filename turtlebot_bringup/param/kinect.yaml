@@ -8,7 +8,7 @@ rgb_frame_id: camera_rgb_optical_frame
 depth_frame_id: camera_depth_optical_frame
 depth_registration: true
 image_mode: 2
-depth_mode: 8
+depth_mode: 2
 debayering: 2
 depth_time_offset: -0.055
 image_time_offset: 0
