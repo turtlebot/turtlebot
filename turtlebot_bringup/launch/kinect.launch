@@ -4,33 +4,43 @@
   <include file="$(find turtlebot_bringup)/launch/$(arg base)/_kinect_extras.launch"/>
 
   <!-- Kinect -->
-  <node pkg="nodelet" type="nodelet" name="openni_manager" output="screen" respawn="true" args="manager"/>
-  <node pkg="nodelet" type="nodelet" name="openni_launch" args="load openni_camera/OpenNINodelet openni_manager" respawn="true">
-    <rosparam file="$(find turtlebot_bringup)/param/kinect.yaml" command="load"/>
-  </node>
+  <arg name="camera" value="camera"/>
+  <arg name="use_openni_launch" value="false"/>
+  <!-- 
+    Lighter method - load minimal set of depth sensing infrastructure
+    This I suspect is too heavy - see http://www.ros.org/wiki/openni_camera
+    depth_registration = true is not working - https://github.com/turtlebot/turtlebot/issues/10 
+  -->
+  <group unless="$(arg use_openni_launch)">
+    <node pkg="nodelet" type="nodelet" name="$(arg camera)_nodelet_manager" output="screen" respawn="true" args="manager"/>
+    <node pkg="nodelet" type="nodelet" name="openni_launch" args="load openni_camera/OpenNINodelet $(arg camera)_nodelet_manager" respawn="true">
+      <rosparam file="$(find turtlebot_bringup)/param/kinect.yaml" command="load"/>
+    </node>
+  </group>
   <!-- 
     Alternative way - load standard constellation of processing nodelets from the openni launcher directly
-    This I suspect is too heavy - see http://www.ros.org/wiki/openni_camera 
+    This I suspect is too heavy - see http://www.ros.org/wiki/openni_camera
+    depth_registration = true is not working - https://github.com/turtlebot/turtlebot/issues/10 
   -->
-  <!-- 
-  <include file="$(find openni_launch)/launch/openni.launch" ns="/">
-    <arg name="camera" value="camera"/>
-    <arg name="publish_tf" default="true"/>
-    <arg name="rgb_frame_id" value="$(arg camera)__rgb_optical_frame" />
-    <arg name="depth_frame_id" value="$(arg camera)_depth_optical_frame" />
-    <arg name="depth_registration" value="true" />
-  </include>
-   -->
+  <group if="$(arg use_openni_launch)">
+    <include file="$(find openni_launch)/launch/openni.launch" ns="/">
+      <arg name="camera" value="$(arg camera)"/>
+      <arg name="publish_tf" default="false"/>
+      <arg name="rgb_frame_id" value="$(arg camera)_rgb_optical_frame" />
+      <arg name="depth_frame_id" value="$(arg camera)_depth_optical_frame" />
+      <arg name="depth_registration" value="false" />
+    </include>
+  </group>
 
   <!-- throttling -->
-  <node pkg="nodelet" type="nodelet" name="pointcloud_throttle" args="load pointcloud_to_laserscan/CloudThrottle openni_manager" respawn="true">
+  <node pkg="nodelet" type="nodelet" name="pointcloud_throttle" args="load pointcloud_to_laserscan/CloudThrottle $(arg camera)_nodelet_manager" respawn="true">
     <param name="max_rate" value="20.0"/>
     <remap from="cloud_in" to="/camera/depth/points"/>
     <remap from="cloud_out" to="cloud_throttled"/>
   </node>
 
   <!-- Fake Laser -->
-  <node pkg="nodelet" type="nodelet" name="kinect_laser" args="load pointcloud_to_laserscan/CloudToScan openni_manager" respawn="true">
+  <node pkg="nodelet" type="nodelet" name="kinect_laser" args="load pointcloud_to_laserscan/CloudToScan $(arg camera)_nodelet_manager" respawn="true">
     <param name="output_frame_id" value="/camera_depth_frame"/>
     <!-- heights are in the (optical?) frame of the kinect -->
     <param name="min_height" value="-0.15"/>
@@ -39,7 +49,7 @@
   </node>
 
   <!-- Fake Laser (narrow one, for localization -->
-  <node pkg="nodelet" type="nodelet" name="kinect_laser_narrow" args="load pointcloud_to_laserscan/CloudToScan openni_manager" respawn="true">
+  <node pkg="nodelet" type="nodelet" name="kinect_laser_narrow" args="load pointcloud_to_laserscan/CloudToScan $(arg camera)_nodelet_manager" respawn="true">
     <param name="output_frame_id" value="/camera_depth_frame"/>
     <!-- heights are in the (optical?) frame of the kinect -->
     <param name="min_height" value="-0.025"/>

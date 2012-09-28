@@ -14,5 +14,4 @@
   <include file="$(find turtlebot_bringup)/launch/components/_app_manager.launch">
     <arg name="base" value="$(arg base)" />
   </include>
-
 </launch>
