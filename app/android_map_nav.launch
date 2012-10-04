@@ -1,5 +1,5 @@
 <launch>
-  <arg name="base" value="$(optenv TURTLEBOT_BASE kobuki)"/>  <!-- create, rhoomba -->
+  <arg name="base" value="$(optenv TURTLEBOT_BASE kobuki)"/>  <!-- create, roomba -->
   
   <param name="camera/rgb/image_color/compressed/jpeg_quality" value="22"/>
 

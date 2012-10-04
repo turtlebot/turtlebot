@@ -1,4 +1,5 @@
 <launch>
+  <arg name="base" value="$(optenv TURTLEBOT_BASE kobuki)"/>  <!-- create, roomba -->
 
   <param name="camera/rgb/image_color/compressed/jpeg_quality" value="22"/>
 
@@ -16,13 +17,15 @@
     </rosparam>
   </node>
 
-  <include file="$(find turtlebot_bringup)/kinect.launch"/>
+  <include file="$(find turtlebot_bringup)/launch/kinect.launch"/>
 
   <!--- Run Move Base and Robot Pose EKF -->
-  <include file="$(find turtlebot_navigation)/config/move_base_turtlebot.launch" />
+  <include file="$(find turtlebot_navigation)/launch/_move_base.launch">
+    <arg name="base" value="$(arg base)" />
+  </include>
 
   <!--- Run gmapping to make maps-->
-  <include file="$(find turtlebot_navigation)/config/gmapping_turtlebot.launch" />
+  <include file="$(find turtlebot_navigation)/launch/_gmapping.launch" />
 
   <!-- Save the maps to a warehouse. -->
   <node name="mongo" type="wrapper.py" pkg="mongodb" output="log">
