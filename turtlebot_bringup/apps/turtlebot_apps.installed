@@ -3,19 +3,17 @@
 
 apps:
  - display: Android Teleop
-   app: kobuki_android_apps/android_teleop
+   app: turtlebot_teleop/android_teleop
 # - display: PS3 Joystick
-#   app: kobuki_other_apps/ps3_teleop
+#   app: turtlebot_teleop/ps3_teleop
  - display: Chirp
-   app: kobuki_other_apps/chirp
+   app: turtlebot_sounds/chirp
  - display: Make a Map
-   app: kobuki_android_apps/android_make_a_map
+   app: turtlebot_teleop/android_make_a_map
  - display: Map Nav
    app: turtlebot_teleop/android_map_nav
  - display: Follower
-   app: kobuki_other_apps/follower
-# - display: Map Nav
-#   app: kobuki_android_apps/android_map_nav
+   app: turtlebot_follower/follower
 # - display: Light Show 
 #   app: minsu_apps/light_show
 # - display: Draw Square
