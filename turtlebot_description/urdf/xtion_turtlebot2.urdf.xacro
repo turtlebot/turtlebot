@@ -52,13 +52,13 @@
     <stack_xtion_pole parent="${parent}" number="0" x_loc="-0.1024" y_loc= "0.098" z_loc="0.259"/>
     <stack_xtion_pole parent="${parent}" number="1" x_loc="-0.1024" y_loc="-0.098" z_loc="0.259"/>
       
-    <joint name="xtion_joint" type="fixed">
+    <joint name="camera_joint" type="fixed">
       <origin xyz="${turtlebot2_xtion_calib_px} ${turtlebot2_xtion_calib_py} ${turtlebot2_xtion_calib_pz}" 
               rpy="${turtlebot2_xtion_calib_or} ${turtlebot2_xtion_calib_op} ${turtlebot2_xtion_calib_oy}"/>
       <parent link="${parent}"/>
-      <child link="xtion_link"/>
+      <child link="camera_link"/>
     </joint>  
-    <link name="xtion_link">
+    <link name="camera_link">
       <visual>
         <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
         <geometry>
