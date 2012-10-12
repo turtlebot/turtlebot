@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<!--
+  Turtlebot 2 stack (plates + poles)
+ -->
+<robot name="turtlebot2_stack" xmlns:xacro="http://ros.org/wiki/xacro">
+  <include filename="$(find kobuki_description)/urdf/common_properties.urdf.xacro"/>
+  
+  <!-- Xacro properties -->
+  <xacro:property name="M_SCALE" value="0.001"/>
+  
+  <!-- Xacro macros -->
+  <xacro:macro name="stack_bottom_pole" params="parent number x_loc y_loc z_loc">
+    <joint name="pole_bottom_${number}_joint" type="fixed">
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0"/>
+      <parent link="${parent}"/>
+      <child link="pole_bottom_${number}_link"/>
+    </joint>
+    <link name="pole_bottom_${number}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+        <geometry>
+          <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/poll_1st.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
+        <xacro:insert_block name="material_light_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.0246" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="0.0492" radius=".006"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                 iyy="0.0001" iyz="0.0"
+                 izz="0.0001"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+  
+  <xacro:macro name="stack_middle_pole" params="parent number x_loc y_loc z_loc">  
+    <joint name="pole_middle_${number}_joint" type="fixed">
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0" />
+      <parent link="${parent}"/>
+      <child link="pole_middle_${number}_link"/>
+    </joint>
+    <link name="pole_middle_${number}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="${-M_PI/2} 0 0"/>
+        <geometry>
+          <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/poll_2nd.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
+        <xacro:insert_block name="material_light_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="0.0608" radius=".006"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                 iyy="0.0001" iyz="0.0"
+                 izz="0.0001"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="stack_top_pole" params="parent number x_loc y_loc z_loc">  
+    <joint name="pole_top_${number}_joint" type="fixed">
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0"/>
+      <parent link="${parent}"/>
+      <child link="pole_top_${number}_link"/>
+    </joint>
+    <link name="pole_top_${number}_link">
+      <visual>
+        <origin xyz=" 0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+        <geometry>
+          <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/poll_3rd.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
+        <xacro:insert_block name="material_light_grey"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="0.2032" radius=".006"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                 iyy="0.0001" iyz="0.0"
+                 izz="0.0001"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+  
+  <xacro:macro name="stack_xtion_pole" params="parent number x_loc y_loc z_loc">
+    <joint name="pole_xtion${number}_joint" type="fixed">
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0"/>
+      <parent link="${parent}"/>
+      <child link="pole_xtion_${number}_link"/>
+    </joint>
+    <link name="pole_xtion_${number}_link">
+      <inertial>
+        <mass value="0.001"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                 iyy="0.0001" iyz="0.0"
+                 izz="0.0001"/>
+      </inertial>
+      <visual>
+        <origin xyz=" 0 0 0 " rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/poll_kinect.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+        </geometry>
+        <xacro:insert_block name="material_light_grey"/>
+      </visual>
+      <collision>
+        <origin xyz=" 0 0 0 " rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="0.008585" radius="0.001111"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+  
+  <!-- Turtlebot 2 stack -->
+  <xacro:macro name="turtlebot2_stack" params="parent">
+		<stack_bottom_pole parent="${parent}" number="0" x_loc= "0.120" y_loc= "0.082" z_loc="0.0534"/>
+		<stack_bottom_pole parent="${parent}" number="1" x_loc= "0.055" y_loc= "0.120" z_loc="0.0534"/>
+		<stack_bottom_pole parent="${parent}" number="2" x_loc="-0.055" y_loc= "0.120" z_loc="0.0534"/>
+    <stack_bottom_pole parent="${parent}" number="3" x_loc= "0.120" y_loc="-0.082" z_loc="0.0534"/>
+    <stack_bottom_pole parent="${parent}" number="4" x_loc= "0.055" y_loc="-0.120" z_loc="0.0534"/>
+    <stack_bottom_pole parent="${parent}" number="5" x_loc="-0.055" y_loc="-0.120" z_loc="0.0534"/>
+    		        
+		<joint name="plate_bottom_joint" type="fixed">
+		  <origin xyz="0.0 0.0  0.1026" rpy="0 0 0"/>
+		  <parent link="${parent}"/>
+		  <child link="plate_bottom_link"/>
+		</joint>  
+		<link name="plate_bottom_link">
+		  <visual>
+		    <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+		    <geometry>
+		      <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/stack_1st.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+		    </geometry>
+        <xacro:insert_block name="material_light_grey"/>
+		  </visual>  
+		  <collision>
+		    <origin xyz="0.02364 0.0 0.003" rpy="0 0 0"/>
+		    <geometry>
+		      <box size="0.26727 0.345 0.006"/>
+		    </geometry>
+        <xacro:insert_block name="material_light_grey"/>
+		  </collision>
+      <inertial>
+        <mass value="0.01" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0"
+                 iyy="0.01" iyz="0.0"
+                 izz="0.01" />
+      </inertial>
+		</link>
+		
+		<stack_middle_pole parent="${parent}" number="0" x_loc= "0.0702" y_loc= "0.1314" z_loc="0.1694"/>
+		<stack_middle_pole parent="${parent}" number="1" x_loc="-0.0503" y_loc= "0.1314" z_loc="0.1694"/>
+		<stack_middle_pole parent="${parent}" number="2" x_loc= "0.0702" y_loc="-0.1314" z_loc="0.1694"/>
+		<stack_middle_pole parent="${parent}" number="3" x_loc="-0.0503" y_loc="-0.1314" z_loc="0.1694"/>
+		
+		<joint name="plate_middle_joint" type="fixed">
+		  <origin xyz="0.0 0.0 0.1594" rpy="0 0 0"/>
+		  <parent link="${parent}"/>
+		  <child link="plate_middle_link"/>
+		</joint>  
+		<link name="plate_middle_link">
+		  <visual>
+		    <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+		    <geometry>
+		      <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/stack_2nd.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+		    </geometry>
+        <xacro:insert_block name="material_light_grey"/>
+		  </visual>  
+		  <collision>
+		    <origin xyz="0.0 0.0 -0.015" rpy="0 0 0"/>
+		    <geometry>
+		      <box size="0.31454 0.345 0.006"/>
+		    </geometry>
+		  </collision>
+      <inertial>
+        <mass value="0.01" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0"
+                 iyy="0.01" iyz="0.0"
+                 izz="0.01" />
+      </inertial>  
+		</link>
+		
+		<stack_top_pole parent="${parent}" number="0" x_loc= "0.0702" y_loc= "0.1314" z_loc="0.1534"/>
+		<stack_top_pole parent="${parent}" number="1" x_loc="-0.0503" y_loc= "0.1314" z_loc="0.1534"/>
+		<stack_top_pole parent="${parent}" number="2" x_loc= "0.0702" y_loc="-0.1314" z_loc="0.1534"/>
+		<stack_top_pole parent="${parent}" number="3" x_loc="-0.0503" y_loc="-0.1314" z_loc="0.1534"/>
+		
+		<joint name="plate_top_joint" type="fixed">
+		  <origin xyz="0.0 0.0  0.3686" rpy="0 0 0"/>
+		  <parent link="${parent}"/>
+		  <child link="plate_top_link"/>
+		</joint>  
+		<link name="plate_top_link">
+		  <visual>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+		    <geometry>
+		      <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/stack_3rd.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+		    </geometry>
+        <xacro:insert_block name="material_light_grey"/>
+		  </visual>  
+		  <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+		    <geometry>
+		      <box size="0.233502 0.314845 0.006401"/>
+		    </geometry>
+		  </collision>
+      <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0"
+                 iyy="0.01" iyz="0.0"
+                 izz="0.01" />
+      </inertial>
+		</link>
+  </xacro:macro>
+</robot>
