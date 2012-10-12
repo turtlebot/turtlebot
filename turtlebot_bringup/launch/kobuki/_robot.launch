@@ -4,7 +4,7 @@
 <launch>
   <arg name="base"/>
   <!-- DJS : Update this for the appropriate base later -->
-  <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find kobuki_description)/robots/kobuki_kinect.urdf.xacro'" />
+  <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find turtlebot_description)/robots/turtlebot2_kinect.urdf.xacro'" />
   <param name="robot_description" command="$(arg urdf_file)" />
   
   <param name="robot/name" value="$(optenv ROBOT turtlebot)"/>
