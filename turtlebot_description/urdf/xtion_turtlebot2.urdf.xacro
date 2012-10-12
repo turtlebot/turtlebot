@@ -6,8 +6,7 @@
 												       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" 
 												       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
 												       xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor">
-  <include filename="$(find kobuki_description)/urdf/common_properties.urdf.xacro"/>
-  <include filename="$(find kobuki_description)/urdf/kobuki_gazebo.urdf.xacro"/>
+  <include filename="$(find turtlebot_description)/urdf/common_properties.urdf.xacro"/>
 
   <!-- Xacro properties -->
   <xacro:property name="M_SCALE" value="0.001"/>
@@ -29,7 +28,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="${-M_PI/2} 0 0"/>
         <geometry>
-          <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/poll_kinect.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/turtlebot2_stack/pole_kinect.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
         <xacro:insert_block name="material_light_grey"/>
       </visual>
@@ -64,7 +63,7 @@
         <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
         <geometry>
           <!-- Thanks to IHeartRobotics for the Collada model! -->
-          <mesh filename="package://kobuki_description/meshes/asus_xtion_pro_live.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/asus_xtion_pro_live.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
         <xacro:insert_block name="material_light_grey"/>
       </visual>  

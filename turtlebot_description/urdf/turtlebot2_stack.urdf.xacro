@@ -3,7 +3,7 @@
   Turtlebot 2 stack (plates + poles)
  -->
 <robot name="turtlebot2_stack" xmlns:xacro="http://ros.org/wiki/xacro">
-  <include filename="$(find kobuki_description)/urdf/common_properties.urdf.xacro"/>
+  <include filename="$(find turtlebot_description)/urdf/common_properties.urdf.xacro"/>
   
   <!-- Xacro properties -->
   <xacro:property name="M_SCALE" value="0.001"/>
@@ -19,7 +19,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
         <geometry>
-          <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/poll_1st.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/turtlebot2_stack/pole_bottom.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
         <xacro:insert_block name="material_light_grey"/>
       </visual>
@@ -49,7 +49,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="${-M_PI/2} 0 0"/>
         <geometry>
-          <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/poll_2nd.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/turtlebot2_stack/pole_middle.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
         <xacro:insert_block name="material_light_grey"/>
       </visual>
@@ -79,7 +79,7 @@
       <visual>
         <origin xyz=" 0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
         <geometry>
-          <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/poll_3rd.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/turtlebot2_stack/pole_top.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
         <xacro:insert_block name="material_light_grey"/>
       </visual>
@@ -96,36 +96,6 @@
                  iyy="0.0001" iyz="0.0"
                  izz="0.0001"/>
       </inertial>
-    </link>
-  </xacro:macro>
-  
-  <xacro:macro name="stack_xtion_pole" params="parent number x_loc y_loc z_loc">
-    <joint name="pole_xtion${number}_joint" type="fixed">
-      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0"/>
-      <parent link="${parent}"/>
-      <child link="pole_xtion_${number}_link"/>
-    </joint>
-    <link name="pole_xtion_${number}_link">
-      <inertial>
-        <mass value="0.001"/>
-        <origin xyz="0 0 0"/>
-        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-                 iyy="0.0001" iyz="0.0"
-                 izz="0.0001"/>
-      </inertial>
-      <visual>
-        <origin xyz=" 0 0 0 " rpy="0 0 0"/>
-        <geometry>
-          <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/poll_kinect.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
-        </geometry>
-        <xacro:insert_block name="material_light_grey"/>
-      </visual>
-      <collision>
-        <origin xyz=" 0 0 0 " rpy="0 0 0"/>
-        <geometry>
-          <cylinder length="0.008585" radius="0.001111"/>
-        </geometry>
-      </collision>
     </link>
   </xacro:macro>
   
@@ -147,7 +117,7 @@
 		  <visual>
 		    <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
 		    <geometry>
-		      <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/stack_1st.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+		      <mesh filename="package://turtlebot_description/meshes/turtlebot2_stack/plate_bottom.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
 		    </geometry>
         <xacro:insert_block name="material_light_grey"/>
 		  </visual>  
@@ -181,7 +151,7 @@
 		  <visual>
 		    <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
 		    <geometry>
-		      <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/stack_2nd.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+		      <mesh filename="package://turtlebot_description/meshes/turtlebot2_stack/plate_middle.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
 		    </geometry>
         <xacro:insert_block name="material_light_grey"/>
 		  </visual>  
@@ -214,7 +184,7 @@
 		  <visual>
         <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
 		    <geometry>
-		      <mesh filename="package://kobuki_description/meshes/turtlebot2_stack/high_res/stack_3rd.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+		      <mesh filename="package://turtlebot_description/meshes/turtlebot2_stack/plate_top.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
 		    </geometry>
         <xacro:insert_block name="material_light_grey"/>
 		  </visual>  
