@@ -52,13 +52,13 @@
 	  <stack_kinect_pole parent="${parent}" number="0" x_loc="-0.1024" y_loc= "0.098" z_loc="0.259"/>
 	  <stack_kinect_pole parent="${parent}" number="1" x_loc="-0.1024" y_loc="-0.098" z_loc="0.259"/>
 	    
-	  <joint name="kinect_joint" type="fixed">
+	  <joint name="camera_joint" type="fixed">
 	    <origin xyz="${turtlebot2_kinect_calib_px} ${turtlebot2_kinect_calib_py} ${turtlebot2_kinect_calib_pz}" 
 	            rpy="${turtlebot2_kinect_calib_or} ${turtlebot2_kinect_calib_op} ${turtlebot2_kinect_calib_oy}"/>
 	    <parent link="${parent}"/>
 	    <child link="kinect_link"/>
 	  </joint>  
-	  <link name="kinect_link">
+	  <link name="camera_link">
 	    <visual>
 	      <origin xyz="0 0 0" rpy="0 0 0"/>
 	      <geometry>
