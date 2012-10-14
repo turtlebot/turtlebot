@@ -11,7 +11,8 @@
   <depend package="joy"/>
   <depend package="geometry_msgs"/>
   <depend package="roscpp"/>
-
+  <!-- for navigation based applications -->
+  <depend package="map_store"/>
 </package>
 
 
