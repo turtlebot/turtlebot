@@ -19,7 +19,10 @@
 
   <!-- for video teleoperation -->
   <depend package="compressed_image_transport"/>
-  
+
+  <!-- for navigation applications -->
+  <depend package="map_store"/>
+   
 </package>
 
 
