@@ -22,7 +22,7 @@
   <include file="$(find turtlebot_bringup)/launch/kinect.launch"/>
 
   <!--- Run Move Base and Robot Pose EKF -->
-  <include file="$(find turtlebot_navigation)/launch/_move_base.launch">
+  <include file="$(find turtlebot_navigation)/launch/includes/_move_base.launch">
     <arg name="base" value="$(arg base)" />
   </include>
 
@@ -36,7 +36,7 @@
   <node pkg="map_store" type="map_manager" name="map_manager" output="screen"/>
 
   <!--- Run AMCL -->
-  <include file="$(find turtlebot_navigation)/launch/_amcl.launch">
+  <include file="$(find turtlebot_navigation)/launch/includes/_amcl.launch">
     <arg name="use_map_topic" value="true"/>
   </include>
 </launch>
