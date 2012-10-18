@@ -45,17 +45,23 @@
       <updateRate>20</updateRate>
       <baseline>0.1</baseline>
       <controller:gazebo_ros_openni_kinect name="kinect_camera_controller" plugin="libgazebo_ros_openni_kinect.so">
+        <cameraName>kinect</cameraName>
         <alwaysOn>true</alwaysOn>
         <updateRate>20</updateRate>
         <imageTopicName>/camera/image_raw</imageTopicName>
         <pointCloudTopicName>/camera/depth/points</pointCloudTopicName>
         <cameraInfoTopicName>/camera/camera_info</cameraInfoTopicName>
         <frameName>camera_depth_optical_frame</frameName>
-        <distortion_k1>0.0</distortion_k1>
-        <distortion_k2>0.0</distortion_k2>
-        <distortion_k3>0.0</distortion_k3>
-        <distortion_t1>0.0</distortion_t1>
-        <distortion_t2>0.0</distortion_t2>
+        <CxPrime>0.0</CxPrime>
+        <Cx>0.0</Cx>
+        <Cy>0.0</Cy>
+        <focalLength>0.0</focalLength>
+        <hackBaseline>0.0</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
       </controller:gazebo_ros_openni_kinect>
     </sensor:camera>
   </gazebo>
@@ -68,9 +74,10 @@
       <updateRate>30</updateRate>
       <bodyName>gyro_link</bodyName>
       <topicName>imu/data</topicName>
+      <serviceName>imu/service</serviceName>
       <gaussianNoise>${0.0017*0.0017}</gaussianNoise>
-      <xyzOffsets>0 0 0</xyzOffsets> 
-      <rpyOffsets>0 0 0</rpyOffsets>
+      <xyzOffset>0 0 0</xyzOffset> 
+      <rpyOffset>0 0 0</rpyOffset>
       <interface:position name="imu_position"/>
     </controller:gazebo_ros_imu>
   </gazebo>
@@ -81,25 +88,23 @@
     <sensor:ray name="laser">
       <rayCount>180</rayCount>
       <rangeCount>180</rangeCount>
-      <laserCount>1</laserCount>
-      
+      <laserCount>1</laserCount>      
       <origin>0.0 0.0 0.0</origin>
-      <displayRays>false</displayRays>
-      
+      <displayRays>false</displayRays>      
       <minAngle>-130</minAngle>
-      <maxAngle>130</maxAngle>
-      
+      <maxAngle>130</maxAngle>      
       <minRange>0.08</minRange>
       <maxRange>10.0</maxRange>
       <resRange>0.01</resRange>
       <updateRate>20</updateRate>
       <controller:gazebo_ros_laser name="gazebo_ros_laser_controller" plugin="libgazebo_ros_laser.so">
-	<gaussianNoise>0.005</gaussianNoise>
-	<alwaysOn>true</alwaysOn>
-	<updateRate>20</updateRate>
-	<topicName>scan</topicName>
-	<frameName>laser</frameName>
-	<interface:laser name="gazebo_ros_laser_iface" />
+				<gaussianNoise>0.005</gaussianNoise>
+				<alwaysOn>true</alwaysOn>
+				<updateRate>20</updateRate>
+				<topicName>scan</topicName>
+				<frameName>laser</frameName>
+				<interface:laser name="gazebo_ros_laser_iface" />
+				<hokuyoMinIntensity>101.0</hokuyoMinIntensity>
       </controller:gazebo_ros_laser>
     </sensor:ray>
   </gazebo>
