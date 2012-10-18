@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+  The complete turtlebot library of xacros for easy reference
+ -->
+<robot>
+  <include filename="$(find turtlebot_description)/urdf/common_properties.urdf.xacro"/>
+  <include filename="$(find turtlebot_description)/urdf/turtlebot_properties.urdf.xacro"/>
+  <include filename="$(find turtlebot_description)/urdf/gazebo.urdf.xacro"/>
+  <include filename="$(find turtlebot_description)/urdf/stacks/hexagons.urdf.xacro"/>
+  <include filename="$(find turtlebot_description)/urdf/sensors/kinect.urdf.xacro"/>
+  <include filename="$(find kobuki_description)/urdf/kobuki.urdf.xacro" />
+</robot>
