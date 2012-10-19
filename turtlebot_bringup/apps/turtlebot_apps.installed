@@ -14,8 +14,6 @@ apps:
    app: turtlebot_teleop/android_map_nav
  - display: Follower
    app: turtlebot_follower/follower
- - display: Kobuki Chirp
-   app: kobuki_other_apps/chirp
  - display: Take a Panorama
    app: turtlebot_panorama/panorama
 # - display: Light Show 
