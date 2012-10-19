@@ -5,7 +5,7 @@
   </node>
   <param name="camera/rgb/image_color/compressed/jpeg_quality" value="22"/>
 
-  <include file="$(find turtlebot_bringup)/launch/kinect.launch"/>
+  <include file="$(find turtlebot_bringup)/launch/3dsensor.launch"/>
 
   <!-- Make a slower camera feed available. -->
   <node pkg="topic_tools" type="throttle" name="camera_throttle" output="screen"
