@@ -8,6 +8,7 @@
                                 xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor">
   <include filename="$(find turtlebot_description)/urdf/common_properties.urdf.xacro"/>
   <include filename="$(find turtlebot_description)/urdf/gazebo.urdf.xacro"/>
+  <include filename="$(find turtlebot_description)/urdf/common_properties.urdf.xacro" />
   <include filename="$(find turtlebot_description)/urdf/turtlebot_properties.urdf.xacro" />
   
   <!-- Xacro properties -->
