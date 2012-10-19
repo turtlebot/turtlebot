@@ -35,3 +35,9 @@ odom_frame: odom
 
 # Name of the base TF frame  (string, default: base_footprint)
 base_frame: base_footprint
+
+# Bumpers pointcloud distance to base frame; should be something like the sum of robot_radius,
+# footprint_padding and resolution local costmap parameters. This is a bit tricky parameter:
+# if it's too low, costmap will ignore this pointcloud, but if it's too big, hit obstacles will
+# be mapped too far from the robot and the navigation around them will probably fail.
+bumper_pc_radius: 0.20

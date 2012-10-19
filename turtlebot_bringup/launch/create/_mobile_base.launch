@@ -8,6 +8,10 @@
     <param name="bonus" value="false" />
     <param name="update_rate" value="30.0" />
   </node>
+  
+  <!-- Enable breaker 1 for the kinect -->
+  <node pkg="turtlebot_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
+  
   <!-- The odometry estimator -->
   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
     <remap from="imu_data" to="imu/data"/>

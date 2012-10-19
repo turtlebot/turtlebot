@@ -1,7 +1,0 @@
-<!--
-  Kobuki based platform doesn't need any extras for the 3dsensor, but it needs this file for
-  the launcher platform setting magic in 3dsensor.launch 
- -->
-<launch>
-</launch>
-

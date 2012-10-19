@@ -3,7 +3,7 @@
   <property name="M_PI" value="3.14159"/>
 
   <include filename="$(find turtlebot_description)/urdf/gazebo.urdf.xacro"/>
-  <include filename="$(find turtlebot_description)/urdf/turtlebot_calibration.xacro" />
+  <include filename="$(find turtlebot_description)/urdf/graveyard/turtlebot_calibration.xacro" />
 
 <xacro:macro name="turtlebot_kinect">
   <joint name="base_camera_joint" type="fixed">
@@ -25,7 +25,7 @@
     <visual>
       <origin xyz=" 0 0 0 " rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://turtlebot_description/meshes/kinect.dae"/>
+        <mesh filename="package://turtlebot_description/meshes/sensors/kinect.dae"/>
       </geometry>
     </visual>
 
