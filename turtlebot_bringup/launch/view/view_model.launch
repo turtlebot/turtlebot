@@ -11,5 +11,7 @@
     <arg name="stacks" value="$(arg stacks)" />
     <arg name="3d_sensor" value="$(arg 3d_sensor)" />
   </include>
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+  </node>
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtlebot_bringup)/rviz/model.vcg" />
 </launch>
