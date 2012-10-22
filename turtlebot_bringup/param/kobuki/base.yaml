@@ -6,14 +6,9 @@
 protocol_version: '2.0'
 device_port: /dev/kobuki
 
-##############################################################################
-# Differential Drive
-##############################################################################
-
-odom_frame_id: odom_combined
-base_frame_id: base_footprint
-wheel_left_name: wheel_left 
-wheel_right_name: wheel_right
+# published joint states
+wheel_left_joint_name: wheel_left_joint
+wheel_right_joint_name: wheel_right_joint
 
 # battery voltage at full charge (100%) (float, default: 16.5)
 battery_capacity: 16.5
