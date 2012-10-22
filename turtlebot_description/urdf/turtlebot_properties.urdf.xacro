@@ -13,8 +13,13 @@
      - REP 119 : Rgb camera link relative to the Base link 
      ====================================================================== 
      -->
+    <!-- 
+      Actual REP specifications from base_link to rgb frame 
+        [x:-0.087m, y:-0.005m, z:0.287m]
+      Is this actually correct? 
+    -->
      
-	<!-- Actual REP specifications from Turtlebot 1
+	<!-- From Turtlebot 1, this is base_link to camera_link with offsets for cam frames
 	<property name="cam_px" value="-0.087" />
 	<property name="cam_py" value="0" />
 	<property name="cam_pz" value="0.287" />
@@ -26,15 +31,11 @@
 	 -->
 	 
 	 <!-- Yujin specifications - need to double check on these -->
-	<property name="cam_px" value="-0.060" />
-	<property name="cam_py" value="0" />
+	<property name="cam_px" value="-0.087" />
+	<property name="cam_py" value="-0.0135" />
 	<property name="cam_pz" value="0.2680" />
 	<property name="cam_or" value="0" />
 	<property name="cam_op" value="0" />
 	<property name="cam_oy" value="0" />
-	
-     <!-- Yujin specifications - need to double check on these -->
-    <property name="depth_rel_cam_py" value="0.0125" />
-	<property name="rgb_rel_cam_py"   value="-0.0125" />
   
 </robot>
