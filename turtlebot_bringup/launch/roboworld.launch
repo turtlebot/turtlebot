@@ -1,4 +1,6 @@
 <launch>
   <include file="$(find turtlebot_bringup)/launch/minimal.launch"/>
   <include file="$(find turtlebot_bringup)/launch/3dsensor.launch"/>
+  <include file="$(find rosbridge_launch)/launch/simple.launch" />
+  <include file="$(find mjpeg_server)/launch/mjpeg_server.launch" />
 </launch>
