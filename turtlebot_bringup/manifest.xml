@@ -9,6 +9,7 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_bringup</url>
   <depend package="app_manager"/>
+  <depend package="zeroconf_avahi"/>
   <depend package="turtlebot_driver"/>
   <depend package="turtlebot_node"/>
   <depend package="turtlebot_description"/>
