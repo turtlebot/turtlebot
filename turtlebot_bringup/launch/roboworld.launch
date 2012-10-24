@@ -1,6 +1,8 @@
 <launch>
   <include file="$(find turtlebot_bringup)/launch/minimal.launch"/>
   <include file="$(find turtlebot_bringup)/launch/3dsensor.launch"/>
-  <include file="$(find rosbridge_launch)/launch/simple.launch" />
-  <include file="$(find mjpeg_server)/launch/mjpeg_server.launch" />
+  <include file="$(find rosbridge_launch)/launch/simple.launch"/>
+  <node pkg="mjpeg_server" type="mjpeg_server"  name="mjpeg_server_robo" output="screen">
+    <param name="port" type="int" value="8080" />
+  </node>
 </launch>
