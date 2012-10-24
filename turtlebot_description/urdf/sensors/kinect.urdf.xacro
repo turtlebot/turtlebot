@@ -10,8 +10,8 @@
   
   <!-- Xacro properties -->
   <xacro:property name="M_SCALE" value="0.001"/>
-  <xacro:property name="depth_rel_rgb_py" value="0.0270" />
-  <xacro:property name="cam_rel_rgb_py"   value="0.0135" />
+  <xacro:property name="kinect_depth_rel_rgb_py" value="0.0270" />
+  <xacro:property name="kinect_cam_rel_rgb_py"   value="0.0135" />
 
   <!-- Parameterised in part by the values in turtlebot_properties.urdf.xacro -->
   <xacro:macro name="sensor_kinect" params="parent">
@@ -46,7 +46,7 @@
     </link>
 
 	<joint name="camera_joint" type="fixed">
-	  <origin xyz="0 ${cam_rel_rgb_py} 0" 
+	  <origin xyz="0 ${kinect_cam_rel_rgb_py} 0" 
 	          rpy="0 0 0"/>
 	  <parent link="camera_rgb_frame"/>
 	  <child link="camera_link"/>
@@ -78,7 +78,7 @@
          files. However, for Gazebo simulation we need them, so we add them here.
          (Hence, don't publish them additionally!) -->
 	<joint name="camera_depth_joint" type="fixed">
-	  <origin xyz="0 ${depth_rel_rgb_py} 0" rpy="0 0 0" />
+	  <origin xyz="0 ${kinect_depth_rel_rgb_py} 0" rpy="0 0 0" />
 	  <parent link="camera_rgb_frame" />
 	  <child link="camera_depth_frame" />
 	</joint>
