@@ -8,8 +8,11 @@
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_bringup</url>
+
   <depend package="app_manager"/>
-  <depend package="turtlebot_driver"/>
+  <depend package="zeroconf_avahi"/>
+  <depend package="kobuki_node"/>
+  <depend package="kobuki_description"/>
   <depend package="turtlebot_node"/>
   <depend package="turtlebot_description"/>
   <depend package="joy"/>
@@ -17,12 +20,15 @@
   <depend package="pointcloud_to_laserscan"/>
   <depend package="openni_camera"/>
 
-  <!-- for video teleoperation -->
+  <!-- for teleoperation applications -->
   <depend package="compressed_image_transport"/>
+  <depend package="mjpeg_server"/>
 
   <!-- for navigation applications -->
   <depend package="map_store"/>
-   
+
+  <!-- for external interfacing -->
+  <depend package="rosbridge_launch"/>
 </package>
 
 
