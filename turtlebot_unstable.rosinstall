@@ -1,0 +1,106 @@
+# Before rosinstalling, make sure you installed:
+#
+# Basic ROS
+#   sudo apt-get install ros-fuerte-desktop-full
+#
+# ROS packages commonly required
+#   sudo apt-get install ros-fuerte-multimaster-experimental ros-fuerte-joystick-drivers
+#
+# ROS packages required to use OpenNI-compliant devices (both old and new methods)
+#   sudo apt-get install ros-fuerte-openni-kinect ros-fuerte-openni-camera ros-fuerte-openni-launch
+#
+# Additional ROS packages required for turtlebot_apps
+#   sudo apt-get install ros-fuerte-warehousewg ros-fuerte-mjpeg-server ros-fuerte-rosbridge-suite
+#
+# TODO 
+# For our custom arm (update for Fuerte!)
+#   sudo apt-get install ros-fuerte-turtlebot-arm ros-fuerte-dynamixel-motor (not exisiting yet)
+#   in the meanwhile to allow compiling do:
+#   sudo apt-get install ros-fuerte-simple-arms
+#   and
+
+# Official ros stacks
+
+- other:
+    local-name: /opt/ros/fuerte/share/ros
+- other:
+    local-name: /opt/ros/fuerte/share
+- other:
+    local-name: /opt/ros/fuerte/stacks
+- setup-file:
+    local-name: /opt/ros/fuerte/setup.sh
+
+# Kobuki stacks
+- git:
+    uri: https://github.com/yujinrobot/kobuki.git
+    local-name: kobuki
+    version: master
+
+- git:
+    uri: https://github.com/yujinrobot/kobuki_simulator.git
+    local-name: kobuki_simulator
+    version: master
+
+# Later move these to debs.
+
+- svn:
+    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_tools
+    local-name: ecl/ecl_tools
+
+- svn:
+    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_lite
+    local-name: ecl/ecl_lite
+
+- svn:
+    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_core
+    local-name: ecl/ecl_core
+
+- svn:
+    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_navigation
+    local-name: ecl/ecl_navigation
+
+# Until the zeroconf_implementations 0.1.5 debs are pushed
+
+- git:
+    uri: https://github.com/stonier/zeroconf_implementations.git
+    local-name: zeroconf_implementations
+    version: fuerte
+
+# Fuerte not yet deb'd stacks
+- svn:
+    uri: http://ua-ros-pkg.googlecode.com/svn/stacks/dynamixel_motor/tags/electric
+    local-name: dynamixel_motor
+
+- hg:
+    uri: https://kforge.ros.org/mapstore/hg
+    version: fuerte
+    local-name: map_store
+
+# Turtlebot stacks - for merging.
+
+- git:
+    uri: https://github.com/turtlebot/turtlebot.git
+    local-name: turtlebot
+
+- git:
+    uri: https://github.com/turtlebot/turtlebot_simulator.git
+    local-name: turtlebot_simulator
+
+- git:
+    uri: https://github.com/turtlebot/turtlebot_apps.git
+    local-name: turtlebot_apps
+
+- git:
+    uri: https://github.com/turtlebot/turtlebot_viz.git
+    local-name: turtlebot_viz
+
+- git:
+    uri: https://github.com/turtlebot/turtlebot_arm.git
+    local-name: turtlebot_arm
+
+# turtlebot apps 
+- git:
+    uri: https://github.com/turtlebot/turtlebot_apps.git
+    local-name: turtlebot_apps
+    version: master
+
