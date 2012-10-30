@@ -232,6 +232,6 @@
                  iyy="0.01" iyz="0.0"
                  izz="0.01" />
       </inertial>
-		</link>
+    </link>
   </xacro:macro>
 </robot>
