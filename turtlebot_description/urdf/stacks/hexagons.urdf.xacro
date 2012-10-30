@@ -130,17 +130,17 @@
   </xacro:macro>
   
   <xacro:macro name="stack_hexagons" params="parent">
-	<stack_bottom_pole    parent="${parent}" number="0" x_loc= "0.120" y_loc= "0.082" z_loc="0.0534"/>
-	<stack_bottom_pole    parent="${parent}" number="1" x_loc= "0.055" y_loc= "0.120" z_loc="0.0534"/>
-	<stack_bottom_pole    parent="${parent}" number="2" x_loc="-0.055" y_loc= "0.120" z_loc="0.0534"/>
-    <stack_bottom_pole    parent="${parent}" number="3" x_loc= "0.120" y_loc="-0.082" z_loc="0.0534"/>
-    <stack_bottom_pole    parent="${parent}" number="4" x_loc= "0.055" y_loc="-0.120" z_loc="0.0534"/>
-    <stack_bottom_pole    parent="${parent}" number="5" x_loc="-0.055" y_loc="-0.120" z_loc="0.0534"/>
-    <stack_3d_sensor_pole parent="${parent}" number="0" x_loc="-0.1024" y_loc= "0.098" z_loc="0.259"/>
-    <stack_3d_sensor_pole parent="${parent}" number="1" x_loc="-0.1024" y_loc="-0.098" z_loc="0.259"/>
+	<stack_bottom_pole    parent="${parent}" number="0" x_loc= "0.120" y_loc= "0.082" z_loc="0.0714"/>
+	<stack_bottom_pole    parent="${parent}" number="1" x_loc= "0.055" y_loc= "0.120" z_loc="0.0714"/>
+	<stack_bottom_pole    parent="${parent}" number="2" x_loc="-0.055" y_loc= "0.120" z_loc="0.0714"/>
+    <stack_bottom_pole    parent="${parent}" number="3" x_loc= "0.120" y_loc="-0.082" z_loc="0.0714"/>
+    <stack_bottom_pole    parent="${parent}" number="4" x_loc= "0.055" y_loc="-0.120" z_loc="0.0714"/>
+    <stack_bottom_pole    parent="${parent}" number="5" x_loc="-0.055" y_loc="-0.120" z_loc="0.0714"/>
+    <stack_3d_sensor_pole parent="${parent}" number="0" x_loc="-0.1024" y_loc= "0.098" z_loc="0.277"/>
+    <stack_3d_sensor_pole parent="${parent}" number="1" x_loc="-0.1024" y_loc="-0.098" z_loc="0.277"/>
     		        
 		<joint name="plate_bottom_joint" type="fixed">
-		  <origin xyz="0.0 0.0  0.1026" rpy="0 0 0"/>
+		  <origin xyz="0.0 0.0  0.1206" rpy="0 0 0"/>
 		  <parent link="${parent}"/>
 		  <child link="plate_bottom_link"/>
 		</joint>  
@@ -168,13 +168,13 @@
       </inertial>
 		</link>
 		
-		<stack_middle_pole parent="${parent}" number="0" x_loc= "0.0702" y_loc= "0.1314" z_loc="0.1694"/>
-		<stack_middle_pole parent="${parent}" number="1" x_loc="-0.0503" y_loc= "0.1314" z_loc="0.1694"/>
-		<stack_middle_pole parent="${parent}" number="2" x_loc= "0.0702" y_loc="-0.1314" z_loc="0.1694"/>
-		<stack_middle_pole parent="${parent}" number="3" x_loc="-0.0503" y_loc="-0.1314" z_loc="0.1694"/>
+		<stack_middle_pole parent="${parent}" number="0" x_loc= "0.0702" y_loc= "0.1314" z_loc="0.1874"/>
+		<stack_middle_pole parent="${parent}" number="1" x_loc="-0.0503" y_loc= "0.1314" z_loc="0.1874"/>
+		<stack_middle_pole parent="${parent}" number="2" x_loc= "0.0702" y_loc="-0.1314" z_loc="0.1874"/>
+		<stack_middle_pole parent="${parent}" number="3" x_loc="-0.0503" y_loc="-0.1314" z_loc="0.1874"/>
 		
 		<joint name="plate_middle_joint" type="fixed">
-		  <origin xyz="0.0 0.0 0.1594" rpy="0 0 0"/>
+		  <origin xyz="0.0 0.0 0.1774" rpy="0 0 0"/>
 		  <parent link="${parent}"/>
 		  <child link="plate_middle_link"/>
 		</joint>  
@@ -201,13 +201,13 @@
       </inertial>  
 		</link>
 		
-		<stack_top_pole parent="${parent}" number="0" x_loc= "0.0702" y_loc= "0.1314" z_loc="0.1534"/>
-		<stack_top_pole parent="${parent}" number="1" x_loc="-0.0503" y_loc= "0.1314" z_loc="0.1534"/>
-		<stack_top_pole parent="${parent}" number="2" x_loc= "0.0702" y_loc="-0.1314" z_loc="0.1534"/>
-		<stack_top_pole parent="${parent}" number="3" x_loc="-0.0503" y_loc="-0.1314" z_loc="0.1534"/>
+		<stack_top_pole parent="${parent}" number="0" x_loc= "0.0702" y_loc= "0.1314" z_loc="0.1714"/>
+		<stack_top_pole parent="${parent}" number="1" x_loc="-0.0503" y_loc= "0.1314" z_loc="0.1714"/>
+		<stack_top_pole parent="${parent}" number="2" x_loc= "0.0702" y_loc="-0.1314" z_loc="0.1714"/>
+		<stack_top_pole parent="${parent}" number="3" x_loc="-0.0503" y_loc="-0.1314" z_loc="0.1714"/>
 		
 		<joint name="plate_top_joint" type="fixed">
-		  <origin xyz="0.0 0.0  0.3686" rpy="0 0 0"/>
+		  <origin xyz="0.0 0.0  0.3866" rpy="0 0 0"/>
 		  <parent link="${parent}"/>
 		  <child link="plate_top_link"/>
 		</joint>  
