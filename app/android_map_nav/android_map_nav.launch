@@ -17,9 +17,7 @@
     </rosparam>
   </node>
 
-  <!-- Commenting out for the demo 
   <include file="$(find turtlebot_bringup)/launch/3dsensor.launch"/>
-  -->
 
   <!--- Run Move Base and Robot Pose EKF -->
   <include file="$(find turtlebot_navigation)/launch/includes/_move_base.launch">
