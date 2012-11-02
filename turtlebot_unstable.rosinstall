@@ -6,14 +6,12 @@
 # ROS packages commonly required
 #   sudo apt-get install ros-fuerte-multimaster-experimental ros-fuerte-joystick-drivers
 #
-# ROS packages for webtools
-#   sudo apt-get install ros-fuerte-mjpeg-server
 #
 # ROS packages required to use OpenNI-compliant devices (both old and new methods)
 #   sudo apt-get install ros-fuerte-openni-kinect ros-fuerte-openni-camera ros-fuerte-openni-launch
 #
 # Additional ROS packages required for turtlebot_apps
-#   sudo apt-get install ros-fuerte-warehousewg ros-fuerte-mjpeg-server ros-fuerte-rosbridge-suite
+#   sudo apt-get install ros-fuerte-warehousewg ros-fuerte-mjpeg-server ros-fuerte-rosbridge-suite ros-fuerte-map-store
 #
 # Official ros stacks
 
@@ -35,6 +33,12 @@
 - git:
     uri: https://github.com/yujinrobot/kobuki_simulator.git
     local-name: kobuki_simulator
+    version: master
+
+# Create stacks
+- git:
+    uri: https://github.com/turtlebot/create.git
+    local-name: create
     version: master
 
 # Later move these to debs.
@@ -66,11 +70,6 @@
 - svn:
     uri: http://ua-ros-pkg.googlecode.com/svn/stacks/dynamixel_motor/tags/electric
     local-name: dynamixel_motor
-
-- hg:
-    uri: https://kforge.ros.org/mapstore/hg
-    version: fuerte
-    local-name: map_store
 
 # Turtlebot stacks - for merging.
 
