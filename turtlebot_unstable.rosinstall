@@ -6,19 +6,15 @@
 # ROS packages commonly required
 #   sudo apt-get install ros-fuerte-multimaster-experimental ros-fuerte-joystick-drivers
 #
+# ROS packages for webtools
+#   sudo apt-get install ros-fuerte-mjpeg-server
+#
 # ROS packages required to use OpenNI-compliant devices (both old and new methods)
 #   sudo apt-get install ros-fuerte-openni-kinect ros-fuerte-openni-camera ros-fuerte-openni-launch
 #
 # Additional ROS packages required for turtlebot_apps
 #   sudo apt-get install ros-fuerte-warehousewg ros-fuerte-mjpeg-server ros-fuerte-rosbridge-suite
 #
-# TODO 
-# For our custom arm (update for Fuerte!)
-#   sudo apt-get install ros-fuerte-turtlebot-arm ros-fuerte-dynamixel-motor (not exisiting yet)
-#   in the meanwhile to allow compiling do:
-#   sudo apt-get install ros-fuerte-simple-arms
-#   and
-
 # Official ros stacks
 
 - other:
