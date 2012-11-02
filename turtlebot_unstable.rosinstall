@@ -100,13 +100,13 @@
     version: master
 
 # rqt and dashboard
-- git: 
-    uri: https://github.com/ros-visualization/rqt.git
-    local-name: rqt
-    version: master
-
-- git:
-    uri: https://github.com/ros-visualization/qt_gui_core.git
-    local-name: qt_gui_core
-    version: master
+#- git: 
+#    uri: https://github.com/ros-visualization/rqt.git
+#    local-name: rqt
+#    version: master
+#
+#- git:
+#    uri: https://github.com/ros-visualization/qt_gui_core.git
+#    local-name: qt_gui_core
+#    version: master
 
