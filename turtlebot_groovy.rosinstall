@@ -10,10 +10,11 @@
 #
 # Catkinized stacks
 #   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf ros-groovy-pcl ros-groovy-pcl-ros
-#                        ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
+#   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
 #
 # Non catkin stacks
 #   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet
+#   sudo apt-get install ros-groovy-dynamixel-motor
 #
 # Additional dependency for gazebo
 #   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
@@ -129,13 +130,13 @@
     version: master
 
 # rqt and dashboard
-#- git: 
-#    uri: https://github.com/ros-visualization/rqt.git
-#    local-name: rqt
-#    version: master
-#
-#- git:
-#    uri: https://github.com/ros-visualization/qt_gui_core.git
-#    local-name: qt_gui_core
-#    version: master
+- git: 
+    uri: https://github.com/ros-visualization/rqt.git
+    local-name: rqt
+    version: master
+
+- git:
+    uri: https://github.com/ros-visualization/qt_gui_core.git
+    local-name: qt_gui_core
+    version: master
 
