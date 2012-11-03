@@ -8,19 +8,24 @@
 # Basic ROS
 #   sudo apt-get install ros-groovy-ros-comm 
 #
-# Catkinized stacks
+# General Catkinized stacks
 #   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf ros-groovy-pcl ros-groovy-pcl-ros
 #   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
 #
-# Non catkin stacks
+# General non catkin stacks
 #   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet
-#   sudo apt-get install ros-groovy-dynamixel-motor ros-groovy-joystick-drivers ros-groovy-warehousewg
 #
-# Additional stacks required for turtlebot apps
+# Arm
+#   sudo apt-get install ros-groovy-dynamixel-motor 
+#
+# Vizualisation
+#   sudo apt-get install ros-groovy-rviz
+#
+# Turtlebot Apps
 #   sudo apt-get install ros-fuerte-joystick-drivers ros-fuerte-openni-camera ros-groovy-image-transport-plugins
 #   sudo apt-get install ros-fuerte-multimaster-experimental ros-groovy-warehousewg
 #
-# Additional dependency for gazebo
+# Gazebo
 #   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
 #
 #
