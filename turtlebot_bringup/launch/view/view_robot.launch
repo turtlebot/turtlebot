@@ -4,5 +4,5 @@
   It requires minimal.launch and optionally 3dsensor.launch to already be up and running.
  -->
 <launch>
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtlebot_bringup)/rviz/turtlebot.vcg" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtlebot_bringup)/rviz/robot.rviz" />
 </launch>
