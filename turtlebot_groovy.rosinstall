@@ -14,7 +14,7 @@
 #
 # Non catkin stacks
 #   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet
-#   sudo apt-get install ros-groovy-dynamixel-motor
+#   sudo apt-get install ros-groovy-dynamixel-motor ros-groovy-joystick-drivers ros-groovy-warehousewg
 #
 # Additional stacks required for turtlebot apps
 #   sudo apt-get install ros-fuerte-joystick-drivers ros-fuerte-openni-camera ros-groovy-image-transport-plugins
