@@ -65,19 +65,23 @@
     uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_navigation
     local-name: ecl/ecl_navigation
 
-# Until the zeroconf_implementations 0.1.5 debs are pushed
+# Zeroconf
+ 
+- git:
+    uri: https://github.com/stonier/zeroconf_avahi_suite.git
+    local-name: zeroconf_avahi_suite
+    version: master
 
 - git:
-    uri: https://github.com/stonier/zeroconf_implementations.git
-    local-name: zeroconf_implementations
-    version: fuerte
+    uri: https://github.com/stonier/zeroconf_comms.git
+    local-name: zeroconf_comms
+    version: master
 
-# Fuerte not yet deb'd stacks
 - svn:
     uri: http://ua-ros-pkg.googlecode.com/svn/stacks/dynamixel_motor/tags/electric
     local-name: dynamixel_motor
 
-# Turtlebot stacks - for merging.
+# Turtlebot stacks
 
 - git:
     uri: https://github.com/turtlebot/turtlebot.git
