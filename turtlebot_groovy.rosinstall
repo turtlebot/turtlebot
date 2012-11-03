@@ -16,6 +16,10 @@
 #   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet
 #   sudo apt-get install ros-groovy-openni-launch
 #
+# Kinect
+#   Latest openni-dev and ps-engine from http://userpages.uni-koblenz.de/~lsarnecki/deb/
+#   sudo apt-get install ros-groovy-image-transport-plugins ros-fuerte-openni-camera
+#
 # Arm
 #   sudo apt-get install ros-groovy-dynamixel-motor 
 #
@@ -23,7 +27,7 @@
 #   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization
 #
 # Turtlebot Apps
-#   sudo apt-get install ros-fuerte-joystick-drivers ros-fuerte-openni-camera ros-groovy-image-transport-plugins
+#   sudo apt-get install ros-fuerte-joystick-drivers
 #   sudo apt-get install ros-fuerte-multimaster-experimental ros-groovy-warehousewg
 #
 # Gazebo
