@@ -20,7 +20,7 @@
 #   sudo apt-get install ros-groovy-dynamixel-motor 
 #
 # Vizualisation
-#   sudo apt-get install ros-groovy-rviz
+#   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization
 #
 # Turtlebot Apps
 #   sudo apt-get install ros-fuerte-joystick-drivers ros-fuerte-openni-camera ros-groovy-image-transport-plugins
