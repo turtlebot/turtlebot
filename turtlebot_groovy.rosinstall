@@ -14,6 +14,7 @@
 #
 # General non catkin stacks
 #   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet
+#   sudo apt-get install ros-groovy-openni-launch
 #
 # Arm
 #   sudo apt-get install ros-groovy-dynamixel-motor 
