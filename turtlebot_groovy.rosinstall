@@ -6,11 +6,19 @@
 #   sudo apt-get install python-rosdep python-rosinstall python-rospkg
 #
 # Basic ROS
-#   sudo apt-get install ros-groovy-ros-comm ros-groovy-xacro ros-groovy-diagnostic-msgs ros-groovy-diagnostics ros-groovy-robot-state-publisher ros-groovy-nodelet ros-groovy-visualization-common
-#                        ros-groovy-bullet ros-groovy-dynamic-reconfigure ros-groovy-navigation
+#   sudo apt-get install ros-groovy-ros-comm 
+#
+# Catkinized stacks
+#   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf ros-groovy-pcl ros-groovy-pcl-ros
+#                        ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
+#
+# Non catkin stacks
+#   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet
 #
 # Additional dependency for gazebo
 #   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
+#
+#
 ############################## Old Fuerte Notes ##############################
 #
 # ROS packages commonly required
@@ -30,6 +38,8 @@
     local-name: /opt/ros/groovy/share/ros
 - other:
     local-name: /opt/ros/groovy/share
+- other:
+    local-name: /opt/ros/groovy/stacks
 - setup-file:
     local-name: /opt/ros/groovy/setup.sh
 
@@ -37,6 +47,7 @@
 - svn:
     uri: https://code.ros.org/svn/ros-pkg/stacks/simulator_gazebo/trunk
     local-name: simulator_gazebo
+
 
 # Kobuki stacks
 - git:
