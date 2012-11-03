@@ -152,3 +152,7 @@
 - hg:
     uri: https://kforge.ros.org/mapstore/hg
     local-name: map_store
+
+- git:
+    uri: http://kforge.ros.org/rosbridge/git
+    local-name: rosbridge_suite
