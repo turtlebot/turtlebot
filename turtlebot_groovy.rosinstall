@@ -6,7 +6,7 @@
 #   sudo apt-get install python-rosdep python-rosinstall python-rospkg
 #
 # Basic ROS
-#   sudo apt-get install ros-groovy-ros-comm ros-groovy-xacro ros-groovy-diagnostic-msgs ros-groovy-diagnostics ros-groovy-robot-state-publisher ros-groovy-nodelet
+#   sudo apt-get install ros-groovy-ros-comm ros-groovy-xacro ros-groovy-diagnostic-msgs ros-groovy-diagnostics ros-groovy-robot-state-publisher ros-groovy-nodelet ros-groovy-visualization-common
 #
 ############################## Old Fuerte Notes ##############################
 #
