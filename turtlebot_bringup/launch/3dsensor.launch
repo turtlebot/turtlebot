@@ -9,7 +9,7 @@
   -->
   <group unless="$(arg use_openni_launch)">
     <node pkg="nodelet" type="nodelet" name="$(arg camera)_nodelet_manager" output="screen" respawn="true" args="manager"/>
-    <node pkg="nodelet" type="nodelet" name="openni_launch" args="load openni_camera/OpenNINodelet $(arg camera)_nodelet_manager" respawn="true">
+    <node pkg="nodelet" type="nodelet" name="openni_launch" args="load openni_camera/driver $(arg camera)_nodelet_manager" respawn="true">
       <rosparam file="$(find turtlebot_bringup)/param/kinect.yaml" command="load"/>
     </node>
   </group>
