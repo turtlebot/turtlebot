@@ -129,7 +129,7 @@
     local-name: turtlebot_apps
     version: master
 
-# rqt and dashboard
+# rqt and dashboard - don't have groovy debs yet.
 - git: 
     uri: https://github.com/ros-visualization/rqt.git
     local-name: rqt
