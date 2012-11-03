@@ -154,5 +154,5 @@
     local-name: map_store
 
 - git:
-    uri: http://kforge.ros.org/rosbridge/git
+    uri: https://github.com/RobotWebTools/rosbridge_suite.git 
     local-name: rosbridge_suite
