@@ -7,7 +7,7 @@
 #
 # Basic ROS
 #   sudo apt-get install ros-groovy-ros-comm ros-groovy-xacro ros-groovy-diagnostic-msgs ros-groovy-diagnostics ros-groovy-robot-state-publisher ros-groovy-nodelet ros-groovy-visualization-common
-#                        ros-groovy-bullet ros-groovy-dynamic-reconfigure
+#                        ros-groovy-bullet ros-groovy-dynamic-reconfigure ros-groovy-navigation
 #
 # Additional dependency for gazebo
 #   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
