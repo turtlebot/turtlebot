@@ -16,6 +16,10 @@
 #   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet
 #   sudo apt-get install ros-groovy-dynamixel-motor
 #
+# Additional stacks required for turtlebot apps
+#   sudo apt-get install ros-fuerte-joystick-drivers ros-fuerte-openni-camera ros-groovy-image-transport-plugins
+#   sudo apt-get install ros-fuerte-multimaster-experimental ros-groovy-warehousewg
+#
 # Additional dependency for gazebo
 #   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
 #
@@ -140,3 +144,11 @@
     local-name: qt_gui_core
     version: master
 
+# some extra packages required for turtlebot apps that don't have groovy debs yet.
+- svn:
+    uri: http://svn.code.sf.net/p/bosch-ros-pkg/code/trunk/stacks/mjpeg_server
+    local-name: mjpeg_server
+
+- hg:
+    uri: https://kforge.ros.org/mapstore/hg
+    local-name: map_store
