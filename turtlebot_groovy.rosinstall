@@ -31,6 +31,11 @@
 - setup-file:
     local-name: /opt/ros/groovy/setup.sh
 
+# Gazebo stacks
+- svn:
+    uri: https://code.ros.org/svn/ros-pkg/stacks/simulator_gazebo/trunk
+    local-name: simulator_gazebo
+
 # Kobuki stacks
 - git:
     uri: https://github.com/yujinrobot/kobuki.git
