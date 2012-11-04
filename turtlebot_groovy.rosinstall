@@ -14,7 +14,8 @@
 #
 # General non catkin stacks
 #   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet
-#   sudo apt-get install ros-groovy-openni-launch
+#   sudo apt-get install ros-groovy-ecl-tools ros-groovy-ecl-lite ros-groovy-ecl-core ros-groovy-ecl-navigation
+#   sudo apt-get install ros-groovy-openni-launch 
 #
 # Kinect
 #   Latest openni-dev and ps-engine from http://userpages.uni-koblenz.de/~lsarnecki/deb/
@@ -80,24 +81,6 @@
     uri: https://github.com/turtlebot/create.git
     local-name: create
     version: master
-
-# Later move these to debs.
-
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_tools
-    local-name: ecl/ecl_tools
-
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_lite
-    local-name: ecl/ecl_lite
-
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_core
-    local-name: ecl/ecl_core
-
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_navigation
-    local-name: ecl/ecl_navigation
 
 # Zeroconf
  
