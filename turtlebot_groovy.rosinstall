@@ -149,3 +149,23 @@
 - git:
     uri: https://github.com/RobotWebTools/rosbridge_suite.git 
     local-name: rosbridge_suite
+
+# Later move these to debs.
+
+- svn:
+    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_tools
+    local-name: ecl/ecl_tools
+
+- svn:
+    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_lite
+    local-name: ecl/ecl_lite
+
+- svn:
+    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_core
+    local-name: ecl/ecl_core
+
+- svn:
+    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_navigation
+    local-name: ecl/ecl_navigation
+
+
