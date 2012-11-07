@@ -13,6 +13,11 @@
 # Additional ROS packages required for turtlebot_apps
 #   sudo apt-get install ros-fuerte-warehousewg ros-fuerte-mjpeg-server ros-fuerte-rosbridge-suite ros-fuerte-map-store
 #
+# Zeroconf
+#   sudo apt-get install ros-fuerte-zeroconf-comms ros-fuerte-zeroconf-avahi-suite
+#
+# Kobuki
+#   sudo apt-get install ros-fuerte-ecl-tools ros-fuerte-ecl-lite ros-fuerte-ecl-core ros-fuerte-ecl-navigation
 # Official ros stacks
 
 - other:
@@ -39,35 +44,6 @@
 - git:
     uri: https://github.com/turtlebot/create.git
     local-name: create
-    version: fuerte
-
-# Later move these to debs.
-
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_tools
-    local-name: ecl/ecl_tools
-    version: r1646
-
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_lite
-    local-name: ecl/ecl_lite
-    version: r1646
-
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_core
-    local-name: ecl/ecl_core
-    version: r1646
-
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_navigation
-    local-name: ecl/ecl_navigation
-    version: r1646
-
-# Until the zeroconf_implementations 0.1.5 debs are pushed
-
-- git:
-    uri: https://github.com/stonier/zeroconf_implementations.git
-    local-name: zeroconf_implementations
     version: fuerte
 
 # Fuerte not yet deb'd stacks
