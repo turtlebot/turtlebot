@@ -17,6 +17,9 @@
 #   sudo apt-get install ros-groovy-ecl-tools ros-groovy-ecl-lite ros-groovy-ecl-core ros-groovy-ecl-navigation
 #   sudo apt-get install ros-groovy-openni-launch 
 #
+# Zeroconf (non catkin)
+#   sudo apt-get install zeroconf-comms
+#
 # Kinect
 #   Latest openni-dev and ps-engine from http://userpages.uni-koblenz.de/~lsarnecki/deb/
 #   sudo apt-get install ros-groovy-image-transport-plugins ros-fuerte-openni-camera
@@ -89,6 +92,7 @@
     local-name: zeroconf_avahi_suite
     version: master
 
+# Now in debs
 - git:
     uri: https://github.com/stonier/zeroconf_comms.git
     local-name: zeroconf_comms
@@ -150,22 +154,22 @@
     uri: https://github.com/RobotWebTools/rosbridge_suite.git 
     local-name: rosbridge_suite
 
-# Later move these to debs.
+# Now in debs, v 0.44.0+
 
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_tools
-    local-name: ecl/ecl_tools
+#- svn:
+#    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_tools
+#    local-name: ecl/ecl_tools
 
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_lite
-    local-name: ecl/ecl_lite
+#- svn:
+#    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_lite
+#    local-name: ecl/ecl_lite
 
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_core
-    local-name: ecl/ecl_core
+#- svn:
+#    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_core
+#    local-name: ecl/ecl_core
 
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_navigation
-    local-name: ecl/ecl_navigation
+#- svn:
+#    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_navigation
+#    local-name: ecl/ecl_navigation
 
 
