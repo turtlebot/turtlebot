@@ -76,27 +76,26 @@
 - git:
     uri: https://github.com/turtlebot/turtlebot.git
     local-name: turtlebot
+    version: master
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_simulator.git
     local-name: turtlebot_simulator
+    version: master
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_apps.git
     local-name: turtlebot_apps
+    version: master
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_viz.git
     local-name: turtlebot_viz
+    version: master
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_arm.git
     local-name: turtlebot_arm
-
-# turtlebot apps 
-- git:
-    uri: https://github.com/turtlebot/turtlebot_apps.git
-    local-name: turtlebot_apps
     version: master
 
 # rqt and dashboard
