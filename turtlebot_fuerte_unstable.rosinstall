@@ -1,3 +1,4 @@
+##############################################################################
 # Before rosinstalling, make sure you installed:
 #
 # Basic ROS
@@ -13,6 +14,12 @@
 # Additional ROS packages required for turtlebot_apps
 #   sudo apt-get install ros-fuerte-warehousewg ros-fuerte-mjpeg-server ros-fuerte-rosbridge-suite ros-fuerte-map-store
 #
+# Zeroconf
+#   sudo apt-get install ros-fuerte-zeroconf-comms ros-fuerte-zeroconf-avahi-suite
+#
+# Kobuki
+#   sudo apt-get install ros-fuerte-ecl-tools ros-fuerte-ecl-lite ros-fuerte-ecl-core ros-fuerte-ecl-navigation
+##############################################################################
 # Official ros stacks
 
 - other:
@@ -23,6 +30,12 @@
     local-name: /opt/ros/fuerte/stacks
 - setup-file:
     local-name: /opt/ros/fuerte/setup.sh
+
+# Gazebo stacks
+- svn:
+    uri: https://code.ros.org/svn/ros-pkg/stacks/simulator_gazebo/trunk
+    local-name: simulator_gazebo
+
 
 # Kobuki stacks
 - git:
@@ -41,37 +54,11 @@
     local-name: create
     version: master
 
-# Later move these to debs.
-
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_tools
-    local-name: ecl/ecl_tools
-
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_lite
-    local-name: ecl/ecl_lite
-
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_core
-    local-name: ecl/ecl_core
-
-- svn:
-    uri: https://embedded-control-library.googlecode.com/svn/trunk/ecl_navigation
-    local-name: ecl/ecl_navigation
-
-# Until the zeroconf_implementations 0.1.5 debs are pushed
-
-- git:
-    uri: https://github.com/stonier/zeroconf_implementations.git
-    local-name: zeroconf_implementations
-    version: fuerte
-
-# Fuerte not yet deb'd stacks
 - svn:
     uri: http://ua-ros-pkg.googlecode.com/svn/stacks/dynamixel_motor/tags/electric
     local-name: dynamixel_motor
 
-# Turtlebot stacks - for merging.
+# Turtlebot stacks
 
 - git:
     uri: https://github.com/turtlebot/turtlebot.git
@@ -98,14 +85,28 @@
     local-name: turtlebot_arm
     version: master
 
-# rqt and dashboard
-#- git: 
-#    uri: https://github.com/ros-visualization/rqt.git
-#    local-name: rqt
-#    version: master
-#
-#- git:
-#    uri: https://github.com/ros-visualization/qt_gui_core.git
-#    local-name: qt_gui_core
-#    version: master
+# rqt and dashboard - don't have groovy debs yet.
+- git: 
+    uri: https://github.com/ros-visualization/rqt.git
+    local-name: rqt
+    version: master
+
+- git:
+    uri: https://github.com/ros-visualization/qt_gui_core.git
+    local-name: qt_gui_core
+    version: master
+
+# some extra packages required for turtlebot apps that don't have groovy debs yet.
+- svn:
+    uri: http://svn.code.sf.net/p/bosch-ros-pkg/code/trunk/stacks/mjpeg_server
+    local-name: mjpeg_server
+
+- hg:
+    uri: https://kforge.ros.org/mapstore/hg
+    local-name: map_store
+
+- git:
+    uri: https://github.com/RobotWebTools/rosbridge_suite.git 
+    local-name: rosbridge_suite
+
 
