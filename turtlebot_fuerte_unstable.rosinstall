@@ -1,53 +1,35 @@
 ##############################################################################
-#
 # Before rosinstalling, make sure you installed:
 #
-# Latest build tools
-#   sudo apt-get install python-rosdep python-rosinstall python-rospkg
-#
 # Basic ROS
-#   sudo apt-get install ros-groovy-ros-comm 
+#   sudo apt-get install ros-fuerte-desktop-full
 #
-# General Catkinized stacks
-#   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf ros-groovy-pcl ros-groovy-pcl-ros
-#   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
+# ROS packages commonly required
+#   sudo apt-get install ros-fuerte-multimaster-experimental ros-fuerte-joystick-drivers
 #
-# General non catkin stacks
-#   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet
-#   sudo apt-get install ros-groovy-ecl-tools ros-groovy-ecl-lite ros-groovy-ecl-core ros-groovy-ecl-navigation
-#   sudo apt-get install ros-groovy-openni-launch 
 #
-# Zeroconf (non catkin)
-#   sudo apt-get install zeroconf-comms
+# ROS packages required to use OpenNI-compliant devices (both old and new methods)
+#   sudo apt-get install ros-fuerte-openni-kinect ros-fuerte-openni-camera ros-fuerte-openni-launch
 #
-# Kinect
-#   Latest openni-dev and ps-engine from http://userpages.uni-koblenz.de/~lsarnecki/deb/
-#   sudo apt-get install ros-groovy-image-transport-plugins ros-fuerte-openni-camera
+# Additional ROS packages required for turtlebot_apps
+#   sudo apt-get install ros-fuerte-warehousewg ros-fuerte-mjpeg-server ros-fuerte-rosbridge-suite ros-fuerte-map-store
 #
-# Arm
-#   sudo apt-get install ros-groovy-dynamixel-motor 
+# Zeroconf
+#   sudo apt-get install ros-fuerte-zeroconf-comms ros-fuerte-zeroconf-avahi-suite
 #
-# Vizualisation
-#   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization
-#
-# Turtlebot Apps
-#   sudo apt-get install ros-fuerte-joystick-drivers
-#   sudo apt-get install ros-fuerte-multimaster-experimental ros-groovy-warehousewg
-#
-# Gazebo
-#   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
-#
+# Kobuki
+#   sudo apt-get install ros-fuerte-ecl-tools ros-fuerte-ecl-lite ros-fuerte-ecl-core ros-fuerte-ecl-navigation
 ##############################################################################
 # Official ros stacks
 
 - other:
-    local-name: /opt/ros/groovy/share/ros
+    local-name: /opt/ros/fuerte/share/ros
 - other:
-    local-name: /opt/ros/groovy/share
+    local-name: /opt/ros/fuerte/share
 - other:
-    local-name: /opt/ros/groovy/stacks
+    local-name: /opt/ros/fuerte/stacks
 - setup-file:
-    local-name: /opt/ros/groovy/setup.sh
+    local-name: /opt/ros/fuerte/setup.sh
 
 # Gazebo stacks
 - svn:
@@ -70,18 +52,6 @@
 - git:
     uri: https://github.com/turtlebot/create.git
     local-name: create
-    version: master
-
-# Zeroconf
- 
-- git:
-    uri: https://github.com/stonier/zeroconf_avahi_suite.git
-    local-name: zeroconf_avahi_suite
-    version: master
-
-- git:
-    uri: https://github.com/stonier/zeroconf_comms.git
-    local-name: zeroconf_comms
     version: master
 
 - svn:
