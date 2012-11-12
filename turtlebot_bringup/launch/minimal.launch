@@ -4,7 +4,7 @@
   <arg name="stacks"     value="$(optenv TURTLEBOT_STACKS hexagons)"/>  <!-- circles, hexagons -->
   <arg name="3d_sensor"  value="$(optenv TURTLEBOT_3D_SENSOR kinect)"/>  <!-- kinect, asus_xtion_pro -->
   <arg name="simulation" value="$(optenv TURTLEBOT_SIMULATION false)"/>
-  <arg name="using_fuerte" value="$(optenv TURTLEBOT_USING_FUERTE true)"/>
+  <arg name="using_fuerte" value="$(optenv TURTLEBOT_USING_FUERTE false)"/>
   
   <param name="/use_sim_time" value="$(arg simulation)"/>
   

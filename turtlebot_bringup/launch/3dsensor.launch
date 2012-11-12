@@ -1,6 +1,6 @@
 <launch>
   <!-- Distro -->
-  <arg name="using_fuerte" value="$(optenv TURTLEBOT_USING_FUERTE true)"/>
+  <arg name="using_fuerte" value="$(optenv TURTLEBOT_USING_FUERTE false)"/>
 
   <!-- Kinect -->
   <arg name="camera" value="camera"/>
