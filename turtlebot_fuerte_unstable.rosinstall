@@ -50,8 +50,8 @@
 
 # Create stacks
 - git:
-    uri: https://github.com/turtlebot/create.git
-    local-name: create
+    uri: https://github.com/turtlebot/turtlebot_create.git
+    local-name: turtlebot_create
     version: master
 
 - svn:
