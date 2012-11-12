@@ -1,7 +1,11 @@
 <launch>
+  <!-- Distro -->
+  <arg name="using_fuerte" value="$(optenv TURTLEBOT_USING_FUERTE true)"/>
+
   <!-- Kinect -->
   <arg name="camera" value="camera"/>
   <arg name="use_openni_launch" value="false"/>
+  
   <!-- 
     Lighter method - load minimal set of depth sensing infrastructure
     This I suspect is too heavy - see http://www.ros.org/wiki/openni_camera
@@ -9,9 +13,16 @@
   -->
   <group unless="$(arg use_openni_launch)">
     <node pkg="nodelet" type="nodelet" name="$(arg camera)_nodelet_manager" output="screen" respawn="true" args="manager"/>
-    <node pkg="nodelet" type="nodelet" name="openni_launch" args="load openni_camera/driver $(arg camera)_nodelet_manager" respawn="true">
-      <rosparam file="$(find turtlebot_bringup)/param/kinect.yaml" command="load"/>
-    </node>
+    <group if="$(arg using_fuerte)">
+      <node pkg="nodelet" type="nodelet" name="openni_launch" args="load openni_camera/OpenNINodelet $(arg camera)_nodelet_manager" respawn="true">
+        <rosparam file="$(find turtlebot_bringup)/param/kinect.yaml" command="load"/>
+      </node>
+    </group>
+    <group unless="$(arg using_fuerte)">
+      <node pkg="nodelet" type="nodelet" name="openni_launch" args="load openni_camera/driver $(arg camera)_nodelet_manager" respawn="true">
+        <rosparam file="$(find turtlebot_bringup)/param/kinect.yaml" command="load"/>
+      </node>
+    </group>
   </group>
   <!-- 
     Alternative way - load standard constellation of processing nodelets from the openni launcher directly
