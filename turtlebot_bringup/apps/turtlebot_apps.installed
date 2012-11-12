@@ -16,8 +16,6 @@ apps:
    app: turtlebot_follower/follower
  - display: Take a Panorama
    app: turtlebot_panorama/panorama
- - display: Safe Wandering
-   app: turtlebot_wanderer/wanderer
 # - display: Light Show 
 #   app: minsu_apps/light_show
 # - display: Draw Square
