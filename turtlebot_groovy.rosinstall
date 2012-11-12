@@ -18,7 +18,7 @@
 #   sudo apt-get install ros-groovy-openni-launch 
 #
 # Zeroconf (non catkin)
-#   sudo apt-get install zeroconf-comms
+#   sudo apt-get install ros-groovy-zeroconf-comms ros-groovy-zeroconf-avahi
 #
 # Kinect
 #   Latest openni-dev and ps-engine from http://userpages.uni-koblenz.de/~lsarnecki/deb/
@@ -68,20 +68,8 @@
 
 # Create stacks
 - git:
-    uri: https://github.com/turtlebot/create.git
+    uri: https://github.com/turtlebot/turtlebot_create.git
     local-name: create
-    version: master
-
-# Zeroconf
- 
-- git:
-    uri: https://github.com/stonier/zeroconf_avahi_suite.git
-    local-name: zeroconf_avahi_suite
-    version: master
-
-- git:
-    uri: https://github.com/stonier/zeroconf_comms.git
-    local-name: zeroconf_comms
     version: master
 
 - svn:
