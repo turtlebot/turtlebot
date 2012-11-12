@@ -1,6 +1,0 @@
-<!--
-  Used for visualising the turtlebot while navigating with the ros navistack. 
- -->
-<launch>
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtlebot_bringup)/rviz/navigation.vcg" />
-</launch>
