@@ -118,7 +118,7 @@
 - git:
     uri: https://github.com/ros-visualization/qt_gui_core.git
     local-name: qt_gui_core
-    version: master
+    version: groovy-devel
 
 # some extra packages required for turtlebot apps that don't have groovy debs yet.
 - svn:
