@@ -90,17 +90,6 @@
     local-name: turtlebot_arm
     version: master
 
-# rqt and dashboard - don't have groovy debs yet.
-- git: 
-    uri: https://github.com/ros-visualization/rqt.git
-    local-name: rqt
-    version: master
-
-- git:
-    uri: https://github.com/ros-visualization/qt_gui_core.git
-    local-name: qt_gui_core
-    version: groovy-devel
-
 # some extra packages required for turtlebot apps that don't have groovy debs yet.
 - svn:
     uri: http://svn.code.sf.net/p/bosch-ros-pkg/code/trunk/stacks/mjpeg_server
