@@ -103,4 +103,14 @@
     uri: https://github.com/RobotWebTools/rosbridge_suite.git 
     local-name: rosbridge_suite
 
+# rqt and dashboard - bit hard fixing on anything right now
+- git:
+    uri: https://github.com/ros-visualization/rqt.git
+    local-name: rqt
+    version: 24f3893802cff52bfedf89fc4ccf02f046d
+
+- git:
+    uri: https://github.com/ros-visualization/qt_gui_core.git
+    local-name: qt_gui_core
+    version: 4b1d25b6bfcf808334f327379727b2fa8eb81558
 
