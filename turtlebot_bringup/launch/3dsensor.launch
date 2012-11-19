@@ -5,7 +5,16 @@
   <!-- Kinect -->
   <arg name="camera" value="camera"/>
   <arg name="use_openni_launch" value="false"/>
-  
+
+  <!-- Remapping arguments -->
+  <arg name="rgb"              default="rgb" />
+  <arg name="ir"               default="ir" />
+  <arg name="depth"            default="depth" />
+  <arg name="depth_registered" default="depth_registered" />
+  <arg name="projector"        default="projector" />
+
+  <arg name="manager" value="$(arg camera)_nodelet_manager" />
+
   <!-- 
     Lighter method - load minimal set of depth sensing infrastructure
     This I suspect is too heavy - see http://www.ros.org/wiki/openni_camera
@@ -24,6 +33,21 @@
       </node>
     </group>
   </group>
+
+
+  <arg name="respawn" default="false" />
+      <!-- Load standard constellation of processing nodelets -->
+    <include file="$(find openni_launch)/launch/includes/processing.launch">
+      <arg name="manager"               value="/$(arg manager)" /> <!-- Fully resolved -->
+      <arg name="rgb"                   value="$(arg rgb)" />
+      <arg name="ir"                    value="$(arg ir)" />
+      <arg name="depth"                 value="$(arg depth)" />
+      <arg name="depth_registered"      value="$(arg depth_registered)" />
+      <arg name="projector"             value="$(arg projector)" />
+      <arg name="respawn"               value="$(arg respawn)" />
+    </include>
+
+
   <!-- 
     Alternative way - load standard constellation of processing nodelets from the openni launcher directly
     This I suspect is too heavy - see http://www.ros.org/wiki/openni_camera
