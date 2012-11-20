@@ -1,3 +1,2 @@
-publisher: []
-subscriber: [] 
-service: []
+published_topics: {}
+subscribed_topics: {}

@@ -1,3 +1,5 @@
-publisher: [/camera/rgb/image_color/compressed_throttle]
-subscriber: []
-service: []
+published_topics:
+  /camera/rgb/image_color/compressed_throttle: sensor_msgs/CompressedImage
+
+subscribed_topics: {}
+
