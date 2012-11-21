@@ -4,7 +4,7 @@
 
   <!-- Kinect -->
   <arg name="camera" value="camera"/>
-  <arg name="use_openni_launch" value="false"/>
+  <arg name="use_openni_launch" value="true"/>
 
   <!-- Remapping arguments -->
   <arg name="rgb"              default="rgb" />
@@ -22,6 +22,7 @@
   -->
   <group unless="$(arg use_openni_launch)">
     <node pkg="nodelet" type="nodelet" name="$(arg camera)_nodelet_manager" output="screen" respawn="true" args="manager"/>
+    <group ns="$(arg camera)">
     <group if="$(arg using_fuerte)">
       <node pkg="nodelet" type="nodelet" name="openni_launch" args="load openni_camera/OpenNINodelet $(arg camera)_nodelet_manager" respawn="true">
         <rosparam file="$(find turtlebot_bringup)/param/kinect.yaml" command="load"/>
@@ -32,9 +33,10 @@
         <rosparam file="$(find turtlebot_bringup)/param/kinect.yaml" command="load"/>
       </node>
     </group>
-  </group>
+    </group>
 
 
+    <group ns="$(arg camera)">
   <arg name="respawn" default="false" />
       <!-- Load standard constellation of processing nodelets -->
     <include file="$(find openni_launch)/launch/includes/processing.launch">
@@ -46,6 +48,8 @@
       <arg name="projector"             value="$(arg projector)" />
       <arg name="respawn"               value="$(arg respawn)" />
     </include>
+    </group>
+  </group>
 
 
   <!-- 
@@ -59,7 +63,7 @@
       <arg name="publish_tf" default="false"/>
       <arg name="rgb_frame_id" value="$(arg camera)_rgb_optical_frame" />
       <arg name="depth_frame_id" value="$(arg camera)_depth_optical_frame" />
-      <arg name="depth_registration" value="true" />
+      <arg name="depth_registration" value="false" />
     </include>
   </group>
 
