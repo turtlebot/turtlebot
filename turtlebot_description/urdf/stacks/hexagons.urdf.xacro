@@ -9,6 +9,7 @@
   <xacro:property name="M_SCALE" value="0.001"/>
   
   <!-- Xacro macros -->
+  <!-- Pole macros -->
   <xacro:macro name="stack_bottom_pole" params="parent number x_loc y_loc z_loc">
     <joint name="pole_bottom_${number}_joint" type="fixed">
       <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0"/>
@@ -19,12 +20,12 @@
       <visual>
         <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/pole_bottom.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/pole_bottom.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
         <xacro:insert_block name="material_light_grey"/>
       </visual>
       <collision>
-        <origin xyz="0 0 0.0246" rpy="0 0 0"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <cylinder length="0.0492" radius=".006"/>
         </geometry>
@@ -47,9 +48,9 @@
     </joint>
     <link name="pole_middle_${number}_link">
       <visual>
-        <origin xyz="0 0 0" rpy="${-M_PI/2} 0 0"/>
+        <origin xyz="0 0 0" rpy="${-M_PI/2} ${M_PI} 0"/>
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/pole_middle.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/pole_middle.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
         <xacro:insert_block name="material_light_grey"/>
       </visual>
@@ -79,7 +80,7 @@
       <visual>
         <origin xyz=" 0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/pole_top.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/pole_top.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
         <xacro:insert_block name="material_light_grey"/>
       </visual>
@@ -107,9 +108,9 @@
     </joint>
     <link name="pole_kinect_${number}_link">
       <visual>
-        <origin xyz="0 0 0" rpy="${-M_PI/2} 0 0"/>
+        <origin xyz="0 0 0" rpy="${-M_PI/2} ${M_PI} 0"/>
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/pole_kinect.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/pole_kinect.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
         <xacro:insert_block name="material_light_grey"/>
       </visual>
@@ -129,18 +130,17 @@
     </link>
   </xacro:macro>
   
+  <!-- Stack macro -->
   <xacro:macro name="stack_hexagons" params="parent">
-	<stack_bottom_pole    parent="${parent}" number="0" x_loc= "0.120" y_loc= "0.082" z_loc="0.0714"/>
-	<stack_bottom_pole    parent="${parent}" number="1" x_loc= "0.055" y_loc= "0.120" z_loc="0.0714"/>
-	<stack_bottom_pole    parent="${parent}" number="2" x_loc="-0.055" y_loc= "0.120" z_loc="0.0714"/>
-    <stack_bottom_pole    parent="${parent}" number="3" x_loc= "0.120" y_loc="-0.082" z_loc="0.0714"/>
-    <stack_bottom_pole    parent="${parent}" number="4" x_loc= "0.055" y_loc="-0.120" z_loc="0.0714"/>
-    <stack_bottom_pole    parent="${parent}" number="5" x_loc="-0.055" y_loc="-0.120" z_loc="0.0714"/>
-    <stack_3d_sensor_pole parent="${parent}" number="0" x_loc="-0.1024" y_loc= "0.098" z_loc="0.277"/>
-    <stack_3d_sensor_pole parent="${parent}" number="1" x_loc="-0.1024" y_loc="-0.098" z_loc="0.277"/>
+	  <stack_bottom_pole    parent="${parent}" number="0" x_loc= "0.120" y_loc= "0.082" z_loc="0.073"/>
+	  <stack_bottom_pole    parent="${parent}" number="1" x_loc= "0.055" y_loc= "0.120" z_loc="0.073"/>
+	  <stack_bottom_pole    parent="${parent}" number="2" x_loc="-0.055" y_loc= "0.120" z_loc="0.073"/>
+    <stack_bottom_pole    parent="${parent}" number="3" x_loc= "0.120" y_loc="-0.082" z_loc="0.073"/>
+    <stack_bottom_pole    parent="${parent}" number="4" x_loc= "0.055" y_loc="-0.120" z_loc="0.073"/>
+    <stack_bottom_pole    parent="${parent}" number="5" x_loc="-0.055" y_loc="-0.120" z_loc="0.073"/>
     		        
 		<joint name="plate_bottom_joint" type="fixed">
-		  <origin xyz="0.0 0.0  0.1206" rpy="0 0 0"/>
+		  <origin xyz="0.02364 0.0 0.1006" rpy="0 0 0"/>
 		  <parent link="${parent}"/>
 		  <child link="plate_bottom_link"/>
 		</joint>  
@@ -148,16 +148,15 @@
 		  <visual>
 		    <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
 		    <geometry>
-		      <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/plate_bottom.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+		      <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/plate_bottom.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
 		    </geometry>
-        <xacro:insert_block name="material_light_grey"/>
+        <xacro:insert_block name="material_black"/>
 		  </visual>  
 		  <collision>
-		    <origin xyz="0.02364 0.0 0.003" rpy="0 0 0"/>
+		    <origin xyz="0 0 0" rpy="0 0 0"/>
 		    <geometry>
 		      <box size="0.26727 0.345 0.006"/>
 		    </geometry>
-        <xacro:insert_block name="material_light_grey"/>
 		  </collision>
       <inertial>
         <mass value="0.01" />
@@ -168,28 +167,28 @@
       </inertial>
 		</link>
 		
-		<stack_middle_pole parent="${parent}" number="0" x_loc= "0.0702" y_loc= "0.1314" z_loc="0.1874"/>
-		<stack_middle_pole parent="${parent}" number="1" x_loc="-0.0503" y_loc= "0.1314" z_loc="0.1874"/>
-		<stack_middle_pole parent="${parent}" number="2" x_loc= "0.0702" y_loc="-0.1314" z_loc="0.1874"/>
-		<stack_middle_pole parent="${parent}" number="3" x_loc="-0.0503" y_loc="-0.1314" z_loc="0.1874"/>
+		<stack_middle_pole parent="${parent}" number="0" x_loc= "0.0381" y_loc= "0.1505" z_loc="0.134"/>
+		<stack_middle_pole parent="${parent}" number="1" x_loc= "0.0381" y_loc="-0.1505" z_loc="0.134"/>
+		<stack_middle_pole parent="${parent}" number="2" x_loc="-0.0381" y_loc= "0.1505" z_loc="0.134"/>
+		<stack_middle_pole parent="${parent}" number="3" x_loc="-0.0381" y_loc="-0.1505" z_loc="0.134"/>
 		
 		<joint name="plate_middle_joint" type="fixed">
-		  <origin xyz="0.0 0.0 0.1774" rpy="0 0 0"/>
+		  <origin xyz="-0.01364 0.0 0.1574" rpy="0 0 0"/>
 		  <parent link="${parent}"/>
 		  <child link="plate_middle_link"/>
 		</joint>  
 		<link name="plate_middle_link">
 		  <visual>
-		    <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+		    <origin xyz="0 0 0" rpy="${M_PI/2} 0 -${M_PI/2}"/>
 		    <geometry>
-		      <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/plate_middle.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/plate_middle.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
 		    </geometry>
-        <xacro:insert_block name="material_light_grey"/>
+        <xacro:insert_block name="material_black"/>
 		  </visual>  
 		  <collision>
-		    <origin xyz="0.0 0.0 -0.015" rpy="0 0 0"/>
+		    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
 		    <geometry>
-		      <box size="0.31454 0.345 0.006"/>
+		      <box size="0.28727 0.340 0.006"/>
 		    </geometry>
 		  </collision>
       <inertial>
@@ -201,28 +200,30 @@
       </inertial>  
 		</link>
 		
-		<stack_top_pole parent="${parent}" number="0" x_loc= "0.0702" y_loc= "0.1314" z_loc="0.1714"/>
-		<stack_top_pole parent="${parent}" number="1" x_loc="-0.0503" y_loc= "0.1314" z_loc="0.1714"/>
-		<stack_top_pole parent="${parent}" number="2" x_loc= "0.0702" y_loc="-0.1314" z_loc="0.1714"/>
-		<stack_top_pole parent="${parent}" number="3" x_loc="-0.0503" y_loc="-0.1314" z_loc="0.1714"/>
-		
+		<stack_top_pole parent="${parent}" number="0" x_loc= "0.0381" y_loc= "0.1505" z_loc="0.262"/>
+		<stack_top_pole parent="${parent}" number="1" x_loc= "0.0381" y_loc="-0.1505" z_loc="0.262"/>
+		<stack_top_pole parent="${parent}" number="2" x_loc="-0.0381" y_loc= "0.1505" z_loc="0.262"/>
+		<stack_top_pole parent="${parent}" number="3" x_loc="-0.0381" y_loc="-0.1505" z_loc="0.262"/>
+    <stack_3d_sensor_pole parent="${parent}" number="0" x_loc="-0.1024" y_loc= "0.098" z_loc="0.2072"/>
+    <stack_3d_sensor_pole parent="${parent}" number="1" x_loc="-0.1024" y_loc="-0.098" z_loc="0.2072"/>
+    		
 		<joint name="plate_top_joint" type="fixed">
-		  <origin xyz="0.0 0.0  0.3866" rpy="0 0 0"/>
+		  <origin xyz="-0.01364 0.0  0.3666" rpy="0 0 0"/>
 		  <parent link="${parent}"/>
 		  <child link="plate_top_link"/>
 		</joint>  
 		<link name="plate_top_link">
 		  <visual>
-        <origin xyz="0 0 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+        <origin xyz="0 0 0" rpy="${M_PI/2} 0 -${M_PI/2}"/>
 		    <geometry>
-		      <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/plate_top.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/plate_top.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
 		    </geometry>
-        <xacro:insert_block name="material_light_grey"/>
+        <xacro:insert_block name="material_black"/>
 		  </visual>  
 		  <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
 		    <geometry>
-		      <box size="0.233502 0.314845 0.006401"/>
+          <box size="0.28727 0.340 0.006"/>
 		    </geometry>
 		  </collision>
       <inertial>
