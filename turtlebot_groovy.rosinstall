@@ -29,8 +29,8 @@
 #   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization
 #
 # Turtlebot Apps
-#   sudo apt-get install ros-fuerte-joystick-drivers
-#   sudo apt-get install ros-fuerte-multimaster-experimental ros-groovy-warehousewg
+#   sudo apt-get install ros-groovy-joystick-drivers
+#   sudo apt-get install ros-groovy-multimaster-experimental ros-groovy-warehouse-ros
 #
 # Gazebo
 #   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
