@@ -31,6 +31,7 @@
 # Turtlebot Apps
 #   sudo apt-get install ros-groovy-joystick-drivers
 #   sudo apt-get install ros-groovy-multimaster-experimental ros-groovy-warehouse-ros
+#   sudo apt-get install ros-groovy-image-transport ros-groovy-image-transport-plugins
 #
 # Gazebo
 #   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
