@@ -18,11 +18,9 @@
 #   sudo apt-get install ros-groovy-openni-launch 
 #
 # Zeroconf (non catkin)
-#   sudo apt-get install ros-groovy-zeroconf-comms ros-groovy-zeroconf-avahi
+#   sudo apt-get install ros-groovy-zeroconf-avahi
 #
-# Kinect
-#   Latest openni-dev and ps-engine from http://userpages.uni-koblenz.de/~lsarnecki/deb/
-#   sudo apt-get install ros-groovy-image-transport-plugins ros-fuerte-openni-camera
+# Kinect (TODO JiHoon)
 #
 # Arm
 #   sudo apt-get install ros-groovy-dynamixel-motor 
