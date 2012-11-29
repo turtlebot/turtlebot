@@ -18,5 +18,5 @@
   <depend stack="ros" />
   <depend stack="ros_comm" /> <!-- rospy -->
   <depend stack="xacro" /> <!-- xacro -->
-
+  <depend stack="zeroconf_avahi_suite" /> <!-- zeroconf_avahi -->
 </stack>
