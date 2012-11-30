@@ -44,6 +44,11 @@
     version: master
 
 - git:
+    uri: https://github.com/yujinrobot/kobuki_controllers.git
+    local-name: kobuki_controllers
+    version: master
+
+- git:
     uri: https://github.com/yujinrobot/kobuki_desktop.git
     local-name: kobuki_desktop
     version: master
