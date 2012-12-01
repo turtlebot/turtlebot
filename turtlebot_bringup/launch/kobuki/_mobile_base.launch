@@ -24,6 +24,16 @@
     <remap from="mobile_base/disable" to="disable"/>
     <remap from="mobile_base/joint_states" to="joint_states"/>
   </node>
+  <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load cmd_vel_mux/CmdVelMuxNodelet kobuki_nodelet_manager">
+    <param name="cmd_vel_mux/subscribers_cfg_file" value="$(find cmd_vel_mux)/resources/yaml/example_cfg.yaml"/>
+    <remap from="cmd_vel_mux/def_cmd_vel" to="/cmd_vel"/>
+    <remap from="cmd_vel_mux/nav_cmd_vel" to="/nav_cmd_vel"/>
+    <remap from="cmd_vel_mux/joy_cmd_vel" to="/joy_cmd_vel"/>
+    <remap from="cmd_vel_mux/rem_cmd_vel" to="/rem_cmd_vel"/>
+    <remap from="cmd_vel_mux/web_cmd_vel" to="/web_cmd_vel"/>
+    <remap from="cmd_vel_mux/key_cmd_vel" to="/key_cmd_vel"/>
+    <remap from="cmd_vel_mux/mux_cmd_vel" to="/mux_cmd_vel"/>
+  </node>
   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
     <remap from="imu_data" to="mobile_base/sensors/imu_data"/>
     <param name="freq" value="10.0"/>
