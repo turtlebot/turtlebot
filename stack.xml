@@ -19,5 +19,4 @@
   <depend stack="ros_comm" /> <!-- rospy -->
   <depend stack="xacro" /> <!-- xacro -->
   <depend stack="zeroconf_avahi_suite" /> <!-- zeroconf_avahi -->
-  <depend stack="yujin_ocl" /> <!-- ocl_controllers, vel_mux, velocity_smoother -->
 </stack>
