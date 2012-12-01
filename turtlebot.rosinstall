@@ -1,35 +1,52 @@
 ##############################################################################
+#
 # Before rosinstalling, make sure you installed:
 #
+# Latest build tools
+#   sudo apt-get install python-rosdep python-rosinstall python-rospkg
+#
 # Basic ROS
-#   sudo apt-get install ros-fuerte-desktop-full
+#   sudo apt-get install ros-groovy-ros-comm 
 #
-# ROS packages commonly required
-#   sudo apt-get install ros-fuerte-multimaster-experimental ros-fuerte-joystick-drivers
+# General Catkinized stacks
+#   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf ros-groovy-pcl ros-groovy-pcl-ros
+#   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
 #
+# General non catkin stacks
+#   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet
+#   sudo apt-get install ros-groovy-ecl-navigation 
 #
-# ROS packages required to use OpenNI-compliant devices (both old and new methods)
-#   sudo apt-get install ros-fuerte-openni-kinect ros-fuerte-openni-camera ros-fuerte-openni-launch
+# Zeroconf (non catkin)
+#   sudo apt-get install ros-groovy-zeroconf-avahi
 #
-# Additional ROS packages required for turtlebot_apps
-#   sudo apt-get install ros-fuerte-warehousewg ros-fuerte-mjpeg-server ros-fuerte-rosbridge-suite ros-fuerte-map-store
+# Openni 
+#   sudo apt-get install ros-groovy-openni-launch 
 #
-# Zeroconf
-#   sudo apt-get install ros-fuerte-zeroconf-comms ros-fuerte-zeroconf-avahi-suite
+# Vizualisation
+#   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization ros-groovy-rqt
 #
-# Kobuki
-#   sudo apt-get install ros-fuerte-ecl-tools ros-fuerte-ecl-lite ros-fuerte-ecl-core ros-fuerte-ecl-navigation
+# Turtlebot Apps
+#   sudo apt-get install ros-groovy-joystick-drivers
+#   sudo apt-get install ros-groovy-multimaster-experimental ros-groovy-warehouse-ros
+#   sudo apt-get install ros-groovy-image-transport ros-groovy-image-transport-plugins
+#
+# Arm
+#   sudo apt-get install ros-groovy-dynamixel-motor 
+#
+# Gazebo
+#   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
+#
 ##############################################################################
 # Official ros stacks
 
 - other:
-    local-name: /opt/ros/fuerte/share/ros
+    local-name: /opt/ros/groovy/share/ros
 - other:
-    local-name: /opt/ros/fuerte/share
+    local-name: /opt/ros/groovy/share
 - other:
-    local-name: /opt/ros/fuerte/stacks
+    local-name: /opt/ros/groovy/stacks
 - setup-file:
-    local-name: /opt/ros/fuerte/setup.sh
+    local-name: /opt/ros/groovy/setup.sh
 
 # Gazebo stacks
 - svn:
@@ -37,7 +54,7 @@
     local-name: simulator_gazebo
 
 
-# Kobuki stacks
+# Kobuki / Yujin stacks
 - git:
     uri: https://github.com/yujinrobot/kobuki.git
     local-name: kobuki
@@ -60,8 +77,8 @@
 
 # Create stacks
 - git:
-    uri: https://github.com/turtlebot/turtlebot_create.git
-    local-name: turtlebot_create
+    uri: https://github.com/turtlebot/create.git
+    local-name: create
     version: master
 
 - svn:
@@ -73,26 +90,27 @@
 - git:
     uri: https://github.com/turtlebot/turtlebot.git
     local-name: turtlebot
-    version: master
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_simulator.git
     local-name: turtlebot_simulator
-    version: master
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_apps.git
     local-name: turtlebot_apps
-    version: master
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_viz.git
     local-name: turtlebot_viz
-    version: master
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_arm.git
     local-name: turtlebot_arm
+
+# turtlebot apps 
+- git:
+    uri: https://github.com/turtlebot/turtlebot_apps.git
+    local-name: turtlebot_apps
     version: master
 
 # some extra packages required for turtlebot apps that don't have groovy debs yet.
@@ -108,14 +126,4 @@
     uri: https://github.com/RobotWebTools/rosbridge_suite.git 
     local-name: rosbridge_suite
 
-# rqt and dashboard - bit hard fixing on anything right now
-- git:
-    uri: https://github.com/ros-visualization/rqt.git
-    local-name: rqt
-    version: 24f3893802cff52bfedf89fc4ccf02f046d
-
-- git:
-    uri: https://github.com/ros-visualization/qt_gui_core.git
-    local-name: qt_gui_core
-    version: 4b1d25b6bfcf808334f327379727b2fa8eb81558
 
