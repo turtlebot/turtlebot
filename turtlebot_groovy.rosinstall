@@ -76,8 +76,8 @@
     version: master
 
 - git:
-    uri: https://github.com/yujinrobot/open_control_library.git 
-    local-name: open_control_library
+    uri: https://github.com/yujinrobot/yujin_ocl.git 
+    local-name: yujin_ocl
     version: master
 
 # Create stacks
