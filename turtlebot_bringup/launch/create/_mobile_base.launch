@@ -2,7 +2,6 @@
   The mobile platform base for create..
  -->
 <launch>
-  <arg name="base"/>
   <!-- Turtlebot Driver -->
   <node pkg="turtlebot_node" type="turtlebot_node.py" name="turtlebot_node" output="screen" respawn="true" args="--respawnable">
     <param name="bonus" value="false" />

@@ -15,9 +15,7 @@
     <arg name="3d_sensor" value="$(arg 3d_sensor)" />
     <arg name="using_fuerte" value="$(arg using_fuerte)" />
   </include>
-  <include file="$(find turtlebot_bringup)/launch/$(arg base)/_mobile_base.launch">
-    <arg name="base" value="$(arg base)" />
-  </include>
+  <include file="$(find turtlebot_bringup)/launch/$(arg base)/_mobile_base.launch"/>
   <include file="$(find turtlebot_bringup)/launch/includes/_netbook.launch">
     <arg name="battery" value="$(arg battery)" />
   </include>

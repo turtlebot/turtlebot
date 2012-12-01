@@ -5,15 +5,7 @@
   private namespace (maybe should do that in kobuki_node itself?)
  -->
 <launch>
-  <arg name="base"/>
-  <node pkg="kobuki_node" type="kobuki_node" name="mobile_base" output="screen" required="true">
-    <rosparam file="$(find turtlebot_bringup)/param/$(arg base)/base.yaml" command="load"/>
-    <remap from="mobile_base/odom" to="odom"/>
-    <remap from="mobile_base/cmd_vel" to="cmd_vel"/>
-    <remap from="mobile_base/enable" to="enable"/>
-    <remap from="mobile_base/disable" to="disable"/>
-    <remap from="mobile_base/joint_states" to="joint_states"/>
-  </node>
+  <include file="$(find kobuki_node)/launch/turtlebot_base.launch"/>
   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
     <remap from="imu_data" to="mobile_base/sensors/imu_data"/>
     <param name="freq" value="10.0"/>
