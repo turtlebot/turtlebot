@@ -21,7 +21,7 @@
   <depend package="openni_camera"/>
 
   <!-- for teleoperation applications -->
-  <depend package="compressed_image_transport"/>
+<!-- <depend package="compressed_image_transport"/> -->
   <depend package="mjpeg_server"/>
 
   <!-- for navigation applications -->
