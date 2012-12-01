@@ -14,24 +14,24 @@
 #
 # General non catkin stacks
 #   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet
-#   sudo apt-get install ros-groovy-ecl-tools ros-groovy-ecl-lite ros-groovy-ecl-core ros-groovy-ecl-navigation
-#   sudo apt-get install ros-groovy-openni-launch 
+#   sudo apt-get install ros-groovy-ecl-navigation 
 #
 # Zeroconf (non catkin)
 #   sudo apt-get install ros-groovy-zeroconf-avahi
 #
-# Kinect (TODO JiHoon)
-#
-# Arm
-#   sudo apt-get install ros-groovy-dynamixel-motor 
+# Openni 
+#   sudo apt-get install ros-groovy-openni-launch 
 #
 # Vizualisation
-#   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization
+#   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization ros-groovy-rqt
 #
 # Turtlebot Apps
 #   sudo apt-get install ros-groovy-joystick-drivers
 #   sudo apt-get install ros-groovy-multimaster-experimental ros-groovy-warehouse-ros
 #   sudo apt-get install ros-groovy-image-transport ros-groovy-image-transport-plugins
+#
+# Arm
+#   sudo apt-get install ros-groovy-dynamixel-motor 
 #
 # Gazebo
 #   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
