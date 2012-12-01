@@ -54,7 +54,7 @@
     local-name: simulator_gazebo
 
 
-# Kobuki stacks
+# Kobuki / Yujin stacks
 - git:
     uri: https://github.com/yujinrobot/kobuki.git
     local-name: kobuki
@@ -73,6 +73,11 @@
 - git:
     uri: https://github.com/yujinrobot/kobuki_msgs.git 
     local-name: kobuki_msgs
+    version: master
+
+- git:
+    uri: https://github.com/yujinrobot/open_control_library.git 
+    local-name: open_control_library
     version: master
 
 # Create stacks
