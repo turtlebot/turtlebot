@@ -23,4 +23,3 @@
     <param name="output_frame" value="odom"/>
   </node>
 </launch>
-

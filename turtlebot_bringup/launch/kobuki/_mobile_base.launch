@@ -1,11 +1,18 @@
 <!--
   The mobile platform base.
-  
-  We use this to move kobuki driver public topics/services out from their 
-  private namespace (maybe should do that in kobuki_node itself?)
  -->
 <launch>
-  <include file="$(find kobuki_node)/launch/turtlebot_base.launch"/>
+  <node pkg="nodelet" type="nodelet" name="kobuki_nodelet_manager"  args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="mobile_base" args="load kobuki_node/KobukiNodelet kobuki_nodelet_manager">
+    <rosparam file="$(find kobuki_node)/param/base.yaml" command="load"/>
+    <remap from="mobile_base/odom" to="odom"/>
+    <!-- Force applications to use a velocity mux for redirection  
+      <remap from="mobile_base/cmd_vel" to="cmd_vel"/> 
+    -->
+    <remap from="mobile_base/enable" to="enable"/>
+    <remap from="mobile_base/disable" to="disable"/>
+    <remap from="mobile_base/joint_states" to="joint_states"/>
+  </node>
   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
     <remap from="imu_data" to="mobile_base/sensors/imu_data"/>
     <param name="freq" value="10.0"/>
@@ -16,4 +23,3 @@
     <param name="output_frame" value="odom"/>
   </node>
 </launch>
-

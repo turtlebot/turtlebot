@@ -48,16 +48,15 @@
 - setup-file:
     local-name: /opt/ros/groovy/setup.sh
 
-# Gazebo stacks
-- svn:
-    uri: https://code.ros.org/svn/ros-pkg/stacks/simulator_gazebo/trunk
-    local-name: simulator_gazebo
-
-
 # Kobuki / Yujin stacks
 - git:
     uri: https://github.com/yujinrobot/kobuki.git
     local-name: kobuki
+    version: master
+
+- git:
+    uri: https://github.com/yujinrobot/kobuki_controllers.git
+    local-name: kobuki_controllers
     version: master
 
 - git:
@@ -77,8 +76,8 @@
 
 # Create stacks
 - git:
-    uri: https://github.com/turtlebot/create.git
-    local-name: create
+    uri: https://github.com/turtlebot/turtlebot_create.git
+    local-name: turtlebot_create
     version: master
 
 - svn:

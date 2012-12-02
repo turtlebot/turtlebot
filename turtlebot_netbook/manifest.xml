@@ -1,0 +1,14 @@
+<package>
+  <catkin/>
+  <description brief="turtlebot_netbook">
+
+     Utilities for the turtlebot netbook installations.
+
+  </description>
+  <author>Daniel Stonier</author>
+  <license>BSD</license>
+  <review status="experimental" notes=""/>
+  <url>http://ros.org/wiki/turtlebot_netbook</url>
+
+
+</package>
