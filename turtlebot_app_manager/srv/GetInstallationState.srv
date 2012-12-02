@@ -1,0 +1,4 @@
+bool remote_update
+---
+ExchangeApp[] installed_apps
+ExchangeApp[] available_apps

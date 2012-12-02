@@ -1,0 +1,8 @@
+# Name of the app to install or upgrade
+string name 
+---
+# true if app started, false otherwise
+bool installed
+# response message for debugging
+string message
+

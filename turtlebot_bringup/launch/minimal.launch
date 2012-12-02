@@ -19,7 +19,5 @@
   <include file="$(find turtlebot_bringup)/launch/includes/_netbook.launch">
     <arg name="battery" value="$(arg battery)" />
   </include>
-  <include file="$(find turtlebot_bringup)/launch/includes/_app_manager.launch">
-    <arg name="base" value="$(arg base)" />
-  </include>
+  <include file="$(find turtlebot_bringup)/launch/includes/_app_manager.launch"/>
 </launch>

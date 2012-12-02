@@ -1,0 +1,76 @@
+#!/usr/bin/python
+
+import subprocess
+import sys
+
+command = ""
+try:
+    command = sys.argv[1]
+except:
+    print "No command specified,", sys.argv[0], "help"
+    sys.exit(1)
+
+cmd_args = []
+
+def valid_package(n):
+    for i in n:
+        if ((ord(i) >= ord('a') and ord(i) <= ord('z')) 
+            or (ord(i) >= ord('A') and ord(i) <= ord('Z')) 
+            or (ord(i) >= ord('1') and ord(i) <= ord('9'))
+            or i == '0' or i == '-' or i == '_'):
+            pass #Character is valid
+        else:
+            print "Bad character in name:", i, "in", n
+            return False
+    if (n[0:len("ros-")] != "ros-"):
+        print "You are not allowed to modifiy packages not prefixed with \"ros-\", rejecting:", n
+        return False
+    return True
+
+if (command == "update"):
+    cmd_args = ["apt-get", "update"]
+elif (command == "install"):
+    try:
+        package = sys.argv[2]
+    except:
+        print "Invalid package, try help as command"
+        sys.exit(3)
+    if (not valid_package(package)):
+        print "Invalid package name"
+        sys.exit(4)
+    else:
+        cmd_args = ["apt-get", "install", package, "-y"]
+elif (command == "remove"):
+    try:
+        package= sys.argv[2]
+    except:
+        print "Invalid package, try help as command"
+        sys.exit(3)
+    if (not valid_package(package)):
+        print "Invalid package name"
+        sys.exit(4)
+    else:
+        cmd_args = ["apt-get", "remove", package, "-y"]
+elif (command == "help"):
+    print sys.argv[0], "is a wrapper for apt-get that only allows you to install ROS packages."
+    print "It is used by app manager and configured to run passwordlessly in sudo. You can use"
+    print "it to install and uninstall packages prefixed with \"ros-\". Usage:"
+    print sys.argv[0], "help: print this screen."
+    print sys.argv[0], "remove <package-name>: remove a package"
+    print sys.argv[0], "install <package-name>: install a package"
+    print sys.argv[0], "update: do an apt-get update"
+    sys.exit(2)
+else:
+    print "Invalid command, try:", sys.arg[0], "help"
+    sys.exit(2)
+
+
+proc = subprocess.Popen(cmd_args)
+
+
+print proc.communicate()
+
+sys.exit(proc.returncode)
+
+
+

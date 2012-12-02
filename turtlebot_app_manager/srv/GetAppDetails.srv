@@ -1,0 +1,5 @@
+# Name of the app to get details of
+string name 
+---
+ExchangeApp app
+

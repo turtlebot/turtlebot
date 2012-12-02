@@ -1,0 +1,18 @@
+<package>
+  <description brief="turtlebot_app_manager">
+
+     Temporary app manager for turtlebot while it undergoes a redesign.
+
+  </description>
+  <author>Jeremy Leibs, Ken Conley</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/app_manager</url>
+  <depend package="rospy"/>
+  <depend package="roslaunch"/>
+  <depend package="rosgraph"/>
+  <depend package="rosunit"/>
+
+</package>
+
+
