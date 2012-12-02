@@ -1,0 +1,38 @@
+
+##############################################################################
+# Firmware Source
+##############################################################################
+
+protocol_version: '2.0'
+device_port: /dev/kobuki
+
+# published joint states
+wheel_left_joint_name: wheel_left_joint
+wheel_right_joint_name: wheel_right_joint
+
+# battery voltage at full charge (100%) (float, default: 16.5)
+battery_capacity: 16.5
+
+# battery voltage at first warning (15%) (float, default: 13.5)
+battery_low: 14.0
+
+# battery voltage at critical level (5%) (float, default: 13.2)
+battery_dangerous: 13.2
+
+# If a new command isn't received within this many seconds, the base is stopped (double, default: 0.6)
+cmd_vel_timeout: 0.6
+
+# Causes node to publish TF for odom to base_link, use only when no gyro exists (bool, default: False)
+publish_tf: false
+
+# Name of the odometry TF frame (string, default: odom)
+odom_frame: odom
+
+# Name of the base TF frame  (string, default: base_footprint)
+base_frame: base_footprint
+
+# Bumpers pointcloud distance to base frame; should be something like the sum of robot_radius,
+# footprint_padding and resolution local costmap parameters. This is a bit tricky parameter:
+# if it's too low, costmap will ignore this pointcloud, but if it's too big, hit obstacles will
+# be mapped too far from the robot and the navigation around them will probably fail.
+bumper_pc_radius: 0.20
