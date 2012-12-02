@@ -1,0 +1,24 @@
+<!-- 
+  Launches the components required for a fake laser from the 3d sensor.
+  
+  Not all applications will use this, primarily just the navigation applications. 
+-->
+<launch>
+  <node pkg="nodelet" type="nodelet" name="kinect_laser" args="load pointcloud_to_laserscan/CloudToScan $(arg camera)_nodelet_manager" respawn="true">
+    <param name="output_frame_id" value="/camera_depth_frame"/>
+    <!-- heights are in the (optical?) frame of the kinect -->
+    <param name="min_height" value="-0.15"/>
+    <param name="max_height" value="0.15"/>
+    <remap from="cloud" to="/cloud_throttled"/>
+  </node>
+
+  <!-- Fake Laser (narrow one, for localization -->
+  <node pkg="nodelet" type="nodelet" name="kinect_laser_narrow" args="load pointcloud_to_laserscan/CloudToScan $(arg camera)_nodelet_manager" respawn="true">
+    <param name="output_frame_id" value="/camera_depth_frame"/>
+    <!-- heights are in the (optical?) frame of the kinect -->
+    <param name="min_height" value="-0.025"/>
+    <param name="max_height" value="0.025"/>
+    <remap from="cloud" to="/cloud_throttled"/>
+    <remap from="scan" to="/narrow_scan"/>
+  </node>
+</launch>
