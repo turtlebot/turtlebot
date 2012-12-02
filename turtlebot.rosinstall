@@ -13,8 +13,7 @@
 #   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
 #
 # General non catkin stacks
-#   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet
-#   sudo apt-get install ros-groovy-ecl-navigation 
+#   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet 
 #
 # Zeroconf (non catkin)
 #   sudo apt-get install ros-groovy-zeroconf-avahi
@@ -118,4 +117,20 @@
     uri: https://github.com/RobotWebTools/rosbridge_suite.git 
     local-name: rosbridge_suite
 
+# Ecl, until broken catkin builds are working again
+
+- svn:
+    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_tools
+    local-name: ecl_tools
+
+- svn:
+    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_lite
+    local-name: ecl_lite
+
+- svn:
+    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_core
+    local-name: ecl_core
+- svn:
+    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_navigation
+    local-name: ecl_navigation
 

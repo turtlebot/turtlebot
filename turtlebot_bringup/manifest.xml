@@ -17,7 +17,6 @@
   <depend package="create_description"/>
   <depend package="joy"/>
   <depend package="robot_state_publisher"/>
-  <depend package="pointcloud_to_laserscan"/>
   <depend package="openni_camera"/>
   <depend package="turtlebot_netbook"/>
   <!-- for navigation applications -->
