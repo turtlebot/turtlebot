@@ -1,15 +1,15 @@
 <!--
-  The mobile platform base for create..
+  Create's implementation of turtlebot's mobile base.
  -->
 <launch>
   <!-- Turtlebot Driver -->
-  <node pkg="turtlebot_node" type="turtlebot_node.py" name="turtlebot_node" output="screen" respawn="true" args="--respawnable">
+  <node pkg="create_node" type="turtlebot_node.py" name="turtlebot_node" output="screen" respawn="true" args="--respawnable">
     <param name="bonus" value="false" />
     <param name="update_rate" value="30.0" />
   </node>
   
   <!-- Enable breaker 1 for the kinect -->
-  <node pkg="turtlebot_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
+  <node pkg="create_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
   
   <!-- The odometry estimator -->
   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
