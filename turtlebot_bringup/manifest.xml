@@ -13,8 +13,8 @@
   <depend package="zeroconf_avahi"/>
   <depend package="kobuki_node"/>
   <depend package="kobuki_description"/>
-  <depend package="turtlebot_node"/>
-  <depend package="turtlebot_description"/>
+  <depend package="create_node"/>
+  <depend package="create_description"/>
   <depend package="joy"/>
   <depend package="robot_state_publisher"/>
   <depend package="pointcloud_to_laserscan"/>
