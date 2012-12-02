@@ -37,7 +37,7 @@
 
 from __future__ import division
 
-import roslib; roslib.load_manifest('turtlebot_node')
+import roslib; roslib.load_manifest('turtlebot_netbook')
 
 from   collections import deque
 import threading
@@ -47,7 +47,7 @@ import math
 import rospy
 import os  # to check path existence
 
-from turtlebot_node.msg import LaptopChargeStatus
+from turtlebot_netbook.msg import LaptopChargeStatus
 from diagnostic_msgs.msg import DiagnosticStatus, DiagnosticArray, KeyValue
 
 def _strip_Ah(raw_val):
