@@ -9,7 +9,6 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_bringup</url>
 
-  <depend package="app_manager"/>
   <depend package="zeroconf_avahi"/>
   <depend package="kobuki_node"/>
   <depend package="kobuki_description"/>
