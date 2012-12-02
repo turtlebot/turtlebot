@@ -19,16 +19,8 @@
   <depend package="robot_state_publisher"/>
   <depend package="pointcloud_to_laserscan"/>
   <depend package="openni_camera"/>
-
-  <!-- for teleoperation applications -->
-<!-- <depend package="compressed_image_transport"/> -->
-  <depend package="mjpeg_server"/>
-
   <!-- for navigation applications -->
   <depend package="map_store"/>
-
-  <!-- for external interfacing -->
-  <depend package="rosbridge_launch"/>
 </package>
 
 
