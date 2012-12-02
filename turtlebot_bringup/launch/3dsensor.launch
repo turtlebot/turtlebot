@@ -1,6 +1,4 @@
 <launch>
-  <arg name="fake_laser" value="false"/> 
-
   <!-- Kinect -->
   <arg name="camera" value="camera"/>
   <arg name="use_openni_launch" value="true"/>
@@ -60,10 +58,5 @@
     <remap from="cloud_in" to="/camera/depth/points"/>
     <remap from="cloud_out" to="cloud_throttled"/>
   </node>
-
-  <group if="$(arg fake_laser)">
-    <include file="$(find turtlebot_bringup)/launch/include/_fake_laser.launch"/>
-  </group>
-
 </launch>
 
