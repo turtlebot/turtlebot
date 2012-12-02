@@ -55,11 +55,6 @@
     version: master
 
 - git:
-    uri: https://github.com/yujinrobot/kobuki_controllers.git
-    local-name: kobuki_controllers
-    version: master
-
-- git:
     uri: https://github.com/yujinrobot/kobuki_desktop.git
     local-name: kobuki_desktop
     version: master
@@ -70,8 +65,8 @@
     version: master
 
 - git:
-    uri: https://github.com/yujinrobot/yujin_ocl.git 
-    local-name: yujin_ocl
+    uri: https://github.com/yujinrobot/yujin_ocs.git 
+    local-name: yujin_ocs
     version: master
 
 # Create stacks
