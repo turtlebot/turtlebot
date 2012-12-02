@@ -98,14 +98,12 @@
     local-name: turtlebot_viz
 
 - git:
+    uri: https://github.com/turtlebot/turtlebot_web.git
+    local-name: turtlebot_web
+
+- git:
     uri: https://github.com/turtlebot/turtlebot_arm.git
     local-name: turtlebot_arm
-
-# turtlebot apps 
-- git:
-    uri: https://github.com/turtlebot/turtlebot_apps.git
-    local-name: turtlebot_apps
-    version: master
 
 # some extra packages required for turtlebot apps that don't have groovy debs yet.
 - svn:
