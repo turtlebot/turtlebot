@@ -18,6 +18,7 @@
   <depend package="robot_state_publisher"/>
   <depend package="openni_camera"/>
   <depend package="turtlebot_netbook"/>
+  <depend package="turtlebot_app_manager"/>
   <!-- for navigation applications -->
   <depend package="map_store"/>
 </package>
