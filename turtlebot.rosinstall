@@ -13,7 +13,8 @@
 #   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
 #
 # General non catkin stacks
-#   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet 
+#   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common
+#   sudo apt-get install ros-groovy-navigation ros-groovy-slam-gmapping ros-groovy-bullet 
 #
 # Zeroconf (non catkin)
 #   sudo apt-get install ros-groovy-zeroconf-avahi
