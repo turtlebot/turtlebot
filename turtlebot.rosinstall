@@ -27,7 +27,7 @@
 #   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization ros-groovy-rqt
 #
 # Turtlebot Apps
-#   sudo apt-get install ros-groovy-joystick-drivers ros-groovy-image-transport
+#   sudo apt-get install ros-groovy-joystick-drivers ros-groovy-image-transport ros-groovy-python_orocos_kdl
 #   sudo apt-get install ros-groovy-multimaster-experimental ros-groovy-warehouse-ros
 #
 # Arm
