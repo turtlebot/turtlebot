@@ -33,7 +33,7 @@
 # Revision $Id: __init__.py 14948 2011-09-07 19:25:54Z pratkanis $
 
 from .app import AppDefinition
-from .app_manager import AppManager
+from .turtlebot_app_manager import AppManager
 from .app_list import AppList, get_default_applist_directory
 from .exchange import Exchange
 from .exceptions import AppException, NotFoundException, \

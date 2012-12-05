@@ -13,6 +13,11 @@
   <depend package="rosgraph"/>
   <depend package="rosunit"/>
 
+  <!-- 
+    Really annoying dependency for the app 
+    manager msgs until we can recompile android 
+  -->
+  <depend package="app_manager"/>
 </package>
 
 
