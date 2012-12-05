@@ -27,9 +27,8 @@
 #   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization ros-groovy-rqt
 #
 # Turtlebot Apps
-#   sudo apt-get install ros-groovy-joystick-drivers
+#   sudo apt-get install ros-groovy-joystick-drivers ros-groovy-image-transport
 #   sudo apt-get install ros-groovy-multimaster-experimental ros-groovy-warehouse-ros
-#   sudo apt-get install ros-groovy-image-transport ros-groovy-image-transport-plugins
 #
 # Arm
 #   sudo apt-get install ros-groovy-dynamixel-motor 
