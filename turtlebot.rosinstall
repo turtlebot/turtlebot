@@ -6,7 +6,7 @@
 #   sudo apt-get install python-rosdep python-rosinstall python-rospkg
 #
 # Basic ROS
-#   sudo apt-get install ros-groovy-ros-comm 
+#   sudo apt-get install ros-groovy-ros ros-groovy-ros-comm 
 #
 # General Catkinized stacks
 #   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf ros-groovy-pcl ros-groovy-pcl-ros
