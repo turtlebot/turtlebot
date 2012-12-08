@@ -1,13 +1,3 @@
-##############################################################################
-# CMake
-##############################################################################
-
-cmake_minimum_required(VERSION 2.4.6)
-
-##############################################################################
-# Ros Initialisation
-##############################################################################
-
 cmake_minimum_required(VERSION 2.4.6)
 include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
 
@@ -26,18 +16,10 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #set the default path for built libraries to the "lib" directory
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
-##############################################################################
-# Ros Comms
-##############################################################################
-
 #uncomment if you have defined messages
 rosbuild_genmsg()
 #uncomment if you have defined services
 #rosbuild_gensrv()
-
-##############################################################################
-# Ros Builds
-##############################################################################
 
 #common commands for building c++ executables and libraries
 #rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
