@@ -15,6 +15,9 @@
 # General non catkin stacks
 #   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet 
 #
+# Ecl dependency for kobuki
+#   sudo apt-get install ros-groovy-ecl-threads ros-groovy-ecl-devices ros-groovy-ecl-mobile-robot ros-groovy-ecl-streams ros-groovy-ecl-sigslots
+#
 # Zeroconf (non catkin)
 #   sudo apt-get install ros-groovy-zeroconf-avahi
 #
