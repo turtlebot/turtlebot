@@ -36,7 +36,7 @@ def main(argv, stdout, environ):
         if not os.path.exists(i):
             parser.error("applist directory [%s] does not exist.\nUse --applist to set the correct location"%(i))
     
-    rospy.init_node('app_manager')
+    rospy.init_node('turtlebot_app_manager')
 
     robot_name = rospy.get_param('/robot/name', 'robot')
     interface_master = rospy.get_param('~interface_master', 'http://localhost:11312')

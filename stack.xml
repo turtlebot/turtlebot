@@ -7,16 +7,16 @@
   <depend stack="common_msgs" /> <!-- nav_msgs, geometry_msgs, sensor_msgs, diagnostic_msgs -->
   <depend stack="driver_common" /> <!-- dynamic_reconfigure -->
   <depend stack="geometry" /> <!-- tf -->
-  <depend stack="image_transport_plugins" /> <!-- compressed_image_transport -->
-  <depend stack="joystick_drivers" /> <!-- joy -->
   <depend stack="kobuki" /> <!-- kobuki_node, kobuki_description -->
   <depend stack="nodelet_core" /> <!-- nodelet -->
-  <depend stack="openni_camera" />
   <depend stack="orocos_kinematics_dynamics" /> <!-- kdl -->
-  <depend stack="perception_pcl" /> <!-- pcl_ros -->
   <depend stack="robot_model" /> <!-- robot_state_publisher, urdf -->
   <depend stack="ros" />
   <depend stack="ros_comm" /> <!-- rospy -->
   <depend stack="xacro" /> <!-- xacro -->
   <depend stack="zeroconf_avahi_suite" /> <!-- zeroconf_avahi -->
+  <!-- perhaps not essential here. -->
+  <depend stack="perception_pcl" /> <!-- pcl_ros -->
+  <depend stack="openni_camera" />
+  <depend stack="image_transport_plugins" /> <!-- compressed_image_transport -->
 </stack>

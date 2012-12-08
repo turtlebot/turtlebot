@@ -11,14 +11,17 @@
 # General Catkinized stacks
 #   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf ros-groovy-pcl ros-groovy-pcl-ros
 #   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
+#   sudo apt-get install ros-groovy-ecl-thread ros-groovy-ecl-devices ros-groovy-ecl-streams ros-groovy-ecl-mobile-robot
 #
 # General non catkin stacks
-#   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common ros-groovy-navigation ros-groovy-bullet 
+#   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common
+#   sudo apt-get install ros-groovy-navigation ros-groovy-slam-gmapping ros-groovy-bullet 
 #
 # Ecl dependency for kobuki
 #   sudo apt-get install ros-groovy-ecl-threads ros-groovy-ecl-devices ros-groovy-ecl-mobile-robot ros-groovy-ecl-streams ros-groovy-ecl-sigslots
 #
 # Zeroconf (non catkin)
+# Zeroconf
 #   sudo apt-get install ros-groovy-zeroconf-avahi
 #
 # Openni 
@@ -28,9 +31,8 @@
 #   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization ros-groovy-rqt
 #
 # Turtlebot Apps
-#   sudo apt-get install ros-groovy-joystick-drivers
-#   sudo apt-get install ros-groovy-multimaster-experimental ros-groovy-warehouse-ros
-#   sudo apt-get install ros-groovy-image-transport ros-groovy-image-transport-plugins
+#   sudo apt-get install ros-groovy-joystick-drivers ros-groovy-image-transport ros-groovy-image-transport-plugins
+#   sudo apt-get install ros-groovy-multimaster-experimental ros-groovy-warehouse-ros ros-groovy-python-orocos-kdl
 #
 # Arm
 #   sudo apt-get install ros-groovy-dynamixel-motor 
@@ -120,20 +122,4 @@
     uri: https://github.com/RobotWebTools/rosbridge_suite.git 
     local-name: rosbridge_suite
 
-# Ecl, until broken catkin builds are working again
-
-- svn:
-    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_tools
-    local-name: ecl_tools
-
-- svn:
-    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_lite
-    local-name: ecl_lite
-
-- svn:
-    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_core
-    local-name: ecl_core
-- svn:
-    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_navigation
-    local-name: ecl_navigation
 

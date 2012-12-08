@@ -46,7 +46,7 @@ import sys
 import yaml
 import rospy
 from std_msgs.msg import String
-from .msg import ExchangeApp, Icon
+from app_manager.msg import ExchangeApp, Icon
 
 class Exchange():
     def __init__(self, url, directory, on_error = lambda(x): None):
