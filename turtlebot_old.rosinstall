@@ -113,19 +113,24 @@
     uri: https://github.com/RobotWebTools/rosbridge_suite.git 
     local-name: rosbridge_suite
 
-# ECL
-- git:
-    uri: https://github.com/stonier/ecl_core.git 
-    local-name: ecl_core
 
+# Yujin OCS
 - git:
-    uri: https://github.com/stonier/ecl_navigation.git 
+    uri: https://github.com/yujinrobot/yujin_ocs.git 
+    local-name: yujin_ocs
+    version: master
+
+# ECL
+- svn:
+    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_tools
+    local-name: ecl_tools
+- svn:
+    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_lite
+    local-name: ecl_lite
+- svn:
+    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_core
+    local-name: ecl_core
+- svn:
+    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_navigation
     local-name: ecl_navigation
 
-- git:
-    uri: https://github.com/stonier/ecl_lite.git 
-    local-name: ecl_lite
-
-- git:
-    uri: https://github.com/stonier/ecl_tools.git 
-    local-name: ecl_tools

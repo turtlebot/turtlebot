@@ -68,11 +68,6 @@
     local-name: kobuki_msgs
     version: master
 
-- git:
-    uri: https://github.com/yujinrobot/yujin_ocs.git 
-    local-name: yujin_ocs
-    version: master
-
 # Create stacks
 - git:
     uri: https://github.com/turtlebot/turtlebot_create.git
@@ -113,10 +108,6 @@
 - svn:
     uri: http://svn.code.sf.net/p/bosch-ros-pkg/code/trunk/stacks/mjpeg_server
     local-name: mjpeg_server
-
-- hg:
-    uri: https://kforge.ros.org/mapstore/hg
-    local-name: map_store
 
 - git:
     uri: https://github.com/RobotWebTools/rosbridge_suite.git 
