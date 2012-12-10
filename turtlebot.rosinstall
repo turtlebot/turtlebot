@@ -11,21 +11,19 @@
 # General Catkinized stacks
 #   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf ros-groovy-pcl ros-groovy-pcl-ros
 #   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
-#   sudo apt-get install ros-groovy-ecl-thread ros-groovy-ecl-devices ros-groovy-ecl-streams ros-groovy-ecl-mobile-robot
 #
 # General non catkin stacks
 #   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common
 #   sudo apt-get install ros-groovy-navigation ros-groovy-slam-gmapping ros-groovy-bullet 
 #
-# Ecl dependency for kobuki
-#   sudo apt-get install ros-groovy-ecl-threads ros-groovy-ecl-devices ros-groovy-ecl-mobile-robot ros-groovy-ecl-streams ros-groovy-ecl-sigslots
-#
-# Zeroconf (non catkin)
 # Zeroconf
 #   sudo apt-get install ros-groovy-zeroconf-avahi
 #
-# Openni 
-#   sudo apt-get install ros-groovy-openni-launch 
+# Kobuki
+#   sudo apt-get install ros-groovy-ecl-threads ros-groovy-ecl-devices ros-groovy-ecl-mobile-robot ros-groovy-ecl-streams ros-groovy-ecl-sigslots
+#
+# Perception 
+#   sudo apt-get install ros-groovy-openni-launch ros-groovy-depthimage-to-laserscan
 #
 # Vizualisation
 #   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization ros-groovy-rqt
