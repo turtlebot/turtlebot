@@ -1,0 +1,8 @@
+# Mandatory parameters
+accel_lim_x: 1.0
+accel_lim_y: 1.0
+accel_lim_th: 1.0
+
+# Optional parameters
+frequency: 10.0
+decel_factor: 1.0
