@@ -11,10 +11,6 @@
   <depend package="joy"/>
   <depend package="geometry_msgs"/>
   <depend package="roscpp"/>
-  <!-- for navigation based applications -->
-  <depend package="map_store"/>
-  <!-- for teleoperation applications -->
-  <depend package="mjpeg_server"/>
 </package>
 
 
