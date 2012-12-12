@@ -14,10 +14,6 @@
   <depend package="cmd_vel_mux"/>
   <depend package="kobuki_safety_controller"/>
   <depend package="yocs_velocity_smoother"/>
-  <!-- for navigation based applications -->
-<!--   <depend package="map_store"/> -->
-  <!-- for teleoperation applications -->
-<!--   <depend package="mjpeg_server"/> -->
 </package>
 
 
