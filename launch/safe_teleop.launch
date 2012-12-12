@@ -1,7 +1,7 @@
 <launch>
   <!-- velocity commands multiplexer -->
   <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load cmd_vel_mux/CmdVelMuxNodelet kobuki">
-    <param name="subscribers_cfg_file" value="$(find kobuki_keyop)/param/keyop_mux.yaml"/>
+    <param name="subscribers_cfg_file" value="$(find turtlebot_teleop)/param/teleop_mux.yaml"/>
     <remap from="cmd_vel_mux/mux_cmd_vel" to="mobile_base/commands/velocity"/>
   </node>
   
@@ -16,8 +16,8 @@
   <!-- velocity smoother for teleop input -->
   <node pkg="nodelet" type="nodelet" name="teleop_vel_smoother" args="load yocs_velocity_smoother/VelocitySmootherNodelet kobuki">
     <rosparam file="$(find turtlebot_teleop)/param/teleop_smoother.yaml" command="load"/>
-<!--     <remap from="keyop_vel_smoother/raw_cmd_vel" to="raw_cmd_vel"/> -->
-    <remap from="keyop_vel_smoother/odometry" to="odom"/>
-    <remap from="keyop_vel_smoother/smooth_cmd_vel" to="cmd_vel_mux/joystick_teleop"/>
+<!--     <remap from="teleop_vel_smoother/raw_cmd_vel" to="raw_cmd_vel"/> -->
+    <remap from="teleop_vel_smoother/odometry" to="odom"/>
+    <remap from="teleop_vel_smoother/smooth_cmd_vel" to="cmd_vel_mux/teleop"/>
   </node>
 </launch>
