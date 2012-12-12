@@ -11,19 +11,21 @@
 # General Catkinized stacks
 #   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf ros-groovy-pcl ros-groovy-pcl-ros
 #   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
+#   sudo apt-get install ros-groovy-ecl-thread ros-groovy-ecl-devices ros-groovy-ecl-streams ros-groovy-ecl-mobile-robot
 #
 # General non catkin stacks
 #   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common
 #   sudo apt-get install ros-groovy-navigation ros-groovy-slam-gmapping ros-groovy-bullet 
 #
+# Ecl dependency for kobuki
+#   sudo apt-get install ros-groovy-ecl-threads ros-groovy-ecl-devices ros-groovy-ecl-mobile-robot ros-groovy-ecl-streams ros-groovy-ecl-sigslots
+#
+# Zeroconf (non catkin)
 # Zeroconf
 #   sudo apt-get install ros-groovy-zeroconf-avahi
 #
-# Kobuki
-#   sudo apt-get install ros-groovy-ecl-threads ros-groovy-ecl-devices ros-groovy-ecl-mobile-robot ros-groovy-ecl-streams ros-groovy-ecl-sigslots
-#
-# Perception 
-#   sudo apt-get install ros-groovy-openni-launch ros-groovy-depthimage-to-laserscan
+# Openni 
+#   sudo apt-get install ros-groovy-openni-launch 
 #
 # Vizualisation
 #   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization ros-groovy-rqt
@@ -111,4 +113,24 @@
     uri: https://github.com/RobotWebTools/rosbridge_suite.git 
     local-name: rosbridge_suite
 
+
+# Yujin OCS
+- git:
+    uri: https://github.com/yujinrobot/yujin_ocs.git 
+    local-name: yujin_ocs
+    version: master
+
+# ECL
+- svn:
+    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_tools
+    local-name: ecl_tools
+- svn:
+    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_lite
+    local-name: ecl_lite
+- svn:
+    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_core
+    local-name: ecl_core
+- svn:
+    uri: http://embedded-control-library.googlecode.com/svn/trunk/ecl_navigation
+    local-name: ecl_navigation
 
