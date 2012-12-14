@@ -16,3 +16,5 @@ apps:
    app: turtlebot_core_apps/follower
  - display: Take a Panorama
    app: turtlebot_core_apps/panorama
+ - display: Auto Docking
+   app: turtlebot_core_apps/auto_docking
