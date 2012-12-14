@@ -7,7 +7,6 @@
   <depend stack="common_msgs" /> <!-- nav_msgs, geometry_msgs, sensor_msgs, diagnostic_msgs -->
   <depend stack="driver_common" /> <!-- dynamic_reconfigure -->
   <depend stack="geometry" /> <!-- tf -->
-  <depend stack="kobuki" /> <!-- kobuki_node, kobuki_description -->
   <depend stack="nodelet_core" /> <!-- nodelet -->
   <depend stack="orocos_kinematics_dynamics" /> <!-- kdl -->
   <depend stack="robot_model" /> <!-- robot_state_publisher, urdf -->
@@ -15,6 +14,15 @@
   <depend stack="ros_comm" /> <!-- rospy -->
   <depend stack="xacro" /> <!-- xacro -->
   <depend stack="zeroconf_avahi_suite" /> <!-- zeroconf_avahi -->
+  <depend stack="multimaster_experimental" /> <!-- app_manager -->
+
+  <!-- Turtlebot-->
+  <depend stack="turtlebot_create" /> <!-- iRobot Create stuff -->
+
+  <!-- Kobuki -->
+  <depend stack="kobuki" /> <!-- kobuki_node, kobuki_description -->
+  <depend stack="kobuki_msgs" /> <!-- kobuki_msgs -->
+
   <!-- perhaps not essential here. -->
   <depend stack="perception_pcl" /> <!-- pcl_ros -->
   <depend stack="openni_camera" />
