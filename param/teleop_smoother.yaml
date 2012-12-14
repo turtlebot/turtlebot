@@ -1,4 +1,9 @@
 # Mandatory parameters
+speed_lim_x:  0.8
+speed_lim_y:  0.8
+speed_lim_th: 5.4
+
+# Mandatory parameters
 accel_lim_x: 1.0
 accel_lim_y: 1.0
 accel_lim_th: 3.0
