@@ -14,7 +14,6 @@
   <depend package="kobuki_description"/>
   <depend package="create_node"/>
   <depend package="create_description"/>
-  <depend package="joy"/>
   <depend package="robot_state_publisher"/>
   <depend package="openni_camera"/>
   <depend package="linux_hardware"/>
