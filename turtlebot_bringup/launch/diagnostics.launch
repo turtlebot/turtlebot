@@ -1,6 +1,0 @@
-<!--
-  Launch a diagnostics monitor
- -->
-<launch>
-  <node pkg="robot_monitor" type="robot_monitor" name="monitor" />
-</launch>
