@@ -1,14 +1,17 @@
 <package>
-  <description brief="linux_hardware">
+  <description brief="utilities for linux hardware (e.g. batteries)">
 
-     linux_hardware
+     Simple scripts which help utilise, monitor, interact with computer
+     hardware abstracted by a linux OS.
 
   </description>
-  <author>yujin</author>
+  <author>Daniel Stonier</author>
   <license>BSD</license>
-  <review status="unreviewed" notes=""/>
+  <review status="experimental" notes=""/>
   <url>http://ros.org/wiki/linux_hardware</url>
-
+  <depend package="rospy"/>
+  <depend package="std_msgs"/>
+  <depend package="diagnostic_msgs"/>
 </package>
 
 

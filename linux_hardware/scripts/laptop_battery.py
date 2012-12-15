@@ -37,7 +37,8 @@
 
 from __future__ import division
 
-import roslib; roslib.load_manifest('linux_hardware')
+import roslib
+roslib.load_manifest('linux_hardware')
 
 from   collections import deque
 import threading
