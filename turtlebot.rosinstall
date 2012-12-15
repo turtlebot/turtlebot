@@ -5,32 +5,27 @@
 # Latest build tools
 #   sudo apt-get install python-rosdep python-rosinstall python-rospkg
 #
-# Basic ROS
-#   sudo apt-get install ros-groovy-ros ros-groovy-ros-comm 
-#
-# General Catkinized stacks
-#   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf ros-groovy-pcl ros-groovy-pcl-ros
-#   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
-#
-# General non catkin stacks
-#   sudo apt-get install ros-groovy-diagnostics ros-groovy-xacro ros-groovy-visualization-common
-#   sudo apt-get install ros-groovy-navigation ros-groovy-slam-gmapping ros-groovy-bullet 
-#
-# Zeroconf
-#   sudo apt-get install ros-groovy-zeroconf-avahi
-#
 # Kobuki
 #   sudo apt-get install ros-groovy-ecl-threads ros-groovy-ecl-devices ros-groovy-ecl-mobile-robot ros-groovy-ecl-streams ros-groovy-ecl-sigslots
+#   sudo apt-get install ros-groovy-ros ros-groovy-ros-comm ros-groovy-common-msgs 
+#   sudo apt-get install ros-groovy-geometry ros-groovy-diagnostics ros-groovy-perception-pcl ros-groovy-nodelet-core ros-groovy-robot-model ros-groovy-xacro
 #
-# Perception 
-#   sudo apt-get install ros-groovy-openni-launch ros-groovy-depthimage-to-laserscan
+# Turtlebot
+#   sudo apt-get install ros-groovy-zeroconf-avahi ros-groovy-depthimage-to-laserscan ros-groovy-navigation ros-groovy-robot-model
+#   sudo apt-get install ros-groovy-diagnostics ros-groovy-openni-launch ros-groovy-openni-camera 
 #
-# Vizualisation
+# Visualisation (turtlebot_viz)
 #   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization ros-groovy-rqt
 #
-# Turtlebot Apps
+# Apps (turtlebot_apps)
 #   sudo apt-get install ros-groovy-joystick-drivers ros-groovy-image-transport ros-groovy-image-transport-plugins
 #   sudo apt-get install ros-groovy-multimaster-experimental ros-groovy-warehouse-ros ros-groovy-python-orocos-kdl
+#
+# Unknown (probably needed for turtlebot apps)
+#   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf
+#   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
+#   sudo apt-get install ros-groovy-visualization-common
+#   sudo apt-get install ros-groovy-navigation ros-groovy-slam-gmapping ros-groovy-bullet 
 #
 # Arm
 #   sudo apt-get install ros-groovy-dynamixel-motor 

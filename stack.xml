@@ -4,27 +4,31 @@
   <license>BSD,MIT</license>  
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot</url>
-  <depend stack="common_msgs" /> <!-- nav_msgs, geometry_msgs, sensor_msgs, diagnostic_msgs -->
-  <depend stack="driver_common" /> <!-- dynamic_reconfigure -->
-  <depend stack="geometry" /> <!-- tf -->
-  <depend stack="nodelet_core" /> <!-- nodelet -->
-  <depend stack="orocos_kinematics_dynamics" /> <!-- kdl -->
-  <depend stack="robot_model" /> <!-- robot_state_publisher, urdf -->
-  <depend stack="ros" />
-  <depend stack="ros_comm" /> <!-- rospy -->
-  <depend stack="xacro" /> <!-- xacro -->
+
+  <!-- turtlebot_bringup (launch dependencies) -->
   <depend stack="zeroconf_avahi_suite" /> <!-- zeroconf_avahi -->
+  <depend stack="navigation" /> <!-- robot_pose_ekf -->
+  <depend stack="robot_model" /> <!-- robot_state_publisher -->
+  <depend stack="diagnostics" /> <!-- diagnostic_aggregator -->
+  <depend stack="depthimage_to_laserscan" /> <!-- depthimage_to_laserscan -->
+  <depend stack="openni_camera" />
+
+  <!-- turtlebot_app_manager -->
   <depend stack="multimaster_experimental" /> <!-- app_manager -->
 
-  <!-- Turtlebot-->
-  <depend stack="turtlebot_create" /> <!-- iRobot Create stuff -->
+  <!-- turtlebot_description -->
+  <!-- <depend stack="robot_model" /> --> <!-- urdf -->
+  <depend stack="xacro" /> <!-- xacro -->
 
-  <!-- Kobuki -->
+  <!-- linux_hardware -->
+  <depend stack="std_msgs" /> <!--std_msgs -->
+  <depend stack="common_msgs" /> <!-- diagnostic_msgs -->
+  <depend stack="ros" /> <!-- roslib -->
+  <depend stack="ros_comm" /> <!-- rospy -->
+
+  <!-- Base Implementations -->
+  <depend stack="turtlebot_create" /> <!-- iRobot Create stuff -->
   <depend stack="kobuki" /> <!-- kobuki_node, kobuki_description -->
   <depend stack="kobuki_msgs" /> <!-- kobuki_msgs -->
 
-  <!-- perhaps not essential here. -->
-  <depend stack="perception_pcl" /> <!-- pcl_ros -->
-  <depend stack="openni_camera" />
-  <depend stack="image_transport_plugins" /> <!-- compressed_image_transport -->
 </stack>
