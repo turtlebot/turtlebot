@@ -1,6 +1,0 @@
-<launch>
-  <node pkg="turtlebot_app_manager" type="appmaster" name="appmaster" args="-p 11312"/>
-  <node pkg="turtlebot_app_manager" type="app_manager" name="app_manager" args="--applist $(find turtlebot_bringup)/apps" output="screen">
-        <param name="interface_master" value="http://localhost:11312"/>
-  </node>
-</launch>
