@@ -1,4 +1,0 @@
-published_topics:
-  /camera/rgb/image_color/compressed: sensor_msgs/CompressedImage
-subscribed_topics: 
-  /turtlebot_node/cmd_vel: geometry_msgs/Twist

@@ -1,6 +1,0 @@
-# Name of app to uninstall
-string name
----
-# true if app stopped, false otherwise
-bool uninstalled
-string message
