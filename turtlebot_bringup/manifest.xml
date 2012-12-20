@@ -11,7 +11,7 @@
 
   <depend package="create_node"/>
   <depend package="turtlebot_bringup_common"/>
-  <depend package="turtlebot_description"/>
+  <depend package="turtlebot_description_common"/>
 
 </package>
 
