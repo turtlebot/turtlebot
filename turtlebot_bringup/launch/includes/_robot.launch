@@ -16,6 +16,6 @@
     <param name="publish_frequency" type="double" value="5.0" />
   </node>
   <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator" >
-    <rosparam command="load" file="$(find t1_bringup)/param/diagnostics.yaml" />
+    <rosparam command="load" file="$(find turtlebot_bringup)/param/diagnostics.yaml" />
   </node>
 </launch>
