@@ -5,26 +5,8 @@
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot</url>
 
-  <!-- turtlebot_bringup (launch dependencies) -->
-  <depend stack="zeroconf_avahi_suite" /> <!-- zeroconf_avahi -->
-  <depend stack="navigation" /> <!-- robot_pose_ekf -->
-  <depend stack="robot_model" /> <!-- robot_state_publisher -->
-  <depend stack="diagnostics" /> <!-- diagnostic_aggregator -->
-  <depend stack="depthimage_to_laserscan" /> <!-- depthimage_to_laserscan -->
-  <depend stack="openni_camera" />
-
-  <!-- turtlebot_app_manager -->
-  <depend stack="multimaster_experimental" /> <!-- app_manager -->
-
-  <!-- turtlebot_description -->
-  <!-- <depend stack="robot_model" /> --> <!-- urdf -->
-  <depend stack="xacro" /> <!-- xacro -->
-
-  <!-- linux_hardware -->
-  <depend stack="std_msgs" /> <!--std_msgs -->
-  <depend stack="common_msgs" /> <!-- diagnostic_msgs -->
-  <depend stack="ros" /> <!-- roslib -->
-  <depend stack="ros_comm" /> <!-- rospy -->
+  <!-- turtlebot_bringup, turtlebot_description (launch dependencies) -->
+  <depend stack="turtlebot_common" /> <!-- Common Componenets -->
 
   <!-- Base Implementations -->
   <depend stack="turtlebot_create" /> <!-- iRobot Create stuff -->
