@@ -14,6 +14,7 @@
   <depend package="cmd_vel_mux"/>
   <depend package="kobuki_safety_controller"/>
   <depend package="yocs_velocity_smoother"/>
+  <depend package="turtlebot_bringup"/>
 </package>
 
 
