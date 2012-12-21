@@ -7,6 +7,7 @@
   <license>BSD</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/turtlebot_description</url>
+  <depend package="turtlebot_description_common"/>
   <depend package="urdf"/>
   <depend package="xacro"/>
 
