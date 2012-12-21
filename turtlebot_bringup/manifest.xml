@@ -19,4 +19,5 @@
   <depend package="openni_camera"/>
   <depend package="linux_hardware"/>
   <depend package="turtlebot_app_manager"/>
+  <depend package="depthimage_to_laserscan"/>
 </package>
