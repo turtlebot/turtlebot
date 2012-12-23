@@ -25,7 +25,7 @@
 #   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf
 #   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
 #   sudo apt-get install ros-groovy-visualization-common
-#   sudo apt-get install ros-groovy-navigation ros-groovy-slam-gmapping ros-groovy-bullet 
+#   sudo apt-get install ros-groovy-map-store ros-groovy-navigation ros-groovy-slam-gmapping ros-groovy-bullet 
 #
 # Arm
 #   sudo apt-get install ros-groovy-dynamixel-motor 
