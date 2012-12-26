@@ -181,7 +181,7 @@ class AppManager(object):
         # TODO: the app list has already loaded the App data.  We should use that instead for consistency
 
         appname = req.name
-        rospy.loginfo("Loading app: %s"%(appname))
+        rospy.loginfo("App Manager : loading app: %s"%(appname))
         try:
             app = load_AppDefinition_by_name(appname)
         except ValueError as e:
@@ -243,11 +243,11 @@ class AppManager(object):
             except:
                 pass
             self._status_pub.publish(AppStatus(AppStatus.INFO, 'app start failed'))
-            rospy.logerr("app start failed")
+            rospy.logerr("App Manager : app start failed")
             return StartAppResponse(started=False, message="internal error [%s]"%(str(e)), error_code=StatusCodes.INTERNAL_ERROR)
 
     def handle_stop_app(self, req):
-        rospy.loginfo("handle stop app: %s"%(req.name))
+        rospy.loginfo("AppManager : request received to stop application [%s]"%(req.name))
         return self.stop_app(req.name)
 
     def app_monitor(self):
