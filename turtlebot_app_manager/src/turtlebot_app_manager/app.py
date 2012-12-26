@@ -39,7 +39,7 @@ import errno
 import yaml
 
 import roslib.names
-from roslib.packages import InvalidROSPkgException
+from rospkg import ResourceNotFound
 from .exceptions import AppException, InvalidAppException, NotFoundException, InternalAppException
 
 class Interface(object):
@@ -114,7 +114,7 @@ def find_resource(resource):
     @return: filepath of resource.  Does not validate if filepath actually exists.
     
     @raise ValueError: if resource is not a valid resource name.
-    @raise roslib.packages.InvalidROSPkgException: if package referred
+    @raise rospkg.ResourceNotFound: if package referred
         to in resource name cannot be found.
     @raise NotFoundException: if resource does not exist.
     """
@@ -163,7 +163,7 @@ def _AppDefinition_load_icon_entry(app_data, appfile="UNKNOWN"):
     except NotFoundException:
         # TODO: make this a soft fail?
         raise InvalidAppException("App file [%s] refers to icon that cannot be found"%(appfile))
-    except InvalidROSPkgException as e:
+    except ResourceNotFound as e:
         raise InvalidAppException("App file [%s] refers to package that is not installed: %s"%(appfile, str(e)))
 
 def _AppDefinition_load_launch_entry(app_data, appfile="UNKNOWN"):
@@ -180,7 +180,7 @@ def _AppDefinition_load_launch_entry(app_data, appfile="UNKNOWN"):
         raise InvalidAppException("Malformed appfile [%s]: bad launch entry: %s"%(appfile, e))
     except NotFoundException:
         raise InvalidAppException("App file [%s] refers to launch that is not installed"%(appfile))
-    except InvalidROSPkgException as e:
+    except ResourceNotFound as e:
         raise InvalidAppException("App file [%s] refers to package that is not installed: %s"%(appfile, str(e)))
 
 def _AppDefinition_load_interface_entry(app_data, appfile="UNKNOWN"):
@@ -197,7 +197,7 @@ def _AppDefinition_load_interface_entry(app_data, appfile="UNKNOWN"):
             raise InvalidAppException("Error with appfile [%s]: cannot read interface file"%(appfile))
     except ValueError:
         raise InvalidAppException("Malformed appfile [%s]: bad interface entry"%(appfile))
-    except InvalidROSPkgException as e:
+    except ResourceNotFound as e:
         raise InvalidAppException("App file [%s] refers to package that is not installed: %s"%(appfile, str(e)))
     
 def _AppDefinition_load_clients_entry(app_data, appfile="UNKNOWN"):
@@ -214,19 +214,6 @@ def _AppDefinition_load_clients_entry(app_data, appfile="UNKNOWN"):
         manager_data = c['manager']
         if not type(manager_data) == dict:
             raise InvalidAppException("Malformed appfile [%s]: manager data must be a map"%(appfile))
-
-        if client_type == 'web':
-            if manager_data.has_key('path'):
-                url = find_resource(manager_data['path'])
-                # newurl = url.replace('/opt/ros/electric/stacks','')
-                with open('/etc/ros/app_platform/apache2_config.yaml','r') as f:
-                    y = yaml.load(f.read())
-                    y = y or {} #coerce to dict
-                    for key,value in  y["aliases"].iteritems():
-                        newurl = url.replace(value, '')     
-                        if newurl != url:
-                            manager_data['path'] = '/' + key + newurl
-                            break
 
         app_data = c.get('app', {})
         if not type(app_data) == dict:
@@ -270,7 +257,7 @@ def load_AppDefinition_by_name(appname):
 
     try:
         appfile = find_resource(appname + '.app')
-    except InvalidROSPkgException as e:
+    except ResourceNotFound as e:
         raise NotFoundException("Cannot locate app file for %s: package is not installed."%(appname))
 
     try:
