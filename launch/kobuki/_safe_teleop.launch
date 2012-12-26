@@ -6,13 +6,14 @@
   </node>
   
   <!-- safety controller -->
+  <!-- Disabling for now - in practice it doesn't seem to be working as conveniently as expected.
   <node pkg="nodelet" type="nodelet" name="kobuki_safety_controller" args="load kobuki_safety_controller/SafetyControllerNodelet kobuki">
     <remap from="kobuki_safety_controller/cmd_vel" to="cmd_vel_mux/safety_controller"/>
     <remap from="kobuki_safety_controller/events/bumper" to="mobile_base/events/bumper"/>
     <remap from="kobuki_safety_controller/events/cliff" to="mobile_base/events/cliff"/>
     <remap from="kobuki_safety_controller/events/wheel_drop" to="mobile_base/events/wheel_drop"/>
   </node>
-  
+  -->
   <!-- velocity smoother for teleop input -->
   <node pkg="nodelet" type="nodelet" name="teleop_vel_smoother" args="load yocs_velocity_smoother/VelocitySmootherNodelet kobuki">
     <rosparam file="$(find turtlebot_teleop)/param/teleop_smoother.yaml" command="load"/>
