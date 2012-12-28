@@ -14,20 +14,17 @@
     Lighter method - load minimal set of depth sensing infrastructure
   -->
   <group unless="$(arg use_openni_launch)" ns="$(arg camera)">
-    <node pkg="nodelet" type="nodelet" name="$(arg camera)_nodelet_manager" output="screen" respawn="true" args="manager"/>
+    <node pkg="nodelet" type="nodelet" name="$(arg manager)" output="screen" respawn="true" args="manager"/>
     <node pkg="nodelet" type="nodelet" name="openni_camera_loader" args="load openni_camera/driver $(arg camera)_nodelet_manager" respawn="true">
         <rosparam file="$(find turtlebot_bringup)/param/kinect.yaml" command="load"/>
     </node>
-    <!-- Load standard constellation of processing nodelets -->
-<!--     <include file="$(find openni_launch)/launch/includes/processing.launch"> -->
-<!--       <arg name="manager"               value="/$(arg manager)" /> Fully resolved -->
-<!--       <arg name="rgb"                   value="$(arg rgb)" /> -->
-<!--       <arg name="ir"                    value="$(arg ir)" /> -->
-<!--       <arg name="depth"                 value="$(arg depth)" /> -->
-<!--       <arg name="depth_registered"      value="$(arg depth_registered)" /> -->
-<!--       <arg name="projector"             value="$(arg projector)" /> -->
-<!--       <arg name="respawn"               value="$(arg respawn)" /> -->
-<!--     </include> -->
+
+    <!-- RGB processing - should we actually put this in here or in the apps? -->
+    <include file="$(find image_proc)/launch/image_proc.launch" ns="$(arg rgb)">
+      <arg name="manager" value="/$(arg camera)/$(arg manager)" /> <!--  Image proc can't seem to resolve if only $(arg manager) is set -->
+      <arg name="respawn" value="$(arg respawn)" />
+    </include>
+
     <!-- Launch depthimage_to_laserscan -->
     <!-- This uses lazy subscribing, so will not activate Asus/Kinect until scan is requested. -->
     <node pkg="nodelet" type="nodelet" name="depthimage_to_laserscan_loader" args="load depthimage_to_laserscan/DepthImageToLaserScanNodelet $(arg camera)_nodelet_manager">
