@@ -11,6 +11,9 @@
 #   sudo apt-get install ros-groovy-geometry ros-groovy-diagnostics ros-groovy-perception-pcl ros-groovy-nodelet-core ros-groovy-robot-model ros-groovy-xacro
 #   sudo apt-get install ros-groovy-yujin-ocs
 #
+# Kobuki FTDI (Firmware Updates)
+#   sudo apt-get install libftdi-dev
+#
 # Turtlebot
 #   sudo apt-get install ros-groovy-zeroconf-avahi ros-groovy-depthimage-to-laserscan ros-groovy-navigation ros-groovy-robot-model
 #   sudo apt-get install ros-groovy-diagnostics ros-groovy-openni-launch ros-groovy-openni-camera 
