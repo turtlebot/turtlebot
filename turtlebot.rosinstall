@@ -102,9 +102,6 @@
     local-name: turtlebot_arm
 
 # some extra packages required for turtlebot apps that don't have groovy debs yet.
-- svn:
-    uri: http://svn.code.sf.net/p/bosch-ros-pkg/code/trunk/stacks/mjpeg_server
-    local-name: mjpeg_server
 
 - git:
     uri: https://github.com/RobotWebTools/rosbridge_suite.git 

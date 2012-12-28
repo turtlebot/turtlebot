@@ -1,7 +1,7 @@
 <launch>
-  <!-- Kinect -->
-  <arg name="camera"            value="camera"/>
   <arg name="use_openni_launch" default="false"/>
+
+  <arg name="camera"            value="camera"/>
   <arg name="rgb"               default="rgb" />
   <arg name="ir"                default="ir" />
   <arg name="depth"             default="depth" />
