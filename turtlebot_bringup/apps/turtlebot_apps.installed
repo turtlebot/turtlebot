@@ -4,8 +4,10 @@
 apps:
  - display: Android Teleop
    app: turtlebot_core_apps/android_teleop
-# - display: PS3 Joystick
-#   app: turtlebot_core_apps/ps3_teleop
+ - display: PS3 Teleop
+   app: turtlebot_core_apps/ps3_teleop
+ - display: Xbox360 Teleop
+   app: turtlebot_core_apps/xbox360_teleop
  - display: Chirp
    app: turtlebot_core_apps/chirp
  - display: Make a Map
