@@ -1,0 +1,7 @@
+<launch>
+  <!--
+    Push the right stick to activate cmd_vel publishing.
+    Move the left stick around to control the velocity. 
+   -->
+  <include file="$(find turtlebot_teleop)/launch/ps3_teleop.launch"/>
+</launch>
