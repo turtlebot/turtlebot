@@ -1,5 +1,5 @@
 <launch>
-  <node pkg="zeroconf_avahi" type="zeroconf" name="zeroconf"  output="screen">
+  <node pkg="zeroconf_avahi" type="zeroconf" name="zeroconf">
     <rosparam file="$(find turtlebot_bringup)/param/zeroconf.yaml" command="load"/>
     <!-- 
     <rosparam param="services">
