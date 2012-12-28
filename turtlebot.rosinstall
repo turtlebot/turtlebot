@@ -9,6 +9,7 @@
 #   sudo apt-get install ros-groovy-ecl-threads ros-groovy-ecl-devices ros-groovy-ecl-mobile-robot ros-groovy-ecl-streams ros-groovy-ecl-sigslots
 #   sudo apt-get install ros-groovy-ros ros-groovy-ros-comm ros-groovy-common-msgs 
 #   sudo apt-get install ros-groovy-geometry ros-groovy-diagnostics ros-groovy-perception-pcl ros-groovy-nodelet-core ros-groovy-robot-model ros-groovy-xacro
+#   sudo apt-get install ros-groovy-yujin-ocs
 #
 # Turtlebot
 #   sudo apt-get install ros-groovy-zeroconf-avahi ros-groovy-depthimage-to-laserscan ros-groovy-navigation ros-groovy-robot-model
