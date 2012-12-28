@@ -12,10 +12,10 @@
 
 subscribers:
   - name:        "Safe reactive controller"
-    topic:       "safety_controller"
+    topic:       "input/safety_controller"
     timeout:     0.2
     priority:    10
   - name:        "Teleoperation"
-    topic:       "teleop"
+    topic:       "input/teleop"
     timeout:     0.2
     priority:    7

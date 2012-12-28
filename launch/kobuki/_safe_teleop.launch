@@ -1,5 +1,9 @@
 <launch>
   <!-- velocity commands multiplexer -->
+  <!-- useful for testing 
+  <node pkg="nodelet" type="nodelet" name="cmd_vel_mux_manager" args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load cmd_vel_mux/CmdVelMuxNodelet cmd_vel_mux_manager">
+  -->
   <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load cmd_vel_mux/CmdVelMuxNodelet kobuki">
     <param name="yaml_cfg_file" value="$(find turtlebot_teleop)/param/teleop_mux.yaml"/>
     <remap from="cmd_vel_mux/output" to="mobile_base/commands/velocity"/>
@@ -15,10 +19,14 @@
   </node>
   -->
   <!-- velocity smoother for teleop input -->
+  <!-- useful for testing 
+  <node pkg="nodelet" type="nodelet" name="velocity_smoother" args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="teleop_vel_smoother" args="load yocs_velocity_smoother/VelocitySmootherNodelet velocity_smoother">
+  -->
   <node pkg="nodelet" type="nodelet" name="teleop_vel_smoother" args="load yocs_velocity_smoother/VelocitySmootherNodelet kobuki">
     <rosparam file="$(find turtlebot_teleop)/param/teleop_smoother.yaml" command="load"/>
-<!--     <remap from="teleop_vel_smoother/raw_cmd_vel" to="raw_cmd_vel"/> -->
+    <remap from="teleop_vel_smoother/raw_cmd_vel" to="cmd_vel"/> -->
     <remap from="teleop_vel_smoother/odometry" to="odom"/>
-    <remap from="teleop_vel_smoother/smooth_cmd_vel" to="cmd_vel_mux/teleop"/>
+    <remap from="teleop_vel_smoother/smooth_cmd_vel" to="cmd_vel_mux/input/teleop"/>
   </node>
 </launch>
