@@ -14,7 +14,7 @@
   <group ns="$(arg camera)">
     <node pkg="nodelet" type="nodelet" name="$(arg manager)" output="screen" respawn="true" args="manager"/>
     <node pkg="nodelet" type="nodelet" name="openni_camera_loader" args="load openni_camera/driver $(arg camera)_nodelet_manager" respawn="true">
-        <rosparam file="$(find turtlebot_bringup)/param/kinect.yaml" command="load"/>
+        <rosparam file="$(find turtlebot_bringup)/param/3dsensor.yaml" command="load"/>
     </node>
 
     <!-- RGB processing - should we actually put this in here or in the apps? -->

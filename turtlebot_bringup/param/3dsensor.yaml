@@ -1,14 +1,13 @@
 # This is only a very minimal set of parameters that really should be configured for the kinect.
 # See http://www.ros.org/wiki/openni_camera for more information.
 
-# Note - it is supposed to be less heavy than using openni_launch directly.
+# Note - this is not working in groovy with asus. It may need a different configuration as well.
 
-camera: camera
 rgb_frame_id: camera_rgb_optical_frame
 depth_frame_id: camera_depth_optical_frame
 depth_registration: true
 image_mode: 2
 depth_mode: 2
-debayering: 2
+# why is this non-zero?
 depth_time_offset: -0.055
 image_time_offset: 0
