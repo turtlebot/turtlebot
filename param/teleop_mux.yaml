@@ -17,5 +17,5 @@ subscribers:
     priority:    10
   - name:        "Teleoperation"
     topic:       "input/teleop"
-    timeout:     0.2
+    timeout:     1.0
     priority:    7
