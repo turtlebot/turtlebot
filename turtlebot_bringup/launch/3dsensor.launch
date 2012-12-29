@@ -15,8 +15,8 @@
   <arg unless="$(arg depth_registration)" name="depth" value="depth" />
   
   <!-- Processing Modules -->
-  <arg name="processing_rgb"     default="true"/>
-  <arg name="processing_depth"   default="true"/>
+  <arg name="rgb_processing"     default="true"/>
+  <arg name="depth_processing"   default="true"/>
 
   <group ns="$(arg camera)">
     <node pkg="nodelet" type="nodelet" name="$(arg manager)" respawn="true" args="manager"/>
@@ -25,7 +25,7 @@
         <param name="depth_registration" value="$(arg depth_registration)"/>
     </node>
 
-    <group if="$(arg processing_rgb)">
+    <group if="$(arg rgb_processing)">
       <include file="$(find image_proc)/launch/image_proc.launch" ns="rgb">
         <arg name="manager" value="/$(arg camera)/$(arg manager)" /> <!--  Image proc can't seem to resolve if only $(arg manager) is set -->
         <arg name="respawn" value="$(arg respawn)" />
@@ -37,7 +37,7 @@
       Here we set things up for point cloud processing (follower mainly).
       At some point we may want the xyzrgb point cloud processing nodelet. 
     -->
-    <group if="$(arg processing_depth)">
+    <group if="$(arg depth_processing)">
       <node pkg="nodelet" type="nodelet" name="rectify_depth"
             args="load image_proc/rectify /$(arg camera)/$(arg manager) $(arg bond)"
             respawn="$(arg respawn)"
@@ -55,12 +55,13 @@
       </node>
     </group>
     
-    <!-- Launch depthimage_to_laserscan -->
-    <!-- This uses lazy subscribing, so will not activate Asus/Kinect until scan is requested. -->
+    <!--                        Laserscan 
+      This uses lazy subscribing, so will not activate until scan is requested.
+    -->
     <node pkg="nodelet" type="nodelet" name="depthimage_to_laserscan_loader" args="load depthimage_to_laserscan/DepthImageToLaserScanNodelet $(arg camera)_nodelet_manager">
      <param name="output_frame_id" value="/$(arg camera)_depth_frame"/>
      <param name="range_min" value="0.6"/>
-     <remap from="image" to="/$(arg camera)/depth_registered/image_raw"/>
+     <remap from="image" to="/$(arg camera)/$(arg depth)/image_raw"/>
      <remap from="scan" to="/scan" />
    </node>
   </group>
