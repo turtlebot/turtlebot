@@ -1,0 +1,14 @@
+# Default parameters used by the yocs_velocity_smoother module.
+# This isn't used by minimal.launch per se, rather by everything
+# which runs on top.
+
+# Mandatory parameters
+speed_lim_v: 0.8
+speed_lim_w: 5.4
+
+accel_lim_v: 0.3
+accel_lim_w: 3.5
+
+# Optional parameters
+frequency: 20.0
+decel_factor: 1.0
