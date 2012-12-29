@@ -5,23 +5,54 @@
 <launch>
   <arg name="camera"  value="camera"/>
   <arg name="respawn" default="false" />
+  <arg     if="$(arg respawn)" name="bond" value="" />
+  <arg unless="$(arg respawn)" name="bond" value="--no-bond" />
   <arg name="manager" value="$(arg camera)_nodelet_manager" />
+
+  <!-- Depth registration -->
+  <arg name="depth_registration" default="true"/>
+  <arg     if="$(arg depth_registration)" name="depth" value="depth_registered" />
+  <arg unless="$(arg depth_registration)" name="depth" value="depth" />
   
-  <!-- Processing Module Args -->
-  <arg name="rgb"     default="true" />
+  <!-- Processing Modules -->
+  <arg name="processing_rgb"     default="true"/>
+  <arg name="processing_depth"   default="true"/>
 
   <group ns="$(arg camera)">
     <node pkg="nodelet" type="nodelet" name="$(arg manager)" respawn="true" args="manager"/>
     <node pkg="nodelet" type="nodelet" name="openni_camera_loader" args="load openni_camera/driver $(arg camera)_nodelet_manager" respawn="true">
         <rosparam file="$(find turtlebot_bringup)/param/3dsensor.yaml" command="load"/>
+        <param name="depth_registration" value="$(arg depth_registration)"/>
     </node>
 
-    <group if="$(arg rgb)">
-      <!-- RGB processing - should we actually put this in here or in the apps? -->
+    <group if="$(arg processing_rgb)">
       <include file="$(find image_proc)/launch/image_proc.launch" ns="rgb">
         <arg name="manager" value="/$(arg camera)/$(arg manager)" /> <!--  Image proc can't seem to resolve if only $(arg manager) is set -->
         <arg name="respawn" value="$(arg respawn)" />
       </include>
+    </group>
+
+    <!--                  Depth image processing 
+      Look in $(find openni_launch)/launch/includes/depth.launch for hints
+      Here we set things up for point cloud processing (follower mainly).
+      At some point we may want the xyzrgb point cloud processing nodelet. 
+    -->
+    <group if="$(arg processing_depth)">
+      <node pkg="nodelet" type="nodelet" name="rectify_depth"
+            args="load image_proc/rectify /$(arg camera)/$(arg manager) $(arg bond)"
+            respawn="$(arg respawn)"
+            ns="$(arg depth)">
+        <remap from="image_mono"  to="image_raw" />   <!-- Input -->
+        <remap from="image_rect"  to="image_rect_raw" />  <!-- Output -->
+        <!-- Use nearest neighbor (0) interpolation so we don't streak across depth boundaries -->
+        <param name="interpolation" value="0" />
+      </node>
+      <node pkg="nodelet" type="nodelet" name="points"
+            args="load depth_image_proc/point_cloud_xyz /$(arg camera)/$(arg manager) $(arg bond)"
+            respawn="$(arg respawn)"
+            ns="$(arg depth)">
+        <remap from="image_rect" to="image_rect_raw"/>
+      </node>
     </group>
     
     <!-- Launch depthimage_to_laserscan -->
