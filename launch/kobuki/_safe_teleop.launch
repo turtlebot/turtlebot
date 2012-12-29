@@ -5,7 +5,7 @@
   <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load cmd_vel_mux/CmdVelMuxNodelet cmd_vel_mux_manager">
   -->
   <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load cmd_vel_mux/CmdVelMuxNodelet kobuki">
-    <param name="yaml_cfg_file" value="$(find turtlebot_teleop)/param/teleop_mux.yaml"/>
+    <param name="yaml_cfg_file" value="$(find turtlebot_teleop)/param/mux.yaml"/>
     <remap from="cmd_vel_mux/output" to="mobile_base/commands/velocity"/>
   </node>
   
@@ -24,7 +24,7 @@
   <node pkg="nodelet" type="nodelet" name="teleop_vel_smoother" args="load yocs_velocity_smoother/VelocitySmootherNodelet velocity_smoother">
   -->
   <node pkg="nodelet" type="nodelet" name="teleop_vel_smoother" args="load yocs_velocity_smoother/VelocitySmootherNodelet kobuki">
-    <rosparam file="$(find turtlebot_teleop)/param/teleop_smoother.yaml" command="load"/>
+    <rosparam file="$(find turtlebot_bringup)/param/defaults/smoother.yaml" command="load"/>
     <!--  turtlebot apps expect to find the input cmd_vel at '/cmd_vel' -->
     <remap from="teleop_vel_smoother/raw_cmd_vel" to="cmd_vel"/>
     <remap from="teleop_vel_smoother/odometry" to="odom"/>
