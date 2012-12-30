@@ -1,5 +1,7 @@
 <!--
   Create's implementation of turtlebot's mobile base.
+  
+  TODO: redirect cmd_vel_mux/output to wherever create base is listening.
  -->
 <launch>
   <!-- Turtlebot Driver -->
@@ -21,5 +23,12 @@
     <param name="imu_used" value="true"/>
     <param name="vo_used" value="false"/>
     <param name="output_frame" value="odom"/>
+  </node>
+
+  <!-- velocity commands multiplexer -->
+  <node pkg="nodelet" type="nodelet" name="create" args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load cmd_vel_mux/CmdVelMuxNodelet create">
+    <param name="yaml_cfg_file" value="$(find turtlebot_bringup)/param/mux.yaml"/>
+    <remap from="cmd_vel_mux/output" to="mobile_base/commands/velocity"/>
   </node>
 </launch>
