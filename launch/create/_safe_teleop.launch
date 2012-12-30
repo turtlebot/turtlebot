@@ -1,4 +1,0 @@
-<launch>
-  <!-- Create has no safety controller - this script just issues a warning notice -->
-  <node pkg="turtlebot_teleop" type="no_safety_controller" name="no_safety_controller"/>
-</launch>

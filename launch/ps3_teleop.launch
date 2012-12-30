@@ -1,17 +1,18 @@
 <launch>
   <arg name="base"       value="$(optenv TURTLEBOT_BASE kobuki)"/>  <!-- create, rhoomba -->
-  <!-- 
-    Cmd_vel_mux, safety_controller, velocity_smoother - only available for kobuki 
-  -->
-  <include file="$(find turtlebot_teleop)/launch/$(arg base)/_safe_teleop.launch"/>
 
-  <!--- Teleop Joystick -->
+  <!--  smooths inputs from cmd_vel_mux/input/teleop_raw to cmd_vel_mux/input/teleop -->
+  <include file="$(find turtlebot_teleop)/launch/includes/_velocity_smoother.launch">
+    <arg name="base" value="$(arg base)" />
+  </include>
+
   <node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="turtlebot_teleop_joystick">
     <param name="scale_angular" value="1.5"/>
     <param name="scale_linear" value="0.5"/>
     <param name="axis_deadman" value="10"/>
     <param name="axis_linear" value="1"/>
     <param name="axis_angular" value="0"/>
+    <remap from="turtlebot_teleop_joystick/cmd_vel" to="cmd_vel_mux/input/teleop_raw"/>
   </node>
 
   <node pkg="joy" type="joy_node" name="joystick"/>

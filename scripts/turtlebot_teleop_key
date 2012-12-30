@@ -27,7 +27,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import roslib; roslib.load_manifest('turtlebot_teleop')
+import roslib
+roslib.load_manifest('turtlebot_teleop')
 import rospy
 
 from geometry_msgs.msg import Twist
@@ -91,8 +92,8 @@ def vels(speed,turn):
 if __name__=="__main__":
     settings = termios.tcgetattr(sys.stdin)
     
-    pub = rospy.Publisher('cmd_vel', Twist)
     rospy.init_node('turtlebot_teleop')
+    pub = rospy.Publisher('~cmd_vel', Twist)
 
     x = 0
     th = 0

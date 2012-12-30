@@ -1,0 +1,18 @@
+<!-- 
+         Velocity smoother for Teleop
+  Note that the nodelet manager for kobuki and create goes by the same name as the base arg.       
+-->
+<launch>
+  <arg name="base"/>
+  <node pkg="nodelet" type="nodelet" name="teleop_velocity_smoother" args="load yocs_velocity_smoother/VelocitySmootherNodelet $(arg base)">
+    <rosparam file="$(find turtlebot_bringup)/param/defaults/smoother.yaml" command="load"/>
+    <remap from="teleop_velocity_smoother/raw_cmd_vel" to="cmd_vel_mux/input/teleop_raw"/>
+    <remap from="teleop_velocity_smoother/odometry" to="odom"/>
+    <remap from="teleop_velocity_smoother/smooth_cmd_vel" to="cmd_vel_mux/input/teleop"/>
+  </node>
+</launch>
+
+  <!-- useful for testing 
+  <node pkg="nodelet" type="nodelet" name="velocity_smoother" args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="teleop_vel_smoother" args="load yocs_velocity_smoother/VelocitySmootherNodelet velocity_smoother">
+  -->
