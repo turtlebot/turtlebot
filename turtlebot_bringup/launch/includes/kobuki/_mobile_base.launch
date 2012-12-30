@@ -15,6 +15,7 @@
   </node>
   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
     <remap from="imu_data" to="mobile_base/sensors/imu_data"/>
+    <remap from="robot_pose_ekf/odom" to="odom_combined"/>
     <param name="freq" value="10.0"/>
     <param name="sensor_timeout" value="1.0"/>
     <param name="odom_used" value="true"/>
