@@ -66,6 +66,7 @@
         <remap from="image" to="/$(arg camera)/$(arg depth)/image_raw"/>
         <remap from="scan" to="/scan" />
       </node>
+    </group>
   </group>
 </launch>
 
