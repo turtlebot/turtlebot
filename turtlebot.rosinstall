@@ -24,6 +24,7 @@
 # Apps (turtlebot_apps)
 #   sudo apt-get install ros-groovy-joystick-drivers ros-groovy-image-transport ros-groovy-image-transport-plugins
 #   sudo apt-get install ros-groovy-multimaster-experimental ros-groovy-warehouse-ros ros-groovy-python-orocos-kdl
+#   sudo apt-get install ros-groovy-mjpeg-server
 #
 # Unknown (probably needed for turtlebot apps)
 #   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf
