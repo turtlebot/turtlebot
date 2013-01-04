@@ -65,6 +65,11 @@
     local-name: kobuki_msgs
     version: master
 
+- git:
+    uri: https://github.com/yujinrobot/yujin_ocs.git 
+    local-name: yujin_ocs
+    version: master
+
 # Create stacks
 - git:
     uri: https://github.com/turtlebot/turtlebot_create.git
