@@ -31,8 +31,11 @@
 #   sudo apt-get install ros-groovy-visualization-common
 #   sudo apt-get install ros-groovy-map-store ros-groovy-navigation ros-groovy-slam-gmapping ros-groovy-bullet 
 #
+# Diagnostics (turtlebot_diagbistics)
+#   sudo apt-get install ros-groovy-diagnostics-monitors
+#
 # Arm
-#   sudo apt-get install ros-groovy-dynamixel-motor 
+#   sudo apt-get install ros-groovy-simple-arms ros-groovy-dynamixel-motor ros-groovy-arbotix python-serial
 #
 # Gazebo
 #   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
