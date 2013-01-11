@@ -38,6 +38,7 @@
 #   sudo apt-get install ros-groovy-simple-arms ros-groovy-dynamixel-motor ros-groovy-arbotix python-serial
 #
 # Gazebo
+#   sudo apt-get install ros-groovy-simulator-gazebo
 #   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
 #
 ##############################################################################
