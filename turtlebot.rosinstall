@@ -100,15 +100,15 @@
 
 # some extra packages required for turtlebot apps that aren't on the radar yet
 
-- git:
-    uri: https://github.com/RobotWebTools/rosbridge_suite.git 
-    local-name: rosbridge_suite
-
-- git:
-    uri: https://github.com/turtlebot/turtlebot_web.git
-    local-name: turtlebot_web
-
-- git:
-    uri: https://github.com/turtlebot/turtlebot_arm.git
-    local-name: turtlebot_arm
+#- git:
+#    uri: https://github.com/RobotWebTools/rosbridge_suite.git 
+#    local-name: rosbridge_suite
+#
+#- git:
+#    uri: https://github.com/turtlebot/turtlebot_web.git
+#    local-name: turtlebot_web
+#
+#- git:
+#    uri: https://github.com/turtlebot/turtlebot_arm.git
+#    local-name: turtlebot_arm
 
