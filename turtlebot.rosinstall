@@ -20,6 +20,7 @@
 #
 # Visualisation (turtlebot_viz)
 #   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization ros-groovy-rqt
+#   sudo apt-get install ros-groovy-qt-gui-core ros-groovy-rqt-common-plugins
 #
 # Apps (turtlebot_apps)
 #   sudo apt-get install ros-groovy-joystick-drivers ros-groovy-image-transport ros-groovy-image-transport-plugins
