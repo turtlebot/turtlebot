@@ -90,21 +90,43 @@ def slerp(filename):
     data = data.replace('\t', '  ')
     return data
 
+def _read_string(filename, default=""):
+    if not os.access(filename, os.F_OK):
+        return default
+    f = open(filename, 'r')
+    data = f.read()
+    f.close()
+    return data
+
+def _read_number(filename, default=0):
+    try: 
+        data = int(_read_string(filename))
+        return data
+    except exceptions.ValueError:
+        return default
+
 def _check_battery_info(_battery_acpi_path):
-    if os.access(_battery_acpi_path, os.F_OK):
-        o = slerp(_battery_acpi_path+'/info')
+    if _battery_acpi_path.startswith('/proc'):
+
+        if os.access(_battery_acpi_path, os.F_OK):
+            o = slerp(_battery_acpi_path+'/info')
+        else:
+            raise Exception(_battery_acpi_path+' does not exist')
+        
+        batt_info = yaml.load(o)
+        design_capacity    = _strip_Ah(batt_info.get('design capacity',    '0 mAh'))
+        last_full_capacity = _strip_Ah(batt_info.get('last full capacity', '0 mAh'))
     else:
-        raise Exception(_battery_acpi_path+' does not exist')
-    
-    batt_info = yaml.load(o)
-    design_capacity    = _strip_Ah(batt_info.get('design capacity',    '0 mAh'))
-    last_full_capacity = _strip_Ah(batt_info.get('last full capacity', '0 mAh'))
-    
+        design_capacity    = _read_number(_battery_acpi_path + '/energy_full')
+        last_full_capacity = _read_number(_battery_acpi_path + '/energy_full_design')        
+
     return (design_capacity, last_full_capacity)
 
-state_to_val = {'charged':     LaptopChargeStatus.CHARGED, 
+state_to_val = {'charged':     LaptopChargeStatus.CHARGED,
+                'full':     LaptopChargeStatus.CHARGED, 
                 'charging':    LaptopChargeStatus.CHARGING, 
-                'discharging': LaptopChargeStatus.DISCHARGING }
+                'discharging': LaptopChargeStatus.DISCHARGING,
+                'unknown':    LaptopChargeStatus.CHARGING, }
 
 diag_level_to_msg = { DiagnosticStatus.OK:    'OK', 
                       DiagnosticStatus.WARN:  'Warning',
@@ -114,25 +136,43 @@ def _check_battery_state(_battery_acpi_path):
     """
     @return LaptopChargeStatus
     """
-    if os.access(_battery_acpi_path, os.F_OK):
-        o = slerp(_battery_acpi_path+'/state')
-    else:
-        raise Exception(_battery_acpi_path+' does not exist')
-    
-    batt_info = yaml.load(o)
     rv = LaptopChargeStatus()
 
-    state = batt_info.get('charging state', 'discharging')
-    rv.charge_state = state_to_val.get(state, 0)
-    rv.rate     = _strip_A(batt_info.get('present rate',        '-1 mA'))
-    if rv.charge_state == LaptopChargeStatus.DISCHARGING:
-        rv.rate = math.copysign(rv.rate, -1) # Need to set discharging rate to negative
-    
-    rv.charge   = _strip_Ah(batt_info.get('remaining capacity', '-1 mAh'))
-    rv.voltage  = _strip_V(batt_info.get('present voltage',     '-1 mV'))
-    rv.present  = batt_info.get('present', False)
+    if _battery_acpi_path.startswith('/proc'):
 
-    rv.header.stamp = rospy.get_rostime()
+        if os.access(_battery_acpi_path, os.F_OK):
+            o = slerp(_battery_acpi_path+'/state')
+        else:
+            raise Exception(_battery_acpi_path+' does not exist')
+        
+        batt_info = yaml.load(o)
+
+        state = batt_info.get('charging state', 'discharging')
+        rv.charge_state = state_to_val.get(state, 0)
+        rv.rate     = _strip_A(batt_info.get('present rate',        '-1 mA'))
+        if rv.charge_state == LaptopChargeStatus.DISCHARGING:
+            rv.rate = math.copysign(rv.rate, -1) # Need to set discharging rate to negative
+        
+        rv.charge   = _strip_Ah(batt_info.get('remaining capacity', '-1 mAh')) # /energy_now
+        rv.voltage  = _strip_V(batt_info.get('present voltage',     '-1 mV')) # /voltage_now
+        rv.present  = batt_info.get('present', False) # /present
+
+        rv.header.stamp = rospy.get_rostime()
+    else:
+
+        state = _read_string(_battery_acpi_path+'/status', 'discharging').lower()
+        rv.charge_state = state_to_val.get(state, 0)
+        rv.rate     = _read_number(_battery_acpi_path + '/power_now')
+        if rv.charge_state == LaptopChargeStatus.DISCHARGING:
+            rv.rate = math.copysign(rv.rate, -1) # Need to set discharging rate to negative
+        
+        rv.charge   = _read_number(_battery_acpi_path + '/energy_now')
+        rv.voltage  = _read_number(_battery_acpi_path + '/voltage_now')
+        rv.present  = _read_number(_battery_acpi_path + '/present') == 1
+
+        rv.header.stamp = rospy.get_rostime()
+
+
 
     return rv
 
