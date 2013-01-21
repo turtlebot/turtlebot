@@ -12,6 +12,8 @@
   <depend package="zeroconf_avahi"/>
   <depend package="kobuki_node"/>
   <depend package="kobuki_description"/>
+  <depend package="kobuki_bumper2pc"/>
+  <depend package="kobuki_safety_controller"/>
   <depend package="create_node"/>
   <depend package="create_description"/>
   <depend package="robot_state_publisher"/>
