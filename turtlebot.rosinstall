@@ -7,7 +7,7 @@
 #
 # Kobuki
 #   sudo apt-get install ros-groovy-ecl-threads ros-groovy-ecl-devices ros-groovy-ecl-mobile-robot ros-groovy-ecl-streams ros-groovy-ecl-sigslots
-#   sudo apt-get install ros-groovy-ros ros-groovy-ros-comm ros-groovy-common-msgs 
+#   sudo apt-get install ros-groovy-ros ros-groovy-ros-comm ros-groovy-common-msgs
 #   sudo apt-get install ros-groovy-geometry ros-groovy-diagnostics ros-groovy-perception-pcl ros-groovy-nodelet-core ros-groovy-robot-model ros-groovy-xacro
 #   sudo apt-get install ros-groovy-yujin-ocs
 #
@@ -16,7 +16,7 @@
 #
 # Turtlebot
 #   sudo apt-get install ros-groovy-zeroconf-avahi ros-groovy-depthimage-to-laserscan ros-groovy-navigation ros-groovy-robot-model
-#   sudo apt-get install ros-groovy-diagnostics ros-groovy-openni-launch ros-groovy-openni-camera 
+#   sudo apt-get install ros-groovy-diagnostics ros-groovy-openni-launch ros-groovy-openni-camera
 #
 # Visualisation (turtlebot_viz)
 #   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization ros-groovy-rqt
@@ -30,7 +30,7 @@
 #   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf
 #   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
 #   sudo apt-get install ros-groovy-visualization-common
-#   sudo apt-get install ros-groovy-map-store ros-groovy-navigation ros-groovy-slam-gmapping ros-groovy-bullet 
+#   sudo apt-get install ros-groovy-map-store ros-groovy-navigation ros-groovy-slam-gmapping ros-groovy-bullet
 #
 # Diagnostics (turtlebot_diagbistics)
 #   sudo apt-get install ros-groovy-diagnostics-monitors
@@ -66,12 +66,12 @@
     version: master
 
 - git:
-    uri: https://github.com/yujinrobot/kobuki_msgs.git 
+    uri: https://github.com/yujinrobot/kobuki_msgs.git
     local-name: kobuki_msgs
     version: master
 
 - git:
-    uri: https://github.com/yujinrobot/yujin_ocs.git 
+    uri: https://github.com/yujinrobot/yujin_ocs.git
     local-name: yujin_ocs
     version: master
 
@@ -102,7 +102,7 @@
 # some extra packages required for turtlebot apps that aren't on the radar yet
 
 #- git:
-#    uri: https://github.com/RobotWebTools/rosbridge_suite.git 
+#    uri: https://github.com/RobotWebTools/rosbridge_suite.git
 #    local-name: rosbridge_suite
 #
 #- git:
