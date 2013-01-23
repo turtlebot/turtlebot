@@ -20,6 +20,7 @@
 #
 # Visualisation (turtlebot_viz)
 #   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization ros-groovy-rqt
+#   sudo apt-get install ros-groovy-qt-gui-core ros-groovy-rqt-common-plugins
 #
 # Apps (turtlebot_apps)
 #   sudo apt-get install ros-groovy-joystick-drivers ros-groovy-image-transport ros-groovy-image-transport-plugins
@@ -38,6 +39,7 @@
 #   sudo apt-get install ros-groovy-simple-arms ros-groovy-dynamixel-motor ros-groovy-arbotix python-serial
 #
 # Gazebo
+#   sudo apt-get install ros-groovy-simulator-gazebo
 #   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
 #
 ##############################################################################
@@ -105,15 +107,15 @@
 
 # some extra packages required for turtlebot apps that aren't on the radar yet
 
-- git:
-    uri: https://github.com/RobotWebTools/rosbridge_suite.git 
-    local-name: rosbridge_suite
-
-- git:
-    uri: https://github.com/turtlebot/turtlebot_web.git
-    local-name: turtlebot_web
-
-- git:
-    uri: https://github.com/turtlebot/turtlebot_arm.git
-    local-name: turtlebot_arm
+#- git:
+#    uri: https://github.com/RobotWebTools/rosbridge_suite.git 
+#    local-name: rosbridge_suite
+#
+#- git:
+#    uri: https://github.com/turtlebot/turtlebot_web.git
+#    local-name: turtlebot_web
+#
+#- git:
+#    uri: https://github.com/turtlebot/turtlebot_arm.git
+#    local-name: turtlebot_arm
 
