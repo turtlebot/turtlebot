@@ -33,5 +33,7 @@
     <param name="yaml_cfg_file" value="$(find turtlebot_bringup)/param/mux.yaml" />
     <!-- <remap from="cmd_vel_mux/output" to="mobile_base/commands/velocity"/> -->
   </node>
-
+  
+  <!-- bumper/cliff to pointcloud -->
+  <include file="$(find turtlebot_bringup)/launch/includes/kobuki/_bumper2pc.launch"/>
 </launch>

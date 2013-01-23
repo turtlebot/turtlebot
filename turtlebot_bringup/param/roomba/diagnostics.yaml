@@ -1,0 +1,28 @@
+pub_rate: 1.0 # Optional
+base_path: '' # Optional, prepended to all diagnostic output
+analyzers:
+  nodes: 
+    type: diagnostic_aggregator/GenericAnalyzer
+    path: 'Nodes'
+    timeout: 5.0
+    contains: ['Node']
+  mode:
+    type: diagnostic_aggregator/GenericAnalyzer
+    path: 'Mode'
+    timeout: 5.0
+    startswith: ['Operating Mode']
+  sensors: 
+    type: GenericAnalyzer
+    path: 'Sensors'
+    timeout: 5.0
+    startswith: ['Cliff Sensor', 'Wall Sensor', 'Gyro Sensor']
+  power:
+    type: diagnostic_aggregator/GenericAnalyzer
+    path: 'Power System'
+    timeout: 5.0
+    startswith: ['Battery', 'Charging Sources', 'Laptop Battery']
+  digital_io:
+    type: diagnostic_aggregator/GenericAnalyzer
+    path: 'Digital IO'
+    timeout: 5.0
+    startswith: ['Digital Outputs']
