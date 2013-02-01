@@ -73,7 +73,7 @@
 - git:
     uri: https://github.com/yujinrobot/yujin_ocs.git
     local-name: yujin_ocs
-    version: groovy_devel
+    version: groovy-devel
 
 # Create stacks
 - git:
