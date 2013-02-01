@@ -1,0 +1,20 @@
+##############################################################################
+#
+# Catkinized turtlebot packages
+#
+# Before rosinstalling, make sure you installed:
+#
+# Latest build tools
+#   sudo apt-get install ros-groovy-catkin
+#
+##############################################################################
+
+- git:
+    uri: https://github.com/yujinrobot/yujin_ocs.git
+    local-name: yujin_ocs
+    version: groovy-devel
+
+- git:
+    uri: https://github.com/yujinrobot/kobuki_msgs.git
+    local-name: kobuki_msgs
+    version: groovy-devel
