@@ -56,24 +56,9 @@
 
 # Kobuki / Yujin stacks
 - git:
-    uri: https://github.com/yujinrobot/kobuki.git
-    local-name: kobuki
-    version: master
-
-- git:
     uri: https://github.com/yujinrobot/kobuki_desktop.git
     local-name: kobuki_desktop
     version: master
-
-- git:
-    uri: https://github.com/yujinrobot/kobuki_msgs.git
-    local-name: kobuki_msgs
-    version: master
-
-- git:
-    uri: https://github.com/yujinrobot/yujin_ocs.git
-    local-name: yujin_ocs
-    version: groovy-devel
 
 # Create stacks
 - git:
