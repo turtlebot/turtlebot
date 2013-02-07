@@ -1,7 +1,20 @@
 <launch>
   <!--
-    Push the right stick to activate cmd_vel publishing.
-    Move the left stick around to control the velocity. 
+    Push the left frontal button labeled as 'LB' to activate cmd_vel publishing.
+    Move the left stick around to control the velocity.
    -->
-  <include file="$(find turtlebot_teleop)/launch/ps3_teleop.launch"/>
+  <!--  smooths inputs from cmd_vel_mux/input/teleop_raw to cmd_vel_mux/input/teleop -->
+  <include file="$(find turtlebot_teleop)/launch/includes/_velocity_smoother.launch"/>
+
+  <node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="turtlebot_teleop_joystick">
+    <param name="scale_angular" value="1.5"/>
+    <param name="scale_linear" value="0.5"/>
+    <param name="axis_deadman" value="4"/>
+    <param name="axis_linear" value="1"/>
+    <param name="axis_angular" value="0"/>
+    <remap from="turtlebot_teleop_joystick/cmd_vel" to="cmd_vel_mux/input/teleop_raw"/>
+  </node>
+
+  <node pkg="joy" type="joy_node" name="joystick"/>
+
 </launch>
