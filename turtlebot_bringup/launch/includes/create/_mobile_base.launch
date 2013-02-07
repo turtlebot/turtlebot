@@ -1,21 +1,27 @@
 <!--
   Create's implementation of turtlebot's mobile base.
-  
+
   TODO: redirect cmd_vel_mux/output to wherever create base is listening.
  -->
 <launch>
   <!-- Turtlebot Driver -->
-  <node pkg="create_node" type="turtlebot_node.py" name="turtlebot_node" respawn="true" args="--respawnable">
+  <node pkg="create_node" type="turtlebot_node.py" name="mobile_base" respawn="true" args="--respawnable">
     <param name="bonus" value="false" />
     <param name="update_rate" value="30.0" />
+    <param name="port" value="/dev/ttyUSB0" />
+    <remap from="cmd_vel" to="mobile_base/commands/velocity" />
+    <remap from="mobile_base/sensor_state" to="mobile_base/sensors/core" />
+    <remap from="imu/data" to="mobile_base/sensors/imu_data" />
+    <remap from="imu/raw" to="mobile_base/sensors/imu_data_raw" />
   </node>
-  
+
   <!-- Enable breaker 1 for the kinect -->
   <node pkg="create_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
-  
+
   <!-- The odometry estimator -->
   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
-    <remap from="imu_data" to="imu/data"/>
+    <remap from="imu_data" to="mobile_base/sensors/imu_data"/>
+    <remap from="robot_pose_ekf/odom" to="odom_combined"/>
     <param name="freq" value="10.0"/>
     <param name="sensor_timeout" value="1.0"/>
     <param name="publish_tf" value="true"/>
