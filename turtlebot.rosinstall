@@ -60,6 +60,12 @@
     local-name: kobuki_desktop
     version: master
 
+- git:
+    uri: https://github.com/yujinrobot/kobuki_description.git
+    local-name: kobuki_description
+    version: master
+
+
 # Create stacks
 - git:
     uri: https://github.com/turtlebot/turtlebot_create.git
