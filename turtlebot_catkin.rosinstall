@@ -5,7 +5,8 @@
 # Before rosinstalling, make sure you installed:
 #
 # Latest build tools
-#   sudo apt-get install ros-groovy-catkin
+#   sudo apt-get install ros-groovy-desktop-full
+#   sudo apt-get install ros-groovy-ecl-tools ros-groovy-ecl-lite ros-groovy-ecl-core ros-groovy-ecl-navigation
 #
 ##############################################################################
 
