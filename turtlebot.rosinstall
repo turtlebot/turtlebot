@@ -1,6 +1,8 @@
 ##############################################################################
 #
-# Before rosinstalling, make sure you installed:
+# Source installation instructions at:
+#
+# http://www.ros.org/wiki/turtlebot/Tutorials/groovy/Source%20Installation
 #
 # Latest build tools
 #   sudo apt-get install python-rosdep python-rosinstall python-rospkg
@@ -9,7 +11,6 @@
 #   sudo apt-get install ros-groovy-ecl-threads ros-groovy-ecl-devices ros-groovy-ecl-mobile-robot ros-groovy-ecl-streams ros-groovy-ecl-sigslots ros-groovy-ecl-command-line
 #   sudo apt-get install ros-groovy-ros ros-groovy-ros-comm ros-groovy-common-msgs
 #   sudo apt-get install ros-groovy-geometry ros-groovy-diagnostics ros-groovy-perception-pcl ros-groovy-nodelet-core ros-groovy-robot-model ros-groovy-xacro
-#   sudo apt-get install ros-groovy-yujin-ocs
 #
 # Kobuki FTDI (Firmware Updates)
 #   sudo apt-get install libftdi-dev
@@ -41,6 +42,8 @@
 # Gazebo
 #   sudo apt-get install ros-groovy-simulator-gazebo
 #   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
+#
+#   sudo apt-get install ros-groovy-yujin-ocs
 #
 ##############################################################################
 # Official ros stacks
