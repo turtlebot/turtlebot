@@ -9,16 +9,6 @@
 # location - /opt/turtlebot/groovy/setup.bash
 #
 ##############################################################################
-# Official ros stacks
-
-- other:
-    local-name: /opt/ros/groovy/share/ros
-- other:
-    local-name: /opt/ros/groovy/share
-- other:
-    local-name: /opt/ros/groovy/stacks
-- setup-file:
-    local-name: /opt/turtlebot/groovy/setup.sh
 
 # Kobuki / Yujin stacks
 - git:
