@@ -1,12 +1,8 @@
 ##############################################################################
 #
-# Catkinized turtlebot packages
+# Catkinized turtlebot packages. Installation instructions at:
 #
-# Before rosinstalling, make sure you installed:
-#
-# Latest build tools
-#   sudo apt-get install ros-groovy-desktop-full
-#   sudo apt-get install ros-groovy-ecl-tools ros-groovy-ecl-lite ros-groovy-ecl-core ros-groovy-ecl-navigation
+# http://www.ros.org/wiki/turtlebot/Tutorials/groovy/Source%20Installation
 #
 ##############################################################################
 
