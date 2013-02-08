@@ -4,46 +4,9 @@
 #
 # http://www.ros.org/wiki/turtlebot/Tutorials/groovy/Source%20Installation
 #
-# Latest build tools
-#   sudo apt-get install python-rosdep python-rosinstall python-rospkg
-#
-# Kobuki
-#   sudo apt-get install ros-groovy-ecl-threads ros-groovy-ecl-devices ros-groovy-ecl-mobile-robot ros-groovy-ecl-streams ros-groovy-ecl-sigslots ros-groovy-ecl-command-line
-#   sudo apt-get install ros-groovy-ros ros-groovy-ros-comm ros-groovy-common-msgs
-#   sudo apt-get install ros-groovy-geometry ros-groovy-diagnostics ros-groovy-perception-pcl ros-groovy-nodelet-core ros-groovy-robot-model ros-groovy-xacro
-#
-# Kobuki FTDI (Firmware Updates)
-#   sudo apt-get install libftdi-dev
-#
-# Turtlebot
-#   sudo apt-get install ros-groovy-zeroconf-avahi ros-groovy-depthimage-to-laserscan ros-groovy-navigation ros-groovy-robot-model
-#   sudo apt-get install ros-groovy-diagnostics ros-groovy-openni-launch ros-groovy-openni-camera
-#
-# Visualisation (turtlebot_viz)
-#   sudo apt-get install ros-groovy-rviz ros-groovy-robot-model-visualization ros-groovy-rqt
-#   sudo apt-get install ros-groovy-qt-gui-core ros-groovy-rqt-common-plugins
-#
-# Apps (turtlebot_apps)
-#   sudo apt-get install ros-groovy-joystick-drivers ros-groovy-image-transport ros-groovy-image-transport-plugins
-#   sudo apt-get install ros-groovy-multimaster-experimental ros-groovy-warehouse-ros ros-groovy-python-orocos-kdl
-#
-# Unknown (probably needed for turtlebot apps)
-#   sudo apt-get install ros-groovy-geometry-msgs ros-groovy-sensor-msgs ros-groovy-nav-msgs ros-groovy-tf
-#   sudo apt-get install ros-groovy-nodelet ros-groovy-robot-state-publisher ros-groovy-diagnostic-msgs ros-groovy-dynamic-reconfigure
-#   sudo apt-get install ros-groovy-visualization-common
-#   sudo apt-get install ros-groovy-map-store ros-groovy-navigation ros-groovy-slam-gmapping ros-groovy-bullet
-#
-# Diagnostics (turtlebot_diagbistics)
-#   sudo apt-get install ros-groovy-diagnostics-monitors
-#
-# Arm
-#   sudo apt-get install ros-groovy-simple-arms ros-groovy-dynamixel-motor ros-groovy-arbotix python-serial
-#
-# Gazebo
-#   sudo apt-get install ros-groovy-simulator-gazebo
-#   sudo apt-get install libprotobuf-dev libprotoc-dev libtar-dev
-#
-#   sudo apt-get install ros-groovy-yujin-ocs
+# Very important to have installed the catkinized sources first. You'll note
+# that this rosinstall file uses the setup.bash located in the install
+# location - /opt/turtlebot/groovy/setup.bash
 #
 ##############################################################################
 # Official ros stacks
@@ -55,7 +18,7 @@
 - other:
     local-name: /opt/ros/groovy/stacks
 - setup-file:
-    local-name: /opt/ros/groovy/setup.sh
+    local-name: /opt/turtlebot/groovy/setup.sh
 
 # Kobuki / Yujin stacks
 - git:
