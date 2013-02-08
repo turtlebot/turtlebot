@@ -4,10 +4,6 @@
 #
 # http://www.ros.org/wiki/turtlebot/Tutorials/groovy/Source%20Installation
 #
-# Very important to have installed the catkinized sources first. You'll note
-# that this rosinstall file uses the setup.bash located in the install
-# location - /opt/turtlebot/groovy/setup.bash
-#
 ##############################################################################
 
 # Kobuki / Yujin stacks
