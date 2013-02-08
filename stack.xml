@@ -28,7 +28,8 @@
 
   <!-- Base Implementations -->
   <depend stack="turtlebot_create" /> <!-- iRobot Create stuff -->
-  <depend stack="kobuki" /> <!-- kobuki_node, kobuki_description -->
+  <depend stack="kobuki" /> <!-- kobuki_node -->
+  <depend stack="kobuki_description" /> <!-- kobuki_description -->
   <depend stack="kobuki_msgs" /> <!-- kobuki_msgs -->
 
 </stack>
