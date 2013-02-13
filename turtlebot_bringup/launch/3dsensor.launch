@@ -1,6 +1,17 @@
 <!-- 
   Turtlebot is a bit low on horsepower...
-  We use openni_camera here as an absolute minimum and only load processing modules as the apps need them.
+
+  We use openni_camera here, turn everything on by default
+  (allows the user to conveniently see everything when
+  launching this on its own - use with 
+  turtebot_rviz_launchers/view_robot.launch to visualise)
+  and provide args to disable them so you can optimise the
+  horsepower for your application.
+  
+  For an example of disabling processing modules, check
+  any of the turtlebot_core_apps (e.g. android_make_a_map.launch
+  only enables scan_processing for depthimage_to_laserscan and
+  rgb_processing for the android tele-view).
 -->
 <launch>
   <arg name="camera"  value="camera"/>
