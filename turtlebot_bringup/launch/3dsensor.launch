@@ -48,11 +48,20 @@
         <!-- Use nearest neighbor (0) interpolation so we don't streak across depth boundaries -->
         <param name="interpolation" value="0" />
       </node>
-      <node pkg="nodelet" type="nodelet" name="points"
+
+       <!-- XYZ point cloud (optional, disable if publishing XYZRGB instead) -->
+      <node unless="$(arg depth_registration)" pkg="nodelet" type="nodelet" name="points"
             args="load depth_image_proc/point_cloud_xyz /$(arg camera)/$(arg manager) $(arg bond)"
             respawn="$(arg respawn)"
             ns="$(arg depth)">
         <remap from="image_rect" to="image_rect_raw"/>
+      </node>
+      <!-- Instead publish registered XYZRGB point cloud --> 
+      <node if="$(arg depth_registration)" pkg="nodelet" type="nodelet" name="points_xyzrgb"
+            args="load depth_image_proc/point_cloud_xyzrgb /$(arg camera)/$(arg manager) $(arg bond)"
+            respawn="$(arg respawn)"
+            >
+        <remap from="$(arg depth)/image_rect" to="$(arg depth)/image_rect_raw"/>
       </node>
     </group>
     
