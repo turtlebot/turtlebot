@@ -1,0 +1,28 @@
+<package>
+  <name>linux_hardware</name>
+  <version>2.0.0</version>
+
+  <description>
+
+     Simple scripts which help utilise, monitor, interact with computer
+     hardware abstracted by a linux OS.
+
+  </description>
+  <maintainer email="d.stonier@gmail.com">Daniel Stonier</maintainer>
+  <author>Daniel Stonier</author>
+  <license>BSD</license>
+  <url type="website">http://ros.org/wiki/linux_hardware</url>
+  <url type="repository">https://github.com/turtlebot/turtlebot</url>
+  <url type="bugtracker">https://github.com/turtlebot/turtlebot/issues</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend> diagnostic_msgs </build_depend>
+  <build_depend> message_generation</build_depend>
+  <build_depend> std_msgs </build_depend>
+
+  <run_depend>rospy</run_depend>
+  <run_depend>diagnostic_msgs</run_depend>
+  <run_depend>std_msgs</run_depend>
+</package>
+
+
