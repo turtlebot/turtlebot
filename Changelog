@@ -8,3 +8,13 @@ ready for turtlebot2.
   - This indirectly can be set via the TURTLEBOT_BASE environment variable.
 - Zeroconf: for advertising the ros master.
 
+
+== Hydro devel ==
+
+- integration with new appmanager and multimaster system
+- catkinization TODO
+
+turtlebot_bringup
+linux_hardware
+turtlebot_app_manager
+turtlebot_description
