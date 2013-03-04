@@ -6,15 +6,12 @@
 #
 ##############################################################################
 
+#### This file is invalid yet!
+
 # Kobuki / Yujin stacks
 - git:
     uri: https://github.com/yujinrobot/kobuki_desktop.git
     local-name: kobuki_desktop
-    version: master
-
-- git:
-    uri: https://github.com/yujinrobot/kobuki_description.git
-    local-name: kobuki_description
     version: master
 
 
@@ -28,7 +25,6 @@
     uri: https://github.com/turtlebot/turtlebot_create_desktop.git
     local-name: turtlebot_create_desktop
     version: master
-
 
 # Turtlebot stacks
 
