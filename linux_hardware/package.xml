@@ -23,6 +23,7 @@
   <run_depend>rospy</run_depend>
   <run_depend>diagnostic_msgs</run_depend>
   <run_depend>std_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
 </package>
 
 
