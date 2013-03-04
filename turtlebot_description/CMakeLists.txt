@@ -19,7 +19,7 @@ install(DIRECTORY test
 install(DIRECTORY urdf
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
-install(FILES test.launch 
+install(FILES test.launch readme.txt
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
