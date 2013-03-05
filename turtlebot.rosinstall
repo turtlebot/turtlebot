@@ -15,19 +15,19 @@
 #    version: master
 
 - git:
-  uri: https://github.com/yujinrobot/yujin_ocs.git
-  local-name: yujin_ocs
-  version: hydro-devel
+    uri: https://github.com/yujinrobot/yujin_ocs.git
+    local-name: yujin_ocs
+    version: hydro-devel
 
 - git:
-  uri: https://github.com/yujinrobot/kobuki_msgs.git
-  local-name: kobuki_msgs
-  version: hydro-devel
+    uri: https://github.com/yujinrobot/kobuki_msgs.git
+    local-name: kobuki_msgs
+    version: hydro-devel
 
 - git:
-  uri: https://github.com/yujinrobot/kobuki.git
-  local-name: kobuki
-  version: hydro-devel
+    uri: https://github.com/yujinrobot/kobuki.git
+    local-name: kobuki
+    version: hydro-devel
 
 # Create stacks
 #- git:
