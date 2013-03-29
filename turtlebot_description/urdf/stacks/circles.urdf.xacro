@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <robot name="turtlebot_hardware" xmlns:xacro="http://ros.org/wiki/xacro">
-  <property name="M_PI" value="3.14159"/>
-  <property name="M_SCALE" value="0.001"/>
 
   <xacro:macro name="turtlebot_spacer" params="parent number x_loc y_loc z_loc">
     <joint name="spacer_${number}_joint" type="fixed">
@@ -22,7 +20,7 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/stacks/circles/68-02403-125_Spacer.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/stacks/circles/68-02403-125_Spacer.dae"/>
         </geometry>
       </visual>
 
@@ -54,7 +52,7 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/stacks/circles/68-04552-1000-RA_Turtlebot_M-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/stacks/circles/68-04552-1000-RA_Turtlebot_M-F_Standoff.dae"/>
         </geometry>
       </visual>
 
@@ -86,7 +84,7 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/stacks/circles/68-04552-2000-RA_Turtlebot_M-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/stacks/circles/68-04552-2000-RA_Turtlebot_M-F_Standoff.dae"/>
         </geometry>
       </visual>
 
@@ -119,7 +117,7 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/stacks/circles/68-02421-8000-RA_Turtlebot_F-F_Standoff.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/stacks/circles/68-02421-8000-RA_Turtlebot_F-F_Standoff.dae"/>
         </geometry>
       </visual>
 
@@ -151,7 +149,7 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/stacks/circles/68-04556-RA_Kinect_Standoff_Assy.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/stacks/circles/68-04556-RA_Kinect_Standoff_Assy.dae"/>
         </geometry>
       </visual>
 
