@@ -16,5 +16,5 @@
   <include filename="$(find turtlebot_description)/urdf/sensors/kinect.urdf.xacro"/>
   <include filename="$(find turtlebot_description)/urdf/sensors/asus_xtion_pro.urdf.xacro"/>
   <!-- Gazebo -->
-  <include filename="$(find turtlebot_description)/urdf/gazebo.urdf.xacro"/>
+  <include filename="$(find turtlebot_description)/urdf/turtlebot_gazebo.urdf.xacro"/>
 </robot>
