@@ -5,6 +5,7 @@
             <author>VCGLab</author>
             <authoring_tool>VCGLib | MeshLab</authoring_tool>
         </contributor>
+        <unit meter="0.001" name="millimeter"/>
         <up_axis>Y_UP</up_axis>
         <created>Mon Feb 28 11:03:40 2011</created>
         <modified>Mon Feb 28 11:03:40 2011</modified>
