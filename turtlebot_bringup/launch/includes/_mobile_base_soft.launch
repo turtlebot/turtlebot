@@ -1,0 +1,44 @@
+<!--
+  The mobile platform base.
+  
+  Selector for the base.
+ -->
+<launch>
+  <arg name="base"/>
+  <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="mobile_base" args="load kobuki_softnode/SoftKobukiNodelet mobile_base_nodelet_manager">
+    <rosparam file="$(find kobuki_node)/param/base.yaml" command="load"/>
+    <remap from="mobile_base/odom" to="odom"/>
+    <!-- Don't do this - force applications to use a velocity mux for redirection  
+      <remap from="mobile_base/commands/velocity" to="cmd_vel"/> 
+    --> 
+    <remap from="mobile_base/enable" to="enable"/>
+    <remap from="mobile_base/disable" to="disable"/>
+    <remap from="mobile_base/joint_states" to="joint_states"/>
+  </node>
+  <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
+    <remap from="imu_data" to="mobile_base/sensors/imu_data"/>
+    <remap from="robot_pose_ekf/odom" to="odom_combined"/>
+    <param name="freq" value="10.0"/>
+    <param name="sensor_timeout" value="1.0"/>
+    <param name="odom_used" value="true"/>
+    <param name="imu_used" value="true"/>
+    <param name="vo_used" value="false"/>
+    <param name="output_frame" value="odom"/>
+  </node>
+
+  <!-- velocity commands multiplexer --> 
+  <!-- useful for testing 
+    <node pkg="nodelet" type="nodelet" name="cmd_vel_mux_manager" args="manager"/>
+    <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load cmd_vel_mux/CmdVelMuxNodelet cmd_vel_mux_manager">
+  --> 
+  <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load cmd_vel_mux/CmdVelMuxNodelet mobile_base_nodelet_manager">
+    <param name="yaml_cfg_file" value="$(find turtlebot_bringup)/param/mux.yaml" />
+    <!-- <remap from="cmd_vel_mux/output" to="mobile_base/commands/velocity"/> --> 
+  </node>
+
+  <!-- bumper/cliff to pointcloud -->
+  <include file="$(find turtlebot_bringup)/launch/includes/kobuki/_bumper2pc.launch"/>
+
+</launch>
+
