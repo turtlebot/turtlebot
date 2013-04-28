@@ -1,10 +1,10 @@
 <launch>
-  <arg name="base"       value="$(optenv TURTLEBOT_BASE kobuki)"/>  <!-- create, rhoomba -->
-  <arg name="battery"    value="$(optenv TURTLEBOT_BATTERY /proc/acpi/battery/BAT0)"/>  <!-- /proc/acpi/battery/BAT0 -->
-  <arg name="stacks"     value="$(optenv TURTLEBOT_STACKS hexagons)"/>  <!-- circles, hexagons -->
-  <arg name="3d_sensor"  value="$(optenv TURTLEBOT_3D_SENSOR kinect)"/>  <!-- kinect, asus_xtion_pro -->
-  <arg name="simulation" value="$(optenv TURTLEBOT_SIMULATION false)"/>
-  
+  <arg name="base"       default="$(optenv TURTLEBOT_BASE kobuki)"/>  <!-- create, rhoomba -->
+  <arg name="battery"    default="$(optenv TURTLEBOT_BATTERY /proc/acpi/battery/BAT0)"/>  <!-- /proc/acpi/battery/BAT0 -->
+  <arg name="stacks"     default="$(optenv TURTLEBOT_STACKS hexagons)"/>  <!-- circles, hexagons -->
+  <arg name="3d_sensor"  default="$(optenv TURTLEBOT_3D_SENSOR kinect)"/>  <!-- kinect, asus_xtion_pro -->
+  <arg name="simulation" default="$(optenv TURTLEBOT_SIMULATION false)"/>
+
   <param name="/use_sim_time" value="$(arg simulation)"/>
   
   <include file="$(find turtlebot_bringup)/launch/includes/_robot.launch">
@@ -18,6 +18,5 @@
   <include file="$(find turtlebot_bringup)/launch/includes/_netbook.launch">
     <arg name="battery" value="$(arg battery)" />
   </include>
-  <include file="$(find turtlebot_bringup)/launch/includes/_new_app_manager.launch"/>
-
+  <include file="$(find turtlebot_bringup)/launch/includes/_app_manager.launch"/>
 </launch>
