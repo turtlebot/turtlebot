@@ -9,27 +9,12 @@
 
   <arg name="gateway_watch_loop_period" default="10"/> <!-- Polling period for multimaster advertising/flipping -->
 
-  <node ns="zeroconf" pkg="zeroconf_avahi" type="zeroconf" name="zeroconf"/>
-
-  <node pkg="rocon_gateway" type="gateway.py" name="gateway" output="screen">
-    <rosparam command="load" file="$(find rocon_gateway)/param/default.yaml"/>
-    <rosparam command="load" file="$(find rocon_gateway)/param/default_blacklist.yaml"/>
-    <param name="name" value="$(arg robot_name)"/>
-    <param name="hub_whitelist" value="[$(arg concert_name)]"/>
-    <param name="watch_loop_period" value="$(arg gateway_watch_loop_period)" />
-  </node>
-
-  <node pkg="rocon_app_manager" type="rapp_manager.py" name="appmanager" output="screen">
-    <rosparam command="load" file="$(find rocon_app_manager)/param/default.yaml" />
-    <!--  I would like to use args in rosparam tags : https://github.com/ros/ros_comm/pull/50/commits for alt. param list cfg -->
-    <!--  <rosparam param="app_lists">[ $(find rocon_apps)/apps.list ]</rosparam> -->
-    <param name="app_lists" value="$(arg app_lists)" />
-    <param name="robot_name" value="$(arg robot_name)"/>
-    <param name="robot_type" value="$(arg robot_type)"/>
-    <remap from="appmanager/gateway_info" to="gateway/gateway_info"/>
-    <remap from="appmanager/flip" to="gateway/flip"/>
-    <remap from="appmanager/advertise" to="gateway/advertise"/>
-    <remap from="appmanager/pull" to="gateway/pull"/>
-  </node>
+  <!-- paired client -->
+  <include file="$(find rocon_app_manager)/launch/paired.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="robot_type" value="$(arg robot_type)"/>
+    <arg name="app_lists" value="$(arg app_lists)"/>
+    <arg name="gateway_watch_loop_period" default="10"/>
+  </include>
 </launch>
   

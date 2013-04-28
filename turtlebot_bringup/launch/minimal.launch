@@ -18,8 +18,6 @@
   <include file="$(find turtlebot_bringup)/launch/includes/_netbook.launch">
     <arg name="battery" value="$(arg battery)" />
   </include>
-<!--  <include file="$(find turtlebot_bringup)/launch/includes/_app_manager.launch"/>-->
-<!--  <include file="$(find turtlebot_bringup)/launch/includes/_zeroconf.launch"/> --> <!-- zero conf is starting in app manager.launch -->
   <include file="$(find turtlebot_bringup)/launch/includes/_new_app_manager.launch"/>
 
 </launch>
