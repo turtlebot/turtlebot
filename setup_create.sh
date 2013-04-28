@@ -11,9 +11,3 @@ export TURTLEBOT_BASE=create
 export TURTLEBOT_STACKS=circles
 export TURTLEBOT_3D_SENSOR=kinect
 export TURTLEBOT_SIMULATION=false
-
-# Setting for App manager
-export CONCERT_NAME=concert_master
-export ROBOT_NAME=turtlebot
-export ROBOT_TYPE=turtlebot
-export RAPP_LIST=`rospack find rocon_apps`/apps/rocon.rapp

@@ -5,7 +5,7 @@
   <arg name="concert_name" default="$(optenv CONCERT_NAME concert_master)"/>
   <arg name="robot_name" default="$(optenv ROBOT_NAME turtlebot)"/>
   <arg name="robot_type" default="$(optenv ROBOT_TYPE turtlebot)"/>
-  <arg name="app_lists" default="$(env RAPP_LIST)"/><!-- semi colon separated list -->
+  <arg name="app_lists" default="$(optenv RAPP_LIST )"/><!-- semi colon separated list. Please check appmanager.sh -->
 
   <arg name="gateway_watch_loop_period" default="10"/> <!-- Polling period for multimaster advertising/flipping -->
 
