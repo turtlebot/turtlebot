@@ -27,6 +27,6 @@
     <arg name="concert_name" value="$(arg concert_name)"/>
     <arg name="robot_name" value="$(arg robot_name)"/>
     <arg name="robot_type" value="$(arg robot_type)"/>
-    <arg name="app_lists" value="$(arg app_lists)"/>
+    <arg name="rapp_lists" value="$(arg rapp_lists)"/>
   </include>
 </launch>

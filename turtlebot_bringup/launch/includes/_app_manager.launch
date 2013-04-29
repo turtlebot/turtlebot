@@ -13,7 +13,7 @@
   <include file="$(find rocon_app_manager)/launch/paired.launch">
     <arg name="robot_name" value="$(arg robot_name)"/>
     <arg name="robot_type" value="$(arg robot_type)"/>
-    <arg name="app_lists" value="$(arg app_lists)"/>
+    <arg name="rapp_lists" value="$(arg rapp_lists)"/>
     <arg name="gateway_watch_loop_period" default="10"/>
   </include>
 </launch>
