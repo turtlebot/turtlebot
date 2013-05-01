@@ -6,7 +6,7 @@
   <arg name="simulation" default="$(optenv TURTLEBOT_SIMULATION false)"/>
 
   <arg name="concert_name" default="concertmaster"/> 
-  <arg name="robot_name" default="turtlebot"/
+  <arg name="robot_name" default="turtlebot"/>
   <arg name="robot_type" default="turtlebot"/>
   <arg name="rapp_lists" default="$(find rocon_apps)/rapps/rocon.rapps"/>
 
