@@ -109,6 +109,6 @@
     </link>
 
     <!-- RGBD sensor for simulation -->
-<!--     <turtlebot_sim_xtion/> not working currently -->
+    <turtlebot_sim_xtion/>
   </xacro:macro>
 </robot>

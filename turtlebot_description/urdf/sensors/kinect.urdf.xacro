@@ -99,6 +99,6 @@
 	</link>
 	
 	<!-- Kinect sensor for simulation -->
-<!-- 	<turtlebot_sim_kinect/> not working currently -->
+	<turtlebot_sim_kinect/>
   </xacro:macro>
 </robot>
