@@ -1,15 +1,50 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+cmake_minimum_required(VERSION 2.8.3)
+project(turtlebot_app_manager)
 
-rosbuild_init()
 
-#set the default path for built executables to the "bin" directory
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-#set the default path for built libraries to the "lib" directory
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+find_package(catkin REQUIRED COMPONENTS message_generation)
 
-rosbuild_genmsg()
-rosbuild_gensrv()
+add_message_files(DIRECTORY msg
+                    FILES
+                    AppInstallationState.msg
+                    AppList.msg
+                    AppStatus.msg
+                    ClientApp.msg
+                    ExchangeApp.msg
+                    Icon.msg
+                    KeyValue.msg
+                    StatusCodes.msg
+                  )
 
-rosbuild_add_pyunit(test/test_app.py)
-rosbuild_add_pyunit(test/test_app_list.py)
+add_service_files(DIRECTORY srv
+                    FILES
+                    GetAppDetails.srv
+                    GetInstallationState.srv
+                    InstallApp.srv
+                    ListApps.srv
+                    StartApp.srv
+                    StopApp.srv
+                    UninstallApp.srv
+                 )
+
+
+catkin_python_setup()
+
+generate_messages()
+
+catkin_package()
+install(
+    PROGRAMS
+      scripts/app_manager
+      scripts/appmaster
+      scripts/rosget
+      scripts/test_app.py
+      DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(DIRECTORY test
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+
+#add_pyunit(test/test_app.py)
+#add_pyunit(test/test_app_list.py)
