@@ -1,0 +1,29 @@
+<package>
+  <name>turtlebot_bringup</name>
+  <version>2.0.0</version>
+  <description>
+     turtlebot_bringup provides roslaunch scripts for starting the TurtleBot base functionality. 
+  </description>
+  <author>Tully Foote</author>
+  <maintainer email="d.stonier@gmail.com">Daniel Stonier</maintainer>
+  <license>BSD</license>
+  <url type="website">http://ros.org/wiki/turtlebot_bringup</url>
+  <url type="repository">https://github.com/turtlebot/turtlebot</url>
+  <url type="bugtracker">https://github.com/turtlebot/turtlebot/issues</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>zeroconf_avahi</run_depend>
+  <run_depend>kobuki_node</run_depend>
+  <run_depend>kobuki_description</run_depend>
+  <run_depend>kobuki_bumper2pc</run_depend>
+  <run_depend>kobuki_safety_controller</run_depend>
+  <run_depend>create_node</run_depend>
+  <run_depend>create_description</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>diagnostic_aggregator</run_depend>
+  <run_depend>openni_camera</run_depend>
+  <run_depend>linux_hardware</run_depend>
+  <run_depend>turtlebot_app_manager</run_depend>
+  <run_depend>depthimage_to_laserscan</run_depend>
+</package>

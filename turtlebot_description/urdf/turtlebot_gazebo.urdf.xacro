@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="turtlebot_gazebo">
 
   <!-- ASUS Xtion PRO Live for simulation -->
