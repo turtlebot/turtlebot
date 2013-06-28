@@ -14,11 +14,11 @@
   rgb_processing for the android tele-view).
 -->
 <launch>
-  <arg name="camera"  value="camera"/>
+  <arg name="camera"  default="camera"/>
   <arg name="respawn" default="false" />
   <arg     if="$(arg respawn)" name="bond" value="" />
   <arg unless="$(arg respawn)" name="bond" value="--no-bond" />
-  <arg name="manager" value="$(arg camera)_nodelet_manager" />
+  <arg name="manager" default="$(arg camera)_nodelet_manager" />
 
   <!-- Depth registration -->
   <arg name="depth_registration" default="true"/>
