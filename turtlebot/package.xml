@@ -18,7 +18,6 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   <run_depend>turtlebot_bringup</run_depend>
-  <run_depend>turtlebot_app_manager</run_depend>
   <run_depend>linux_hardware</run_depend>
   <run_depend>turtlebot_description</run_depend>
 
