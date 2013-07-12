@@ -3,6 +3,8 @@ project(linux_hardware)
 
 find_package(catkin REQUIRED COMPONENTS diagnostic_msgs message_generation rospy std_msgs)
 
+catkin_python_setup()
+
 add_message_files(
   DIRECTORY msg
   FILES
@@ -12,8 +14,6 @@ add_message_files(
 generate_messages(DEPENDENCIES std_msgs)
 
 catkin_package(CATKIN_DEPENDS message_runtime std_msgs diagnostic_msgs)
-
-catkin_python_setup()
 
 install(
   PROGRAMS 
