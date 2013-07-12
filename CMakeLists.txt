@@ -9,7 +9,7 @@ find_package(catkin REQUIRED COMPONENTS cmd_vel_mux geometry_msgs joy kobuki_saf
 # catkin_python_setup()
 
 catkin_package(
-  INCLUDE_DIRS include
+  INCLUDE_DIRS
   LIBRARIES turtlebot_teleop
   CATKIN_DEPENDS cmd_vel_mux geometry_msgs joy kobuki_safety_controller roscpp yocs_velocity_smoother
   DEPENDS system_lib
