@@ -27,7 +27,6 @@ target_link_libraries(turtlebot_teleop_joy ${catkin_LIBRARIES})
 #############
 
 ## Mark executable scripts (Python etc.) for installation
-## in contrast to setup.py, you can choose the destination
 install(PROGRAMS
   scripts/turtlebot_teleop_key
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -38,3 +37,7 @@ install(TARGETS turtlebot_teleop_joy
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+## Mark all other useful stuff for installation
+install(DIRECTORY launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
