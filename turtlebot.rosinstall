@@ -35,18 +35,22 @@
 - git:
     uri: https://github.com/turtlebot/turtlebot.git
     local-name: turtlebot
+    version: master
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_simulator.git
     local-name: turtlebot_simulator
+    version: master
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_apps.git
     local-name: turtlebot_apps
+    version: master
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_viz.git
     local-name: turtlebot_viz
+    version: master
 
 # some extra packages required for turtlebot apps that aren't on the radar yet
 
