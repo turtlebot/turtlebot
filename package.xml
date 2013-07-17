@@ -10,18 +10,15 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>cmd_vel_mux</build_depend>
+  <build_depend>roscpp</build_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>joy</build_depend>
-  <build_depend>kobuki_safety_controller</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>yocs_velocity_smoother</build_depend>
-
-  <run_depend>cmd_vel_mux</run_depend>
+  
+  <run_depend>roscpp</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>joy</run_depend>
   <run_depend>kobuki_safety_controller</run_depend>
-  <run_depend>roscpp</run_depend>
-  <run_depend>turtlebot_bringup</run_depend>
   <run_depend>yocs_velocity_smoother</run_depend>
+  <run_depend>cmd_vel_mux</run_depend>
+  <run_depend>turtlebot_bringup</run_depend>
 </package>

@@ -2,17 +2,13 @@ cmake_minimum_required(VERSION 2.8.3)
 project(turtlebot_teleop)
 
 ## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS cmd_vel_mux geometry_msgs joy kobuki_safety_controller roscpp yocs_velocity_smoother)
-
-catkin_python_setup()
+find_package(catkin REQUIRED COMPONENTS roscpp geometry_msgs joy)
 
 catkin_package(
   INCLUDE_DIRS
   LIBRARIES turtlebot_teleop
-  CATKIN_DEPENDS cmd_vel_mux geometry_msgs joy kobuki_safety_controller roscpp yocs_velocity_smoother
-  DEPENDS system_lib
+  CATKIN_DEPENDS roscpp geometry_msgs joy
+  DEPENDS
 )
 
 ###########
