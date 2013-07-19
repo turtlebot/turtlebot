@@ -5,11 +5,6 @@
   <arg name="3d_sensor"  default="$(optenv TURTLEBOT_3D_SENSOR kinect)"/>  <!-- kinect, asus_xtion_pro -->
   <arg name="simulation" default="$(optenv TURTLEBOT_SIMULATION false)"/>
 
-  <arg name="concert_name" default="concertmaster"/> 
-  <arg name="robot_name" default="turtlebot"/>
-  <arg name="robot_type" default="turtlebot"/>
-  <arg name="rapp_lists" default="rocon_apps/rocon.rapps"/>
-
   <param name="/use_sim_time" value="$(arg simulation)"/>
   
   <include file="$(find turtlebot_bringup)/launch/includes/_robot.launch">
@@ -22,11 +17,5 @@
   </include>
   <include file="$(find turtlebot_bringup)/launch/includes/_netbook.launch">
     <arg name="battery" value="$(arg battery)" />
-  </include>
-  <include file="$(find turtlebot_bringup)/launch/includes/_app_manager.launch">
-    <arg name="concert_name" value="$(arg concert_name)"/>
-    <arg name="robot_name" value="$(arg robot_name)"/>
-    <arg name="robot_type" value="$(arg robot_type)"/>
-    <arg name="rapp_lists" value="$(arg rapp_lists)"/>
   </include>
 </launch>
