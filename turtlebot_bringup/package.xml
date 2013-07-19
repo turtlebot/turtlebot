@@ -21,9 +21,11 @@
   <run_depend>create_node</run_depend>
   <run_depend>create_description</run_depend>
   <run_depend>robot_state_publisher</run_depend>
+  <run_depend>robot_pose_ekf</run_depend>
   <run_depend>diagnostic_aggregator</run_depend>
   <run_depend>openni_camera</run_depend>
   <run_depend>linux_hardware</run_depend>
   <run_depend>rocon_app_manager</run_depend>
   <run_depend>depthimage_to_laserscan</run_depend>
+  <run_depend>image_proc</run_depend>
 </package>
