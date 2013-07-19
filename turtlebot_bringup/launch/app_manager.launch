@@ -1,0 +1,19 @@
+<!--
+  Rocon App Manager for turtlebot
+ -->
+<launch>
+  <arg name="concert_name" default="$(optenv CONCERT_NAME concertmaster)"/> 
+  <arg name="robot_name" default="$(optenv ROBOT_NAME turtlebot)"/>
+  <arg name="robot_type" default="$(optenv ROBOT_TYPE turtlebot)"/>
+  <arg name="rapp_lists" default="$(optenv RAPP_LIST) rocon_apps/rocon.rapps"/>
+
+  <arg name="gateway_watch_loop_period" default="10"/> <!-- Polling period for multimaster advertising/flipping -->
+
+  <!-- paired client -->
+  <include file="$(find rocon_app_manager)/launch/paired_private.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="robot_type" value="$(arg robot_type)"/>
+    <arg name="rapp_lists" value="$(arg rapp_lists)"/>
+    <arg name="gateway_watch_loop_period" default="10"/>
+  </include>
+</launch>
