@@ -12,7 +12,7 @@
     <param name="axis_deadman" value="4"/>
     <param name="axis_linear" value="1"/>
     <param name="axis_angular" value="0"/>
-    <remap from="turtlebot_teleop_joystick/cmd_vel" to="cmd_vel_mux/input/teleop_raw"/>
+    <remap from="turtlebot_teleop_joystick/cmd_vel" to="teleop_velocity_smoother/raw_cmd_vel"/>
   </node>
 
   <node pkg="joy" type="joy_node" name="joystick"/>
