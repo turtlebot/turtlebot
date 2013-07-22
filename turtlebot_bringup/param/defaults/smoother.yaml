@@ -12,3 +12,9 @@ accel_lim_w: 5.4
 # Optional parameters
 frequency: 20.0
 decel_factor: 1.0
+
+# Robot velocity feedback type:
+#  0 - none (default)
+#  1 - odometry
+#  2 - end robot commands
+robot_feedback: 0
