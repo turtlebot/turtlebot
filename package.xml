@@ -1,6 +1,6 @@
 <package>
   <name>turtlebot_teleop</name>
-  <version>2.1.0</version>
+  <version>2.1.1</version>
   <description>Provides teleoperation using joysticks or keyboard.</description>
   <maintainer email="mwise@willowgarage.com">Melonee Wise</maintainer>
   <license>BSD</license>
