@@ -1,0 +1,11 @@
+# Turtlebot apps:
+
+apps:
+ - turtlebot_core_apps/android_teleop
+ - turtlebot_core_apps/ps3_teleop
+ - turtlebot_core_apps/xbox360_teleop
+ - turtlebot_core_apps/android_make_a_map
+ - turtlebot_core_apps/android_map_nav
+ - turtlebot_core_apps/follower
+ - turtlebot_core_apps/panorama
+ - turtlebot_core_apps/auto_docking
