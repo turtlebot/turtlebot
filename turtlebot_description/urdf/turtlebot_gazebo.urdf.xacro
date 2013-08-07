@@ -1,45 +1,6 @@
 <?xml version="1.0"?>
 <robot name="turtlebot_gazebo" xmlns:xacro="http://ros.org/wiki/xacro">
-
-  <!-- ASUS Xtion PRO Live for simulation -->
-<!--   <xacro:macro name="turtlebot_sim_xtion"> -->
-<!--     <gazebo reference="camera_link" > -->
-<!--     <sensor type="depth" name="camera"> -->
-<!--       <always_on>true</always_on> -->
-<!--       <update_rate>2.0</update_rate> -->
-<!--       <camera> -->
-<!--         <horizontal_fov>${62.8*M_PI/180.0}</horizontal_fov> -->
-<!--           <image> -->
-<!--             <format>R8G8B8</format> -->
-<!--             <width>640</width> -->
-<!--             <height>480</height> -->
-<!--           </image> -->
-<!--           <clip> -->
-<!--             <near>0.1</near> -->
-<!--             <far>10</far> -->
-<!--           </clip> -->
-<!--         </camera> -->
-<!--         <plugin name="kinect_camera_controller" filename="libgazebo_ros_wge100.so"> -->
-<!--           <alwaysOn>true</alwaysOn> -->
-<!--           <updateRate>5000.0</updateRate> -->
-<!--           <cameraName>camera/rgb</cameraName> -->
-<!--           <frameName>camera_rgb_optical_frame</frameName> -->
-<!--           <hackBaseline>0.0</hackBaseline> -->
-<!--           <CxPrime>320.5</CxPrime> -->
-<!--           <Cx>320.5</Cx> -->
-<!--           <Cy>240.5</Cy> -->
-<!--           <baseline>0.09</baseline> -->
-<!--           image_width / (2*tan(hfov_radian /2)) -->
-<!--           320 for wide and 772.55 for narrow stereo camera -->
-<!--           <focal_length>525</focal_length> -->
-<!--           <cameraNamespace>camera/rgb</cameraNamespace> -->
-<!--           <depthData>true</depthData> -->
-<!--         </plugin> -->
-<!--       </sensor> -->
-<!--     </gazebo> -->
-<!--   </xacro:macro> -->
-
-  <!-- Microsoft Kinect for simulation -->
+  <!-- Microsoft Kinect / ASUS Xtion PRO Live for simulation -->
   <xacro:macro name="turtlebot_sim_3dsensor">
     <gazebo reference="camera_link">  
       <sensor type="depth" name="camera">
@@ -58,13 +19,14 @@
           </clip>
         </camera>
         <plugin name="kinect_camera_controller" filename="libgazebo_ros_openni_kinect.so">
+          <cameraName>camera</cameraName>
           <alwaysOn>true</alwaysOn>
-          <updateRate>20</updateRate>
-          <imageTopicName>/camera/rgb/image_raw</imageTopicName>
-          <depthImageTopicName>/camera/depth/image_raw</depthImageTopicName>
-          <pointCloudTopicName>/camera/depth/points</pointCloudTopicName>
-          <cameraInfoTopicName>/camera/rgb/camera_info</cameraInfoTopicName>
-          <depthImageCameraInfoTopicName>/camera/depth/camera_info</depthImageCameraInfoTopicName>
+          <updateRate>10</updateRate>
+          <imageTopicName>rgb/image_raw</imageTopicName>
+          <depthImageTopicName>depth/image_raw</depthImageTopicName>
+          <pointCloudTopicName>depth/points</pointCloudTopicName>
+          <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
+          <depthImageCameraInfoTopicName>depth/camera_info</depthImageCameraInfoTopicName>
           <frameName>camera_depth_optical_frame</frameName>
           <baseline>0.1</baseline>
           <distortion_k1>0.0</distortion_k1>
