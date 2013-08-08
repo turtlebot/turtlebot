@@ -4,6 +4,8 @@ project(turtlebot_teleop)
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS roscpp geometry_msgs joy)
 
+include_directories(${catkin_INCLUDE_DIRS})
+
 catkin_package(
   INCLUDE_DIRS
   LIBRARIES turtlebot_teleop
