@@ -69,3 +69,8 @@
     uri: https://github.com/ros-planning/map_store.git
     local-name: map_store
     version: hydro-devel
+
+- git:
+    uri: https://github.com/turtlebot/navigation.git
+    local-name: navigation
+    version: hydro-devel
