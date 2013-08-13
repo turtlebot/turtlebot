@@ -61,3 +61,11 @@
     uri: https://github.com/turtlebot/turtlebot_viz.git
     local-name: turtlebot_viz
     version: hydro-devel
+
+# Temporary stacks awaiting bugfixes
+# https://github.com/ros-planning/map_store/pull/2
+
+- git:
+    uri: https://github.com/ros-planning/map_store.git
+    local-name: map_store
+    version: hydro-devel
