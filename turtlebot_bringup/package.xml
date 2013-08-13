@@ -15,11 +15,10 @@
 
   <run_depend>zeroconf_avahi</run_depend>
   <run_depend>kobuki_node</run_depend>
-  <run_depend>kobuki_description</run_depend>
   <run_depend>kobuki_bumper2pc</run_depend>
   <run_depend>kobuki_safety_controller</run_depend>
   <run_depend>create_node</run_depend>
-  <run_depend>create_description</run_depend>
+  <run_depend>turtlebot_description</run_depend>
   <run_depend>robot_state_publisher</run_depend>
   <run_depend>robot_pose_ekf</run_depend>
   <run_depend>diagnostic_aggregator</run_depend>
