@@ -22,4 +22,3 @@ subscribers:
     topic:       "input/navi"
     timeout:     1.0
     priority:    5
-publisher: "/mobile_base/commands/velocity"
