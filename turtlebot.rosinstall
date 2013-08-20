@@ -43,6 +43,11 @@
 # Turtlebot stacks
 
 - git:
+    uri: https://github.com/yujinrobot/turtlebot_msgs.git
+    local-name: turtlebot_msgs
+    version: hydro-devel
+
+- git:
     uri: https://github.com/turtlebot/turtlebot.git
     local-name: turtlebot
     version: hydro-devel
