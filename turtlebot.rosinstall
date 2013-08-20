@@ -28,7 +28,7 @@
     local-name: kobuki
     version: hydro-devel
 
-# Create stacks
+# Create stacks
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_create.git
