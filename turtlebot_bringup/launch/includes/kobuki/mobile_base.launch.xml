@@ -21,5 +21,5 @@
   </node>
   
   <!-- bumper/cliff to pointcloud -->
-  <include file="$(find turtlebot_bringup)/launch/includes/kobuki/_bumper2pc.launch"/>
+  <include file="$(find turtlebot_bringup)/launch/includes/kobuki/bumper2pc.launch.xml"/>
 </launch>
