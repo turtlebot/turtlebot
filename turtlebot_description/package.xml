@@ -8,7 +8,10 @@
   <author email="stonier@yujinrobot.com">Daniel Stonier</author>
   <maintainer email="stonier@yujinrobot.com">Daniel Stonier</maintainer>
   <license>BSD</license>
-  <url>http://ros.org/wiki/turtlebot_description</url>
+  <url type="website">http://ros.org/wiki/turtlebot_description</url>
+  <url type="repository">https://github.com/turtlebot/turtlebot</url>
+  <url type="bugtracker">https://github.com/turtlebot/turtlebot/issues</url>
+  
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>urdf</build_depend>
