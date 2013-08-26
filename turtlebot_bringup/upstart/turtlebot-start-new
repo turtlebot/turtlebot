@@ -1,3 +1,0 @@
-#!/bin/bash
-
-rocon_launch turtlebot_bringup start.concert
