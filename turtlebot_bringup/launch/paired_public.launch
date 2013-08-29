@@ -6,6 +6,12 @@
 
   <include file="$(find rocon_app_manager)/launch/paired_public.launch">
     <arg name="robot_name" value="turtlebot"/>
+    <!-- 
+      Automatically take control of the private app manager
+      Set this to false if you're interested in doing multi-robot applications
+      so multi-robot and pairing can work in tandem. 
+    -->
+    <arg name="auto_invite" value="true" />
   </include>
 
   <!-- Convenience only until https://github.com/robotics-in-concert/rocon_app_platform/issues/64 -->

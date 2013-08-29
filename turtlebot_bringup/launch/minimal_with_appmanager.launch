@@ -8,7 +8,7 @@
 
   <!-- App manager -->
   <arg name="concert_name" default="$(optenv CONCERT_NAME concertmaster)"/> 
-  <arg name="robot_name" default="$(optenv ROBOT_NAME TurtleBot)"/>
+  <arg name="robot_name" default="$(optenv ROBOT_NAME turtlebot)"/>
   <arg name="robot_type" default="$(optenv ROBOT_TYPE turtlebot)"/>
   <arg name="rapp_lists" default="$(optenv RAPP_LIST rocon_apps/rocon.rapps;turtlebot_bringup/turtlebot.rapps)"/>
   <arg name="robot_icon" default="turtlebot_bringup/turtlebot2.png"/>
@@ -29,5 +29,6 @@
     <arg name="robot_icon" value="$(arg robot_icon)"/>
     <arg name="rapp_lists" value="$(arg rapp_lists)"/>
     <arg name="gateway_watch_loop_period" default="10"/>
+    <arg name="disable_uuids" value="true"/>
   </include>
 </launch>
