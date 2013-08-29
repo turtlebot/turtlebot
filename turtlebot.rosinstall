@@ -24,6 +24,11 @@
     version: hydro-devel
 
 - git:
+    uri: https://github.com/yujinrobot/kobuki_core.git
+    local-name: kobuki_core
+    version: hydro-devel
+
+- git:
     uri: https://github.com/yujinrobot/kobuki.git
     local-name: kobuki
     version: hydro-devel
