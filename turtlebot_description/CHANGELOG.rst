@@ -2,11 +2,20 @@
 Changelog for package turtlebot_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.2.x - hydro, bugfixing
+========================
+
+2.2.0 (2013-08-29)
+------------------
+* Fix kinect's collision model misplacement.
+* Change hexagon stack plates collision models to cylinders.
+* Add bugtracker and repo info URLs.
+* CLip camera view at 8 m, more closely replicating real kinect.
+* Changelogs at package level.
+
+
 2.1.x - hydro, unstable
 =======================
-
-Forthcoming
------------
 
 2.1.1 (2013-08-06)
 ------------------

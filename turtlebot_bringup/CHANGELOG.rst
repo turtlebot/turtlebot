@@ -2,16 +2,26 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.1.x - hydro, unstable
-=======================
+2.2.x - hydro, bugfixing
+========================
 
-Forthcoming
------------
+2.2.0 (2013-08-29)
+------------------
+* convenient paired launchers (no uuids, auto-invitations).
+* Robot description in paired master.
+* Modularising robot description to use with paired masters.
+* Remove outdated upstart directory.
+* Rename include launchers to *.launch.xml.
+* Changelogs at package level.
 * Remove _mobile_base_soft.launch
 * Do not use robot_pose_ekf for kobuki base. Instead, use imu for heading and encoders por x and y.
 * A bunch of fixes on absolute and application namespaces
 * Depend on turtlebot_description rather than the specific instances kobuki, create.
 * Update dependency to openni_launch and remove component dependencies.
+
+
+2.1.x - hydro, unstable
+=======================
 
 2.1.1 (2013-08-06)
 ------------------
