@@ -71,10 +71,3 @@
     uri: https://github.com/turtlebot/turtlebot_viz.git
     local-name: turtlebot_viz
     version: hydro-devel
-
-# Temporary stacks awaiting releases
-
-- git:
-    uri: https://github.com/ros-planning/navigation.git
-    local-name: navigation
-    version: hydro-devel
