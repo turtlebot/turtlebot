@@ -20,5 +20,5 @@ install(DIRECTORY urdf
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
-catkin_add_gtest(test_urdf test/test_urdf.cpp)
+catkin_add_gtest(${PROJECT_NAME}_test_urdf test/test_urdf.cpp)
 
