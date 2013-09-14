@@ -2,8 +2,9 @@
 Changelog for package turtlebot_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.2.x - hydro, bugfixing
-========================
+2.2.1 (2013-09-14)
+------------------
+* prefix test target to not collide with other targets
 
 2.2.0 (2013-08-29)
 ------------------

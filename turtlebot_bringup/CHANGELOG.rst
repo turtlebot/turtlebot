@@ -2,8 +2,9 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.2.x - hydro, bugfixing
-========================
+2.2.1 (2013-09-14)
+------------------
+* remove cmake install rule for now obsoleted upstart files.
 
 2.2.0 (2013-08-29)
 ------------------
@@ -11,7 +12,7 @@ Changelog for package turtlebot_bringup
 * Robot description in paired master.
 * Modularising robot description to use with paired masters.
 * Remove outdated upstart directory.
-* Rename include launchers to *.launch.xml.
+* Rename include launchers to xyz.launch.xml.
 * Changelogs at package level.
 * Remove _mobile_base_soft.launch
 * Do not use robot_pose_ekf for kobuki base. Instead, use imu for heading and encoders por x and y.

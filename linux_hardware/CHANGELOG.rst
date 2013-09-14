@@ -2,9 +2,6 @@
 Changelog for package linux_hardware
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.2.x - hydro, bugfixing
-========================
-
 2.2.0 (2013-08-29)
 ------------------
 * Changelogs at package level.

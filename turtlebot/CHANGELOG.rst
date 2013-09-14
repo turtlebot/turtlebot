@@ -2,17 +2,17 @@
 Changelog for package turtlebot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-2.2.x - hydro, bugfixing
-========================
+2.2.1 (2013-09-14)
+------------------
+* CMake logic bugfixes.
 
 2.2.0 (2013-08-29)
 ------------------
 * Changelogs at package level.
 * Add eclipse project files.
 
-
-2.1.x - hydro, unstable
-=======================
+Release 2.1.x - hydro, unstable
+===============================
 
 2.1.1 (2013-08-06)
 ------------------
