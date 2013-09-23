@@ -2,6 +2,9 @@
 Changelog for package turtlebot_teleop
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.2.1 (2013-09-23)
+------------------
+
 2.2.0 (2013-08-30)
 ------------------
 * Add bugtracker and repo info URLs.
