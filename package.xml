@@ -21,6 +21,5 @@
   <run_depend>joy</run_depend>
   <run_depend>kobuki_safety_controller</run_depend>
   <run_depend>yocs_velocity_smoother</run_depend>
-  <run_depend>cmd_vel_mux</run_depend>
   <run_depend>turtlebot_bringup</run_depend>
 </package>
