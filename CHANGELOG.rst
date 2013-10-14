@@ -2,6 +2,10 @@
 Changelog for package turtlebot_teleop
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.2.4 (2013-10-14)
+------------------
+* Remove unnecessary dependency on cmd_vel_mux package.
+
 2.2.3 (2013-09-27)
 ------------------
 
