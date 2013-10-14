@@ -2,6 +2,11 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.2.2 (2013-10-14)
+------------------
+* Rename cmd_vel_mux as yocs_cmd_vel_mux.
+* Temporary fix for hub whitelists so pairing doesn't get distracted by concerts.
+
 2.2.1 (2013-09-14)
 ------------------
 * remove cmake install rule for now obsoleted upstart files.

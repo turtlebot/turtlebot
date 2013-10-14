@@ -2,6 +2,9 @@
 Changelog for package turtlebot_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.2.2 (2013-10-14)
+------------------
+
 2.2.1 (2013-09-14)
 ------------------
 * prefix test target to not collide with other targets
