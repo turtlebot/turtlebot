@@ -12,7 +12,7 @@
   <!-- By default, we only tune into the pairing master's hub, so set the whitelist here for "Internal Hub" -->
   <!-- To run concert mode, set an empty string or use your concert's hub name specifically -->
   <!-- For concert mode, you should also disable the auto_invite in paired public.launch -->
-  <arg name="hub_whitelist" default="$(optenv ROBOT_HUB_WHITELIST 'Internal Hub')"/>
+  <arg name="hub_whitelist" default="$(optenv ROBOT_HUB_WHITELIST Internal Hub)"/>
   <arg name="rapp_lists" default="$(optenv RAPP_LIST rocon_apps/rocon.rapps;turtlebot_bringup/turtlebot.rapps)"/>
   <arg name="robot_icon" default="turtlebot_bringup/turtlebot2.png"/>
   <arg name="gateway_watch_loop_period" default="10"/> <!-- Polling period for multimaster advertising/flipping -->
