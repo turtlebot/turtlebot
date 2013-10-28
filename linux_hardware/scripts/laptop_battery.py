@@ -117,9 +117,16 @@ def _check_battery_info(_battery_acpi_path):
         design_capacity    = _strip_Ah(batt_info.get('design capacity',    '0 mAh'))
         last_full_capacity = _strip_Ah(batt_info.get('last full capacity', '0 mAh'))
     else:
-        design_capacity    = _read_number(_battery_acpi_path + '/energy_full')
-        last_full_capacity = _read_number(_battery_acpi_path + '/energy_full_design')        
-
+        if os.path.exists(_battery_acpi_path + '/energy_full'):
+            design_capacity    = _read_number(_battery_acpi_path + '/energy_full')
+        else:
+            design_capacity    = _read_number(_battery_acpi_path + '/charge_full')
+            
+        if os.path.exists(_battery_acpi_path + '/energy_full_design'):
+            last_full_capacity = _read_number(_battery_acpi_path + '/energy_full_design')
+        else:
+            last_full_capacity = _read_number(_battery_acpi_path + '/charge_full_design')
+            
     return (design_capacity, last_full_capacity)
 
 state_to_val = {'charged':     LaptopChargeStatus.CHARGED,
@@ -162,11 +169,20 @@ def _check_battery_state(_battery_acpi_path):
 
         state = _read_string(_battery_acpi_path+'/status', 'discharging').lower()
         rv.charge_state = state_to_val.get(state, 0)
-        rv.rate     = _read_number(_battery_acpi_path + '/power_now')
+        
+        if os.path.exists(_battery_acpi_path + '/power_now'):
+            rv.rate     = _read_number(_battery_acpi_path + '/power_now')
+        else:
+            rv.rate     = _read_number(_battery_acpi_path + '/current_now')
+            
         if rv.charge_state == LaptopChargeStatus.DISCHARGING:
             rv.rate = math.copysign(rv.rate, -1) # Need to set discharging rate to negative
         
-        rv.charge   = _read_number(_battery_acpi_path + '/energy_now')
+        if os.path.exists(_battery_acpi_path + '/energy_now'):
+            rv.charge   = _read_number(_battery_acpi_path + '/energy_now')
+        else:
+            rv.charge   = _read_number(_battery_acpi_path + '/charge_now')
+        
         rv.voltage  = _read_number(_battery_acpi_path + '/voltage_now')
         rv.present  = _read_number(_battery_acpi_path + '/present') == 1
 
