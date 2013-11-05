@@ -14,6 +14,11 @@
     version: hydro-devel
 
 - git:
+    uri: https://github.com/yujinrobot/yocs_msgs.git
+    local-name: yocs_msgs
+    version: hydro-devel
+
+- git:
     uri: https://github.com/yujinrobot/yujin_ocs.git
     local-name: yujin_ocs
     version: hydro-devel
