@@ -5,6 +5,7 @@
  -->
 <launch>
   <arg name="base"/>
+  <arg name="serialport"/>
   <include file="$(find turtlebot_bringup)/launch/includes/$(arg base)/mobile_base.launch.xml"/>
 </launch>
 
