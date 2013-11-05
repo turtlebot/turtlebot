@@ -4,6 +4,8 @@
   TODO: redirect cmd_vel_mux/output to wherever create base is listening.
  -->
 <launch>
+  <arg name="serialport"/>
+  
   <!-- Turtlebot Driver -->
   <node pkg="create_node" type="turtlebot_node.py" name="turtlebot_node" respawn="true" args="--respawnable">
     <param name="bonus" value="false" />
