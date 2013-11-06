@@ -4,6 +4,7 @@
   <arg name="stacks"     default="$(optenv TURTLEBOT_STACKS hexagons)"/>  <!-- circles, hexagons -->
   <arg name="3d_sensor"  default="$(optenv TURTLEBOT_3D_SENSOR kinect)"/>  <!-- kinect, asus_xtion_pro -->
   <arg name="simulation" default="$(optenv TURTLEBOT_SIMULATION false)"/>
+  <arg name="serialport" default="$(optenv TURTLEBOT_SERIAL_PORT /dev/ttyUSB0)"/>
 
   <param name="/use_sim_time" value="$(arg simulation)"/>
   
@@ -14,6 +15,7 @@
   </include>
   <include file="$(find turtlebot_bringup)/launch/includes/mobile_base.launch.xml">
     <arg name="base" value="$(arg base)" />
+    <arg name="serialport" value="$(arg serialport)" />
   </include>
   <include file="$(find turtlebot_bringup)/launch/includes/netbook.launch.xml">
     <arg name="battery" value="$(arg battery)" />

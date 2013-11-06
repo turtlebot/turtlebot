@@ -4,12 +4,15 @@
   TODO: redirect cmd_vel_mux/output to wherever create base is listening.
  -->
 <launch>
+  <arg name="serialport"/>
+
   <!-- Turtlebot Driver -->
   <node pkg="create_node" type="turtlebot_node.py" name="turtlebot_node" respawn="true" args="--respawnable">
     <param name="robot_type" value="roomba" />
     <param name="has_gyro" value="false" />
     <param name="bonus" value="false" />
     <param name="update_rate" value="30.0" />
+    <param name="port" value="$(arg serialport)" />
     <remap from="cmd_vel" to="mobile_base/commands/velocity" />
     <remap from="turtlebot_node/sensor_state" to="mobile_base/sensors/core" />
     <remap from="imu/data" to="mobile_base/sensors/imu_data" />
