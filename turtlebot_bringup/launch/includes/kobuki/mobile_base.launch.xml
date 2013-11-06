@@ -2,6 +2,8 @@
   Kobuki's implementation of turtlebot's mobile base.
  -->
 <launch>
+  <arg name="serialport"/> <!-- TODO: use the serialport parameter to set the serial port of kobuki -->
+  
   <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"/>
   <node pkg="nodelet" type="nodelet" name="mobile_base" args="load kobuki_node/KobukiNodelet mobile_base_nodelet_manager">
     <rosparam file="$(find kobuki_node)/param/base.yaml" command="load"/>
