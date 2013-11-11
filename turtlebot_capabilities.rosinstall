@@ -75,8 +75,13 @@
 # ROCON stacks
 
 - git:
-    uri: https://github.com/robotics_in_concert/rocon_app_platform.git
+    uri: https://github.com/robotics-in-concert/rocon_app_platform.git
     local-name: rocon_app_platform
+    version: capabilities_integration
+
+- git:
+    uri: https://github.com/robotics-in-concert/rocon_msgs.git
+    local-name: rocon_msgs
     version: capabilities_integration
 
 # OSRF stacks
@@ -86,12 +91,15 @@
     local-name: capabilities
     version: master
 
-- git:
-    uri: https://github.com/osrf/std_capabilities.git
-    local-name: std_capabilities
-    version: initial_specs
-- git:
-    uri: https://github.com/osrf/turtlebot2_capabilities.git
-    local-name: turtlebot2_capabilities
-    version: master
 
+# Special forks
+
+- git:
+    uri: https://github.com/bit-pirate/std_capabilities.git
+    local-name: std_capabilities
+    version: bit-pirate
+
+- git:
+    uri: https://github.com/bit-pirate/turtlebot2_capabilities.git
+    local-name: turtlebot2_capabilities
+    version: bit-pirate
