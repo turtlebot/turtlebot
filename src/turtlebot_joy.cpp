@@ -71,6 +71,9 @@ TurtlebotTeleop::TurtlebotTeleop():
   ph_.param("scale_angular", a_scale_, a_scale_);
   ph_.param("scale_linear", l_scale_, l_scale_);
 
+  //Solve bug documented in https://github.com/turtlebot/turtlebot_apps/issues/71
+  deadman_pressed_ = false;
+
   vel_pub_ = ph_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
   joy_sub_ = nh_.subscribe<sensor_msgs::Joy>("joy", 10, &TurtlebotTeleop::joyCallback, this);
 
