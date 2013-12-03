@@ -117,16 +117,24 @@ def _check_battery_info(_battery_acpi_path):
         design_capacity    = _strip_Ah(batt_info.get('design capacity',    '0 mAh'))
         last_full_capacity = _strip_Ah(batt_info.get('last full capacity', '0 mAh'))
     else:
-        design_capacity    = _read_number(_battery_acpi_path + '/energy_full')
-        last_full_capacity = _read_number(_battery_acpi_path + '/energy_full_design')        
-
+          # Provided as Wh * 10e5
+        if os.path.exists(_battery_acpi_path + '/energy_full'):
+            design_capacity    = _read_number(_battery_acpi_path + '/energy_full_design')/10e5
+        else:
+            design_capacity    = _read_number(_battery_acpi_path + '/charge_full_design')/10e5
+            
+        if os.path.exists(_battery_acpi_path + '/energy_full_design'):
+            last_full_capacity = _read_number(_battery_acpi_path + '/energy_full')/10e5
+        else:
+            last_full_capacity = _read_number(_battery_acpi_path + '/charge_full')/10e5
+            
     return (design_capacity, last_full_capacity)
 
 state_to_val = {'charged':     LaptopChargeStatus.CHARGED,
-                'full':     LaptopChargeStatus.CHARGED, 
+                'full':        LaptopChargeStatus.CHARGED, 
                 'charging':    LaptopChargeStatus.CHARGING, 
                 'discharging': LaptopChargeStatus.DISCHARGING,
-                'unknown':    LaptopChargeStatus.CHARGING, }
+                'unknown':     LaptopChargeStatus.CHARGING, }
 
 diag_level_to_msg = { DiagnosticStatus.OK:    'OK', 
                       DiagnosticStatus.WARN:  'Warning',
@@ -160,14 +168,24 @@ def _check_battery_state(_battery_acpi_path):
         rv.header.stamp = rospy.get_rostime()
     else:
 
-        state = _read_string(_battery_acpi_path+'/status', 'discharging').lower()
+        # Charging state; make lowercase and remove trailing eol
+        state = _read_string(_battery_acpi_path+'/status', 'discharging').lower().rstrip()
         rv.charge_state = state_to_val.get(state, 0)
-        rv.rate     = _read_number(_battery_acpi_path + '/power_now')
+        
+        if os.path.exists(_battery_acpi_path + '/power_now'):
+            rv.rate     = _read_number(_battery_acpi_path + '/power_now')/10e5
+        else:
+            rv.rate     = _read_number(_battery_acpi_path + '/current_now')/10e5
+            
         if rv.charge_state == LaptopChargeStatus.DISCHARGING:
             rv.rate = math.copysign(rv.rate, -1) # Need to set discharging rate to negative
         
-        rv.charge   = _read_number(_battery_acpi_path + '/energy_now')
-        rv.voltage  = _read_number(_battery_acpi_path + '/voltage_now')
+        if os.path.exists(_battery_acpi_path + '/energy_now'):
+            rv.charge   = _read_number(_battery_acpi_path + '/energy_now')/10e5
+        else:
+            rv.charge   = _read_number(_battery_acpi_path + '/charge_now')/10e5
+        
+        rv.voltage  = _read_number(_battery_acpi_path + '/voltage_now')/10e5
         rv.present  = _read_number(_battery_acpi_path + '/present') == 1
 
         rv.header.stamp = rospy.get_rostime()
@@ -206,7 +224,7 @@ class LaptopBatteryMonitor(object):
         self._diag_pub  = rospy.Publisher('/diagnostics', DiagnosticArray)
         
         # Battery info
-        self._batt_acpi_path = rospy.get_param('~acpi_path', "/proc/acpi/battery/BAT0")
+        self._batt_acpi_path = rospy.get_param('~acpi_path', "/sys/class/power_supply/BAT0")
         self._batt_design_capacity = 0
         self._batt_last_full_capacity = 0
         self._last_info_update = 0
