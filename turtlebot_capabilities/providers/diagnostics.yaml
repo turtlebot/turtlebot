@@ -1,0 +1,8 @@
+%YAML 1.1
+---
+name: diagnostics
+spec_version: 1
+spec_type: provider
+description: 'Implements the Diagnostics capability for the TurtleBot.'
+implements: 'std_capabilities/Diagnostics'
+launch_file: 'launch/diagnostics.launch'

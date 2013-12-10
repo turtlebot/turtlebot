@@ -1,0 +1,3 @@
+# default capability providers for the Microsoft Kinect
+defaults:
+  'std_capabilities/RGBDSensor': 'turtlebot_capabilities/kinect_rgbd_sensor'

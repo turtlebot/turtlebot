@@ -1,0 +1,3 @@
+# default capability providers for the ASUS Xtion Pro Live
+defaults:
+  'std_capabilities/RGBDSensor': 'turtlebot_capabilities/xtion_rgbd_sensor'

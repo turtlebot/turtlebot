@@ -1,0 +1,101 @@
+##############################################################################
+#
+# Source installation instructions at:
+#
+# http://www.ros.org/wiki/turtlebot/Tutorials/hydro/Source%20Installation
+#
+##############################################################################
+
+# Kobuki / Yujin stacks
+
+- git:
+    uri: https://github.com/yujinrobot/kobuki_desktop.git
+    local-name: kobuki_desktop
+    version: hydro-devel
+
+- git:
+    uri: https://github.com/yujinrobot/yujin_ocs.git
+    local-name: yujin_ocs
+    version: hydro-devel
+
+- git:
+    uri: https://github.com/yujinrobot/kobuki_msgs.git
+    local-name: kobuki_msgs
+    version: hydro-devel
+
+- git:
+    uri: https://github.com/yujinrobot/kobuki_core.git
+    local-name: kobuki_core
+    version: hydro-devel
+
+- git:
+    uri: https://github.com/yujinrobot/kobuki.git
+    local-name: kobuki
+    version: capabilities_integration
+
+# Create stacks
+
+- git:
+    uri: https://github.com/turtlebot/turtlebot_create.git
+    local-name: turtlebot_create
+    version: hydro-devel
+
+- git:
+    uri: https://github.com/turtlebot/turtlebot_create_desktop.git
+    local-name: turtlebot_create_desktop
+    version: hydro-devel
+
+# Turtlebot stacks
+
+- git:
+    uri: https://github.com/turtlebot/turtlebot_msgs.git
+    local-name: turtlebot_msgs
+    version: hydro-devel
+
+- git:
+    uri: https://github.com/turtlebot/turtlebot.git
+    local-name: turtlebot
+    version: capabilities_integration
+
+- git:
+    uri: https://github.com/turtlebot/turtlebot_simulator.git
+    local-name: turtlebot_simulator
+    version: hydro-devel
+
+- git:
+    uri: https://github.com/turtlebot/turtlebot_apps.git
+    local-name: turtlebot_apps
+    version: capabilities_integration
+
+- git:
+    uri: https://github.com/turtlebot/turtlebot_viz.git
+    local-name: turtlebot_viz
+    version: hydro-devel
+
+# ROCON stacks
+
+- git:
+    uri: https://github.com/robotics-in-concert/rocon_app_platform.git
+    local-name: rocon_app_platform
+    version: hydro-devel
+
+- git:
+    uri: https://github.com/robotics-in-concert/rocon_msgs.git
+    local-name: rocon_msgs
+    version: hydro-devel
+
+# ROCON forks for now, change to OSRF when stable
+- git:
+    uri: https://github.com/robotics-in-concert/capabilities.git
+    local-name: capabilities
+    version: master
+
+- git:
+    uri: https://github.com/robotics-in-concert/std_capabilities.git
+    local-name: std_capabilities
+    version: initial_specs
+
+- git:
+    uri: https://github.com/robotics-in-concert/rqt_capabilities.git
+    local-name: rqt_capabilities
+    version: master

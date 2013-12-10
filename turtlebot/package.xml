@@ -17,8 +17,10 @@
   <url type="bugtracker">https://github.com/turtlebot/turtlebot/issues</url>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <run_depend>turtlebot_bringup</run_depend>
+
   <run_depend>linux_hardware</run_depend>
+  <run_depend>turtlebot_bringup</run_depend>
+  <run_depend>turtlebot_capabilities</run_depend>
   <run_depend>turtlebot_description</run_depend>
 
   <export>

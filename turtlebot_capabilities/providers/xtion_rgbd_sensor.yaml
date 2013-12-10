@@ -1,0 +1,12 @@
+%YAML 1.1
+---
+name: xtion_rgbd_sensor
+spec_version: 1
+spec_type: provider
+description: 'Implements the standard RGBDSensor capability using the Xtion on the TurtleBot.'
+implements: std_capabilities/RGBDSensor
+launch_file: 'launch/xtion_rgbd_sensor.launch'
+depends_on:
+    # This is requried for a proper TF tree
+    'turtlebot_capabilities/TurtleBotBringup':
+        provider: 'turtlebot_capabilities/tb_bringup'

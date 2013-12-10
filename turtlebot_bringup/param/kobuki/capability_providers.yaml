@@ -1,0 +1,7 @@
+# default providers for the Kobuki
+defaults:
+  'kobuki_capabilities/KobukiBringup': 'kobuki_capabilities/kobuki_bringup'
+  'kobuki_capabilities/KobukiLED1': 'kobuki_capabilities/kobuki_led1'
+  'kobuki_capabilities/KobukiLED2': 'kobuki_capabilities/kobuki_led2'
+  'kobuki_capabilities/LED': 'kobuki_capabilities/kobuki_led'
+  'std_capabilities/DifferentialMobileBase': 'kobuki_capabilities/kobuki_differential_mobile_base'
