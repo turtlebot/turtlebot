@@ -77,29 +77,25 @@
 - git:
     uri: https://github.com/robotics-in-concert/rocon_app_platform.git
     local-name: rocon_app_platform
-    version: capabilities_integration
+    version: hydro-devel
 
 - git:
     uri: https://github.com/robotics-in-concert/rocon_msgs.git
     local-name: rocon_msgs
-    version: capabilities_integration
+    version: hydro-devel
 
-# OSRF stacks
-
+# ROCON forks for now, change to OSRF when stable
 - git:
-    uri: https://github.com/osrf/capabilities.git
+    uri: https://github.com/robotics-in-concert/capabilities.git
     local-name: capabilities
     version: master
 
-
-# Special forks
-
 - git:
-    uri: https://github.com/bit-pirate/std_capabilities.git
+    uri: https://github.com/robotics-in-concert/std_capabilities.git
     local-name: std_capabilities
-    version: bit-pirate
+    version: initial_specs
 
 - git:
-    uri: https://github.com/bit-pirate/turtlebot2_capabilities.git
-    local-name: turtlebot2_capabilities
-    version: bit-pirate
+    uri: https://github.com/robotics-in-concert/rqt_capabilities.git
+    local-name: rqt_capabilities
+    version: master

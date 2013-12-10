@@ -29,6 +29,6 @@
     <rosparam param="blacklist">
       - 'std_capabilities/Navigation2D'
       - 'std_capabilities/MultiEchoLaserSensor'
-    </rosparam> -->
+    </rosparam>
   </node>
 </launch>
