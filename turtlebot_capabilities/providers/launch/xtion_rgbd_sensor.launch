@@ -1,0 +1,9 @@
+<launch>
+    <!-- this should probably be tuned for performance -->
+    <!-- to help with that the launch files should be restructured -->
+    <!-- to better support turning features on and off dynamically -->
+    <!-- (like fake laser scan) -->
+    <include file="$(find turtlebot_bringup)/launch/3dsensor.launch">
+        <arg name="camera" value="camera" /> <!-- TODO: change to 'rgbd_sensor' (requires change in URDF) -->
+    </include>
+</launch>

@@ -1,0 +1,5 @@
+<launch>
+    <!-- TODO: start the depthimage_to_laserscan nodelete here -->
+    <!-- rather than having it started with the 3dsensor.launch -->
+    <node pkg="turtlebot_capabilities" type="placeholder.py" name="placeholder"/>
+</launch>

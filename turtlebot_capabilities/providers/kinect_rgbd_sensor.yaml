@@ -1,0 +1,21 @@
+%YAML 1.1
+---
+name: kinect_rgbd_sensor
+spec_version: 1
+spec_type: provider
+description: 'Implements the standard RGBDSensor capability using the Kinect on the TurtleBot.'
+implements: std_capabilities/RGBDSensor
+launch_file: 'launch/kinect_rgbd_sensor.launch'
+depends_on:
+    # This is requried for a proper TF tree
+    'turtlebot_capabilities/TurtleBotBringup':
+        provider: 'turtlebot_capabilities/tb_bringup'
+remappings:
+  topics:
+    '/rgbd_sensor/rgb/camera_info': '/camera/rgb/camera_info'
+    '/rgbd_sensor/rgb/image_raw': '/camera/rgb/image_raw'
+    '/rgbd_sensor/rgb/image/color': '/camera/rgb/image/color'
+    '/rgbd_sensor/depth/camera_info': '/camera/depth/camera_info'
+    '/rgbd_sensor/depth/image_raw': '/camera/depth/image_raw'
+    '/rgbd_sensor/depth/points': '/camera/depth/points'
+    '/rgbd_sensor/depth_registered/points': '/camera/depth_registered/points'

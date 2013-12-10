@@ -23,7 +23,7 @@
     <rosparam param="package_whitelist">
       - minimal_pkg
       - std_capabilities
-      - turtlebot2_capabilities
+      - turtlebot_capabilities
       - kobuki_capabilities
     </rosparam>
     <rosparam param="blacklist">
