@@ -2,6 +2,12 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.2.3 (2014-01-14)
+------------------
+* Issue `#113 <https://github.com/turtlebot/turtlebot/issues/113>`_: add missing dependency on yocs_cmd_vel_mux.
+* Issue `#102 <https://github.com/turtlebot/turtlebot/issues/102>`_: Battery info fixed for new laptops.
+* Contributors: Jorge Santos
+
 2.2.2 (2013-10-14)
 ------------------
 * Rename cmd_vel_mux as yocs_cmd_vel_mux.
