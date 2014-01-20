@@ -97,6 +97,9 @@ void TurtlebotTeleop::publish()
   if (deadman_pressed_)
   {
     vel_pub_.publish(last_published_);
+  }else
+  {
+    vel_pub_.publish(*new geometry_msgs::Twist());
   }
 
 }
