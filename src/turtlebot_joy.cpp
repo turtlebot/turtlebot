@@ -53,6 +53,7 @@ private:
   geometry_msgs::Twist last_published_;
   boost::mutex publish_mutex_;
   bool deadman_pressed_;
+  bool zero_twist_published_;
   ros::Timer timer_;
 
 };
@@ -71,10 +72,10 @@ TurtlebotTeleop::TurtlebotTeleop():
   ph_.param("scale_angular", a_scale_, a_scale_);
   ph_.param("scale_linear", l_scale_, l_scale_);
 
-  //Solve bug documented in https://github.com/turtlebot/turtlebot_apps/issues/71
   deadman_pressed_ = false;
+  zero_twist_published_ = false;
 
-  vel_pub_ = ph_.advertise<geometry_msgs::Twist>("cmd_vel", 1);
+  vel_pub_ = ph_.advertise<geometry_msgs::Twist>("cmd_vel", 1, true);
   joy_sub_ = nh_.subscribe<sensor_msgs::Joy>("joy", 10, &TurtlebotTeleop::joyCallback, this);
 
   timer_ = nh_.createTimer(ros::Duration(0.1), boost::bind(&TurtlebotTeleop::publish, this));
@@ -87,7 +88,6 @@ void TurtlebotTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
   vel.linear.x = l_scale_*joy->axes[linear_];
   last_published_ = vel;
   deadman_pressed_ = joy->buttons[deadman_axis_];
-
 }
 
 void TurtlebotTeleop::publish()
@@ -97,12 +97,15 @@ void TurtlebotTeleop::publish()
   if (deadman_pressed_)
   {
     vel_pub_.publish(last_published_);
-  }else
+    zero_twist_published_=false;
+  }
+  else if(!deadman_pressed_ && !zero_twist_published_)
   {
     vel_pub_.publish(*new geometry_msgs::Twist());
+    zero_twist_published_=true;
   }
-
 }
+
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "turtlebot_teleop");
