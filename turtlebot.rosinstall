@@ -6,6 +6,9 @@
 #
 ##############################################################################
 
+# IT should together with rocon 
+# https://raw.github.com/robotics-in-concert/rocon/hydro-dvel/rocon.rosinstall
+
 # Kobuki / Yujin stacks
 
 - git:
