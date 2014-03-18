@@ -13,7 +13,7 @@
   <!-- To run concert mode, set an empty string or use your concert's hub name specifically -->
   <!-- For concert mode, you should also disable the auto_invite in paired public.launch -->
   <arg name="hub_whitelist" default="$(optenv ROBOT_HUB_WHITELIST Internal Hub)"/>
-  <arg name="rapp_lists" default="$(optenv RAPP_LIST rocon_apps/rocon.rapps;turtlebot_bringup/turtlebot.rapps)"/>
+  <arg name="rapp_package_whitelist" default="$(optenv RAPP_PACKAGE_WHITELIST [rocon_apps, turtlebot_core_apps]"/>
   <arg name="robot_icon" default="turtlebot_bringup/turtlebot2.png"/>
   <arg name="gateway_watch_loop_period" default="10"/> <!-- Polling period for multimaster advertising/flipping -->
 
@@ -28,7 +28,7 @@
     <arg name="robot_name" value="$(arg robot_name)"/>
     <arg name="robot_type" value="$(arg robot_type)"/>
     <arg name="robot_icon" value="$(arg robot_icon)"/>
-    <arg name="rapp_lists" value="$(arg rapp_lists)"/>
+    <arg name="rapp_package_whitelist" value="$(arg rapp_package_whitelist)"/>
     <arg name="gateway_watch_loop_period" value="$(arg gateway_watch_loop_period)"/>
     <arg name="disable_uuids" value="true"/>
     <arg name="hub_whitelist" value="$(arg hub_whitelist)"/>
