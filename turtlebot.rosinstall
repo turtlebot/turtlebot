@@ -6,6 +6,9 @@
 #
 ##############################################################################
 
+# Make sure to install these ROCON packages as well:
+# https://raw.github.com/robotics-in-concert/rocon/hydro-devel/rocon_app_platform.rosinstall
+
 # Kobuki / Yujin stacks
 
 - git:
