@@ -6,8 +6,8 @@
 #
 ##############################################################################
 
-# IT should together with rocon 
-# https://raw.github.com/robotics-in-concert/rocon/hydro-dvel/rocon.rosinstall
+# IT should together with rocon_app_platform 
+# https://raw.github.com/robotics-in-concert/rocon/hydro-devel/rocon_app_platform.rosinstall
 
 # Kobuki / Yujin stacks
 
