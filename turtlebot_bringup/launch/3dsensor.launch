@@ -20,7 +20,7 @@
   <arg name="publish_tf"  default="false"/>
 
   <!-- Factory-calibrated depth registration -->
-  <arg name="depth_registration"              default="true"/>
+  <arg name="depth_registration"              default="false"/>
 
   <!-- Processing Modules -->
   <arg name="rgb_processing"                  default="true"/>
