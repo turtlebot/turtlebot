@@ -2,6 +2,12 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* add depth argument to configure scan_processing. With this configuration scan works for both depth_regratation false and true
+* Fixing "Error with diagnostics.yaml for roomba `#110 <https://github.com/turtlebot/turtlebot/issues/110>`_"
+* Contributors: Jihoon Lee, Luka Čehovin
+
 2.2.3 (2014-01-14)
 ------------------
 * Issue `#113 <https://github.com/turtlebot/turtlebot/issues/113>`_: add missing dependency on yocs_cmd_vel_mux.

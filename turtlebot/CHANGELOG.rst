@@ -2,6 +2,9 @@
 Changelog for package turtlebot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.2.1 (2013-09-14)
 ------------------
 * CMake logic bugfixes.

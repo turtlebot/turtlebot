@@ -2,6 +2,9 @@
 Changelog for package linux_hardware
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.2.3 (2014-01-14)
 ------------------
 * Issue `#102 <https://github.com/turtlebot/turtlebot/issues/102>`_: Battery info fixed for new laptops and updated kernel.
