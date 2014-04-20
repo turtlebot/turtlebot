@@ -20,6 +20,9 @@
   <!-- Enable breaker 1 for the kinect -->
   <node pkg="create_node" type="kinect_breaker_enabler.py" name="kinect_breaker_enabler"/>
 
+  <!-- Load create and gyro calibration  -->
+  <node pkg="create_node" type="load_calib.py" name="create_load_calibration"/>
+
   <!-- The odometry estimator -->
   <node pkg="robot_pose_ekf" type="robot_pose_ekf" name="robot_pose_ekf">
     <remap from="imu_data" to="mobile_base/sensors/imu_data"/>
