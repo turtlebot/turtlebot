@@ -1,0 +1,70 @@
+<!--
+  Starts the ROCON app platform
+   
+   * capability server
+   * rapp manager
+   * interactions
+   * zeroconf
+ -->
+
+<launch>
+  <!-- PARAMETERS -->
+  <!-- ****************************** Capabilities ****************************** -->
+  <arg name="capabilities"                      default="true"/> <!-- enable/disable a capability server -->
+  <arg name="capabilities_server_name"          default="capability_server"/>
+  <arg name="capabilities_nodelet_manager_name" default="capability_server_nodelet_manager" />
+  <arg name="capabilities_parameters"           default="$(find turtlebot_bringup)/param/capabilities/defaults_tb2.yaml" /> <!-- defaults_tb.yaml, defaults_tb2.yaml -->
+  <arg name="capabilities_package_whitelist"    default="[kobuki_capabilities, std_capabilities, turtlebot_capabilities]" /> <!-- get capabilities from these packages only -->
+  <arg name="capabilities_blacklist"            default="['std_capabilities/Navigation2D', 'std_capabilities/MultiEchoLaserSensor']" /> <!-- blacklist specific capabilities -->
+
+  <!-- ****************************** Rapp Manager ****************************** -->
+  <arg name="auto_rapp_installation"            default="false"/> <!-- http://wiki.ros.org/rocon_app_manager/Tutorials/indigo/Automatic Rapp Installation -->
+  <arg name="auto_start_rapp"                   default=""/> <!-- autostart a rapp, e.g. rocon_apps/talker -->
+  <arg name="rapp_package_whitelist"            default="[rocon_apps, kobuki_apps, turtlebot_core_apps]"/> <!-- comma separated list of package names -->
+  <arg name="rapp_package_blacklist"            default="[]"/>
+  <arg name="robot_name"                        default="TurtleBot"/>
+  <arg name="robot_type"                        default="turtlebot2"/> <!-- turtlebot, turtlebot2 -->
+  <arg name="robot_icon"                        default="turtlebot_bringup/turtlebot2.png"/>
+  <arg name="screen"                            default="true"/> <!-- verbose output from running apps -->
+  
+  <!-- ***************************** Rocon Master Info ************************** -->
+  <arg name="robot_description"                 default="Kick-ass ROS turtle"/>
+  
+  <!-- ***************************** Interactions ******************************* -->
+  <arg name="interactions"                      default="true"/>
+  <arg name="interactions_list"                 default="['turtlebot_bringup/turtlebot.interactions']"/>
+  
+  <!-- ******************************** Zeroconf ******************************** -->
+  <arg name="zeroconf"                          default="true"/>
+  <arg name="zeroconf_name"                     default="$(arg robot_name)"/>
+  <arg name="zeroconf_port"                     default="11311"/>
+
+  <!-- LAUNCHER -->
+  <include file="$(find rocon_app_manager)/launch/standalone.launch">
+    <!-- Capabilities -->
+    <arg name="capabilities"                      value="$(arg capabilities)" />
+    <arg name="capabilities_blacklist"            value="$(arg capabilities_blacklist)" />
+    <arg name="capabilities_nodelet_manager_name" value="$(arg capabilities_nodelet_manager_name)" />
+    <arg name="capabilities_server_name"          value="$(arg capabilities_server_name)" />
+    <arg name="capabilities_package_whitelist"    value="$(arg capabilities_package_whitelist)" />
+    <arg name="capabilities_parameters"           value="$(arg capabilities_parameters)" />
+    <!-- Rapp Manager -->
+    <arg name="robot_name"                        value="$(arg robot_name)" />
+    <arg name="robot_type"                        value="$(arg robot_type)" />
+    <arg name="robot_icon"                        value="$(arg robot_icon)" />
+    <arg name="rapp_package_whitelist"            value="$(arg rapp_package_whitelist)" />
+    <arg name="rapp_package_blacklist"            value="$(arg rapp_package_blacklist)" />
+    <arg name="auto_start_rapp"                   value="$(arg auto_start_rapp)" />
+    <arg name="screen"                            value="$(arg screen)" />
+    <arg name="auto_rapp_installation"            value="$(arg auto_rapp_installation)" />
+    <!-- Rocon Master Info -->
+    <arg name="robot_description"                 value="$(arg robot_description)" />
+    <!-- Interactions -->
+    <arg name="interactions"                      value="$(arg interactions)"/>
+    <arg name="interactions_list"                 value="$(arg interactions_list)"/>
+    <!-- Zeroconf -->
+    <arg name="zeroconf"                          value="$(arg zeroconf)"/>
+    <arg name="zeroconf_name"                     value="$(arg zeroconf_name)"/>
+    <arg name="zeroconf_port"                     value="$(arg zeroconf_port)"/>
+  </include>
+</launch>

@@ -1,0 +1,36 @@
+- name: rocon_master_info
+  role: 'PC'
+  compatibility: rocon:/pc/*/*
+  display_name: ROCON Master Info
+  description: Generic information about this master.
+  max: -1
+  icon:
+    resource_name: turtlebot_bringup/turtlebot2.png
+- name: rocon_qt_listener/qt_listener.py
+  role: Pairing
+  compatibility: rocon:/pc/*/*
+  display_name: Qt Listener
+  description: A pyqt listener for testing pairing.
+  max: -1
+  remappings:
+    - remap_from: chatter
+      remap_to: /conversation/chatter
+  pairing:
+    rapp: rocon_apps/talker
+    remappings:
+      - remap_from: chatter
+        remap_to: /conversation/chatter
+- name: turtlebot_teleop/keyboard_teleop.launch
+  role: 'Pairing'
+  compatibility: rocon:/pc/*/*
+  display_name: TurtleBot Keyop
+  description: Teleop the TurleBot using your keyboard
+  max: -1
+  icon:
+    resource_name: turtlebot_bringup/turtlebot2.png
+  remappings:
+    - remap_from: turtlebot_teleop_keyboard/cmd_vel
+      remap_to: /teleop/cmd_vel
+  pairing:
+    rapp: rocon_apps/teleop
+    remappings: []
