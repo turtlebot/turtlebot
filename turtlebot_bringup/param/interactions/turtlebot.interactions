@@ -34,3 +34,19 @@
   pairing:
     rapp: rocon_apps/teleop
     remappings: []
+- name: rocon_qt_teleop/rocon_teleop.launch
+  role: 'Pairing'
+  compatibility: rocon:/pc/*/*
+  display_name: TurtleBot Qt Teleop
+  description: Teleop the TurleBot using the Qt Teleop Joystick
+  max: -1
+  icon:
+    resource_name: rocon_apps/joystick.png
+  remappings:
+    - remap_from: cmd_vel
+      remap_to: /teleop/cmd_vel
+    - remap_from: compressed_image
+      remap_to: /teleop/compressed_image
+  pairing:
+    rapp: rocon_apps/teleop
+    remappings: []
