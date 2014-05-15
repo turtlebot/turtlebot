@@ -34,7 +34,7 @@
   pairing:
     rapp: rocon_apps/teleop
     remappings: []
-- name: rocon_qt_teleop/rocon_teleop.launch
+- name: rocon_teleop
   role: 'Pairing'
   compatibility: rocon:/pc/*/*
   display_name: TurtleBot Qt Teleop
@@ -47,6 +47,9 @@
       remap_to: /teleop/cmd_vel
     - remap_from: compressed_image
       remap_to: /teleop/compressed_image
+  parameters:
+      maximum_linear_velocity: 0.5
+      maximum_angular_velocity: 0.75
   pairing:
     rapp: rocon_apps/teleop
     remappings: []
