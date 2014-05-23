@@ -2,6 +2,9 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.2.4 (2014-04-07)
 ------------------
 * add depth argument to configure scan_processing. With this configuration scan works for both depth_regratation false and true

@@ -2,6 +2,9 @@
 Changelog for package linux_hardware
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.2.4 (2014-04-07)
 ------------------
 
