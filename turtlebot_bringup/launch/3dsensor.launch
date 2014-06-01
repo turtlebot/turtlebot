@@ -9,7 +9,7 @@
   horsepower for your application.
   
   For an example of disabling processing modules, check
-  any of the turtlebot_core_apps (e.g. android_make_a_map.launch
+  any of the turtlebot_rapps (e.g. android_make_a_map.launch
   only enables scan_processing for depthimage_to_laserscan and
   rgb_processing for the android tele-view).
 -->
