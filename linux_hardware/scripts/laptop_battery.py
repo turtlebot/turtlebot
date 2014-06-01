@@ -220,8 +220,8 @@ class LaptopBatteryMonitor(object):
         self._last_state_update = 0
         self._msg = LaptopChargeStatus()
         
-        self._power_pub = rospy.Publisher('laptop_charge', LaptopChargeStatus, latch=True)
-        self._diag_pub  = rospy.Publisher('/diagnostics', DiagnosticArray)
+        self._power_pub = rospy.Publisher('laptop_charge', LaptopChargeStatus, latch=True, queue_size=5)
+        self._diag_pub  = rospy.Publisher('/diagnostics', DiagnosticArray, queue_size=5)
         
         # Battery info
         self._batt_acpi_path = rospy.get_param('~acpi_path', "/sys/class/power_supply/BAT0")
