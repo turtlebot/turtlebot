@@ -45,7 +45,7 @@ import math
 import rospy
 import os  # to check path existence
 
-from linux_hardware.msg import LaptopChargeStatus
+from turtlebot_msgs.msg import LaptopChargeStatus
 from diagnostic_msgs.msg import DiagnosticStatus, DiagnosticArray, KeyValue
 
 def _strip_Ah(raw_val):
@@ -249,8 +249,8 @@ class LaptopBatteryMonitor(object):
                     self._batt_last_full_capacity = last_full_cap
                     self._batt_design_capacity    = design_cap
                     self._last_info_update        = rospy.get_time()
-            except Exception, e:
-                rospy.logwarn('Battery : unable to check laptop battery info [%s]' % e)
+            except exceptions.NameError as E:
+                rospy.logwarn('Battery : unable to check laptop battery info [%s][%s]' % (e, type(e)))
                 rospy.signal_shutdown('Battery : unable to check laptop battery info [%s]' % e)
                 
             rate.sleep()
