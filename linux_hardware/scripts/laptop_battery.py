@@ -44,6 +44,7 @@ import yaml
 import math
 import rospy
 import os  # to check path existence
+import exceptions
 
 from turtlebot_msgs.msg import LaptopChargeStatus
 from diagnostic_msgs.msg import DiagnosticStatus, DiagnosticArray, KeyValue
@@ -111,23 +112,26 @@ def _check_battery_info(_battery_acpi_path):
         if os.access(_battery_acpi_path, os.F_OK):
             o = slerp(_battery_acpi_path+'/info')
         else:
-            raise Exception(_battery_acpi_path+' does not exist')
+            raise NameError(_battery_acpi_path + ' does not exist')
         
         batt_info = yaml.load(o)
         design_capacity    = _strip_Ah(batt_info.get('design capacity',    '0 mAh'))
         last_full_capacity = _strip_Ah(batt_info.get('last full capacity', '0 mAh'))
     else:
           # Provided as Wh * 10e5
-        if os.path.exists(_battery_acpi_path + '/energy_full'):
-            design_capacity    = _read_number(_battery_acpi_path + '/energy_full_design')/10e5
-        else:
-            design_capacity    = _read_number(_battery_acpi_path + '/charge_full_design')/10e5
-            
         if os.path.exists(_battery_acpi_path + '/energy_full_design'):
-            last_full_capacity = _read_number(_battery_acpi_path + '/energy_full')/10e5
+            design_capacity    = _read_number(_battery_acpi_path + '/energy_full_design')/10e5
+        elif os.path.exists(_battery_acpi_path + '/charge_full_design'):
+            design_capacity    = _read_number(_battery_acpi_path + '/charge_full_design')/10e5
         else:
-            last_full_capacity = _read_number(_battery_acpi_path + '/charge_full')/10e5
+            raise NameError(_battery_acpi_path + '/charge_full_design || ' + _battery_acpi_path + '/energy_full_design does not exist')
             
+        if os.path.exists(_battery_acpi_path + '/energy_full'):
+            last_full_capacity = _read_number(_battery_acpi_path + '/energy_full')/10e5
+        elif os.path.exists(_battery_acpi_path + '/charge_full'):
+            last_full_capacity = _read_number(_battery_acpi_path + '/charge_full')/10e5
+        else:
+            raise NameError(_battery_acpi_path + '/charge_full || ' + _battery_acpi_path + '/energy_full does not exist')
     return (design_capacity, last_full_capacity)
 
 state_to_val = {'charged':     LaptopChargeStatus.CHARGED,
@@ -189,9 +193,6 @@ def _check_battery_state(_battery_acpi_path):
         rv.present  = _read_number(_battery_acpi_path + '/present') == 1
 
         rv.header.stamp = rospy.get_rostime()
-
-
-
     return rv
 
 def _laptop_charge_to_diag(laptop_msg):
@@ -249,10 +250,9 @@ class LaptopBatteryMonitor(object):
                     self._batt_last_full_capacity = last_full_cap
                     self._batt_design_capacity    = design_cap
                     self._last_info_update        = rospy.get_time()
-            except exceptions.NameError as E:
-                rospy.logwarn('Battery : unable to check laptop battery info [%s][%s]' % (e, type(e)))
+            except NameError as e:
+                rospy.logwarn('Battery : unable to check laptop battery info [%s]' % e)
                 rospy.signal_shutdown('Battery : unable to check laptop battery info [%s]' % e)
-                
             rate.sleep()
 
     def _check_batt_state(self):
