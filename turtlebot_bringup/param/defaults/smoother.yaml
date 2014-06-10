@@ -6,8 +6,8 @@
 speed_lim_v: 0.8
 speed_lim_w: 5.4
 
-accel_lim_v: 0.6
-accel_lim_w: 5.4
+accel_lim_v: 1.0 # maximum is actually 2.0, but we push it down to be smooth
+accel_lim_w: 2.0
 
 # Optional parameters
 frequency: 20.0
