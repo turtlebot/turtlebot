@@ -1,0 +1,94 @@
+#  .-----------------------------------------------------------------.
+# /  .-.                                                         .-.  \
+#|  /   \                                                       /   \  |
+#| |\_.  |              Pairing Interactions                   |    /| |
+#|\|  | /|                                                     |\  | |/|
+#| `---' |                                                     | `---' |
+#|       |                                                     |       | *
+#|       |-----------------------------------------------------|       |
+#\       |                                                     |       /
+# \     /                                                       \     /
+#  `---'                                                         `---'
+
+
+- name: turtlebot_teleop/keyboard_teleop.launch
+  role: Pairing
+  compatibility: rocon:/pc/*/*
+  display_name: TurtleBot Keyop
+  description: Teleop the TurleBot using your keyboard
+  max: -1
+  icon:
+    resource_name: turtlebot_bringup/turtlebot2.png
+  pairing:
+    rapp: turtlebot_rapps/teleop
+    remappings: []
+
+
+- name: rocon_teleop
+  role: Pairing
+  compatibility: rocon:/pc/*/*
+  display_name: TurtleBot Qt Teleop
+  description: Teleop the TurleBot using the Qt Teleop Joystick
+  max: -1
+  icon:
+    resource_name: turtlebot_rapps/joystick.png
+  remappings:
+    - remap_from: cmd_vel
+      remap_to: /teleop/cmd_vel
+    - remap_from: compressed_image
+      remap_to: /teleop/compressed_image
+  parameters:
+      maximum_linear_velocity: 0.5
+      maximum_angular_velocity: 0.75
+  pairing:
+    rapp: turtlebot_rapps/teleop
+    remappings: []
+
+
+- name: rocon_qt_listener/qt_listener.py
+  role: Pairing
+  compatibility: rocon:/pc/*/*
+  display_name: Qt Listener
+  description: A pyqt listener for testing pairing.
+  max: -1
+  remappings:
+    - remap_from: chatter
+      remap_to: /conversation/chatter
+  pairing:
+    rapp: rocon_apps/talker
+    remappings:
+      - remap_from: chatter
+        remap_to: /conversation/chatter
+
+
+- name: ""
+  role: Pairing
+  compatibility: rocon:/pc/*/*
+  display_name: Chirp 
+  description: A strange noise appears 
+  max: -1
+  pairing:
+    rapp: rocon_apps/chirp
+    remappings: []
+
+
+- name: ""
+  role: Pairing
+  compatibility: rocon:/pc/*/*
+  display_name: Follower 
+  description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it. (Currently Broken, DO NOT TRY TO USE)
+  max: -1
+  pairing:
+    rapp: rocon_apps/follower
+    remappings: []
+
+
+- name: turtlebot_rviz_launchers/view_navigation.launch
+  role: Pairing
+  compatibility: rocon:/pc/*/*
+  display_name: Navigation 
+  description: Qt Map Navigation
+  max: -1
+  pairing:
+    rapp: turtlebot_rapps/map_nav
+    remappings: []    
