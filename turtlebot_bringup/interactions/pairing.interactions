@@ -11,6 +11,10 @@
 #  `---'                                                         `---'
 
 
+#####################
+#    Qt Pairing     #
+#####################
+
 - name: turtlebot_teleop/keyboard_teleop.launch
   role: Pairing
   compatibility: rocon:/pc/*/*
@@ -76,7 +80,7 @@
   role: Pairing
   compatibility: rocon:/pc/*/*
   display_name: Follower 
-  description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it. (Currently Broken, DO NOT TRY TO USE)
+  description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it. (Currently Broken)
   max: -1
   pairing:
     rapp: rocon_apps/follower
@@ -86,9 +90,79 @@
 - name: turtlebot_rviz_launchers/view_navigation.launch
   role: Pairing
   compatibility: rocon:/pc/*/*
-  display_name: Navigation 
+  display_name: Qt Navigation 
   description: Qt Map Navigation
   max: -1
   pairing:
     rapp: turtlebot_rapps/map_nav
-    remappings: []    
+    remappings: []
+
+- name: turtlebot_rviz_launchers/view_teleop_navigation.launch
+  role: Pairing
+  compatibility: rocon:/pc/*/*
+  display_name: Qt Make A Map
+  description: Qt Make A Map
+  max: -1
+  pairing:
+    rapp: turtlebot_rapps/make_a_map
+    remappings: []
+
+- name: turtlebot_rviz_launchers/view_robot.launch
+  role: Pairing
+  compatibility: rocon:/pc/*/*
+  display_name: Qt 3D Sensing 
+  description: Qt 3D Sensor viewing
+  max: -1
+  pairing:
+    rapp: turtlebot_rapps/3dsensor
+    remappings: []
+
+
+##########################
+#     Android Pairing    #
+##########################
+
+
+- name: com.github.rosjava.android_apps.map_nav.MainActivity
+  role: Pairing
+  compatibility: rocon:/pc/jellybean
+  display_name: Android Navigation 
+  description: Android Map Navigation
+  max: -1
+  pairing:
+    rapp: turtlebot_rapps/map_nav
+    remappings: []  
+
+
+- name: com.github.rosjava.android_apps.make_a_map.MainActivity
+  role: Pairing
+  compatibility: rocon:/pc/jellybean
+  display_name: Android Make A Map
+  description: Make a map by driving a TurtleBot from an Android device.
+  max: -1
+  pairing:
+    rapp: turtlebot_rapps/make_a_map
+    remappings: []
+
+
+- name: com.github.turtlebot.turtlebot_android.panorama.PanoramaActivity
+  role: Pairing
+  compatibility: rocon:/pc/jellybean
+  display_name: Android Panorama
+  description: Turtlebot makes a 360 degree panorama image.
+  max: -1
+  pairing:
+    rapp: turtlebot_rapps/panorama 
+    remappings: []
+
+
+- name: com.github.turtlebot.turtlebot_android.follower.FollowerActivity
+  role: Pairing
+  compatibility: rocon:/pc/jellybean
+  display_name: Android Follower
+  description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it.
+  max: -1
+  pairing:
+    rapp: turtlebot_rapps/follower 
+    remappings: []
+
