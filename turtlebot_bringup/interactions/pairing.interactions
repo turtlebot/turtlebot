@@ -31,14 +31,14 @@
 - name: rocon_teleop
   role: Pairing
   compatibility: rocon:/pc/*/*
-  display_name: TurtleBot Qt Teleop
+  display_name: Qt Teleop
   description: Teleop the TurleBot using the Qt Teleop Joystick
   max: -1
   icon:
     resource_name: turtlebot_rapps/joystick.png
   remappings:
     - remap_from: cmd_vel
-      remap_to: /teleop/cmd_vel
+      remap_to: /cmd_vel_mux/input/teleop
     - remap_from: compressed_image
       remap_to: /teleop/compressed_image
   parameters:
