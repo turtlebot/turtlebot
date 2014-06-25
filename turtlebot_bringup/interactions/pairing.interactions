@@ -94,7 +94,7 @@
   description: Qt Map Navigation
   max: -1
   pairing:
-    rapp: turtlebot_rapps/qt_map_nav
+    rapp: turtlebot_rapps/map_nav
     remappings: []
 
 - name: turtlebot_rviz_launchers/view_teleop_navigation.launch
@@ -104,7 +104,7 @@
   description: Qt Make A Map
   max: -1
   pairing:
-    rapp: turtlebot_rapps/qt_make_a_map
+    rapp: turtlebot_rapps/make_a_map
     remappings: []
 
 - name: turtlebot_rviz_launchers/view_robot.launch
