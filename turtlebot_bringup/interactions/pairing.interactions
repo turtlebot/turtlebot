@@ -83,7 +83,7 @@
   description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it. (Currently Broken)
   max: -1
   pairing:
-    rapp: rocon_apps/follower
+    rapp: turtlebot_rapps/follower
     remappings: []
 
 

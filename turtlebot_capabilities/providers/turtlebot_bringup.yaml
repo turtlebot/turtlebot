@@ -1,0 +1,14 @@
+%YAML 1.1
+---
+name: turtlebot_bringup
+spec_version: 1
+spec_type: provider
+implements: turtlebot_capabilities/TurtleBotBringup
+launch_file: 'launch/turtlebot_bringup.launch'
+depends_on:
+  'std_capabilities/Diagnostics':
+    provider: 'turtlebot_capabilities/diagnostics'
+  'std_capabilities/DifferentialMobileBase':
+    provider: 'create_capabilities/create_differential_mobile_base'
+  'std_capabilities/RobotStatePublisher':
+    provider: 'turtlebot_capabilities/robot_state_publisher'

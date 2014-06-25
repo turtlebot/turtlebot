@@ -1,10 +1,10 @@
 %YAML 1.1
 ---
-name: tb_bringup
+name: turtlebot2_bringup
 spec_version: 1
 spec_type: provider
 implements: turtlebot_capabilities/TurtleBotBringup
-launch_file: 'launch/tb_bringup.launch'
+launch_file: 'launch/turtlebot2_bringup.launch'
 depends_on:
   'std_capabilities/Diagnostics':
     provider: 'turtlebot_capabilities/diagnostics'

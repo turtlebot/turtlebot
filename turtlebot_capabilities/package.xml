@@ -13,8 +13,8 @@
   <url type="repository">https://github.com/turtlebot/turtlebot</url>
   <url type="bugtracker">https://github.com/turtlebot/turtlebot/issues</url>
 
-  <author email="william@osrfoundation.org">William Woodall</author>
-  <author email="marcus.liebhardt@yujinrobot.com">Marcus Liebhardt</author>
+  <author>William Woodall</author>
+  <author>Marcus Liebhardt</author>
 
   <buildtool_depend>catkin</buildtool_depend>
 
@@ -33,16 +33,19 @@
       providers/diagnostics.yaml
     </capability_provider>
     <capability_provider>
-      providers/kinect_rgbd_sensor.yaml
+      providers/differential_mobile_base.yaml
+    </capability_provider>
+    <capability_provider>
+      providers/rgbd_sensor.yaml
     </capability_provider>
     <capability_provider>
       providers/robot_state_publisher.yaml
     </capability_provider>
     <capability_provider>
-      providers/tb_bringup.yaml
+      providers/turtlebot_bringup.yaml
     </capability_provider>
     <capability_provider>
-      providers/xtion_rgbd_sensor.yaml
+      providers/turtlebot2_bringup.yaml
     </capability_provider>
   </export>
 </package>
