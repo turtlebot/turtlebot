@@ -1,0 +1,16 @@
+<!-- Launcher for the TurtleBot's bringup provider -->
+<launch>
+  <arg name="battery"
+       default="$(optenv TURTLEBOT_BATTERY /proc/acpi/battery/BAT0)"/>  <!-- /proc/acpi/battery/BAT0 -->
+  <arg name="simulation" default="$(optenv TURTLEBOT_SIMULATION false)"/>
+
+  <param name="/use_sim_time" value="$(arg simulation)"/>
+  
+  <include file="$(find turtlebot_bringup)/launch/includes/netbook.launch.xml">
+    <arg name="battery" value="$(arg battery)" />
+  </include>
+  
+  <!-- Run placeholder node to keep the bringup launcher alive, in case no battery exists, since in that case -->
+  <!-- the battery status node terminates, with it the launcher and with it the capability. -->
+  <node pkg="turtlebot_capabilities" type="placeholder.py" name="turtlebot_bringup"/>
+</launch>

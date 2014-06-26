@@ -1,0 +1,36 @@
+#  .-----------------------------------------------------------------.
+# /  .-.                                                         .-.  \
+#|  /   \                                                       /   \  |
+#| |\_.  |                Admin Interactions                   |    /| |
+#|\|  | /|                                                     |\  | |/|
+#| `---' |                                                     | `---' |
+#|       |                                                     |       | *
+#|       |-----------------------------------------------------|       |
+#\       |                                                     |       /
+# \     /                                                       \     /
+#  `---'                                                         `---'
+
+- name: rocon_master_info
+  role: 'Admin'
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  display_name: Rocon Master Info (Direct Executable)
+  description: Generic information about this master.
+  max: -1
+
+- name: rqt_graph/rqt_graph
+  role: 'Admin'
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  display_name: Rqt Graph (Ros Runnable)
+  description: Graph of all topics and services in the concert workspace.
+  max: -1
+  icon:
+    resource_name: rocon_bubble_icons/rqt.png  
+
+- name: rqt_console/rqt_console
+  role: 'Admin'
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  display_name: Rqt Console (Ros Runnable)
+  description: Shows the Rqt Console
+  max: -1
+  icon:
+    resource_name: rocon_bubble_icons/rqt.png
