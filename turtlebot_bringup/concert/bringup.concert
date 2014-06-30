@@ -1,4 +1,0 @@
-<concert>
-    <launch package="turtlebot_bringup" name="paired_public.launch" port="11311"/>
-    <launch package="turtlebot_bringup" name="minimal_with_appmanager.launch" port="11312"/>
-</concert>
