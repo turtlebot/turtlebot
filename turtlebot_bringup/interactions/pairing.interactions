@@ -45,7 +45,7 @@
       maximum_linear_velocity: 0.5
       maximum_angular_velocity: 0.75
   pairing:
-    rapp: turtlebot_rapps/teleop
+    rapp: rocon_apps/teleop
     remappings: []
 
 
