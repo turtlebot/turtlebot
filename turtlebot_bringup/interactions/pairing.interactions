@@ -17,21 +17,21 @@
 
 - name: turtlebot_teleop/keyboard_teleop.launch
   role: PC Pairing
-  compatibility: rocon:/pc/*/*
-  display_name: TurtleBot Keyop
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  display_name: Keyboard Teleop 
   description: Teleop the TurleBot using your keyboard
   max: -1
   icon:
     resource_name: turtlebot_bringup/turtlebot2.png
   pairing:
-    rapp: turtlebot_rapps/teleop
+    rapp: rocon_apps/teleop
     remappings: []
 
 
 - name: rocon_teleop
   role: PC Pairing
-  compatibility: rocon:/pc/*/*
-  display_name: Qt Teleop
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  display_name: Qt Joystick Teleop
   description: Teleop the TurleBot using the Qt Teleop Joystick
   max: -1
   icon:
@@ -51,8 +51,8 @@
 
 - name: rocon_qt_listener/qt_listener.py
   role: PC Pairing
-  compatibility: rocon:/pc/*/*
-  display_name: Qt Listener
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  display_name: Listener
   description: A pyqt listener for testing pairing.
   max: -1
   remappings:
@@ -67,7 +67,7 @@
 
 - name: ""
   role: PC Pairing
-  compatibility: rocon:/pc/*/*
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
   display_name: Chirp 
   description: A strange noise appears 
   max: -1
@@ -78,7 +78,7 @@
 
 - name: ""
   role: PC Pairing
-  compatibility: rocon:/pc/*/*
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
   display_name: Follower 
   description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it. (Currently Broken)
   max: -1
@@ -89,8 +89,8 @@
 
 - name: turtlebot_rviz_launchers/view_navigation.launch
   role: PC Pairing
-  compatibility: rocon:/pc/*/*
-  display_name: Qt Navigation 
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  display_name: Navigation 
   description: Qt Map Navigation
   max: -1
   pairing:
@@ -99,8 +99,8 @@
 
 - name: turtlebot_rviz_launchers/view_teleop_navigation.launch
   role: PC Pairing
-  compatibility: rocon:/pc/*/*
-  display_name: Qt Make A Map
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  display_name: Make A Map
   description: Qt Make A Map
   max: -1
   pairing:
@@ -109,8 +109,8 @@
 
 - name: turtlebot_rviz_launchers/view_robot.launch
   role: PC Pairing
-  compatibility: rocon:/pc/*/*
-  display_name: Qt 3D Sensing 
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  display_name: 3D Sensing 
   description: Qt 3D Sensor viewing
   max: -1
   pairing:
@@ -125,9 +125,9 @@
 
 - name: com.github.rosjava.android_apps.map_nav.MainActivity
   role: Android Pairing
-  compatibility: rocon:/pc/kitkat
-  display_name: Android Navigation 
-  description: Android Map Navigation
+  compatibility: rocon:/*/*/indigo/jellybean
+  display_name: Map Navigation 
+  description: Android navigation of a known map 
   max: -1
   pairing:
     rapp: turtlebot_rapps/map_nav
@@ -136,8 +136,8 @@
 
 - name: com.github.rosjava.android_apps.make_a_map.MainActivity
   role: Android Pairing
-  compatibility: rocon:/pc/kitkat
-  display_name: Android Make A Map
+  compatibility: rocon:/*/*/indigo/jellybean
+  display_name: Make A Map
   description: Make a map by driving a TurtleBot from an Android device.
   max: -1
   pairing:
@@ -147,8 +147,8 @@
 
 - name: com.github.turtlebot.turtlebot_android.panorama.PanoramaActivity
   role: Android Pairing
-  compatibility: rocon:/pc/kitkat
-  display_name: Android Panorama
+  compatibility: rocon:/*/*/indigo/jellybean
+  display_name: Panorama
   description: Turtlebot makes a 360 degree panorama image.
   max: -1
   pairing:
@@ -158,8 +158,8 @@
 
 - name: com.github.turtlebot.turtlebot_android.follower.FollowerActivity
   role: Android Pairing
-  compatibility: rocon:/pc/kitkat
-  display_name: Android Follower
+  compatibility: rocon:/*/*/indigo/jellybean
+  display_name: Follower
   description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it.
   max: -1
   pairing:
@@ -168,9 +168,9 @@
 
 - name: com.github.rosjava.android_remocons.listener.Listener
   role: Android Pairing
-  compatibility: rocon:/pc/kitkat
-  display_name: Android Listener
-  description: A pyqt listener for testing pairing.
+  compatibility: rocon:/*/*/indigo/jellybean
+  display_name: Listener
+  description: A Android listener for testing pairing.
   max: -1
   remappings:
     - remap_from: chatter
@@ -183,9 +183,9 @@
 
 - name: com.github.rosjava.android_apps.teleop.MainActivity
   role: Android Pairing
-  compatibility: rocon:/pc/kitkat
-  display_name: Android Teleop
-  description: Teleop the TurleBot using an Android Device
+  compatibility: rocon:/*/*/indigo/jellybean
+  display_name: Teleop
+  description: Teleop the TurtleBot using an Android Device
   max: -1
   icon:
     resource_name: turtlebot_rapps/joystick.png
