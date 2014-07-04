@@ -1,12 +1,14 @@
 <launch>
   <!-- Turtlebot -->
 
-  <arg name="base"       default="$(env TURTLEBOT_BASE)"/>  <!-- create, roomba -->
-  <arg name="battery"    default="$(env TURTLEBOT_BATTERY)"/>  <!-- /proc/acpi/battery/BAT0 in 2.6 or earlier kernels-->
-  <arg name="stacks"     default="$(env TURTLEBOT_STACKS)"/>  <!-- circles, hexagons -->
-  <arg name="3d_sensor"  default="$(env TURTLEBOT_3D_SENSOR)"/>  <!-- kinect, asus_xtion_pro -->
-  <arg name="simulation" default="$(env TURTLEBOT_SIMULATION)"/>
-  <arg name="serialport" default="$(env TURTLEBOT_SERIAL_PORT)"/> <!-- /dev/ttyUSB0, /dev/ttyS0 -->
+  <arg name="base"             default="$(env TURTLEBOT_BASE)"/>  <!-- create, roomba -->
+  <arg name="battery"          default="$(env TURTLEBOT_BATTERY)"/>  <!-- /proc/acpi/battery/BAT0 in 2.6 or earlier kernels-->
+  <arg name="stacks"           default="$(env TURTLEBOT_STACKS)"/>  <!-- circles, hexagons -->
+  <arg name="3d_sensor"        default="$(env TURTLEBOT_3D_SENSOR)"/>  <!-- kinect, asus_xtion_pro -->
+  <arg name="simulation"       default="$(env TURTLEBOT_SIMULATION)"/>
+  <arg name="serialport"       default="$(env TURTLEBOT_SERIAL_PORT)"/> <!-- /dev/ttyUSB0, /dev/ttyS0 -->
+  <arg name="robot_name"       default="$(env ROBOT_NAME)"/>
+  <arg name="robot_type"       default="$(env ROBOT_TYPE)"/> 
 
   <param name="/use_sim_time" value="$(arg simulation)"/>
 
@@ -28,8 +30,6 @@
   <arg name="auto_start_rapp"                   default=""/> <!-- autostart a rapp, e.g. rocon_apps/talker -->
   <arg name="rapp_package_whitelist"            default="[rocon_apps, turtlebot_rapps]"/> <!-- comma separated list of package names -->
   <arg name="rapp_package_blacklist"            default="[]"/>
-  <arg name="robot_name"                        default="turtlebot"/>
-  <arg name="robot_type"                        default="turtlebot"/> <!-- turtlebot, turtlebot2 -->
   <arg name="robot_icon"                        default="turtlebot_bringup/turtlebot2.png"/>
   <arg name="screen"                            default="true"/> <!-- verbose output from running apps -->
 
