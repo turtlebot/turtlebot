@@ -1,0 +1,92 @@
+<launch>
+  <!-- Turtlebot -->
+  <arg name="base"             default="$(env TURTLEBOT_BASE)"/>  <!-- create, roomba -->
+  <arg name="battery"          default="$(env TURTLEBOT_BATTERY)"/>  <!-- /proc/acpi/battery/BAT0 in 2.6 or earlier kernels-->
+  <arg name="stacks"           default="$(env TURTLEBOT_STACKS)"/>  <!-- circles, hexagons -->
+  <arg name="3d_sensor"        default="$(env TURTLEBOT_3D_SENSOR)"/>  <!-- kinect, asus_xtion_pro -->
+  <arg name="simulation"       default="$(env TURTLEBOT_SIMULATION)"/>
+  <arg name="serialport"       default="$(env TURTLEBOT_SERIAL_PORT)"/> <!-- /dev/ttyUSB0, /dev/ttyS0 -->
+  <arg name="robot_name"       default="$(env ROBOT_NAME)"/>
+  <arg name="robot_type"       default="$(env ROBOT_TYPE)"/> 
+
+  <param name="/use_sim_time" value="$(arg simulation)"/>
+
+  <include file="$(find turtlebot_bringup)/launch/includes/robot.launch.xml">
+    <arg name="base" value="$(arg base)" />
+    <arg name="stacks" value="$(arg stacks)" />
+    <arg name="3d_sensor" value="$(arg 3d_sensor)" />
+  </include>
+  <include file="$(find turtlebot_bringup)/launch/includes/mobile_base.launch.xml">
+    <arg name="base" value="$(arg base)" />
+    <arg name="serialport" value="$(arg serialport)" />
+  </include>
+  <include file="$(find turtlebot_bringup)/launch/includes/netbook.launch.xml">
+    <arg name="battery" value="$(arg battery)" />
+  </include>
+
+  <!-- Rapp Manager --> 
+  <arg name="rapp_auto_installation"            default="false"/> <!-- http://wiki.ros.org/rocon_app_manager/Tutorials/indigo/Automatic Rapp Installation -->
+  <arg name="rapp_package_whitelist"            default="[rocon_apps, turtlebot_rapps]"/> <!-- comma separated list of package names -->
+  <arg name="rapp_package_blacklist"            default="[]"/>
+  <arg name="robot_icon"                        default="turtlebot_bringup/turtlebot2.png"/>
+  <arg name="screen"                            default="true"/> <!-- verbose output from running apps -->
+
+  <!-- ***************************** Rocon Master Info ************************** -->
+  <arg name="robot_description"                 default="Kick-ass ROS turtle"/>
+
+  <!-- Capabilities --> 
+  <arg name="capabilities"                      default="true"/> <!-- enable/disable a capability server -->
+  <arg name="capabilities_server_name"          default="capability_server"/>
+  <arg name="capabilities_nodelet_manager_name" default="capability_server_nodelet_manager" />
+  <arg name="capabilities_parameters"           default="$(find turtlebot_bringup)/param/capabilities/defaults_tb2.yaml" /> <!-- defaults_tb.yaml, defaults_tb2.yaml -->
+  <arg name="capabilities_package_whitelist"    default="[kobuki_capabilities, std_capabilities, turtlebot_capabilities]" /> <!-- get capabilities from these packages only -->
+  <arg name="capabilities_blacklist"            default="['std_capabilities/Navigation2D', 'std_capabilities/MultiEchoLaserSensor']" /> <!-- blacklist specific capabilities -->
+
+  <!-- Interactions --> 
+  <!-- disable interactions for now. See issue https://github.com/robotics-in-concert/rocon_tools/issues/57--> 
+  <arg name="interactions"      default="false"/>
+  <arg name="interactions_list" default="$(optenv INTERACTIONS_LIST [turtlebot_bringup/admin.interactions, turtlebot_bringup/documentation.interactions, turtlebot_bringup/pairing.interactions])"/>
+
+  <!-- Connectivity -->
+  <arg name="robot_unique_name"                 default="true"/>
+  <arg name="concert_whitelist"                 default=""/>
+  <arg name="local_machine_only"                default="false"/>
+  <arg name="concert_watch_period"              default="10"/>
+  <arg name="firewall"                          default="false"/>
+
+  <!-- Rapp Manager Concert Client mode -->
+  <include file="$(find rocon_app_manager)/launch/concert_client.launch">
+
+    <!-- Rapp Manager --> 
+    <arg name="robot_name"                        value="$(arg robot_name)" />
+    <arg name="robot_type"                        value="$(arg robot_type)" />
+    <arg name="robot_icon"                        value="$(arg robot_icon)" />
+    <arg name="rapp_package_whitelist"            value="$(arg rapp_package_whitelist)" />
+    <arg name="rapp_package_blacklist"            value="$(arg rapp_package_blacklist)" />
+    <arg name="screen"                            value="$(arg screen)" />
+    <arg name="rapp_auto_installation"            value="$(arg rapp_auto_installation)" />
+
+    <!-- Rocon Master Info -->
+    <arg name="robot_description"                 value="$(arg robot_description)" />
+
+    <!-- Capabilities --> 
+    <arg name="capabilities"                      value="$(arg capabilities)" />
+    <arg name="capabilities_blacklist"            value="$(arg capabilities_blacklist)" />
+    <arg name="capabilities_nodelet_manager_name" value="$(arg capabilities_nodelet_manager_name)" />
+    <arg name="capabilities_server_name"          value="$(arg capabilities_server_name)" />
+    <arg name="capabilities_package_whitelist"    value="$(arg capabilities_package_whitelist)" />
+    <arg name="capabilities_parameters"           value="$(arg capabilities_parameters)" />
+
+    <!-- Interactions --> 
+    <arg name="interactions"                      value="$(arg interactions)"/>
+    <arg name="interactions_list"                 value="$(arg interactions_list)"/>
+
+    <!-- Connectivity -->
+    <arg name="firewall"                          value="$(arg firewall)"/>
+    <arg name="robot_unique_name"                 value="$(arg robot_unique_name)"/>
+    <arg name="concert_watch_period"              value="$(arg concert_watch_period)"/>
+    <arg name="concert_whitelist"                 value="$(arg concert_whitelist)"/>
+    <arg name="local_machine_only"                value="$(arg local_remote_controllers_only"/>
+  </include>
+
+</launch>
