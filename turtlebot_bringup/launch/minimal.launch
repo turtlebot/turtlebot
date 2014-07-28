@@ -47,7 +47,8 @@
   <!-- Interactions --> 
   <arg name="interactions"      default="true"/>
   <arg name="interactions_list" default="$(optenv INTERACTIONS_LIST [turtlebot_bringup/admin.interactions, turtlebot_bringup/documentation.interactions, turtlebot_bringup/pairing.interactions])"/>
-
+  <arg name="rosbridge_address" default="localhost"/>
+  <arg name="rosbridge_port"    default="9090"/>
   <!-- Zeroconf -->
   <arg name="zeroconf"                          default="true"/>
   <arg name="zeroconf_name"                     default="$(arg robot_name)"/>
@@ -80,6 +81,8 @@
     <!-- Interactions --> 
     <arg name="interactions"                      value="$(arg interactions)"/>
     <arg name="interactions_list"                 value="$(arg interactions_list)"/>
+    <arg name="rosbridge_address"                 value="$(arg rosbridge_address)"/>
+    <arg name="rosbridge_port"                    value="$(arg rosbridge_port)"/>
 
     <!-- Zeroconf --> 
     <arg name="zeroconf"                          value="$(arg zeroconf)"/>
