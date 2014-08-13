@@ -3,7 +3,7 @@
  -->
 <launch>
   <arg name="battery"/>
-  <node pkg="linux_hardware" type="laptop_battery.py" name="turtlebot_laptop_battery">
+  <node pkg="laptop_battery_monitor" type="laptop_battery.py" name="turtlebot_laptop_battery">
         <param name="acpi_path" type="string" value="$(arg battery)" />
   </node>
 </launch>
