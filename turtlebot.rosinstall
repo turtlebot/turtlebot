@@ -7,75 +7,75 @@
 ##############################################################################
 
 # Make sure to install these ROCON packages as well:
-# https://raw.github.com/robotics-in-concert/rocon/hydro-devel/rocon_app_platform.rosinstall
+# https://raw.github.com/robotics-in-concert/rocon/indigo/rocon_app_platform.rosinstall
 
 # Kobuki / Yujin stacks
 
 - git:
     uri: https://github.com/yujinrobot/kobuki_desktop.git
     local-name: kobuki_desktop
-    version: hydro-devel
+    version: indigo
 
 - git:
     uri: https://github.com/yujinrobot/yocs_msgs.git
     local-name: yocs_msgs
-    version: hydro-devel
+    version: indigo
 
 - git:
     uri: https://github.com/yujinrobot/yujin_ocs.git
     local-name: yujin_ocs
-    version: hydro-devel
+    version: indigo
 
 - git:
     uri: https://github.com/yujinrobot/kobuki_msgs.git
     local-name: kobuki_msgs
-    version: hydro-devel
+    version: indigo
 
 - git:
     uri: https://github.com/yujinrobot/kobuki_core.git
     local-name: kobuki_core
-    version: hydro-devel
+    version: indigo
 
 - git:
     uri: https://github.com/yujinrobot/kobuki.git
     local-name: kobuki
-    version: hydro-devel
+    version: indigo
 
 # Create stacks
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_create.git
     local-name: turtlebot_create
-    version: hydro-devel
+    version: indigo
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_create_desktop.git
     local-name: turtlebot_create_desktop
-    version: hydro-devel
+    version: indigo
 
 # Turtlebot stacks
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_msgs.git
     local-name: turtlebot_msgs
-    version: hydro-devel
+    version: indigo
 
 - git:
     uri: https://github.com/turtlebot/turtlebot.git
     local-name: turtlebot
-    version: hydro-devel
+    version: indigo
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_simulator.git
     local-name: turtlebot_simulator
-    version: hydro-devel
+    version: indigo
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_apps.git
     local-name: turtlebot_apps
-    version: hydro-devel
+    version: indigo
 
 - git:
     uri: https://github.com/turtlebot/turtlebot_viz.git
     local-name: turtlebot_viz
-    version: hydro-devel
+    version: indigo
