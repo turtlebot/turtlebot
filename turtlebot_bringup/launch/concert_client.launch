@@ -86,7 +86,7 @@
     <arg name="robot_unique_name"                 value="$(arg robot_unique_name)"/>
     <arg name="concert_watch_period"              value="$(arg concert_watch_period)"/>
     <arg name="concert_whitelist"                 value="$(arg concert_whitelist)"/>
-    <arg name="local_machine_only"                value="$(arg local_remote_controllers_only"/>
+    <arg name="local_machine_only"                value="$(arg local_machine_only)"/>
   </include>
 
 </launch>
