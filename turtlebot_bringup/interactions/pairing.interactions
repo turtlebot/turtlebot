@@ -67,6 +67,8 @@
   display_name: Chirp 
   description: A strange noise appears 
   max: -1
+  icon:
+    resource_name: rocon_apps/cow.png
   pairing:
     rapp: rocon_apps/chirp
     remappings: []
@@ -78,6 +80,8 @@
   display_name: Follower 
   description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it. (Currently Broken)
   max: -1
+  icon:
+    resource_name: turtlebot_rapps/follower_bubble_icon.png
   pairing:
     rapp: turtlebot_rapps/follower
     remappings: []
@@ -89,6 +93,8 @@
   display_name: Navigation 
   description: Qt Map Navigation
   max: -1
+  icon:
+    resource_name: turtlebot_rapps/map_nav_bubble_icon.png
   pairing:
     rapp: turtlebot_rapps/map_nav
     remappings: []
@@ -99,6 +105,8 @@
   display_name: Make A Map
   description: Qt Make A Map
   max: -1
+  icon:
+    resource_name: turtlebot_rapps/make_a_map_bubble_icon.png
   pairing:
     rapp: turtlebot_rapps/make_a_map
     remappings: []
@@ -109,6 +117,8 @@
   display_name: 3D Sensing 
   description: Qt 3D Sensor viewing
   max: -1
+  icon:
+    resource_name: turtlebot_rapps/3dsensor_bubble_icon.png
   pairing:
     rapp: turtlebot_rapps/3dsensor
     remappings: []
@@ -125,6 +135,8 @@
   display_name: Map Navigation 
   description: Android navigation of a known map 
   max: -1
+  icon:
+    resource_name: turtlebot_rapps/map_nav_bubble_icon.png
   pairing:
     rapp: turtlebot_rapps/map_nav
     remappings: []  
@@ -136,6 +148,8 @@
   display_name: Make A Map
   description: Make a map by driving a TurtleBot from an Android device.
   max: -1
+  icon:
+    resource_name: turtlebot_rapps/make_a_map_bubble_icon.png
   pairing:
     rapp: turtlebot_rapps/make_a_map
     remappings: []
@@ -147,6 +161,8 @@
   display_name: Panorama
   description: Turtlebot makes a 360 degree panorama image.
   max: -1
+  icon:
+    resource_name: turtlebot_rapps/panorama_bubble_icon.png
   pairing:
     rapp: turtlebot_rapps/panorama 
     remappings: []
@@ -158,6 +174,8 @@
   display_name: Follower
   description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it.
   max: -1
+  icon:
+    resource_name: turtlebot_rapps/follower_bubble_icon.png
   pairing:
     rapp: turtlebot_rapps/follower 
     remappings: []
@@ -184,7 +202,7 @@
   description: Teleop the TurtleBot using an Android Device
   max: -1
   icon:
-    resource_name: turtlebot_rapps/joystick.png
+    resource_name: turtlebot_rapps/teleop_bubble_icon.png
   remappings:
     - remap_from: cmd_vel
       remap_to: /cmd_vel_mux/input/teleop
