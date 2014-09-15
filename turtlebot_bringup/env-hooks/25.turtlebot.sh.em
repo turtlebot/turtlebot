@@ -17,8 +17,6 @@
 : ${ROBOT_NAME:=turtlebot}
 : ${ROBOT_TYPE:=turtlebot}
 
-: ${TURTLEBOT_MAP_FILE:=`rospack find turtlebot_navigation`/maps/willow-2010-02-18-0.10.yaml}
-
 # Exports
 export TURTLEBOT_BASE
 export TURTLEBOT_BATTERY
@@ -28,4 +26,3 @@ export TURTLEBOT_SIMULATION
 export TURTLEBOT_SERIAL_PORT
 export ROBOT_NAME
 export ROBOT_TYPE
-export TURTLEBOT_MAP_FILE
