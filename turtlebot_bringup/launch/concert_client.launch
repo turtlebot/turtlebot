@@ -36,8 +36,6 @@
 
   <!-- Capabilities --> 
   <arg name="capabilities"                      default="true"/> <!-- enable/disable a capability server -->
-  <arg name="capabilities_server_name"          default="capability_server"/>
-  <arg name="capabilities_nodelet_manager_name" default="capability_server_nodelet_manager" />
   <arg name="capabilities_parameters"           default="$(find turtlebot_bringup)/param/capabilities/defaults_tb2.yaml" /> <!-- defaults_tb.yaml, defaults_tb2.yaml -->
   <arg name="capabilities_package_whitelist"    default="[kobuki_capabilities, std_capabilities, turtlebot_capabilities]" /> <!-- get capabilities from these packages only -->
   <arg name="capabilities_blacklist"            default="['std_capabilities/Navigation2D', 'std_capabilities/MultiEchoLaserSensor']" /> <!-- blacklist specific capabilities -->
@@ -72,8 +70,6 @@
     <!-- Capabilities --> 
     <arg name="capabilities"                      value="$(arg capabilities)" />
     <arg name="capabilities_blacklist"            value="$(arg capabilities_blacklist)" />
-    <arg name="capabilities_nodelet_manager_name" value="$(arg capabilities_nodelet_manager_name)" />
-    <arg name="capabilities_server_name"          value="$(arg capabilities_server_name)" />
     <arg name="capabilities_package_whitelist"    value="$(arg capabilities_package_whitelist)" />
     <arg name="capabilities_parameters"           value="$(arg capabilities_parameters)" />
 
