@@ -2,8 +2,8 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.0 (2014-11-30)
+------------------
 * removing unused args
 * move out turtlebot map file environment variable to turtlebot_navigation, refs `#163 <https://github.com/turtlebot/turtlebot/issues/163>`_.
 * fixing typo in concert_client.launch

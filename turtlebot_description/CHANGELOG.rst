@@ -2,8 +2,8 @@
 Changelog for package turtlebot_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.0 (2014-11-30)
+------------------
 * Check if unit-testing is enabled
   CATKIN_ENABLE_TESTING is a late addtion to catkin. This updates the
   package to comply with the strict checking rule.
