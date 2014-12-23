@@ -1,6 +1,5 @@
 <launch>
   <!-- Turtlebot -->
-
   <arg name="base"             default="$(env TURTLEBOT_BASE)"/>  <!-- create, roomba -->
   <arg name="battery"          default="$(env TURTLEBOT_BATTERY)"/>  <!-- /proc/acpi/battery/BAT0 in 2.6 or earlier kernels-->
   <arg name="stacks"           default="$(env TURTLEBOT_STACKS)"/>  <!-- circles, hexagons -->
@@ -28,8 +27,8 @@
   <!-- Rapp Manager --> 
   <arg name="auto_rapp_installation"            default="false"/> <!-- http://wiki.ros.org/rocon_app_manager/Tutorials/indigo/Automatic Rapp Installation -->
   <arg name="auto_start_rapp"                   default=""/> <!-- autostart a rapp, e.g. rocon_apps/talker -->
-  <arg name="rapp_package_whitelist"            default="[rocon_apps, turtlebot_rapps]"/> <!-- comma separated list of package names -->
-  <arg name="rapp_package_blacklist"            default="[]"/>
+  <arg name="rapp_package_whitelist"            default="$(env RAPP_PACKAGE_WHITELIST)"/> <!-- comma separated list of package names -->
+  <arg name="rapp_package_blacklist"            default="$(env RAPP_PACKAGE_BLACKLIST)"/>
   <arg name="robot_icon"                        default="turtlebot_bringup/turtlebot2.png"/>
   <arg name="screen"                            default="true"/> <!-- verbose output from running apps -->
 

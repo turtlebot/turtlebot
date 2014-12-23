@@ -17,6 +17,9 @@
 : ${ROBOT_NAME:=turtlebot}
 : ${ROBOT_TYPE:=turtlebot}
 
+: ${RAPP_PACKAGE_WHITELIST:=[rocon_apps, turtlebot_rapps]}
+: ${RAPP_PACKAGE_BLACKLIST:=[]}
+
 # Exports
 export TURTLEBOT_BASE
 export TURTLEBOT_BATTERY
@@ -26,3 +29,5 @@ export TURTLEBOT_SIMULATION
 export TURTLEBOT_SERIAL_PORT
 export ROBOT_NAME
 export ROBOT_TYPE
+export RAPP_PACKAGE_WHITELIST
+export RAPP_PACKAGE_BLACKLIST
