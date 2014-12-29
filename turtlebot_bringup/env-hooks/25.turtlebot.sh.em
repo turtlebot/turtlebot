@@ -14,8 +14,8 @@
 : ${TURTLEBOT_SIMULATION:=false}
 : ${TURTLEBOT_SERIAL_PORT:=/dev/kobuki}               # /dev/ttyUSB0, /dev/ttyS0
 
-: ${ROBOT_NAME:=turtlebot}
-: ${ROBOT_TYPE:=turtlebot}
+: ${TURTLEBOT_NAME:=turtlebot}
+: ${TURTLEBOT_TYPE:=turtlebot}
 
 # Exports
 export TURTLEBOT_BASE
@@ -24,5 +24,5 @@ export TURTLEBOT_STACKS
 export TURTLEBOT_3D_SENSOR
 export TURTLEBOT_SIMULATION
 export TURTLEBOT_SERIAL_PORT
-export ROBOT_NAME
-export ROBOT_TYPE
+export TURTLEBOT_NAME
+export TURTLEBOT_TYPE
