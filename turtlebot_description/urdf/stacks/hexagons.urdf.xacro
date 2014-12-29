@@ -26,15 +26,15 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder length="0.0492" radius=".006"/>
+          <cylinder length="0.0492" radius="0.006"/>
         </geometry>
       </collision>
       <inertial>
-        <mass value="0.001"/>
+        <mass value="0.008"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
-        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-                 iyy="0.0001" iyz="0.0"
-                 izz="0.0001"/>
+        <inertia ixx="0.000001686" ixy="0.0" ixz="0.0"
+                 iyy="0.000001686" iyz="0.0"
+                 izz="0.000000144"/>
       </inertial>
     </link>
   </xacro:macro>
@@ -55,15 +55,15 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder length="0.0608" radius=".006"/>
+          <cylinder length="0.0608" radius="0.006"/>
         </geometry>
       </collision>
       <inertial>
-        <mass value="0.001"/>
+        <mass value="0.012"/>
         <origin xyz="0 0 0"/>
-        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-                 iyy="0.0001" iyz="0.0"
-                 izz="0.0001"/>
+        <inertia ixx="0.000003805" ixy="0.0" ixz="0.0"
+                 iyy="0.000003805" iyz="0.0"
+                 izz="0.000000216"/>
       </inertial>
     </link>
   </xacro:macro>
@@ -84,15 +84,15 @@
       <collision>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder length="0.2032" radius=".006"/>
+          <cylinder length="0.2032" radius="0.006"/>
         </geometry>
       </collision>
       <inertial>
-        <mass value="0.001"/>
+        <mass value="0.060"/>
         <origin xyz="0 0 0"/>
-        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-                 iyy="0.0001" iyz="0.0"
-                 izz="0.0001"/>
+        <inertia ixx="0.000206991" ixy="0.0" ixz="0.0"
+                 iyy="0.000206991" iyz="0.0"
+                 izz="0.000001080"/>
       </inertial>
     </link>
   </xacro:macro>
@@ -106,7 +106,6 @@
     <link name="pole_kinect_${number}_link">
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
-<!--         <origin xyz="0 0 0" rpy="${-M_PI/2} ${M_PI} 0"/> -->
         <geometry>
           <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/pole_kinect.dae"/>
         </geometry>
@@ -118,15 +117,15 @@
         </geometry>
       </collision>
       <inertial>
-        <mass value="0.001"/>
+        <mass value="0.020"/>
         <origin xyz="0 0 0"/>
-        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-                 iyy="0.0001" iyz="0.0"
-                 izz="0.0001"/>
+        <inertia ixx="0.000014782" ixy="0.0" ixz="0.0"
+                 iyy="0.000014782" iyz="0.0"
+                 izz="0.000000360"/>
       </inertial>
     </link>
   </xacro:macro>
-  
+
   <!-- 
     Stack macro - all the components relative transforms are made with respect 
     to the parent link (usually base_link). They could be made relative to each
@@ -159,11 +158,11 @@
         </geometry>
       </collision>
       <inertial>
-        <mass value="0.01" />
+        <mass value="0.520" />
         <origin xyz="0 0 0" />
-        <inertia ixx="0.01" ixy="0.0" ixz="0.0"
-                 iyy="0.01" iyz="0.0"
-                 izz="0.01" />
+        <inertia ixx="0.003328" ixy="0.0" ixz="0.0"
+                 iyy="0.003328" iyz="0.0"
+                 izz="0.006656" />
       </inertial>
     </link>
     
@@ -191,11 +190,11 @@
         </geometry>
       </collision>
       <inertial>
-        <mass value="0.01" />
+        <mass value="0.520" />
         <origin xyz="0 0 0" />
-        <inertia ixx="0.01" ixy="0.0" ixz="0.0"
-                 iyy="0.01" iyz="0.0"
-                 izz="0.01" />
+        <inertia ixx="0.003328" ixy="0.0" ixz="0.0"
+                 iyy="0.003328" iyz="0.0"
+                 izz="0.006656" />
       </inertial>  
     </link>
     
@@ -225,11 +224,11 @@
         </geometry>
       </collision>
       <inertial>
-        <mass value="0.01"/>
+        <mass value="0.520"/>
         <origin xyz="0 0 0"/>
-        <inertia ixx="0.01" ixy="0.0" ixz="0.0"
-                 iyy="0.01" iyz="0.0"
-                 izz="0.01" />
+        <inertia ixx="0.003328" ixy="0.0" ixz="0.0"
+                 iyy="0.003328" iyz="0.0"
+                 izz="0.006656" />
       </inertial>
     </link>
   </xacro:macro>
