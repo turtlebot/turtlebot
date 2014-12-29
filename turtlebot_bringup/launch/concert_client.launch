@@ -26,8 +26,8 @@
 
   <!-- Rapp Manager --> 
   <arg name="rapp_auto_installation"            default="false"/> <!-- http://wiki.ros.org/rocon_app_manager/Tutorials/indigo/Automatic Rapp Installation -->
-  <arg name="rapp_package_whitelist"            default="[rocon_apps, turtlebot_rapps]"/> <!-- comma separated list of package names -->
-  <arg name="rapp_package_blacklist"            default="[]"/>
+  <arg name="rapp_package_whitelist"            default="$(env TURTLEBOT_RAPP_PACKAGE_WHITELIST)"/> <!-- comma separated list of package names -->
+  <arg name="rapp_package_blacklist"            default="$(env TURTLEBOT_RAPP_PACKAGE_BLACKLIST)"/>
   <arg name="robot_icon"                        default="turtlebot_bringup/turtlebot2.png"/>
   <arg name="screen"                            default="true"/> <!-- verbose output from running apps -->
 
