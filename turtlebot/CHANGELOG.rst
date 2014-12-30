@@ -2,6 +2,9 @@
 Changelog for package turtlebot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.3.0 (2014-11-30)
 ------------------
 * migrate linux_hardware as linux_peripheral_interfaces repo

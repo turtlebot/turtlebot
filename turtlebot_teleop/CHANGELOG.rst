@@ -2,6 +2,13 @@
 Changelog for package turtlebot_teleop
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* add README on turtlebot_teleop to explain why it is here now fixes `#182 <https://github.com/turtlebot/turtlebot/issues/182>`_
+* sync package version with others packages
+* turtlebot_teleop to be migrated to new base
+* Contributors: Jihoon Lee
+
 2.2.4 (2013-10-14)
 ------------------
 * Remove unnecessary dependency on cmd_vel_mux package.
