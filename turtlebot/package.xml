@@ -18,10 +18,10 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <run_depend>laptop_battery_monitor</run_depend>
   <run_depend>turtlebot_bringup</run_depend>
   <run_depend>turtlebot_capabilities</run_depend>
   <run_depend>turtlebot_description</run_depend>
+  <run_depend>turtlebot_teleop</run_depend>
 
   <export>
     <metapackage/>
