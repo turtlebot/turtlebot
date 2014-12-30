@@ -2,8 +2,8 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.1 (2014-12-30)
+------------------
 * use env for rapp parsing
 * use turtlebot as envinroment variable prefixes
 * install interactions directory closes `#176 <https://github.com/turtlebot/turtlebot/issues/176>`_
