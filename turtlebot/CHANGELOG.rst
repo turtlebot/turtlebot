@@ -2,6 +2,11 @@
 Changelog for package turtlebot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* cleanup metapackage. add teleop and remove laptop battery_monitor
+* Contributors: Jihoon Lee
+
 2.3.1 (2014-12-30)
 ------------------
 
