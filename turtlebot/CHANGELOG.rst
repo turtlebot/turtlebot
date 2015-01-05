@@ -2,6 +2,9 @@
 Changelog for package turtlebot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.3.2 (2014-12-30)
 ------------------
 * cleanup metapackage. add teleop and remove laptop battery_monitor
