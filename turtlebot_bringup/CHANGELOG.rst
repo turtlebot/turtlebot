@@ -2,8 +2,8 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.4 (2015-01-07)
+------------------
 * remove turtlebot_capabilities from run_depend closes `#185 <https://github.com/turtlebot/turtlebot/issues/185>`_
 * Contributors: Jihoon Lee
 
