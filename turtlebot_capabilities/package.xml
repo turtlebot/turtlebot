@@ -20,7 +20,7 @@
 
   <run_depend>capabilities</run_depend>
   <run_depend>std_capabilities</run_depend>
-  <run_depend>turtlebot_bringup</run_depend>
+  <!--<run_depend>turtlebot_bringup</run_depend>--> <!-- Comment out to prevent circular dependency -->
 
   <export>
     <capability_interface>
