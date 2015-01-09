@@ -2,6 +2,23 @@
 Changelog for package turtlebot
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.3.3 (2015-01-05)
+------------------
+
+2.3.2 (2014-12-30)
+------------------
+* cleanup metapackage. add teleop and remove laptop battery_monitor
+* Contributors: Jihoon Lee
+
+2.3.1 (2014-12-30)
+------------------
+
+2.3.0 (2014-11-30)
+------------------
+* migrate linux_hardware as linux_peripheral_interfaces repo
+* adds turtlebot_capabilities package and related changes
+* Contributors: Jihoon Lee, Marcus Liebhardt
+
 2.2.2 (2013-10-14)
 ------------------
 

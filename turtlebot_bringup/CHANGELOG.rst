@@ -2,6 +2,78 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.3.3 (2015-01-05)
+------------------
+* add kobuki_capabilities and turtlebot_capabilities as run_depend in turtlebot_bring fixes `#184 <https://github.com/turtlebot/turtlebot/issues/184>`_
+* Contributors: Jihoon Lee
+
+2.3.2 (2014-12-30)
+------------------
+
+2.3.1 (2014-12-30)
+------------------
+* use env for rapp parsing
+* use turtlebot as envinroment variable prefixes
+* install interactions directory closes `#176 <https://github.com/turtlebot/turtlebot/issues/176>`_
+* Contributors: Jihoon Lee
+
+2.3.0 (2014-11-30)
+------------------
+* removing unused args
+* move out turtlebot map file environment variable to turtlebot_navigation, refs `#163 <https://github.com/turtlebot/turtlebot/issues/163>`_.
+* fixing typo in concert_client.launch
+* add interaction icons to fix `#162 <https://github.com/turtlebot/turtlebot/issues/162>`_
+* migrate linux_hardware as linux_peripheral_interfaces repo
+* Revert "Adding the rosbridge setting for using rosbridge on pairing mode"
+* align the arg
+* add the rosbridge setting for using rosbridge on pairing mode
+* Change env-vars to not overwrite already set vars
+* concert version turtlebot
+* proper remappings and use video_teleop virtual rapp
+* Merge pull request `#148 <https://github.com/turtlebot/turtlebot/issues/148>`_ from turtlebot/irdevel
+  Update to use environment hooks for turtlebot_bringup / Android pairing updates
+* Move robot name and type to environment variable as mentioned in `#134 <https://github.com/turtlebot/turtlebot/issues/134>`_
+* Fix compatibility uri's to filter out PC interactions on Android
+* Split Android and PC Pairing into seperate roles
+* Update to use env-hooks for Turtlebot
+* Initial Android fixes
+* Update to account for turtlebot_rapps/teleop change to implement rocon_apps/teleop
+* cleanup legacy install rule. and remove concert directory which is not valid anymore
+* Rolled android and qt make_a_map and map_nav into one
+* Remove unncessary launchers as app manager and capabilities are rolled into minimal now
+* Enable capabilities server for turtlebot on indigo
+* Fix mapping for Qt teleop
+* Bugfix changes - small
+* Added more interactions
+* Added interactions to Turtlebot on indigo, collapsed minimal_with_appmanager into just minimal
+* better acceleration defaults after experimental observations.
+* refactor turtlebot_core_apps -> turtlebot_rapps
+* Remap cmd_vel for the calibration script
+  It needs to match the turtlebot node in order to monitor for changes
+* Load calibration on turtlebot bringup
+* add depth argument to configure scan_processing. With this configuration scan works for both depth_regratation false and true
+* add blacklist argument
+* compatible with new app manager
+* rapp exporting for new rocon_app_manager
+* patches to keep the consistency of arguments `#114 <https://github.com/turtlebot/turtlebot/issues/114>`_
+* Merge pull request `#114 <https://github.com/turtlebot/turtlebot/issues/114>`_ from mayrjohannes/hydro-devel
+  Added serial port as parameter to launch files (Issue https://github.com/turtlebot/turtlebot/issues/111)
+* Fixing "Error with diagnostics.yaml for roomba `#110 <https://github.com/turtlebot/turtlebot/issues/110>`_"
+* updates capabilities-specific rosinstaller
+* adds turtlebot_capabilities package and related changes
+* Trivial comment spelling fix rhoomba -> roomba
+* turtlebot_bringup: adds capabilities (server + default provider configs)
+* adding name for rapp list
+* Added serial port as parameter to launch files
+  modified:   create/mobile_base.launch.xml
+  modified:   kobuki/mobile_base.launch.xml
+  modified:   mobile_base.launch.xml
+  modified:   roomba/mobile_base.launch.xml
+  modified:   ../minimal.launch
+  Committer: mayrjohannes <joh.mayr@jku.at>
+  Author: mayrjohannes <joh.mayr@jku.at>
+* Contributors: Daniel Stonier, DongWook Lee, Jihoon Lee, Kenneth Bogert, Luka Čehovin, Marcus Liebhardt, Yujin, kentsommer, wheeled_robin
+
 2.2.2 (2013-10-14)
 ------------------
 * Rename cmd_vel_mux as yocs_cmd_vel_mux.
