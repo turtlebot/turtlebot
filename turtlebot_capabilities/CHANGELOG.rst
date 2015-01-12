@@ -2,8 +2,8 @@
 Changelog for package turtlebot_capabilities
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.5 (2015-01-12)
+------------------
 * bringup depend on capabilities. capabilities should not depend on bringup `#185 <https://github.com/turtlebot/turtlebot/issues/185>`_
 * Contributors: Jihoon Lee
 
