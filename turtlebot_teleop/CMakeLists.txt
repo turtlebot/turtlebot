@@ -8,7 +8,6 @@ include_directories(${catkin_INCLUDE_DIRS})
 
 catkin_package(
   INCLUDE_DIRS
-  LIBRARIES turtlebot_teleop
   CATKIN_DEPENDS roscpp geometry_msgs joy
   DEPENDS
 )
