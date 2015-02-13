@@ -3,10 +3,11 @@
   <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_gazebo.urdf.xacro"/>
   <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_properties.urdf.xacro"/>
   
+  <xacro:property name="kinect_cam_py" value="-0.0125"/>
   <!-- Parameterised in part by the values in turtlebot_properties.urdf.xacro -->
   <xacro:macro name="sensor_kinect" params="parent">
     <joint name="camera_rgb_joint" type="fixed">
-      <origin xyz="${cam_px} ${cam_py} ${cam_pz}" rpy="${cam_or} ${cam_op} ${cam_oy}"/>
+      <origin xyz="${cam_px} ${kinect_cam_py} ${cam_pz}" rpy="${cam_or} ${cam_op} ${cam_oy}"/>
       <parent link="${parent}"/>
       <child link="camera_rgb_frame" />
     </joint>
@@ -20,7 +21,7 @@
     <link name="camera_rgb_optical_frame"/>
 
     <joint name="camera_joint" type="fixed">
-      <origin xyz="-0.031 ${-cam_py} -0.016" rpy="0 0 0"/>
+      <origin xyz="-0.031 ${-kinect_cam_py} -0.016" rpy="0 0 0"/>
       <parent link="camera_rgb_frame"/>
       <child link="camera_link"/>
     </joint>  
@@ -50,7 +51,7 @@
          files. However, for Gazebo simulation we need them, so we add them here.
          (Hence, don't publish them additionally!) -->
 	<joint name="camera_depth_joint" type="fixed">
-	  <origin xyz="0 ${2 * -cam_py} 0" rpy="0 0 0" />
+	  <origin xyz="0 ${2 * -kinect_cam_py} 0" rpy="0 0 0" />
 	  <parent link="camera_rgb_frame" />
 	  <child link="camera_depth_frame" />
 	</joint>

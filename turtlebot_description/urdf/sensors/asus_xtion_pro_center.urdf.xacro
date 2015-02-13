@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
-<robot name="sensor_asus_xtion_pro" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="sensor_asus_xtion_pro_center" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_gazebo.urdf.xacro"/>
-  <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_properties.urdf.xacro"/>f.xacro"/>
+  <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_properties.urdf.xacro"/>
   
   <!-- Xacro properties -->
   <xacro:property name="M_SCALE" value="0.001"/>
-  <xacro:property name="asus_xtion_pro_cam_py" value="-0.0125"/>
-  <xacro:property name="asus_xtion_pro_depth_rel_rgb_py" value="0.0270" />
-  <xacro:property name="asus_xtion_pro_cam_rel_rgb_py"   value="-0.0220" />
+  <xacro:property name="asus_xtion_pro_center_cam_py" value="0.0205"/>
+  <xacro:property name="asus_xtion_pro_center_depth_rel_rgb_py" value="0.0270" />
+  <xacro:property name="asus_xtion_pro_center_cam_rel_rgb_py"   value="-0.0220" />
 
   <!-- Parameterised in part by the values in turtlebot_properties.urdf.xacro -->
-  <xacro:macro name="sensor_asus_xtion_pro" params="parent">
+  <xacro:macro name="sensor_asus_xtion_pro_center" params="parent">
     <joint name="camera_rgb_joint" type="fixed">
-      <origin xyz="${cam_px} ${asus_xtion_pro_cam_py} ${cam_pz}"
+      <origin xyz="${cam_px} ${asus_xtion_pro_center_cam_py} ${cam_pz}"
               rpy="${cam_or} ${cam_op} ${cam_oy}"/>
       <parent link="${parent}"/>
       <child link="camera_rgb_frame" />
@@ -27,7 +27,7 @@
     <link name="camera_rgb_optical_frame"/>
 
     <joint name="camera_joint" type="fixed">
-      <origin xyz="0 ${asus_xtion_pro_cam_rel_rgb_py} 0" 
+      <origin xyz="0 ${asus_xtion_pro_center_cam_rel_rgb_py} 0" 
               rpy="0 0 0"/>
       <parent link="camera_rgb_frame"/>
       <child link="camera_link"/>
@@ -55,7 +55,7 @@
     </link>
 
     <joint name="camera_depth_joint" type="fixed">
-      <origin xyz="0 ${asus_xtion_pro_depth_rel_rgb_py} 0" rpy="0 0 0" />
+      <origin xyz="0 ${asus_xtion_pro_center_depth_rel_rgb_py} 0" rpy="0 0 0" />
       <parent link="camera_rgb_frame" />
       <child link="camera_depth_frame" />
     </joint>
