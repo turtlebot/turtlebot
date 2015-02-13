@@ -26,6 +26,7 @@
   <run_depend>robot_pose_ekf</run_depend>
   <run_depend>diagnostic_aggregator</run_depend>
   <run_depend>openni_launch</run_depend>
+  <run_depend>freenect_launch</run_depend>
   <run_depend>laptop_battery_monitor</run_depend>
   <run_depend>rocon_app_manager</run_depend>
   <run_depend>depthimage_to_laserscan</run_depend>

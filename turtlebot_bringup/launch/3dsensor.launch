@@ -18,6 +18,7 @@
        into the "camera" namespace, and it is prepended to tf frame ids. -->
   <arg name="camera"      default="camera"/>
   <arg name="publish_tf"  default="false"/>
+  <arg name="3d_sensor"   default="$(env TURTLEBOT_3D_SENSOR)"/>  <!-- kinect, asus_xtion_pro -->
 
   <!-- Factory-calibrated depth registration -->
   <arg name="depth_registration"              default="true"/>
@@ -39,7 +40,7 @@
   <!-- Laserscan topic -->
   <arg name="scan_topic" default="scan"/>
 
-  <include file="$(find openni_launch)/launch/openni.launch">
+  <include file="$(find turtlebot_bringup)/launch/includes/3dsensor/$(arg 3d_sensor).launch.xml">
     <arg name="camera"                          value="$(arg camera)"/>
     <arg name="publish_tf"                      value="$(arg publish_tf)"/>
     <arg name="depth_registration"              value="$(arg depth_registration)"/>
