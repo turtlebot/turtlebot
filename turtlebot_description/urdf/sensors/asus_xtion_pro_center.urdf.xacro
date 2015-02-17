@@ -34,9 +34,9 @@
     </joint>
     <link name="camera_link">
       <visual>
-        <origin xyz="-0.01 0 0" rpy="${-M_PI/2} -${M_PI} ${-M_PI/2}"/>
+        <origin xyz="-0.015 0 -0.006" rpy="${-M_PI/2} -${M_PI} ${-M_PI/2}"/>
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/sensors/asus_xtion_pro_live.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/sensors/xtion_pro_camera.dae"/>
         </geometry>
       </visual>
       <collision>
@@ -70,5 +70,34 @@
 
     <!-- RGBD sensor for simulation, same as Kinect -->
     <turtlebot_sim_3dsensor/>
+
+
+    <!-- Asus mount -->
+    <joint name="mount_asus_xtion_pro_center_joint" type="fixed">
+      <origin xyz="-0.1024 0.0 0.272" rpy="0 0 0"/>
+      <parent link="${parent}"/>
+      <child link="mount_asus_xtion_pro_center_link"/>
+    </joint>  
+    <link name="mount_asus_xtion_pro_center_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 ${-M_PI/2}"/>
+        <geometry>
+          <mesh filename="package://turtlebot_description/meshes/sensors/xtion_pro_stack.dae"/>
+        </geometry>
+      </visual>  
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+        <box size="0.0330 0.2760 0.0120"/>
+      </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.170" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.001152600" ixy="0.0" ixz="0.0"
+                 iyy="0.000148934" iyz="0.0"
+                 izz="0.001154654" />
+      </inertial>
+    </link>
   </xacro:macro>
 </robot>
