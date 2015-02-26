@@ -10,7 +10,7 @@
 : ${TURTLEBOT_BASE:=kobuki}                           # create, roomba
 : ${TURTLEBOT_BATTERY:=/sys/class/power_supply/BAT0}  # /proc/acpi/battery/BAT0 in 2.6 or earlier kernels,  /sys/class/power_supply/ (kernels 3.0+) 
 : ${TURTLEBOT_STACKS:=hexagons}                       # circles, hexagons
-: ${TURTLEBOT_3D_SENSOR:=kinect}                      # kinect, asus_xtion_pro
+: ${TURTLEBOT_3D_SENSOR:=asus_xtion_pro}              # kinect, asus_xtion_pro, asus_xtion_pro_offset
 : ${TURTLEBOT_SIMULATION:=false}
 : ${TURTLEBOT_SERIAL_PORT:=/dev/kobuki}               # /dev/ttyUSB0, /dev/ttyS0
 
