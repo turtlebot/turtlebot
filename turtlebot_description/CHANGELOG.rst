@@ -2,8 +2,8 @@
 Changelog for package turtlebot_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.6 (2015-02-27)
+------------------
 * add reasons for comment `#194 <https://github.com/turtlebot/turtlebot/issues/194>`_
 * update urdf. now new position uses asus_xtion_pro. Old position is asus_xtion_pro_offset
 * add asus, mount, and new pole
