@@ -2,6 +2,19 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge pull request `#194 <https://github.com/turtlebot/turtlebot/issues/194>`_ from turtlebot/asus_center
+  Configurable 3d sensor
+* update urdf. now new position uses asus_xtion_pro. Old position is asus_xtion_pro_offset
+* update env hook to  to use centered asus
+* add 3dsensor aluncher
+* asus is now default
+* updates
+* Merge branch 'indigo' into 3dsensor_config
+* separate launchers for kinect and asus
+* Contributors: Daniel Stonier, Jihoon Lee
+
 2.3.5 (2015-01-12)
 ------------------
 * bringup depend on capabilities. capabilities should not depend on bringup `#185 <https://github.com/turtlebot/turtlebot/issues/185>`_
