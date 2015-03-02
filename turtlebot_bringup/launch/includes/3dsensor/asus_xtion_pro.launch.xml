@@ -20,7 +20,7 @@
   <!-- Worker threads for the nodelet manager -->                                                   
   <arg name="num_worker_threads" default="4" />                                                     
 
-  <include file="$(find openni_launch)/launch/openni.launch">
+  <include file="$(find openni2_launch)/launch/openni2.launch">
     <arg name="camera"                          value="$(arg camera)"/>                             
     <arg name="publish_tf"                      value="$(arg publish_tf)"/>                         
     <arg name="depth_registration"              value="$(arg depth_registration)"/>                 
