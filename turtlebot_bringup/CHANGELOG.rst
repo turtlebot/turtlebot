@@ -2,8 +2,8 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.7 (2015-03-02)
+------------------
 * switch openni driver to openni2 for asus xtion pro
 * Contributors: Jihoon Lee
 
