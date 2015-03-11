@@ -86,6 +86,17 @@
     rapp: turtlebot_rapps/follower
     remappings: []
 
+- name: ""
+  role: PC Pairing
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  display_name: PS3 Teleop
+  description: Control the TurtleBot with a PlayStation 3 Joystick.
+  max: 1
+  icon:
+    resource_name: turtlebot_rapps/ps3_bubble_icon.png
+  pairing:
+    rapp: turtlebot_rapps/ps3_teleop
+    remappings: []
 
 - name: turtlebot_rviz_launchers/view_navigation.launch
   role: PC Pairing
