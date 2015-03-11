@@ -134,11 +134,20 @@
     rapp: turtlebot_rapps/3dsensor
     remappings: []
 
+- name: turtlebot_rviz_launchers/view_robot.launch
+  role: PC Pairing
+  compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
+  display_name: Interactive Marker Teleop
+  description: Qt 3D Sensor viewing
+  max: -1
+  pairing:
+    rapp: turtlebot_rapps/interactive_markers_control
+    remappings: []
+
 
 ##########################
 #     Android Pairing    #
 ##########################
-
 
 - name: com.github.rosjava.android_apps.map_nav.MainActivity
   role: Android Pairing
