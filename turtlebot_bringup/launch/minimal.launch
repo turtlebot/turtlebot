@@ -46,7 +46,7 @@
 
   <!-- Interactions --> 
   <arg name="interactions"      default="true"/>
-  <arg name="interactions_list" default="$(optenv INTERACTIONS_LIST [turtlebot_bringup/admin.interactions, turtlebot_bringup/documentation.interactions, turtlebot_bringup/pairing.interactions])"/>
+  <arg name="interactions_list" default="$(optenv INTERACTIONS_LIST [turtlebot_bringup/admin.interactions, turtlebot_bringup/documentation.interactions, turtlebot_bringup/pairing.interactions, turtlebot_bringup/visualisation.interactions])"/>
 
   <!-- Zeroconf -->
   <arg name="zeroconf"                          default="true"/>

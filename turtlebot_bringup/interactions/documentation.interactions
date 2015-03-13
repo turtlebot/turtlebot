@@ -11,7 +11,7 @@
 #  `---'                                                         `---'
 
 
-- name: web_url(http://wiki.ros.org/Robots/TurtleBot/indigo)
+- name: web_url(http://wiki.ros.org/Robots/TurtleBot?distro=indigo)
   role: 'Documentation'
   compatibility: rocon:/pc
   display_name: Ros Wiki - TurtleBot 
