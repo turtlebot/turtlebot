@@ -1,6 +1,6 @@
 <package>
   <name>turtlebot_bringup</name>
-  <version>2.3.0</version>
+  <version>2.3.7</version>
   <description>
      turtlebot_bringup provides roslaunch scripts for starting the TurtleBot base functionality. 
   </description>
@@ -15,15 +15,18 @@
 
   <run_depend>zeroconf_avahi</run_depend>
   <run_depend>yocs_cmd_vel_mux</run_depend>
+  <run_depend>kobuki_capabilities</run_depend>
   <run_depend>kobuki_node</run_depend>
   <run_depend>kobuki_bumper2pc</run_depend>
   <run_depend>kobuki_safety_controller</run_depend>
   <run_depend>create_node</run_depend>
+  <run_depend>turtlebot_capabilities</run_depend>
   <run_depend>turtlebot_description</run_depend>
   <run_depend>robot_state_publisher</run_depend>
   <run_depend>robot_pose_ekf</run_depend>
   <run_depend>diagnostic_aggregator</run_depend>
-  <run_depend>openni_launch</run_depend>
+  <run_depend>openni2_launch</run_depend>
+  <run_depend>freenect_launch</run_depend>
   <run_depend>laptop_battery_monitor</run_depend>
   <run_depend>rocon_app_manager</run_depend>
   <run_depend>rocon_bubble_icons</run_depend>

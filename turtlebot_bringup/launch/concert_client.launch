@@ -6,8 +6,8 @@
   <arg name="3d_sensor"        default="$(env TURTLEBOT_3D_SENSOR)"/>  <!-- kinect, asus_xtion_pro -->
   <arg name="simulation"       default="$(env TURTLEBOT_SIMULATION)"/>
   <arg name="serialport"       default="$(env TURTLEBOT_SERIAL_PORT)"/> <!-- /dev/ttyUSB0, /dev/ttyS0 -->
-  <arg name="robot_name"       default="$(env ROBOT_NAME)"/>
-  <arg name="robot_type"       default="$(env ROBOT_TYPE)"/> 
+  <arg name="robot_name"       default="$(env TURTLEBOT_NAME)"/>
+  <arg name="robot_type"       default="$(env TURTLEBOT_TYPE)"/>
 
   <param name="/use_sim_time" value="$(arg simulation)"/>
 
@@ -26,8 +26,8 @@
 
   <!-- Rapp Manager --> 
   <arg name="rapp_auto_installation"            default="false"/> <!-- http://wiki.ros.org/rocon_app_manager/Tutorials/indigo/Automatic Rapp Installation -->
-  <arg name="rapp_package_whitelist"            default="[rocon_apps, turtlebot_rapps]"/> <!-- comma separated list of package names -->
-  <arg name="rapp_package_blacklist"            default="[]"/>
+  <arg name="rapp_package_whitelist"            default="$(env TURTLEBOT_RAPP_PACKAGE_WHITELIST)"/> <!-- comma separated list of package names -->
+  <arg name="rapp_package_blacklist"            default="$(env TURTLEBOT_RAPP_PACKAGE_BLACKLIST)"/>
   <arg name="robot_icon"                        default="turtlebot_bringup/turtlebot2.png"/>
   <arg name="screen"                            default="true"/> <!-- verbose output from running apps -->
 

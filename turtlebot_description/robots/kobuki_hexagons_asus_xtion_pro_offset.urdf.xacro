@@ -10,5 +10,5 @@
   
   <kobuki/>
   <stack_hexagons                 parent="base_link"/>
-  <sensor_asus_xtion_pro          parent="base_link"/>
+  <sensor_asus_xtion_pro_offset   parent="base_link"/>
 </robot>

@@ -2,6 +2,49 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.3.7 (2015-03-02)
+------------------
+* switch openni driver to openni2 for asus xtion pro
+* Contributors: Jihoon Lee
+
+2.3.6 (2015-02-27)
+------------------
+* Merge pull request `#194 <https://github.com/turtlebot/turtlebot/issues/194>`_ from turtlebot/asus_center
+  Configurable 3d sensor
+* update urdf. now new position uses asus_xtion_pro. Old position is asus_xtion_pro_offset
+* update env hook to  to use centered asus
+* add 3dsensor aluncher
+* asus is now default
+* updates
+* Merge branch 'indigo' into 3dsensor_config
+* separate launchers for kinect and asus
+* Contributors: Daniel Stonier, Jihoon Lee
+
+2.3.5 (2015-01-12)
+------------------
+* bringup depend on capabilities. capabilities should not depend on bringup `#185 <https://github.com/turtlebot/turtlebot/issues/185>`_
+* Contributors: Jihoon Lee
+
+2.3.4 (2015-01-07)
+------------------
+* remove turtlebot_capabilities from run_depend closes `#185 <https://github.com/turtlebot/turtlebot/issues/185>`_
+* Contributors: Jihoon Lee
+
+2.3.3 (2015-01-05)
+------------------
+* add kobuki_capabilities and turtlebot_capabilities as run_depend in turtlebot_bring fixes `#184 <https://github.com/turtlebot/turtlebot/issues/184>`_
+* Contributors: Jihoon Lee
+
+2.3.2 (2014-12-30)
+------------------
+
+2.3.1 (2014-12-30)
+------------------
+* use env for rapp parsing
+* use turtlebot as envinroment variable prefixes
+* install interactions directory closes `#176 <https://github.com/turtlebot/turtlebot/issues/176>`_
+* Contributors: Jihoon Lee
+
 2.3.0 (2014-11-30)
 ------------------
 * removing unused args

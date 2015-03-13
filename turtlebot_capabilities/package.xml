@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>turtlebot_capabilities</name>
-  <version>2.3.0</version>
+  <version>2.3.7</version>
   <description>Capabilities for the TurtleBot</description>
 
   <maintainer email="william@osrfoundation.org">William Woodall</maintainer>
@@ -20,7 +20,7 @@
 
   <run_depend>capabilities</run_depend>
   <run_depend>std_capabilities</run_depend>
-  <run_depend>turtlebot_bringup</run_depend>
+  <!--<run_depend>turtlebot_bringup</run_depend>--> <!-- Comment out to prevent circular dependency -->
 
   <export>
     <capability_interface>
