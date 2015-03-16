@@ -47,7 +47,7 @@
 
   <!-- Connectivity -->
   <arg name="robot_unique_name"                 default="true"/>
-  <arg name="concert_whitelist"                 default=""/>
+  <arg name="concert_whitelist"                 default="[]"/>
   <arg name="local_machine_only"                default="false"/>
   <arg name="concert_watch_period"              default="10"/>
   <arg name="firewall"                          default="false"/>
