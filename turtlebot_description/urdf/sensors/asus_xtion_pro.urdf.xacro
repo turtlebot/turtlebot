@@ -80,7 +80,7 @@
     </joint>  
     <link name="mount_asus_xtion_pro_link">
       <visual>
-        <origin xyz="0 0 0" rpy="0 0 ${-M_PI/2}"/>
+        <origin xyz="0 0 0" rpy="${-M_PI/2} 0 0"/>
         <geometry>
           <mesh filename="package://turtlebot_description/meshes/sensors/xtion_pro_stack.dae"/>
         </geometry>
