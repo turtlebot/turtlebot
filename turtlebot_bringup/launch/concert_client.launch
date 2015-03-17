@@ -46,11 +46,11 @@
   <arg name="interactions_list" default="$(optenv INTERACTIONS_LIST [turtlebot_bringup/admin.interactions, turtlebot_bringup/documentation.interactions, turtlebot_bringup/pairing.interactions])"/>
 
   <!-- Connectivity -->
-  <arg name="robot_unique_name"                 default="true"/>
-  <arg name="concert_whitelist"                 default="[]"/>
-  <arg name="local_machine_only"                default="false"/>
-  <arg name="concert_watch_period"              default="10"/>
-  <arg name="firewall"                          default="false"/>
+  <arg name="robot_unique_name"                 default="true"   doc="postfix a uuid to robot_name to create unique namespaces for rapps (else manually guarantee unique names for multimaster'ing)"/>
+  <arg name="concert_whitelist"                 default="[]"     doc="list of multimaster hubs (concerts) to connect to"/>
+  <arg name="local_machine_only"                default="false"  doc="connect only to multimaster hubs (concerts) on the local machine (testing option)"/>
+  <arg name="concert_watch_period"              default="10"     doc="polling loop for discovering multimaster hubs (concerts)" />
+  <arg name="firewall"                          default="false"  doc="block people from flipping (registering topics) on this master."/> 
 
   <!-- Rapp Manager Concert Client mode -->
   <include file="$(find rocon_app_manager)/launch/concert_client.launch">
