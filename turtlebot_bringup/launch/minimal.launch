@@ -30,6 +30,7 @@
   <arg name="auto_start_rapp"                   default=""/> <!-- autostart a rapp, e.g. rocon_apps/talker -->
   <arg name="rapp_package_whitelist"            default="$(env TURTLEBOT_RAPP_PACKAGE_WHITELIST)" doc="a list of catkin packages that provide rapps to be loaded by the app manager."/>
   <arg name="rapp_package_blacklist"            default="$(env TURTLEBOT_RAPP_PACKAGE_BLACKLIST)" doc="a list of catkin packages to blacklist from providing rapps."/>
+  <arg name="rapp_preferred_configuration_file" default="$(find turtlebot_bringup)/param/preferred_rapp.yaml" doc="a configuration of preferred rapps"/>
   <arg name="robot_icon"                        default="turtlebot_bringup/turtlebot2.png"/>
   <arg name="screen"                            default="true"/> <!-- verbose output from running apps -->
 
@@ -62,6 +63,7 @@
     <arg name="robot_icon"                        value="$(arg robot_icon)" />
     <arg name="rapp_package_whitelist"            value="$(arg rapp_package_whitelist)" />
     <arg name="rapp_package_blacklist"            value="$(arg rapp_package_blacklist)" />
+    <arg name="rapp_preferred_configuration_file" value="$(arg rapp_preferred_configuration_file)" />
     <arg name="auto_start_rapp"                   value="$(arg auto_start_rapp)" />
     <arg name="screen"                            value="$(arg screen)" />
     <arg name="auto_rapp_installation"            value="$(arg auto_rapp_installation)" />
