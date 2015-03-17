@@ -18,6 +18,7 @@
 : ${TURTLEBOT_TYPE:=turtlebot}
 : ${TURTLEBOT_RAPP_PACKAGE_WHITELIST:=[rocon_apps, turtlebot_rapps]}
 : ${TURTLEBOT_RAPP_PACKAGE_BLACKLIST:=[]}
+: ${TURTLEBOT_INTERACTIONS_LIST:=[turtlebot_bringup/admin.interactions, turtlebot_bringup/documentation.interactions, turtlebot_bringup/pairing.interactions, turtlebot_bringup/visualisation.interactions]}
 
 # Exports
 export TURTLEBOT_BASE
@@ -30,3 +31,4 @@ export TURTLEBOT_NAME
 export TURTLEBOT_TYPE
 export TURTLEBOT_RAPP_PACKAGE_WHITELIST
 export TURTLEBOT_RAPP_PACKAGE_BLACKLIST
+export TURTLEBOT_INTERACTIONS_LIST

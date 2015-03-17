@@ -1,13 +1,13 @@
 <launch>
   <!-- Turtlebot -->
-  <arg name="base"             default="$(env TURTLEBOT_BASE)"/>  <!-- create, roomba -->
-  <arg name="battery"          default="$(env TURTLEBOT_BATTERY)"/>  <!-- /proc/acpi/battery/BAT0 in 2.6 or earlier kernels-->
-  <arg name="stacks"           default="$(env TURTLEBOT_STACKS)"/>  <!-- circles, hexagons -->
-  <arg name="3d_sensor"        default="$(env TURTLEBOT_3D_SENSOR)"/>  <!-- kinect, asus_xtion_pro -->
-  <arg name="simulation"       default="$(env TURTLEBOT_SIMULATION)"/>
-  <arg name="serialport"       default="$(env TURTLEBOT_SERIAL_PORT)"/> <!-- /dev/ttyUSB0, /dev/ttyS0 -->
-  <arg name="robot_name"       default="$(env TURTLEBOT_NAME)"/>
-  <arg name="robot_type"       default="$(env TURTLEBOT_TYPE)"/>
+  <arg name="base"              default="$(env TURTLEBOT_BASE)"/>  <!-- create, roomba -->
+  <arg name="battery"           default="$(env TURTLEBOT_BATTERY)"/>  <!-- /proc/acpi/battery/BAT0 in 2.6 or earlier kernels-->
+  <arg name="stacks"            default="$(env TURTLEBOT_STACKS)"/>  <!-- circles, hexagons -->
+  <arg name="3d_sensor"         default="$(env TURTLEBOT_3D_SENSOR)"/>  <!-- kinect, asus_xtion_pro -->
+  <arg name="simulation"        default="$(env TURTLEBOT_SIMULATION)"/>
+  <arg name="serialport"        default="$(env TURTLEBOT_SERIAL_PORT)"/> <!-- /dev/ttyUSB0, /dev/ttyS0 -->
+  <arg name="robot_name"        default="$(env TURTLEBOT_NAME)"/>
+  <arg name="robot_type"        default="$(env TURTLEBOT_TYPE)"/>
 
   <param name="/use_sim_time" value="$(arg simulation)"/>
 
@@ -26,8 +26,8 @@
 
   <!-- Rapp Manager --> 
   <arg name="rapp_auto_installation"            default="false"/> <!-- http://wiki.ros.org/rocon_app_manager/Tutorials/indigo/Automatic Rapp Installation -->
-  <arg name="rapp_package_whitelist"            default="$(env TURTLEBOT_RAPP_PACKAGE_WHITELIST)"/> <!-- comma separated list of package names -->
-  <arg name="rapp_package_blacklist"            default="$(env TURTLEBOT_RAPP_PACKAGE_BLACKLIST)"/>
+  <arg name="rapp_package_whitelist"            default="$(env TURTLEBOT_RAPP_PACKAGE_WHITELIST)" doc="a list of catkin packages that provide rapps to be loaded by the app manager."/>
+  <arg name="rapp_package_blacklist"            default="$(env TURTLEBOT_RAPP_PACKAGE_BLACKLIST)" doc="a list of catkin packages to blacklist from providing rapps."/>
   <arg name="robot_icon"                        default="turtlebot_bringup/turtlebot2.png"/>
   <arg name="screen"                            default="true"/> <!-- verbose output from running apps -->
 
@@ -43,7 +43,7 @@
   <!-- Interactions --> 
   <!-- disable interactions for now. See issue https://github.com/robotics-in-concert/rocon_tools/issues/57--> 
   <arg name="interactions"      default="false"/>
-  <arg name="interactions_list" default="$(optenv INTERACTIONS_LIST [turtlebot_bringup/admin.interactions, turtlebot_bringup/documentation.interactions, turtlebot_bringup/pairing.interactions])"/>
+  <arg name="interactions_list" default="$(env TURTLEBOT_INTERACTIONS_LIST)" doc="a list of filenames that provide interactions specifications."/>
 
   <!-- Connectivity -->
   <arg name="robot_unique_name"                 default="true"   doc="postfix a uuid to robot_name to create unique namespaces for rapps (else manually guarantee unique names for multimaster'ing)"/>
