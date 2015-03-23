@@ -2,6 +2,11 @@
 Changelog for package turtlebot_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* replace fbx model to open collada model closes `#198 <https://github.com/turtlebot/turtlebot/issues/198>`_
+* Contributors: Jihoon Lee
+
 2.3.7 (2015-03-02)
 ------------------
 

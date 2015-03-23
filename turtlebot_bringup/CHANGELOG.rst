@@ -2,6 +2,22 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge pull request `#201 <https://github.com/turtlebot/turtlebot/issues/201>`_ from dwlee/indigo_teleop
+  Update interaction
+* [turtlebot_bringup] fix conflicts in the turtlebot base launchers
+* [turtlebot_bringup] doc strings for roslaunch args.
+* update android teleop remapping rule and add kitkat in compatibility
+* add rapp preferred configuration
+* expose the interactions list in a way that conforms to the rest of the turtlebot environment settings.
+* doc'ified some url args.
+* bugfixes incorrect concert_whitelist arg default, fixes `#199 <https://github.com/turtlebot/turtlebot/issues/199>`_.
+* Merge branch 'indigo' of https://github.com/turtlebot/turtlebot into indigo
+* visualisation interactions
+* add ps3 joystick interactions closes `#196 <https://github.com/turtlebot/turtlebot/issues/196>`_
+* Contributors: Daniel Stonier, Jihoon Lee, dwlee
+
 2.3.7 (2015-03-02)
 ------------------
 * switch openni driver to openni2 for asus xtion pro
