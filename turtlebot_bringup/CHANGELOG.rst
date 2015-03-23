@@ -2,8 +2,8 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.8 (2015-03-23)
+------------------
 * update compatibility for upgrade turtlebot android apps
 * Merge pull request `#201 <https://github.com/turtlebot/turtlebot/issues/201>`_ from dwlee/indigo_teleop
   Update interaction
