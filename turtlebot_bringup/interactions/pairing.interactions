@@ -148,6 +148,11 @@
   max: -1
   icon:
     resource_name: turtlebot_rapps/map_nav_bubble_icon.png
+  remappings:
+    - remap_from: cmd_vel
+      remap_to: /teleop/cmd_vel
+    - remap_from: compressed_image
+      remap_to: /teleop/compressed_image
   pairing:
     rapp: turtlebot_rapps/map_nav
     remappings: []
@@ -161,10 +166,14 @@
   max: -1
   icon:
     resource_name: turtlebot_rapps/make_a_map_bubble_icon.png
+  remappings:
+    - remap_from: cmd_vel
+      remap_to: /teleop/cmd_vel
+    - remap_from: compressed_image
+      remap_to: /teleop/compressed_image
   pairing:
     rapp: turtlebot_rapps/make_a_map
     remappings: []
-
 
 - name: com.github.turtlebot.turtlebot_android.panorama.PanoramaActivity
   role: Android Pairing
@@ -181,7 +190,7 @@
 
 - name: com.github.turtlebot.turtlebot_android.follower.FollowerActivity
   role: Android Pairing
-  compatibility: rocon:/*/*/indigo/jellybean
+  compatibility: rocon:/*/*/indigo/jellybean|kitkat
   display_name: Follower
   description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it.
   max: -1
