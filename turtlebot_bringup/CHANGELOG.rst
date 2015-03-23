@@ -4,6 +4,7 @@ Changelog for package turtlebot_bringup
 
 Forthcoming
 -----------
+* update compatibility for upgrade turtlebot android apps
 * Merge pull request `#201 <https://github.com/turtlebot/turtlebot/issues/201>`_ from dwlee/indigo_teleop
   Update interaction
 * [turtlebot_bringup] fix conflicts in the turtlebot base launchers
