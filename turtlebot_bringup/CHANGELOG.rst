@@ -2,6 +2,11 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* add chirp in android pairing closes `#205 <https://github.com/turtlebot/turtlebot/issues/205>`_
+* Contributors: Jihoon Lee
+
 2.3.8 (2015-03-23)
 ------------------
 * update compatibility for upgrade turtlebot android apps
