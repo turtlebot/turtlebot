@@ -139,6 +139,17 @@
 #     Android Pairing    #
 ##########################
 
+- name: ""
+  role: Android Pairing
+  compatibility: rocon:/*/*/indigo/jellybean|kitkat
+  display_name: Chirp
+  description: A strange noise appears
+  max: -1
+  icon:
+    resource_name: rocon_apps/cow.png
+  pairing:
+    rapp: rocon_apps/chirp
+    remappings: []
 
 - name: com.github.rosjava.android_apps.map_nav.MainActivity
   role: Android Pairing
