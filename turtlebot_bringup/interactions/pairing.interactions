@@ -151,7 +151,7 @@
     rapp: rocon_apps/chirp
     remappings: []
 
-- name: com.github.rosjava.android_apps.map_nav.MainActivity
+- name: com.github.rosjava.android_apps.map_nav.indigo.MainActivity
   role: Android Pairing
   compatibility: rocon:/*/*/indigo/jellybean|kitkat
   display_name: Map Navigation 
@@ -169,7 +169,7 @@
     remappings: []
 
 
-- name: com.github.rosjava.android_apps.make_a_map.MainActivity
+- name: com.github.rosjava.android_apps.make_a_map.indigo.MainActivity
   role: Android Pairing
   compatibility: rocon:/*/*/indigo/jellybean|kitkat
   display_name: Make A Map
@@ -186,7 +186,7 @@
     rapp: turtlebot_rapps/make_a_map
     remappings: []
 
-- name: com.github.turtlebot.turtlebot_android.panorama.PanoramaActivity
+- name: com.github.turtlebot.turtlebot_android.panorama.indigo.PanoramaActivity
   role: Android Pairing
   compatibility: rocon:/*/*/indigo/jellybean|kitkat
   display_name: Panorama
@@ -199,7 +199,7 @@
     remappings: []
 
 
-- name: com.github.turtlebot.turtlebot_android.follower.FollowerActivity
+- name: com.github.turtlebot.turtlebot_android.follower.indigo.FollowerActivity
   role: Android Pairing
   compatibility: rocon:/*/*/indigo/jellybean|kitkat
   display_name: Follower
@@ -211,7 +211,7 @@
     rapp: turtlebot_rapps/follower 
     remappings: []
 
-- name: com.github.rosjava.android_remocons.listener.Listener
+- name: com.github.rosjava.android_remocons.listener.indigo.Listener
   role: Android Pairing
   compatibility: rocon:/*/*/indigo/jellybean|kitkat
   display_name: Listener
@@ -226,7 +226,7 @@
       - remap_from: chatter
         remap_to: /conversation/chatter
 
-- name: com.github.rosjava.android_apps.teleop.MainActivity
+- name: com.github.rosjava.android_apps.teleop.indigo.MainActivity
   role: Android Pairing
   compatibility: rocon:/*/*/indigo/jellybean|kitkat
   display_name: Teleop
@@ -245,4 +245,3 @@
   pairing:
     rapp: rocon_apps/video_teleop
     remappings: []
-
