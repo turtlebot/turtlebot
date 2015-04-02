@@ -2,8 +2,8 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.10 (2015-04-02)
+-------------------
 * update interaction name regarding android pairing as change of android apps name
 * Contributors: dwlee
 
