@@ -2,6 +2,9 @@
 Changelog for package turtlebot_capabilities
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.3.10 (2015-04-02)
 -------------------
 

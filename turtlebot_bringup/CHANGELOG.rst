@@ -2,6 +2,11 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* interaction fix closes `#208 <https://github.com/turtlebot/turtlebot/issues/208>`_
+* Contributors: Jihoon Lee
+
 2.3.10 (2015-04-02)
 -------------------
 * update interaction name regarding android pairing as change of android apps name
