@@ -2,8 +2,8 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.11 (2015-04-15)
+-------------------
 * interaction fix closes `#208 <https://github.com/turtlebot/turtlebot/issues/208>`_
 * Contributors: Jihoon Lee
 
