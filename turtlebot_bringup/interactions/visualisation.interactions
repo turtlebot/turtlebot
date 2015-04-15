@@ -11,7 +11,7 @@
 #  `---'                                                         `---'
 
 
-- name: turtlebot_rviz_launchers/view_model_with_robot.launch
+- name: turtlebot_rviz_launchers/view_model.launch
   role: Visualisation
   compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
   display_name: View Model 
