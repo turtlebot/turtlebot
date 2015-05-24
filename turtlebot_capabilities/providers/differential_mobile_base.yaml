@@ -6,7 +6,7 @@ spec_type: provider
 implements: std_capabilities/DifferentialMobileBase
 launch_file:
 depends_on:
-  'turlebot_capabilities/TurtleBotBringup'
+  'turtlebot_capabilities/TurtleBotBringup'
 #remappings:
 #  topics:
 #    '/cmd_vel': '/cmd_vel'
