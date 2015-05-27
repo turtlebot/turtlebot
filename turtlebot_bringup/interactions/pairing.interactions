@@ -22,7 +22,7 @@
   description: Teleop the TurleBot using your keyboard
   max: -1
   icon:
-    resource_name: turtlebot_bringup/turtlebot2.png
+    resource_name: turtlebot_rapps/teleop_bubble_icon.png
 
 - name: rocon_teleop
   role: PC Pairing
