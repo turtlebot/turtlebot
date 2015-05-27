@@ -119,7 +119,7 @@
   icon:
     resource_name: turtlebot_rapps/make_a_map_bubble_icon.png
   pairing:
-    rapp: turtlebot_rapps/make_a_map
+    rapp: rocon_apps/make_a_map
     remappings: []
 
 - name: turtlebot_rviz_launchers/view_robot.launch
@@ -183,7 +183,7 @@
     - remap_from: compressed_image
       remap_to: /teleop/compressed_image
   pairing:
-    rapp: turtlebot_rapps/make_a_map
+    rapp: rocon_apps/make_a_map
     remappings: []
 
 - name: com.github.turtlebot.turtlebot_android.panorama.indigo.PanoramaActivity
