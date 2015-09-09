@@ -8,4 +8,4 @@ ROS Wiki : (http://www.ros.org/wiki/Robots/TurtleBot)
 
 
 
-![TurtleBot Logo](http://www.turtlebot.com/assets/templates/turtlebot/img/turtlebot_logo.png)
+![TurtleBot Logo](http://www.turtlebot.com/assets/images/turtlebot_logo.png)
