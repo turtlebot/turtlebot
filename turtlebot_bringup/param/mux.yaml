@@ -18,6 +18,10 @@ subscribers:
     topic:       "input/teleop"
     timeout:     1.0
     priority:    7
+  - name:        "Switch"
+    topic:       "input/switch"
+    timeout:     1.0
+    priority:    6
   - name:        "Navigation"
     topic:       "input/navi"
     timeout:     1.0
