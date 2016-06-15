@@ -13,6 +13,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <run_depend>realsense_camera</run_depend>
   <run_depend>astra_launch</run_depend>
   <run_depend>zeroconf_avahi</run_depend>
   <run_depend>yocs_cmd_vel_mux</run_depend>
