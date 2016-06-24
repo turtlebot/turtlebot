@@ -50,7 +50,7 @@
 
   <!-- Zeroconf -->
   <arg name="zeroconf"                          default="true"              doc="publish the master information on zeroconf"/>
-  <arg name="zeroconf_name"                     default="$(arg robot_name)" doc="the name to identify the master on zeroconf"/>
+  <!--arg name="zeroconf_name"                     default="$(arg robot_name)" doc="the name to identify the master on zeroconf"/-->
   <arg name="zeroconf_port"                     default="11311"             doc="port number of the ros master"/>
 
   <!-- Rapp Manager -->
@@ -84,7 +84,7 @@
 
     <!-- Zeroconf --> 
     <arg name="zeroconf"                          value="$(arg zeroconf)"/>
-    <arg name="zeroconf_name"                     value="$(arg zeroconf_name)"/>
+    <!--arg name="zeroconf_name"                     value="$(arg zeroconf_name)"/-->
     <arg name="zeroconf_port"                     value="$(arg zeroconf_port)"/>
 
   </include>
