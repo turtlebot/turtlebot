@@ -2,8 +2,8 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.12 (2016-06-27)
+-------------------
 * update xacro usage for jade deprecations
   comment out unused arguments generating errors
 * add support for Orbbec Astra
