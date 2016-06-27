@@ -2,6 +2,11 @@
 Changelog for package turtlebot_capabilities
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix typo.
+* Contributors: Patrick Chin
+
 2.3.11 (2015-04-15)
 -------------------
 

@@ -2,6 +2,16 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* update xacro usage for jade deprecations
+  comment out unused arguments generating errors
+* add support for Orbbec Astra
+* add the teleop switch script as a default input to support joystick interactive follower
+* use rocon_apps/make_a_map for make a map interaction closes `#210 <https://github.com/turtlebot/turtlebot/issues/210>`_
+* Fix icon for interactions.
+* Contributors: Jihoon Lee, Tully Foote, commaster90
+
 2.3.11 (2015-04-15)
 -------------------
 * interaction fix closes `#208 <https://github.com/turtlebot/turtlebot/issues/208>`_
