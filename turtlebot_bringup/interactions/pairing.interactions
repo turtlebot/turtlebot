@@ -78,7 +78,7 @@
   role: PC Pairing
   compatibility: rocon:/pc/*/hydro|indigo/precise|quantal|raring|saucy|trusty
   display_name: Follower 
-  description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it. (Currently Broken)
+  description: Take the TurtleBot for a stroll. TurtleBot will follow whatever is in front of it.
   max: -1
   icon:
     resource_name: turtlebot_rapps/follower_bubble_icon.png
