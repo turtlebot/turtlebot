@@ -64,6 +64,7 @@
       <param name="scan_height" value="10"/>
       <param name="output_frame_id" value="/$(arg camera)_depth_frame"/>
       <param name="range_min" value="0.45"/>
+      <param name="kinect_heuristics" value="true"/>
       <remap from="image" to="$(arg camera)/$(arg depth)/image_raw"/>
       <remap from="scan" to="$(arg scan_topic)"/>
 
