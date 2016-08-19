@@ -17,4 +17,5 @@
   <xacro:include filename="$(find turtlebot_description)/urdf/sensors/asus_xtion_pro.urdf.xacro"/>
   <xacro:include filename="$(find turtlebot_description)/urdf/sensors/asus_xtion_pro_offset.urdf.xacro"/>
   <xacro:include filename="$(find turtlebot_description)/urdf/sensors/astra.urdf.xacro"/>
+  <xacro:include filename="$(find turtlebot_description)/urdf/sensors/r200.urdf.xacro"/>
 </robot>
