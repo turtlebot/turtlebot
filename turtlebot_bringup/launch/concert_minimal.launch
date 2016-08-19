@@ -1,0 +1,87 @@
+<launch>
+  <!-- Turtlebot -->
+  <arg name="base"              default="$(env TURTLEBOT_BASE)"         doc="mobile base type [create, roomba]"/>
+  <arg name="battery"           default="$(env TURTLEBOT_BATTERY)"      doc="kernel provided locatio for battery info, use /proc/acpi/battery/BAT0 in 2.6 or earlier kernels." />
+  <arg name="stacks"            default="$(env TURTLEBOT_STACKS)"       doc="stack type displayed in visualisation/simulation [circles, hexagons]"/>
+  <arg name="3d_sensor"         default="$(env TURTLEBOT_3D_SENSOR)"    doc="3d sensor types [kinect, asux_xtion_pro]"/>
+  <arg name="simulation"        default="$(env TURTLEBOT_SIMULATION)"   doc="set flags to indicate this turtle is run in simulation mode."/>
+  <arg name="serialport"        default="$(env TURTLEBOT_SERIAL_PORT)"  doc="used by create to configure the port it is connected on [/dev/ttyUSB0, /dev/ttyS0]"/>
+  <arg name="robot_name"        default="$(env TURTLEBOT_NAME)"         doc="used as a unique identifier and occasionally to preconfigure root namespaces, gateway/zeroconf ids etc."/>
+  <arg name="robot_type"        default="$(env TURTLEBOT_TYPE)"         doc="just in case you are considering a 'variant' and want to make use of this."/>
+
+  <include file="$(find turtlebot_bringup)/launch/minimal.launch">
+    <arg name="3d_sensor" value="$(arg 3d_sensor)" />
+    <arg name="base" value="$(arg base)" />
+    <arg name="battery" value="$(arg battery)" />
+    <arg name="serialport" value="$(arg serialport)" />
+    <arg name="simulation" value="$(arg simulation)" />
+    <arg name="stacks" value="$(arg stacks)" />
+  </include>
+
+
+  <!-- Rapp Manager --> 
+  <arg name="rapp_auto_installation"            default="false"  doc="automatically install rapps from the web (not typically used)"/> <!-- http://wiki.ros.org/rocon_app_manager/Tutorials/indigo/Automatic Rapp Installation -->
+  <arg name="rapp_auto_start"                   default=""       doc="pick an app to autostart, e.g. 'rocon_apps/talker'"/>
+  <arg name="rapp_package_whitelist"            default="$(env TURTLEBOT_RAPP_PACKAGE_WHITELIST)" doc="a list of catkin packages that provide rapps to be loaded by the app manager."/>
+  <arg name="rapp_package_blacklist"            default="$(env TURTLEBOT_RAPP_PACKAGE_BLACKLIST)" doc="a list of catkin packages to blacklist from providing rapps."/>
+  <arg name="rapp_preferred_configuration_file" default="$(find turtlebot_bringup)/param/preferred_rapp.yaml" doc="a configuration of preferred rapps"/>
+  <arg name="robot_icon"                        default="turtlebot_bringup/turtlebot2.png"        doc="passed to user interfaces to socialise the turtlebot's appearance"/>
+  <arg name="rapp_verbose"                      default="true"   doc="show verbose output from running apps (aka roslaunch --screen)"/>
+
+  <!-- ***************************** Rocon Master Info ************************** -->
+  <arg name="robot_description"                 default="Kick-ass ROS turtle"/>
+
+  <!-- Capabilities --> 
+  <arg name="capabilities"                      default="true" doc="start and register an underlying capability server"/>
+  <arg name="capabilities_server_name"          default="capability_server"/>
+  <arg name="capabilities_nodelet_manager_name" default="capability_server_nodelet_manager" />
+  <arg name="capabilities_parameters"           default="$(find turtlebot_bringup)/param/capabilities/defaults_tb2.yaml"  doc="preload the capability server with this configurations" /> <!-- defaults_tb.yaml, defaults_tb2.yaml -->
+  <arg name="capabilities_package_whitelist"    default="[kobuki_capabilities, std_capabilities, turtlebot_capabilities]" doc="register capabilities from these packages only" /> 
+  <arg name="capabilities_blacklist"            default="['std_capabilities/Navigation2D', 'std_capabilities/MultiEchoLaserSensor']" doc="blacklist these specific capabilities from being registered" />
+
+  <!-- Interactions --> 
+  <arg name="interactions"      default="true"  doc="start an interactions manager"/>
+  <arg name="interactions_list" default="$(env TURTLEBOT_INTERACTIONS_LIST)" doc="a list of filenames that provide interactions specifications."/>
+
+  <!-- Zeroconf -->
+  <arg name="zeroconf"                          default="true"              doc="publish the master information on zeroconf"/>
+  <!--arg name="zeroconf_name"                     default="$(arg robot_name)" doc="the name to identify the master on zeroconf"/-->
+  <arg name="zeroconf_port"                     default="11311"             doc="port number of the ros master"/>
+
+  <!-- Rapp Manager -->
+  <include file="$(find rocon_app_manager)/launch/standalone.launch">
+
+    <!-- Rapp Manager --> 
+    <arg name="robot_name"                        value="$(arg robot_name)" />
+    <arg name="robot_type"                        value="$(arg robot_type)" />
+    <arg name="robot_icon"                        value="$(arg robot_icon)" />
+    <arg name="rapp_package_whitelist"            value="$(arg rapp_package_whitelist)" />
+    <arg name="rapp_package_blacklist"            value="$(arg rapp_package_blacklist)" />
+    <arg name="rapp_preferred_configuration_file" value="$(arg rapp_preferred_configuration_file)" />
+    <arg name="auto_start_rapp"                   value="$(arg rapp_auto_start)" />
+    <arg name="screen"                            value="$(arg rapp_verbose)" />
+    <arg name="auto_rapp_installation"            value="$(arg rapp_auto_installation)" />
+
+    <!-- Rocon Master Info -->
+    <arg name="robot_description"                 value="$(arg robot_description)" />
+
+    <!-- Capabilities --> 
+    <arg name="capabilities"                      value="$(arg capabilities)" />
+    <arg name="capabilities_blacklist"            value="$(arg capabilities_blacklist)" />
+    <arg name="capabilities_nodelet_manager_name" value="$(arg capabilities_nodelet_manager_name)" />
+    <arg name="capabilities_server_name"          value="$(arg capabilities_server_name)" />
+    <arg name="capabilities_package_whitelist"    value="$(arg capabilities_package_whitelist)" />
+    <arg name="capabilities_parameters"           value="$(arg capabilities_parameters)" />
+
+    <!-- Interactions --> 
+    <arg name="interactions"                      value="$(arg interactions)"/>
+    <arg name="interactions_list"                 value="$(arg interactions_list)"/>
+
+    <!-- Zeroconf --> 
+    <arg name="zeroconf"                          value="$(arg zeroconf)"/>
+    <!--arg name="zeroconf_name"                     value="$(arg zeroconf_name)"/-->
+    <arg name="zeroconf_port"                     value="$(arg zeroconf_port)"/>
+
+  </include>
+
+</launch>
