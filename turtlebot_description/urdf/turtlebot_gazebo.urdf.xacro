@@ -9,7 +9,7 @@
         <camera>
           <horizontal_fov>${60.0*M_PI/180.0}</horizontal_fov>
           <image>
-            <format>R8G8B8</format>
+            <format>B8G8R8</format>
             <width>640</width>
             <height>480</height>
           </image>
