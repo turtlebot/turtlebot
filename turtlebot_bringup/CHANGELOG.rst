@@ -2,6 +2,21 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add support for Intel R200 camera
+  Added necessary launch, urdf, etc. files to
+  add support for the R200 camera in Turtlebot.
+  Updated r200 URDF to inclue proper mounting.
+  Added runtime dependency on realsense_camera package.
+* [bringup] remove outdated broken comment
+* refactor concert content out of minimal and create separate concert_minimal.launch
+  The concert_minimal.launch includes minmal.launch
+* propagate netbook battery to other similar launch file
+* disable the battery node if TURTLEBOT_BATTERY is set to None
+  Fixes `#224 <https://github.com/turtlebot/turtlebot/issues/224>`_
+* Contributors: Daniel Stonier, Kevin C. Wells, Tully Foote
+
 2.3.12 (2016-06-27)
 -------------------
 * update xacro usage for jade deprecations

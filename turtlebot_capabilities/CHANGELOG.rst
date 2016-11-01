@@ -2,6 +2,9 @@
 Changelog for package turtlebot_capabilities
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.3.12 (2016-06-27)
 -------------------
 * Fix typo.
