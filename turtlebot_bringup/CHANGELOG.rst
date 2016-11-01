@@ -2,8 +2,8 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.13 (2016-11-01)
+-------------------
 * Add support for Intel R200 camera
   Added necessary launch, urdf, etc. files to
   add support for the R200 camera in Turtlebot.

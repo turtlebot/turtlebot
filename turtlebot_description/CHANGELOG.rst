@@ -2,8 +2,8 @@
 Changelog for package turtlebot_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.13 (2016-11-01)
+-------------------
 * Fix image format on Gazebo using B8G8R8
   Related to https://github.com/ros-simulation/gazebo_ros_pkgs/issues/484
 * Add support for Intel R200 camera
