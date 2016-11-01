@@ -2,6 +2,16 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add support for Intel R200 camera
+  Added necessary launch, urdf, etc. files to
+  add support for the R200 camera in Turtlebot.
+  Updated r200 URDF to inclue proper mounting.
+  Added runtime dependency on realsense_camera package.
+* [bringup] remove outdated broken comment
+* Contributors: Daniel Stonier, Kevin C. Wells
+
 2.3.12 (2016-06-27)
 -------------------
 * update xacro usage for jade deprecations

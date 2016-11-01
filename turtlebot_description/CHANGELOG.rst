@@ -2,6 +2,17 @@
 Changelog for package turtlebot_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix image format on Gazebo using B8G8R8
+  Related to https://github.com/ros-simulation/gazebo_ros_pkgs/issues/484
+* Add support for Intel R200 camera
+  Added necessary launch, urdf, etc. files to
+  add support for the R200 camera in Turtlebot.
+  Updated r200 URDF to inclue proper mounting.
+  Added runtime dependency on realsense_camera package.
+* Contributors: Kentaro Wada, Kevin C. Wells
+
 2.3.12 (2016-06-27)
 -------------------
 * update xacro usage for jade deprecations
