@@ -6,7 +6,10 @@
 -->    
 <robot name="turtlebot" xmlns:xacro="http://ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_library.urdf.xacro" />
+  <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_common_library.urdf.xacro" />
+  <xacro:include filename="$(find create_description)/urdf/create.urdf.xacro"/>
+  <xacro:include filename="$(find turtlebot_description)/urdf/stacks/circles.urdf.xacro"/>
+  <xacro:include filename="$(find turtlebot_description)/urdf/sensors/asus_xtion_pro.urdf.xacro"/>
 
   <create/>
   <stack_circles parent="base_link"/>
