@@ -1,0 +1,16 @@
+<!--
+  The mobile platform base.
+  
+  Selector for the base.
+  
+  Please note the use of this file is deprecated and included
+  for backward compatibility. It is recommended to directly
+  include the base-specific mobile_base.launch.xml file.
+ -->
+<launch>
+  <arg name="base"/>
+  <arg name="serialport"/>
+  <include file="$(find turtlebot_bringup)/launch/includes/$(arg base)/mobile_base.launch.xml">
+    <arg name="serialport" value="$(arg serialport)" />
+  </include>
+</launch>
