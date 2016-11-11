@@ -1,10 +1,9 @@
 <!--
   Create's implementation of turtlebot's mobile base.
-  
-  TODO: redirect cmd_vel_mux/output to wherever create base is listening.
  -->
 <launch>
   <arg name="serialport"/>
+  <arg name="manager" default="none" /><!-- necessary parameter, but manager not actually needed for roomba base-->
 
   <!-- Turtlebot Driver -->
   <node pkg="create_node" type="turtlebot_node.py" name="turtlebot_node" respawn="true" args="--respawnable">
@@ -32,12 +31,5 @@
     <param name="imu_used" value="true"/>
     <param name="vo_used" value="false"/>
     <param name="output_frame" value="odom"/>
-  </node>
-
-  <!-- velocity commands multiplexer -->
-  <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"/>
-  <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load yocs_cmd_vel_mux/CmdVelMuxNodelet mobile_base_nodelet_manager">
-    <param name="yaml_cfg_file" value="$(find turtlebot_bringup)/param/mux.yaml"/>
-    <remap from="cmd_vel_mux/output" to="mobile_base/commands/velocity"/>
   </node>
 </launch>
