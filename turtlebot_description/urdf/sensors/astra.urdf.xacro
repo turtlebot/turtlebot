@@ -11,7 +11,7 @@
   <!-- Parameterised in part by the values in turtlebot_properties.urdf.xacro -->
   <xacro:macro name="sensor_astra" params="parent">
     <joint name="camera_rgb_joint" type="fixed">
-      <origin xyz="${astra_cam_px} ${astra_cam_py} ${astra_cam_pz}"
+      <origin xyz="${cam_px} ${astra_cam_py} ${cam_pz}"
               rpy="0 0 0"/>
       <parent link="${parent}"/>
       <child link="camera_rgb_frame" />
