@@ -14,7 +14,8 @@
     <arg name="stacks" value="$(arg stacks)" />
     <arg name="3d_sensor" value="$(arg 3d_sensor)" />
   </include>
-  <include file="$(find turtlebot_bringup)/launch/includes/$(arg base)/mobile_base.launch.xml">
+  <include file="$(find turtlebot_bringup)/launch/includes/mobile_base.launch.xml">
+    <arg name="base" value="$(arg base)" />
     <arg name="serialport" value="$(arg serialport)" />
   </include>
   <include unless="$(eval arg('battery') == 'None')" file="$(find turtlebot_bringup)/launch/includes/netbook.launch.xml">
