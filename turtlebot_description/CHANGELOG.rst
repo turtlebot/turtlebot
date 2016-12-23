@@ -2,6 +2,23 @@
 Changelog for package turtlebot_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update R200 URDF
+  The name of the camera link has been changed to
+  conform to the common standard.
+* Refactor urdf.xacro files to stop loading unnecessary content.
+  Currently, every robot configuration (e.g.,
+  turtlebot_description/robots/kobuki_hexagons_kinect.urdf.xacro)
+  simply includes a catch-all turtlebot_library.urdf.xacro file.
+  This file includes EVERY base, stacks, and sensor combination,
+  and thus a lot of unnecessary data is loaded into memory.
+  Refactored the turtlebot_library.urdf.xacro to include only
+  the data common to all turtlebot configurations, and modified
+  each robot configuration file to include only the additional base,
+  stacks, and sensor urdf files that apply.
+* Contributors: Kevin C. Wells
+
 2.4.0 (2016-11-01)
 ------------------
 * Fix image format on Gazebo using B8G8R8

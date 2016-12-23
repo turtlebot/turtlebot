@@ -2,6 +2,35 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Modify R200 launch file.
+  Modified the R200 3D sensor launch file
+  to conform more closely to the other
+  open_ni2-style sensor launch files. This
+  allows the data processing arguments passed
+  in to correctly pass through and control
+  image processing.
+  This allows the turtlebot_follower package,
+  for example, to set "depth_processing" to
+  true to enable the /camera/depth/depth_rect/
+  topic with the R200 as it can with other
+  cameras.
+* Refactor cmd_vel_mux.
+  Moved mobile_base_nodelet_manager and cmd_vel_mux to a
+  common, higher-level launch file.
+  Currently each base-specific mobile_base.launch.xml
+  loaded the same cmd_vel_mux node with the same configuration.
+  To reduce this redundancy, launching this nodelet has been
+  moved to the common, higher-level mobile_base.launch.xml.
+  The mobile_base_nodelet_manager has been moved up to facilitate
+  this change.
+* Remove unnecessary mobile_base.launch.xml layer
+  mobile_base.launch.xml currently is just a pass-through to
+  include the TURTLEBOT_BASE-specific launch file.  Simply
+  removed this unnecessary layer.
+* Contributors: Kevin C. Wells
+
 2.4.0 (2016-11-01)
 ------------------
 * Add support for Intel R200 camera
