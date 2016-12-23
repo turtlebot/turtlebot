@@ -2,6 +2,14 @@
 Changelog for package turtlebot_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* update astra urdf by Turtlebot REP (`#248 <https://github.com/turtlebot/turtlebot/issues/248>`_)
+  * update astra urdf by Turtlebot REP
+  * update astra urdf
+  * Update astra.urdf.xacro
+* Contributors: hcjung
+
 2.4.1 (2016-12-22)
 ------------------
 * Update R200 URDF

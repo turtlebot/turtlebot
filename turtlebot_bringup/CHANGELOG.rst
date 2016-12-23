@@ -2,6 +2,9 @@
 Changelog for package turtlebot_bringup
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.4.1 (2016-12-22)
 ------------------
 * Modify R200 launch file.
