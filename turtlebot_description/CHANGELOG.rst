@@ -2,8 +2,8 @@
 Changelog for package turtlebot_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.4.1 (2016-12-22)
+------------------
 * Update R200 URDF
   The name of the camera link has been changed to
   conform to the common standard.
