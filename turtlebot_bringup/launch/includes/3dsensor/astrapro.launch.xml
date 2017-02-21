@@ -21,7 +21,7 @@
   <arg name="num_worker_threads" default="4" />                                                     
 
   <!-- Launch depth using astrapro launchfile provided by Orbbec -->
-  <include file="$(find astra_launch)/launch/astra.launch">
+  <include file="$(find astra_launch)/launch/astrapro.launch">
     <arg name="camera"                          value="$(arg camera)"/>                             
     <arg name="publish_tf"                      value="$(arg publish_tf)"/>                         
     <arg name="depth_registration"              value="$(arg depth_registration)"/>                 
