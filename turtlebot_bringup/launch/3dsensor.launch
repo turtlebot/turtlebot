@@ -17,8 +17,12 @@
   <!-- "camera" should uniquely identify the device. All topics are pushed down
        into the "camera" namespace, and it is prepended to tf frame ids. -->
   <arg name="camera"      default="camera"/>
-  <arg name="publish_tf"  default="false"/>
   <arg name="3d_sensor"   default="$(env TURTLEBOT_3D_SENSOR)"/>  <!-- kinect, asus_xtion_pro -->
+  <arg name="publish_tf"  default="false"/>
+
+  <!-- Camera info files for RGB and Depth cameras -->
+  <arg name="rgb_camera_info_url"   default="" />
+  <arg name="depth_camera_info_url" default="" />
 
   <!-- Factory-calibrated depth registration -->
   <arg name="depth_registration"              default="true"/>
@@ -53,6 +57,11 @@
     <arg name="depth_registered_processing"     value="$(arg depth_registered_processing)"/>
     <arg name="disparity_processing"            value="$(arg disparity_processing)"/>
     <arg name="disparity_registered_processing" value="$(arg disparity_registered_processing)"/>
+
+    <!-- Camera info files for RGB and Depth cameras -->
+    <arg name="rgb_camera_info_url"    		value="$(arg rgb_camera_info_url)"/>
+    <arg name="depth_camera_info_url"  		value="$(arg depth_camera_info_url)"/>
+
   </include>
 
    <!--                        Laserscan 
