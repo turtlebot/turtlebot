@@ -37,13 +37,13 @@
 #include <gtest/gtest.h>
 #include <cstdlib>
 
-#include <dirent.h> 
-#include <sys/types.h> 
-#include <sys/param.h> 
-#include <sys/stat.h> 
-#include <unistd.h> 
-#include <stdio.h> 
-#include <string.h> 
+#include <dirent.h>
+#include <sys/types.h>
+#include <sys/param.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
 
 #include <iostream>
 
@@ -63,7 +63,7 @@ int walker( char *result, int& test_result)
   }
   while( ( dir = readdir( d ) ) )
   {
-    if( strcmp( dir->d_name, "." ) == 0 || 
+    if( strcmp( dir->d_name, "." ) == 0 ||
         strcmp( dir->d_name, ".." ) == 0 )
     {
       continue;
@@ -76,7 +76,7 @@ int walker( char *result, int& test_result)
         char pwd[MAXPATHLEN];
         getcwd( pwd, MAXPATHLEN );
         printf("\n\ntesting: %s\n",(std::string(pwd)+"/robots/"+dir_name).c_str());
-        runExternalProcess("python `rospack find xacro`/xacro.py", std::string(pwd)+"/robots/"+dir_name+" > `rospack find turtlebot_description`/test/tmp.urdf" );
+        runExternalProcess("python `rospack find xacro`/xacro --inorder", std::string(pwd)+"/robots/"+dir_name+" > `rospack find turtlebot_description`/test/tmp.urdf" );
         test_result = test_result || runExternalProcess("`rospack find urdf_parser`/bin/check_urdf", "`rospack find turtlebot_description`/test/tmp.urdf");
         //break;
       }
