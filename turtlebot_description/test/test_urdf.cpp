@@ -76,7 +76,7 @@ int walker( char *result, int& test_result)
         char pwd[MAXPATHLEN];
         getcwd( pwd, MAXPATHLEN );
         printf("\n\ntesting: %s\n",(std::string(pwd)+"/robots/"+dir_name).c_str());
-        runExternalProcess("python `rospack find xacro`/xacro --inorder", std::string(pwd)+"/robots/"+dir_name+" > `rospack find turtlebot_description`/test/tmp.urdf" );
+        runExternalProcess("python `rospack find xacro`/xacro --inorder", std::string(pwd)+"/robots/"+dir_name+" > `rospack find turtlebot_description`/test/tmp.urdf");
         test_result = test_result || runExternalProcess("`rospack find urdf_parser`/bin/check_urdf", "`rospack find turtlebot_description`/test/tmp.urdf");
         //break;
       }
