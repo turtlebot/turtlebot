@@ -9,7 +9,6 @@
     <created>2015-03-16T14:25:40</created>
     <modified>2015-03-16T14:25:40</modified>
     <unit name="millimeter" meter="0.001"/>
-    <up_axis>Z_UP</up_axis>
   </asset>
   <library_effects>
     <effect id="_1_-_Default">
