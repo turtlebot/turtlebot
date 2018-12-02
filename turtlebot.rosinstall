@@ -19,7 +19,7 @@
 - git:
     uri: https://github.com/yujinrobot/yocs_msgs.git
     local-name: yocs_msgs
-    version: indigo
+    version: devel
 
 - git:
     uri: https://github.com/yujinrobot/yujin_ocs.git
