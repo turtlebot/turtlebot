@@ -1,11 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 
 project(turtlebot_description)
-find_package(catkin REQUIRED COMPONENTS urdf xacro)
+find_package(catkin REQUIRED)
 
-catkin_package(
-   CATKIN_DEPENDS urdf xacro
-)
+catkin_package()
 
 install(DIRECTORY robots
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
@@ -21,8 +19,8 @@ install(DIRECTORY urdf
 )
 
 if(CATKIN_ENABLE_TESTING)
-
-	catkin_add_gtest(${PROJECT_NAME}_test_urdf test/test_urdf.cpp)
+	catkin_add_gtest(${PROJECT_NAME}_test_urdf test/test_urdf.cpp
+	                 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 
 endif()
 

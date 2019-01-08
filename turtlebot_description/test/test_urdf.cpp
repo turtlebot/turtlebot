@@ -52,15 +52,12 @@ int runExternalProcess(const std::string &executable, const std::string &args)
     return system((executable + " " + args).c_str());
 }
 
-int walker( char *result, int& test_result)
+TEST(URDF, CorrectFormat)
 {
   DIR           *d;
   struct dirent *dir;
   d = opendir( "robots" );
-  if( d == NULL )
-  {
-    return 1;
-  }
+  ASSERT_TRUE(d != NULL);
   while( ( dir = readdir( d ) ) )
   {
     if( strcmp( dir->d_name, "." ) == 0 ||
@@ -76,31 +73,13 @@ int walker( char *result, int& test_result)
         char pwd[MAXPATHLEN];
         getcwd( pwd, MAXPATHLEN );
         printf("\n\ntesting: %s\n",(std::string(pwd)+"/robots/"+dir_name).c_str());
-        runExternalProcess("python `rospack find xacro`/xacro --inorder", std::string(pwd)+"/robots/"+dir_name+" > `rospack find turtlebot_description`/test/tmp.urdf");
-        test_result = test_result || runExternalProcess("`rospack find urdf_parser`/bin/check_urdf", "`rospack find turtlebot_description`/test/tmp.urdf");
+        EXPECT_EQ(0, runExternalProcess("xacro --inorder", std::string(pwd)+"/robots/"+dir_name+" > test/tmp.urdf"));
+        EXPECT_EQ(0, runExternalProcess("check_urdf", "test/tmp.urdf"));
         //break;
       }
     }
   }
   closedir( d );
-  return *result == 0;
-}
-
-TEST(URDF, CorrectFormat)
-{
-  int test_result = 0;
-
-  char buf[MAXPATHLEN] = { 0 };
-  if( walker( buf, test_result ) == 0 )
-  {
-    printf( "Found: %s\n", buf );
-  }
-  else
-  {
-    puts( "Not found" );
-  }
-
-  EXPECT_TRUE(test_result == 0);
 }
 
 int main(int argc, char **argv)
