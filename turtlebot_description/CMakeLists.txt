@@ -19,8 +19,8 @@ install(DIRECTORY urdf
 )
 
 if(CATKIN_ENABLE_TESTING)
-
-	catkin_add_gtest(${PROJECT_NAME}_test_urdf test/test_urdf.cpp)
+	catkin_add_gtest(${PROJECT_NAME}_test_urdf test/test_urdf.cpp
+	                 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 
 endif()
 
