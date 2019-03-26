@@ -2,7 +2,7 @@
   <name>turtlebot_bringup</name>
   <version>2.4.2</version>
   <description>
-     turtlebot_bringup provides roslaunch scripts for starting the TurtleBot base functionality. 
+     turtlebot_bringup provides roslaunch scripts for starting the TurtleBot base functionality.
   </description>
   <author>Tully Foote</author>
   <maintainer email="d.stonier@gmail.com">Daniel Stonier</maintainer>
@@ -27,8 +27,7 @@
   <run_depend>robot_state_publisher</run_depend>
   <run_depend>robot_pose_ekf</run_depend>
   <run_depend>diagnostic_aggregator</run_depend>
-  <run_depend>openni2_launch</run_depend>
-  <run_depend>freenect_launch</run_depend>
+  <run_depend>openni_launch</run_depend>
   <run_depend>laptop_battery_monitor</run_depend>
   <run_depend>rocon_app_manager</run_depend>
   <run_depend>rocon_bubble_icons</run_depend>
