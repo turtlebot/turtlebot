@@ -36,7 +36,7 @@
       <visual>
         <origin xyz="-0.015 0.0035 0.004" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/sensors/xtion_pro_camera.dae"/>
+          <mesh filename="package://turtlebot_description/meshes/sensors/xtion_pro_camera.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
       </visual>
       <collision>
