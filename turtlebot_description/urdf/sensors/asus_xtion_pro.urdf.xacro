@@ -4,7 +4,6 @@
   <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_properties.urdf.xacro"/>
   
   <!-- Xacro properties -->
-  <xacro:property name="M_SCALE" value="0.001"/>
   <xacro:property name="asus_xtion_pro_cam_py" value="0.0205"/>
   <xacro:property name="asus_xtion_pro_depth_rel_rgb_py" value="0.0270" />
   <xacro:property name="asus_xtion_pro_cam_rel_rgb_py"   value="-0.0220" />
@@ -36,7 +35,7 @@
       <visual>
         <origin xyz="-0.015 0.0035 0.004" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/sensors/xtion_pro_camera.dae" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
+          <mesh filename="package://turtlebot_description/meshes/sensors/xtion_pro_camera.dae"/>
         </geometry>
       </visual>
       <collision>
