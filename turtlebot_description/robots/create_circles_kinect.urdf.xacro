@@ -11,7 +11,7 @@
   <xacro:include filename="$(find turtlebot_description)/urdf/stacks/circles.urdf.xacro"/>
   <xacro:include filename="$(find turtlebot_description)/urdf/sensors/kinect.urdf.xacro"/>
 
-  <create/>
-  <stack_circles parent="base_link"/>
-  <sensor_kinect  parent="base_link"/>
+  <xacro:create/>
+  <xacro:stack_circles parent="base_link"/>
+  <xacro:sensor_kinect  parent="base_link"/>
 </robot>

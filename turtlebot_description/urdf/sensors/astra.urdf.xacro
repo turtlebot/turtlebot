@@ -68,7 +68,7 @@
     <link name="camera_depth_optical_frame"/>
 
     <!-- RGBD sensor for simulation, same as Kinect -->
-    <turtlebot_sim_3dsensor/>
+    <xacro:turtlebot_sim_3dsensor/>
 
   </xacro:macro>
 </robot>
