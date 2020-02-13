@@ -11,7 +11,7 @@
   <xacro:include filename="$(find turtlebot_description)/urdf/stacks/circles.urdf.xacro"/>
   <xacro:include filename="$(find turtlebot_description)/urdf/sensors/asus_xtion_pro.urdf.xacro"/>
 
-  <create/>
-  <stack_circles parent="base_link"/>
-  <sensor_asus_xtion_pro  parent="base_link"/>
+  <xacro:create/>
+  <xacro:stack_circles parent="base_link"/>
+  <xacro:sensor_asus_xtion_pro  parent="base_link"/>
 </robot>

@@ -132,12 +132,12 @@
     other, but there is no necessary reason to do so.
   -->
   <xacro:macro name="stack_hexagons" params="parent">
-    <stack_bottom_pole parent="${parent}" number="0" x_loc= "0.120" y_loc= "0.082" z_loc="0.1028"/>
-    <stack_bottom_pole parent="${parent}" number="1" x_loc= "0.055" y_loc= "0.120" z_loc="0.1028"/>
-    <stack_bottom_pole parent="${parent}" number="2" x_loc="-0.055" y_loc= "0.120" z_loc="0.1028"/>
-    <stack_bottom_pole parent="${parent}" number="3" x_loc= "0.120" y_loc="-0.082" z_loc="0.1028"/>
-    <stack_bottom_pole parent="${parent}" number="4" x_loc= "0.055" y_loc="-0.120" z_loc="0.1028"/>
-    <stack_bottom_pole parent="${parent}" number="5" x_loc="-0.055" y_loc="-0.120" z_loc="0.1028"/>
+    <xacro:stack_bottom_pole parent="${parent}" number="0" x_loc= "0.120" y_loc= "0.082" z_loc="0.1028"/>
+    <xacro:stack_bottom_pole parent="${parent}" number="1" x_loc= "0.055" y_loc= "0.120" z_loc="0.1028"/>
+    <xacro:stack_bottom_pole parent="${parent}" number="2" x_loc="-0.055" y_loc= "0.120" z_loc="0.1028"/>
+    <xacro:stack_bottom_pole parent="${parent}" number="3" x_loc= "0.120" y_loc="-0.082" z_loc="0.1028"/>
+    <xacro:stack_bottom_pole parent="${parent}" number="4" x_loc= "0.055" y_loc="-0.120" z_loc="0.1028"/>
+    <xacro:stack_bottom_pole parent="${parent}" number="5" x_loc="-0.055" y_loc="-0.120" z_loc="0.1028"/>
     
     <joint name="plate_bottom_joint" type="fixed">
       <origin xyz="0.02364 0.0 0.1306" rpy="0 0 0"/>
@@ -166,10 +166,10 @@
       </inertial>
     </link>
     
-    <stack_middle_pole parent="${parent}" number="0" x_loc= "0.0381" y_loc= "0.1505" z_loc="0.1640"/>
-    <stack_middle_pole parent="${parent}" number="1" x_loc= "0.0381" y_loc="-0.1505" z_loc="0.1640"/>
-    <stack_middle_pole parent="${parent}" number="2" x_loc="-0.0381" y_loc= "0.1505" z_loc="0.1640"/>
-    <stack_middle_pole parent="${parent}" number="3" x_loc="-0.0381" y_loc="-0.1505" z_loc="0.1640"/>
+    <xacro:stack_middle_pole parent="${parent}" number="0" x_loc= "0.0381" y_loc= "0.1505" z_loc="0.1640"/>
+    <xacro:stack_middle_pole parent="${parent}" number="1" x_loc= "0.0381" y_loc="-0.1505" z_loc="0.1640"/>
+    <xacro:stack_middle_pole parent="${parent}" number="2" x_loc="-0.0381" y_loc= "0.1505" z_loc="0.1640"/>
+    <xacro:stack_middle_pole parent="${parent}" number="3" x_loc="-0.0381" y_loc="-0.1505" z_loc="0.1640"/>
     
     <joint name="plate_middle_joint" type="fixed">
       <origin xyz="-0.01364 0.0 0.1874" rpy="0 0 0"/>
@@ -198,12 +198,12 @@
       </inertial>  
     </link>
     
-    <stack_top_pole parent="${parent}" number="0" x_loc= "0.0381" y_loc= "0.1505" z_loc="0.2920"/>
-    <stack_top_pole parent="${parent}" number="1" x_loc= "0.0381" y_loc="-0.1505" z_loc="0.2920"/>
-    <stack_top_pole parent="${parent}" number="2" x_loc="-0.0381" y_loc= "0.1505" z_loc="0.2920"/>
-    <stack_top_pole parent="${parent}" number="3" x_loc="-0.0381" y_loc="-0.1505" z_loc="0.2920"/>
-    <stack_3d_sensor_pole parent="${parent}" number="0" x_loc="-0.1024" y_loc= "0.098" z_loc="0.2372"/>
-    <stack_3d_sensor_pole parent="${parent}" number="1" x_loc="-0.1024" y_loc="-0.098" z_loc="0.2372"/>
+    <xacro:stack_top_pole parent="${parent}" number="0" x_loc= "0.0381" y_loc= "0.1505" z_loc="0.2920"/>
+    <xacro:stack_top_pole parent="${parent}" number="1" x_loc= "0.0381" y_loc="-0.1505" z_loc="0.2920"/>
+    <xacro:stack_top_pole parent="${parent}" number="2" x_loc="-0.0381" y_loc= "0.1505" z_loc="0.2920"/>
+    <xacro:stack_top_pole parent="${parent}" number="3" x_loc="-0.0381" y_loc="-0.1505" z_loc="0.2920"/>
+    <xacro:stack_3d_sensor_pole parent="${parent}" number="0" x_loc="-0.1024" y_loc= "0.098" z_loc="0.2372"/>
+    <xacro:stack_3d_sensor_pole parent="${parent}" number="1" x_loc="-0.1024" y_loc="-0.098" z_loc="0.2372"/>
     
     <joint name="plate_top_joint" type="fixed">
       <origin xyz="-0.01364 0.0  0.3966" rpy="0 0 0"/>
