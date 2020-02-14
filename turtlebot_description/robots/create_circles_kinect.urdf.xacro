@@ -13,5 +13,5 @@
 
   <xacro:create/>
   <xacro:stack_circles parent="base_link"/>
-  <xacro:sensor_kinect  parent="base_link"/>
+  <xacro:sensor_kinect parent="base_link"/>
 </robot>

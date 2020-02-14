@@ -13,5 +13,5 @@
   
   <xacro:kobuki/>
   <xacro:stack_hexagons parent="base_link"/>
-  <xacro:sensor_kinect  parent="base_link"/>
+  <xacro:sensor_kinect parent="base_link"/>
 </robot>
