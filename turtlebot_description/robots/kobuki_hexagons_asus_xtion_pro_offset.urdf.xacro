@@ -9,9 +9,9 @@
   <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_common_library.urdf.xacro" />
   <xacro:include filename="$(find kobuki_description)/urdf/kobuki.urdf.xacro" />
   <xacro:include filename="$(find turtlebot_description)/urdf/stacks/hexagons.urdf.xacro"/>
-  <xacro:include filename="$(find turtlebot_description)/urdf/sensors/asus_xtion_pro_offset.urdf.xacro"/>
-  
+  <xacro:include filename="$(find turtlebot_description)/urdf/sensors/xtion_pro.urdf.xacro"/>
+
   <xacro:kobuki/>
-  <xacro:stack_hexagons                 parent="base_link"/>
-  <xacro:sensor_asus_xtion_pro_offset   parent="base_link"/>
+  <xacro:stack_hexagons   parent="base_link"/>
+  <xacro:sensor_xtion_pro parent="base_link" xtion_pro_cam_py="-0.0125"/>
 </robot>
