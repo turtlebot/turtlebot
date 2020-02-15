@@ -1,4 +1,5 @@
 .settings
+.idea
 bin
 build
 lib
