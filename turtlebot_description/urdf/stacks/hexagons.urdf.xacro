@@ -186,7 +186,8 @@
       <collision>
         <origin xyz="0.01364 0.0 0.0" rpy="0 0 0"/>
         <geometry>
-          <cylinder length="0.006" radius="0.170"/>
+          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/plate_simple.stl"
+                scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
       </collision>
       <inertial>
@@ -220,7 +221,8 @@
       <collision>
         <origin xyz="0.01364 0 0" rpy="0 0 0"/>
         <geometry>
-          <cylinder length="0.006" radius="0.170"/>
+          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/plate_simple.stl"
+                scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
       </collision>
       <inertial>
