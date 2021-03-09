@@ -10,9 +10,9 @@
   
   <!-- Xacro macros -->
   <!-- Pole macros -->
-  <xacro:macro name="stack_bottom_pole" params="parent number x_loc y_loc z_loc">
+  <xacro:macro name="stack_bottom_pole" params="parent number x_loc y_loc z_loc roll=0.0 pitch=0.0 yaw=0.0">
     <joint name="pole_bottom_${number}_joint" type="fixed">
-      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0"/>
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="${roll} ${pitch} ${yaw}"/>
       <parent link="${parent}"/>
       <child link="pole_bottom_${number}_link"/>
     </joint>
@@ -39,9 +39,9 @@
     </link>
   </xacro:macro>
   
-  <xacro:macro name="stack_middle_pole" params="parent number x_loc y_loc z_loc">  
+  <xacro:macro name="stack_middle_pole" params="parent number x_loc y_loc z_loc roll=0.0 pitch=0.0 yaw=0.0">
     <joint name="pole_middle_${number}_joint" type="fixed">
-      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0" />
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="${roll} ${pitch} ${yaw}" />
       <parent link="${parent}"/>
       <child link="pole_middle_${number}_link"/>
     </joint>
@@ -68,9 +68,9 @@
     </link>
   </xacro:macro>
 
-  <xacro:macro name="stack_top_pole" params="parent number x_loc y_loc z_loc">  
+  <xacro:macro name="stack_top_pole" params="parent number x_loc y_loc z_loc roll=0.0 pitch=0.0 yaw=0.0">
     <joint name="pole_top_${number}_joint" type="fixed">
-      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0"/>
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="${roll} ${pitch} ${yaw}"/>
       <parent link="${parent}"/>
       <child link="pole_top_${number}_link"/>
     </joint>
@@ -97,9 +97,9 @@
     </link>
   </xacro:macro>
 
-  <xacro:macro name="stack_3d_sensor_pole" params="parent number x_loc y_loc z_loc">
+  <xacro:macro name="stack_3d_sensor_pole" params="parent number x_loc y_loc z_loc roll=0.0 pitch=0.0 yaw=0.0">
     <joint name="pole_kinect_${number}_joint" type="fixed">
-      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0"/>
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="${roll} ${pitch} ${yaw}"/>
       <parent link="${parent}"/>
       <child link="pole_kinect_${number}_link"/>
     </joint>
