@@ -186,7 +186,7 @@
       <collision>
         <origin xyz="0.01364 0.0 0.0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/plate_simple.stl"
+          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/plate_simple-binary.stl"
                 scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
       </collision>
@@ -221,7 +221,7 @@
       <collision>
         <origin xyz="0.01364 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/plate_simple.stl"
+          <mesh filename="package://turtlebot_description/meshes/stacks/hexagons/plate_simple-binary.stl"
                 scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/>
         </geometry>
       </collision>

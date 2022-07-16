@@ -6,3 +6,4 @@ lib
 *.swp
 *.swo
 *.pyc
+*_copy

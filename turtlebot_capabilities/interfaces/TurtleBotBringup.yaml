@@ -1,6 +1,0 @@
-%YAML 1.1
----
-name: TurtleBotBringup
-spec_version: 1
-spec_type: interface
-description: 'This is a placeholder capability, which aggregates functionality needed to implement other, standard capabilities for the TurtleBot'

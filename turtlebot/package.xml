@@ -1,12 +1,12 @@
-<package>
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>turtlebot</name>
   <version>2.4.2</version>
   <description>
     The turtlebot meta package provides all the basic drivers for running and using a TurtleBot.
   </description>
-  <author>Tully Foote</author>
-  <author>Michael Ferguson</author>
-  <author>Melonee Wise</author>
+
   <maintainer email="stonier@rnd.yujinrobot.com">Daniel Stonier</maintainer>
   <maintainer email="tfoote@osrfoundation.org">Tully Foote</maintainer>
   <maintainer email="mferguson@willowgarage.com">Michael Ferguson</maintainer>
@@ -15,15 +15,13 @@
   <url type="website">http://ros.org/wiki/turtlebot</url>
   <url type="repository">https://github.com/turtlebot/turtlebot</url>
   <url type="bugtracker">https://github.com/turtlebot/turtlebot/issues</url>
+  
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <buildtool_depend>catkin</buildtool_depend>
-
-  <run_depend>turtlebot_bringup</run_depend>
-  <run_depend>turtlebot_capabilities</run_depend>
-  <run_depend>turtlebot_description</run_depend>
-  <run_depend>turtlebot_teleop</run_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
   <export>
-    <metapackage/>
+    <build_type>ament_cmake</build_type>
   </export>
 </package>
