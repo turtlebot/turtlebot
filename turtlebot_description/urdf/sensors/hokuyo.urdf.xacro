@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<robot name="sensor_hokuyo" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_gazebo.urdf.xacro" />
+    <xacro:include filename="$(find turtlebot_description)/urdf/turtlebot_properties.urdf.xacro" />
+
+    <xacro:property name="laser_px" value="0.1" />
+    <xacro:property name="laser_py" value="0" />
+    <xacro:property name="laser_pz" value="0.24" />
+
+    <xacro:macro name="box_inertia" params="x y z mass">
+        <inertia ixx="${0.0833333 * mass * (y*y + z*z)}" ixy="0.0" ixz="0.0" iyy="${0.0833333 * mass * (x*x + z*z)}" iyz="0.0" izz="${0.0833333 * mass * (x*x + y*y)}" />
+    </xacro:macro>
+    <material name="orange">
+        <color rgba="1.0 0.423529411765 0.0392156862745 1.0" />
+    </material>
+
+    <xacro:macro name="sensor_hokuyo" params="parent">
+        <joint name="laser_joint" type="fixed">
+            <origin xyz="${laser_px} ${laser_py} ${laser_pz}" rpy="0 0 0" />
+            <parent link="${parent}" />
+            <child link="laser" />
+        </joint>
+        <link name="laser">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <mass value="0.2" />
+                <xacro:box_inertia x="0.05" y="0.05" z="0.08" mass="0.2" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <box size="0.05 0.05 0.08" />
+                </geometry>
+                <material name="orange" />
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <!-- <cylinder radius="0.1" length="0.2" /> -->
+                    <box size="0.05 0.05 0.08" />
+                </geometry>
+            </collision>
+        </link>
+
+    </xacro:macro>
+</robot>

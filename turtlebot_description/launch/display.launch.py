@@ -5,7 +5,7 @@ import os
 
 def generate_launch_description():
     pkg_share = launch_ros.substitutions.FindPackageShare(package='turtlebot_description').find('turtlebot_description')
-    default_model_path = os.path.join(pkg_share, 'robots/kobuki_hexagons_kinect.urdf.xacro')
+    default_model_path = os.path.join(pkg_share, 'robots/kobuki_hexagons_hokuyo.urdf.xacro')
     default_rviz_config_path = os.path.join(pkg_share, 'rviz/urdf_config.rviz')
 
     robot_state_publisher_node = launch_ros.actions.Node(
